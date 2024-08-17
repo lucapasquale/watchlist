@@ -24,8 +24,9 @@
     "paths": {
       "@api/*": ["../api/src/*"],
 
-      "~modules/*": ["./src/modules/*"],
       "~components/*": ["./src/components/*"],
+      "~modules/*": ["./src/modules/*"],
+      "~routes/*": ["./src/routes/*"],
       "~utils/*": ["./src/utils/*"],
     }
   },

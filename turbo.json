@@ -1,5 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["apps/api/.env"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

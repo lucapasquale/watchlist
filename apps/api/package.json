@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "db:migration:generate": "drizzle-kit generate",
+    "db:migration:run": "drizzle-kit migrate",
     "dev": "tsx watch src/index.ts",
     "build": "tsc && vite build",
     "lint": "eslint \"src/**/*.ts\""
@@ -11,12 +13,16 @@
   "dependencies": {
     "@fastify/cors": "^9.0.1",
     "@trpc/server": "11.0.0-rc.477",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.33.0",
     "fastify": "^4.28.1",
+    "postgres": "^3.4.4",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@types/node": "^22.4.0",
+    "drizzle-kit": "^0.24.0",
     "eslint": "^8.57.0",
     "tsx": "^4.17.0",
     "typescript": "^5.5.4"
