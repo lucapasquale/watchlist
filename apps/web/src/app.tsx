@@ -1,7 +1,5 @@
-import "./index.css";
 import { StrictMode } from "react";
 import React from "react";
-import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { httpBatchLink } from "@trpc/client";
@@ -18,14 +16,7 @@ declare module "@tanstack/react-router" {
   }
 }
 
-const rootElement = document.getElementById("app")!;
-if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement);
-  root.render(<App />);
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
-function App() {
+export function App() {
   const [queryClient] = React.useState(() => new QueryClient());
   const [trpcClient] = React.useState(() =>
     trpc.createClient({

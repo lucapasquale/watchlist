@@ -2,8 +2,8 @@ import fastify from "fastify";
 import cors from "@fastify/cors";
 import { fastifyTRPCPlugin, FastifyTRPCPluginOptions } from "@trpc/server/adapters/fastify";
 
-import { createContext } from "./context";
-import { type AppRouter, appRouter } from "./router";
+import { createContext } from "./context.js";
+import { type AppRouter, appRouter } from "./router.js";
 
 const server = fastify({
   maxParamLength: 5000,

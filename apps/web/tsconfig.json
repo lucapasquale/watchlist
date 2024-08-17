@@ -1,4 +1,5 @@
 {
+  "include": ["src"],
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
@@ -21,11 +22,13 @@
     "noFallthroughCasesInSwitch": true,
 
     "paths": {
+      "@api/*": ["../api/src/*"],
+
       "~modules/*": ["./src/modules/*"],
       "~components/*": ["./src/components/*"],
       "~utils/*": ["./src/utils/*"],
     }
   },
-  "include": ["src", "server"],
+
   "references": [{ "path": "./tsconfig.node.json" }],
 }
