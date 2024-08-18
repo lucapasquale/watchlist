@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "db:migration:generate": "drizzle-kit generate",
-    "db:migration:run": "drizzle-kit migrate",
+    "db:migration:generate": "npx drizzle-kit generate",
+    "db:migration:run": "npx drizzle-kit migrate",
     "dev": "tsx watch src/index.ts",
     "build": "tsc && vite build",
     "lint": "eslint \"src/**/*.ts\""
