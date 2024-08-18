@@ -6,9 +6,7 @@ import { fastifyTRPCPlugin, FastifyTRPCPluginOptions } from "@trpc/server/adapte
 import { createContext } from "./context.js";
 import { type AppRouter, appRouter } from "./router.js";
 
-const server = fastify({
-  maxParamLength: 5000,
-});
+const server = fastify({ maxParamLength: 5000 });
 
 main();
 
