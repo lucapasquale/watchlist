@@ -51,9 +51,7 @@ export function Page() {
 
       <PlaylistForm form={form} onSubmit={onSubmit} />
 
-      <article>
-        <h2>Videos</h2>
-
+      <article className="w-full">
         <VideoForm
           playlistID={playlist.data.id}
           defaultValues={{

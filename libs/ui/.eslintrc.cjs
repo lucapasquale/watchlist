@@ -2,4 +2,7 @@
 module.exports = {
   root: true,
   extends: ["@repo/eslint-config/index.js"],
+  rules: {
+    "@typescript-eslint/no-empty-object-type": "off",
+  },
 };
