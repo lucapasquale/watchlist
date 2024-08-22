@@ -39,27 +39,28 @@ export function Page() {
     playlist.refetch();
   };
 
+  if (!playlist.data || !playlistVideos.data) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <>
-      <section className="flex flex-col items-center px-8 gap-40">
-        {playlistVideos.data?.length ? (
-          <Link to={`/playlists/${playlistID}/${playlistVideos.data[0].id}`}>First video</Link>
-        ) : null}
+    <section className="flex flex-col items-center px-8 gap-40">
+      {playlistVideos.data.length ? (
+        <Link to={`/playlists/${playlistID}/${playlistVideos.data[0].id}`}>First video</Link>
+      ) : null}
 
-        <PlaylistForm form={form} onSubmit={onSubmit} />
+      <PlaylistForm form={form} onSubmit={onSubmit} />
 
-        <article>
-          <h2>Videos</h2>
+      <article>
+        <h2>Videos</h2>
 
-          <ol>
-            {playlistVideos.data?.map((video) => (
-              <li key={video.id}>
-                <VideoForm videoData={video} />
-              </li>
-            ))}
-          </ol>
-        </article>
-      </section>
-    </>
+        <VideoForm
+          playlistID={playlist.data.id}
+          defaultValues={{
+            videos: playlistVideos.data.map((v) => ({ id: v.id, rawUrl: v.rawUrl })),
+          }}
+        />
+      </article>
+    </section>
   );
 }
