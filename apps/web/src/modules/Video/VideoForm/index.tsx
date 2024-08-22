@@ -20,46 +20,61 @@ type Props = {
 };
 
 export function VideoForm({ playlistID, defaultValues }: Props) {
-  // const createVideo = trpc.createVideo.useMutation();
-  // const updateVideo = trpc.updateVideo.useMutation();
+  const createVideo = trpc.createVideo.useMutation();
+  const updateVideo = trpc.updateVideo.useMutation();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
+    reValidateMode: "onBlur",
     defaultValues,
   });
 
-  const { fields, prepend } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: "videos",
-    // keyName: "key",
+    keyName: "key",
   });
 
   const onBlur = async (index: number) => {
-    console.log("onBlur", index);
-    // const value = form.getValues().videos[index];
-    // if (!value) {
-    //   return;
-    // }
+    const video = form.getValues().videos[index];
+    if (!video) {
+      return;
+    }
 
-    // if (!value.id) {
-    //   const inserted = await createVideo.mutateAsync({
-    //     playlistID,
-    //     rawUrl: value.rawUrl,
-    //   });
+    form.clearErrors(`videos.${index}.rawUrl`);
 
-    //   form.setValue(`videos.${index}.id`, inserted.id);
-    //   return;
-    // }
+    if (!video.id) {
+      const inserted = await createVideo.mutateAsync({
+        playlistID,
+        rawUrl: video.rawUrl,
+      });
 
-    // await updateVideo.mutateAsync({
-    //   id: value.id,
-    //   rawUrl: value.rawUrl,
-    // });
+      form.setValue(`videos.${index}.id`, inserted.id);
+      return;
+    }
+
+    await updateVideo.mutateAsync({
+      id: video.id,
+      rawUrl: video.rawUrl,
+    });
+  };
+
+  const deleteVideo = async (index: number) => {
+    const video = form.getValues().videos[index];
+    if (!video) {
+      return;
+    }
+
+    if (video.id) {
+      // TODO: delete video
+    }
+
+    remove(index);
   };
 
   return (
-    <form>
-      {/* <ol className="flex flex-col gap-8">
+    <form onSubmit={form.handleSubmit(() => console.log("onSubmit"))}>
+      <ol className="flex flex-col gap-8">
         {fields.map((field, index) => (
           <li key={field.key} className="flex gap-6 border-amber-500 border">
             <label className="flex gap-2">ID {form.getValues(`videos.${index}.id`)}</label>
@@ -72,19 +87,18 @@ export function VideoForm({ playlistID, defaultValues }: Props) {
                   disabled={updateVideo.isPending}
                   onBlur={() => onBlur(index)}
                 />
+                <button onClick={() => deleteVideo(index)}>X</button>
               </label>
 
               {form.formState.errors.videos?.[index]?.rawUrl && (
-                <p>{form.formState.errors.videos[index].message}</p>
+                <p>{form.formState.errors.videos[index].rawUrl.message}</p>
               )}
             </div>
           </li>
         ))}
-      </ol> */}
+      </ol>
 
-      <button onClick={() => prepend({ rawUrl: "" })}>Add video</button>
-
-      <pre className="w-10">{JSON.stringify(form.watch(), null, 2)}</pre>
+      <button onClick={() => append({ rawUrl: "" })}>Add video</button>
     </form>
   );
 }

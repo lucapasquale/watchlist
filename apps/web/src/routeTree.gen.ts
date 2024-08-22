@@ -100,10 +100,10 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "index.tsx"
     },
     "/playlists/$playlistID/$videoID": {
-      "filePath": "playlists/$playlistID/$videoID.lazy.ts"
+      "filePath": "playlists/$playlistID/$videoID.lazy.tsx"
     },
     "/playlists/$playlistID/": {
-      "filePath": "playlists/$playlistID/index.lazy.ts"
+      "filePath": "playlists/$playlistID/index.lazy.tsx"
     }
   }
 }

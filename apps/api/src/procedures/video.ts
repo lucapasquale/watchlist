@@ -118,12 +118,12 @@ export const updateVideo = publicProcedure.input(updateInput).mutation(async ({ 
   });
 });
 
-async function parseURL(rawUrl: string): Promise<Pick<Video, "kind" | "rawUrl" | "url">> {
-  const url = new URL(rawUrl);
+async function parseURL(userUrl: string): Promise<Pick<Video, "kind" | "rawUrl" | "url">> {
+  const rawUrl = new URL(userUrl);
 
   // https://www.twitch.tv/mogulmoves/clip/ProtectiveIgnorantHippoHotPokket-58un43BmWmGiLbJC?filter=clips&range=7d&sort=time
-  if (url.href.match(/twitch.tv\/.+\/clip/gi)) {
-    const clipID = url.pathname.split("/").pop();
+  if (rawUrl.href.match(/twitch.tv\/.+\/clip/gi)) {
+    const clipID = rawUrl.pathname.split("/").pop();
     if (!clipID) {
       throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid Twitch clip URL" });
     }
@@ -132,14 +132,24 @@ async function parseURL(rawUrl: string): Promise<Pick<Video, "kind" | "rawUrl" |
 
     return {
       kind: "twitch_clip" as const,
-      rawUrl,
+      rawUrl: userUrl,
       url: clip.thumbnail_url.replace(/-preview-.+x.+\..*/gi, ".mp4"),
     };
   }
 
-  return {
-    kind: "youtube" as const,
-    rawUrl,
-    url: rawUrl,
-  };
+  if (rawUrl.href.match(/youtube.com\/watch/gi)) {
+    const usp = new URLSearchParams(rawUrl.search);
+    const v = usp.get("v");
+    if (!v) {
+      throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid YouTube URL" });
+    }
+
+    return {
+      kind: "youtube" as const,
+      rawUrl: userUrl,
+      url: `https://www.youtube.com/embed/${v}`,
+    };
+  }
+
+  throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid URL" });
 }
