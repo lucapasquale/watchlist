@@ -2,12 +2,11 @@ import { and, between, count, eq, not } from "drizzle-orm";
 import z from "zod";
 import { TRPCError } from "@trpc/server";
 
-import { db } from "../database/index.js";
-import * as schema from "../database/schema.js";
-import { Video } from "../database/schema.js";
-import { getRedditVideo } from "../services/reddit.js";
-import { getClip } from "../services/twitch.js";
-import { publicProcedure } from "../trpc.js";
+import { db } from "../../database";
+import * as schema from "../../database/schema";
+import { publicProcedure } from "../../trpc";
+
+import { parseUserURL } from "./utils";
 
 export const getPlaylistVideos = publicProcedure
   .input(z.number().positive())
@@ -68,15 +67,15 @@ export const createVideo = publicProcedure.input(createInput).mutation(async ({ 
     throw new TRPCError({ code: "NOT_FOUND", message: "Playlist not found" });
   }
 
+  const createPayload = await parseUserURL(input.rawUrl);
+  if (!createPayload) {
+    throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid URL" });
+  }
+
   const videosCount = await db
     .select({ value: count() })
     .from(schema.videos)
     .where(eq(schema.videos.playlistID, input.playlistID));
-
-  const createPayload = await parseURL(input.rawUrl);
-  if (!createPayload) {
-    throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid URL" });
-  }
 
   const inserted = await db
     .insert(schema.videos)
@@ -115,7 +114,7 @@ export const updateVideo = publicProcedure.input(updateInput).mutation(async ({ 
     throw new TRPCError({ code: "NOT_FOUND", message: "Video not found" });
   }
 
-  const updatePayload = await parseURL(input.rawUrl);
+  const updatePayload = await parseUserURL(input.rawUrl);
   if (!updatePayload) {
     throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid URL" });
   }
@@ -126,43 +125,3 @@ export const updateVideo = publicProcedure.input(updateInput).mutation(async ({ 
     where: eq(schema.videos.id, input.id),
   });
 });
-
-async function parseURL(userUrl: string): Promise<Pick<Video, "kind" | "rawUrl" | "url"> | null> {
-  const rawUrl = new URL(userUrl);
-
-  if (rawUrl.href.match(/.*reddit\.com.*/gi)) {
-    return getRedditVideo(userUrl);
-  }
-
-  // https://www.twitch.tv/mogulmoves/clip/ProtectiveIgnorantHippoHotPokket-58un43BmWmGiLbJC?filter=clips&range=7d&sort=time
-  if (rawUrl.href.match(/twitch.tv\/.+\/clip/gi)) {
-    const clipID = rawUrl.pathname.split("/").pop();
-    if (!clipID) {
-      throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid Twitch clip URL" });
-    }
-
-    const clip = await getClip(clipID);
-
-    return {
-      kind: "twitch_clip" as const,
-      rawUrl: userUrl,
-      url: clip.thumbnail_url.replace(/-preview-.+x.+\..*/gi, ".mp4"),
-    };
-  }
-
-  if (rawUrl.href.match(/youtube.com\/watch/gi)) {
-    const usp = new URLSearchParams(rawUrl.search);
-    const v = usp.get("v");
-    if (!v) {
-      throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid YouTube URL" });
-    }
-
-    return {
-      kind: "youtube" as const,
-      rawUrl: userUrl,
-      url: `https://www.youtube.com/embed/${v}`,
-    };
-  }
-
-  return null;
-}

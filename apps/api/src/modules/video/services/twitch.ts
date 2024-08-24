@@ -9,6 +9,7 @@ const client = axios.create({
   },
 });
 
+// TODO: Only authenticate when token expires
 client.interceptors.request.use(async (config) => {
   const { data: authData } = await axios.post("https://id.twitch.tv/oauth2/token", null, {
     params: {

@@ -1,18 +1,12 @@
 import { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 
-import { createPlaylist, getPlaylist, updatePlaylist } from "./procedures/playlist.js";
-import { createVideo, getPlaylistVideos, getVideo, updateVideo } from "./procedures/video.js";
+import * as videoProcedures from "./modules/video/procedures.js";
+import * as playlistProcedures from "./procedures/playlist.js";
 import { router } from "./trpc.js";
 
 export const appRouter = router({
-  getPlaylist,
-  createPlaylist,
-  updatePlaylist,
-
-  getPlaylistVideos,
-  getVideo,
-  createVideo,
-  updateVideo,
+  ...playlistProcedures,
+  ...videoProcedures,
 });
 
 export type AppRouter = typeof appRouter;
