@@ -2,9 +2,9 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 
-import { db } from "../database/index.js";
-import * as schema from "../database/schema.js";
-import { publicProcedure } from "../trpc.js";
+import { db } from "../../database/index.js";
+import * as schema from "../../database/schema.js";
+import { publicProcedure } from "../../trpc.js";
 
 export const getPlaylist = publicProcedure.input(z.number().positive()).query(async ({ input }) => {
   const playlist = await db.query.playlists.findFirst({

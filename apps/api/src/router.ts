@@ -1,7 +1,7 @@
 import { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 
+import * as playlistProcedures from "./modules/playlist/procedures.js";
 import * as videoProcedures from "./modules/video/procedures.js";
-import * as playlistProcedures from "./procedures/playlist.js";
 import { router } from "./trpc.js";
 
 export const appRouter = router({

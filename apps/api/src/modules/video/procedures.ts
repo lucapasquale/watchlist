@@ -152,6 +152,19 @@ export const moveVideo = publicProcedure.input(moveInput).mutation(async ({ inpu
   return updatedVideo!;
 });
 
+export const deleteVideo = publicProcedure
+  .input(z.number().positive())
+  .mutation(async ({ input }) => {
+    const video = await db.query.videos.findFirst({
+      where: eq(schema.videos.id, input),
+    });
+    if (!video) {
+      throw new TRPCError({ code: "NOT_FOUND", message: "Video not found" });
+    }
+
+    await db.delete(schema.videos).where(eq(schema.videos.id, input));
+  });
+
 async function getMoveRank(video: schema.Video, beforeID: number | null) {
   if (beforeID === null) {
     const firstVideo = await db.query.videos.findFirst({

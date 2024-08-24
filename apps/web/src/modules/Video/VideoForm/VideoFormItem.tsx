@@ -1,9 +1,10 @@
 import React from "react";
-import { useFormContext } from "react-hook-form";
+import { UseFieldArrayRemove, UseFieldArrayUpdate, useFormContext } from "react-hook-form";
 import { GripVertical, Trash } from "lucide-react";
 import { DraggableProvidedDragHandleProps } from "@hello-pangea/dnd";
 import { InputFormItem } from "@ui/components/form/input-form-item";
 import { Button } from "@ui/components/ui/button";
+import { cn } from "@ui/lib/utils";
 
 import { trpc } from "~utils/trpc";
 
@@ -12,35 +13,34 @@ import { type FormValues } from ".";
 type Props = React.ComponentProps<"li"> & {
   index: number;
   playlistID: number;
-  onDelete: () => void;
+  update: UseFieldArrayUpdate<FormValues, "videos">;
+  remove: UseFieldArrayRemove;
   dragHandleProps: DraggableProvidedDragHandleProps | null;
 };
 
 export const VideoFormItem = React.forwardRef<HTMLLIElement, Props>(
-  ({ index, playlistID, onDelete, dragHandleProps, ...liProps }, ref) => {
+  ({ index, playlistID, update, remove, dragHandleProps, ...liProps }, ref) => {
     const form = useFormContext<FormValues>();
 
     const createVideo = trpc.createVideo.useMutation();
     const updateVideo = trpc.updateVideo.useMutation();
+    const deleteVideo = trpc.deleteVideo.useMutation();
 
     const onBlur = async () => {
       const video = form.getValues().videos[index];
-      if (!video || !form.formState.isValid) {
+      if (!video?.rawUrl || !form.formState.isValid) {
         return;
       }
 
       form.clearErrors(`videos.${index}.rawUrl`);
 
       if (!video.id) {
-        console.log("calling with", video);
         const inserted = await createVideo.mutateAsync({
           playlistID,
           rawUrl: video.rawUrl,
         });
 
-        form.setValue(`videos.${index}.id`, inserted.id);
-        form.setValue(`videos.${index}.rank`, inserted.rank);
-        return;
+        return update(index, inserted);
       }
 
       await updateVideo.mutateAsync({
@@ -51,27 +51,25 @@ export const VideoFormItem = React.forwardRef<HTMLLIElement, Props>(
 
     const onClickDelete = async () => {
       const video = form.getValues().videos[index];
-      if (!video) {
-        return;
+      if (video?.id) {
+        await deleteVideo.mutateAsync(video.id);
       }
 
-      if (video.id) {
-        // TODO: delete video
-      }
-
-      onDelete();
+      remove(index);
     };
 
+    const video = form.getValues(`videos.${index}`);
+
     return (
-      <li ref={ref} className="flex items-center gap-8" {...liProps}>
-        <div {...dragHandleProps}>
+      <li ref={ref} className={cn("flex items-center gap-8", liProps.className)} {...liProps}>
+        <div {...(video.id ? dragHandleProps : { className: "opacity-0" })}>
           <GripVertical className="h-4 w-4" />
         </div>
 
         <InputFormItem
           control={form.control}
           name={`videos.${index}.rawUrl`}
-          label={`Video ${index + 1} - ${form.getValues(`videos.${index}.rank`)}`}
+          label={`Video ${index + 1} - ${video.rank}`}
           placeholder="URL"
           onBlur={onBlur}
         />

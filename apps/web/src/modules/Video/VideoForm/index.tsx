@@ -1,3 +1,4 @@
+import React from "react";
 import { DeepPartial, useFieldArray, useForm } from "react-hook-form";
 import { Plus } from "lucide-react";
 import { z } from "zod";
@@ -41,7 +42,7 @@ export function VideoForm({ playlistID, defaultValues }: Props) {
     defaultValues,
   });
 
-  const { fields, append, remove, move } = useFieldArray({
+  const { fields, append, remove, move, update } = useFieldArray({
     control: form.control,
     name: "videos",
     keyName: "key",
@@ -75,42 +76,34 @@ export function VideoForm({ playlistID, defaultValues }: Props) {
       // styles we need to apply on draggables
       ...draggableStyle,
     }) as React.CSSProperties;
-  const getListStyle = (isDraggingOver: boolean) => ({
-    background: isDraggingOver ? "lightblue" : "lightgrey",
-    padding: grid,
-    width: 250,
-  });
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(() => console.log("onSubmit"))}
-        className="flex flex-col gap-8"
+        className="w-full flex flex-col gap-8"
       >
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="droppable">
             {(provided) => (
-              <ol
-                className="flex flex-col"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                // style={getListStyle(snapshot.isDraggingOver)}
-              >
+              <ol className="flex flex-col" ref={provided.innerRef} {...provided.droppableProps}>
                 {fields.map((field, index) => (
                   <Draggable
                     key={field.key}
+                    isDragDisabled={!field.id}
                     draggableId={field.id?.toString() ?? "empty"}
                     index={index}
                   >
                     {(provided, snapshot) => (
                       <VideoFormItem
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
-                        dragHandleProps={provided.dragHandleProps}
                         index={index}
                         playlistID={playlistID}
-                        onDelete={() => remove(index)}
+                        update={update}
+                        remove={remove}
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
+                        style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
+                        dragHandleProps={provided.dragHandleProps}
                       />
                     )}
                   </Draggable>
@@ -122,9 +115,11 @@ export function VideoForm({ playlistID, defaultValues }: Props) {
           </Droppable>
         </DragDropContext>
 
-        <Button variant="default" onClick={() => append({ rawUrl: "" })}>
-          Add <Plus className="ml-1 w-4 h-4" />
-        </Button>
+        {fields.every((v) => !!v.id) && (
+          <Button variant="default" onClick={() => append({ rawUrl: "" })}>
+            Add <Plus className="ml-1 w-4 h-4" />
+          </Button>
+        )}
       </form>
     </Form>
   );
