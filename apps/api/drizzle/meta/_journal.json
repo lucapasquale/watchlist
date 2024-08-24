@@ -50,6 +50,13 @@
       "when": 1724018518284,
       "tag": "20240818220158_special_nitro",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1724519681915,
+      "tag": "20240824171441_illegal_scorpion",
+      "breakpoints": true
     }
   ]
 }

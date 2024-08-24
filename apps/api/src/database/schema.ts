@@ -17,7 +17,7 @@ export const playlists = pgTable("playlists", {
 export type Playlist = typeof playlists.$inferSelect;
 export type PlaylistInsert = typeof playlists.$inferInsert;
 
-export const videoKindEnum = pgEnum("video_kind", ["youtube", "twitch_clip"]);
+export const videoKindEnum = pgEnum("video_kind", ["youtube", "twitch_clip", "reddit"]);
 
 export const videos = pgTable("videos", {
   id: serial("id").primaryKey(),

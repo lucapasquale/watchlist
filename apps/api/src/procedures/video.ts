@@ -5,6 +5,7 @@ import { TRPCError } from "@trpc/server";
 import { db } from "../database/index.js";
 import * as schema from "../database/schema.js";
 import { Video } from "../database/schema.js";
+import { getRedditVideo } from "../services/reddit.js";
 import { getClip } from "../services/twitch.js";
 import { publicProcedure } from "../trpc.js";
 
@@ -73,6 +74,10 @@ export const createVideo = publicProcedure.input(createInput).mutation(async ({ 
     .where(eq(schema.videos.playlistID, input.playlistID));
 
   const createPayload = await parseURL(input.rawUrl);
+  if (!createPayload) {
+    throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid URL" });
+  }
+
   const inserted = await db
     .insert(schema.videos)
     .values([
@@ -111,6 +116,10 @@ export const updateVideo = publicProcedure.input(updateInput).mutation(async ({ 
   }
 
   const updatePayload = await parseURL(input.rawUrl);
+  if (!updatePayload) {
+    throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid URL" });
+  }
+
   await db.update(schema.videos).set(updatePayload).where(eq(schema.videos.id, input.id));
 
   return db.query.videos.findFirst({
@@ -118,8 +127,12 @@ export const updateVideo = publicProcedure.input(updateInput).mutation(async ({ 
   });
 });
 
-async function parseURL(userUrl: string): Promise<Pick<Video, "kind" | "rawUrl" | "url">> {
+async function parseURL(userUrl: string): Promise<Pick<Video, "kind" | "rawUrl" | "url"> | null> {
   const rawUrl = new URL(userUrl);
+
+  if (rawUrl.href.match(/.*reddit\.com.*/gi)) {
+    return getRedditVideo(userUrl);
+  }
 
   // https://www.twitch.tv/mogulmoves/clip/ProtectiveIgnorantHippoHotPokket-58un43BmWmGiLbJC?filter=clips&range=7d&sort=time
   if (rawUrl.href.match(/twitch.tv\/.+\/clip/gi)) {
@@ -151,5 +164,5 @@ async function parseURL(userUrl: string): Promise<Pick<Video, "kind" | "rawUrl" 
     };
   }
 
-  throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid URL" });
+  return null;
 }
