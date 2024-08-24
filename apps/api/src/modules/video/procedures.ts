@@ -1,4 +1,5 @@
-import { and, between, count, eq, not } from "drizzle-orm";
+import { and, asc, desc, eq, gt, lt } from "drizzle-orm";
+import { LexoRank } from "lexorank";
 import z from "zod";
 import { TRPCError } from "@trpc/server";
 
@@ -13,7 +14,7 @@ export const getPlaylistVideos = publicProcedure
   .query(async ({ input }) => {
     const playlistVideos = await db.query.videos.findMany({
       where: eq(schema.videos.playlistID, input),
-      orderBy: [schema.videos.sortOrder],
+      orderBy: [schema.videos.rank],
     });
 
     return playlistVideos;
@@ -32,25 +33,29 @@ export const getVideo = publicProcedure.input(z.number().positive()).query(async
 
   const { videos: video, playlists: playlist } = rows[0];
 
-  const surroundingVideos = await db
-    .select({ id: schema.videos.id, sortOrder: schema.videos.sortOrder })
-    .from(schema.videos)
-    .where(
-      and(
+  const [prevVideo, nextVideo] = await Promise.all([
+    db.query.videos.findFirst({
+      where: and(
         eq(schema.videos.playlistID, video.playlistID),
-        between(schema.videos.sortOrder, video.sortOrder - 1, video.sortOrder + 1),
-        not(eq(schema.videos.id, video.id)),
+        lt(schema.videos.rank, video.rank),
       ),
-    )
-    .limit(2)
-    .orderBy(schema.videos.sortOrder);
+      orderBy: [desc(schema.videos.rank)],
+    }),
+    db.query.videos.findFirst({
+      where: and(
+        eq(schema.videos.playlistID, video.playlistID),
+        gt(schema.videos.rank, video.rank),
+      ),
+      orderBy: [asc(schema.videos.rank)],
+    }),
+  ]);
 
   return {
     video,
     playlist,
     metadata: {
-      previousVideoID: surroundingVideos.find((v) => v.sortOrder < video.sortOrder)?.id ?? null,
-      nextVideoID: surroundingVideos.find((v) => v.sortOrder > video.sortOrder)?.id ?? null,
+      previousVideoID: prevVideo?.id ?? null,
+      nextVideoID: nextVideo?.id ?? null,
     },
   };
 });
@@ -60,46 +65,40 @@ const createInput = z.object({
   rawUrl: z.string().trim().url(),
 });
 export const createVideo = publicProcedure.input(createInput).mutation(async ({ input }) => {
-  const playlist = await db.query.playlists.findFirst({
-    where: eq(schema.playlists.id, input.playlistID),
-  });
+  const [urlPayload, playlist, lastVideo] = await Promise.all([
+    parseUserURL(input.rawUrl),
+    db.query.playlists.findFirst({
+      where: eq(schema.playlists.id, input.playlistID),
+    }),
+    db.query.videos.findFirst({
+      where: eq(schema.videos.playlistID, input.playlistID),
+      orderBy: [desc(schema.videos.rank)],
+    }),
+  ]);
   if (!playlist) {
     throw new TRPCError({ code: "NOT_FOUND", message: "Playlist not found" });
   }
-
-  const createPayload = await parseUserURL(input.rawUrl);
-  if (!createPayload) {
+  if (!urlPayload) {
     throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid URL" });
   }
-
-  const videosCount = await db
-    .select({ value: count() })
-    .from(schema.videos)
-    .where(eq(schema.videos.playlistID, input.playlistID));
 
   const inserted = await db
     .insert(schema.videos)
     .values([
       {
-        ...createPayload,
+        ...urlPayload,
         playlistID: playlist.id,
-        sortOrder: (videosCount[0]?.value ?? 0) + 1,
+        rank: lastVideo
+          ? LexoRank.parse(lastVideo.rank).genNext().toString()
+          : LexoRank.min().toString(),
       },
     ])
     .returning({ id: schema.videos.id });
 
-  if (!inserted[0]) {
-    throw new TRPCError({ code: "NOT_FOUND", message: "Error" });
-  }
-
   const video = await db.query.videos.findFirst({
     where: eq(schema.videos.id, inserted[0].id),
   });
-  if (!video) {
-    throw new TRPCError({ code: "NOT_FOUND", message: "Video not found" });
-  }
-
-  return video;
+  return video!;
 });
 
 const updateInput = z.object({
@@ -107,21 +106,23 @@ const updateInput = z.object({
   rawUrl: z.string().trim().url(),
 });
 export const updateVideo = publicProcedure.input(updateInput).mutation(async ({ input }) => {
-  const video = await db.query.videos.findFirst({
-    where: eq(schema.videos.id, input.id),
-  });
+  const [urlPayload, video] = await Promise.all([
+    parseUserURL(input.rawUrl),
+    db.query.videos.findFirst({
+      where: eq(schema.videos.id, input.id),
+    }),
+  ]);
   if (!video) {
     throw new TRPCError({ code: "NOT_FOUND", message: "Video not found" });
   }
-
-  const updatePayload = await parseUserURL(input.rawUrl);
-  if (!updatePayload) {
+  if (!urlPayload) {
     throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid URL" });
   }
 
-  await db.update(schema.videos).set(updatePayload).where(eq(schema.videos.id, input.id));
+  await db.update(schema.videos).set(urlPayload).where(eq(schema.videos.id, input.id));
 
-  return db.query.videos.findFirst({
+  const updatedVideo = await db.query.videos.findFirst({
     where: eq(schema.videos.id, input.id),
   });
+  return updatedVideo!;
 });

@@ -1,4 +1,4 @@
-import { integer, pgEnum, pgTable, real, serial, timestamp, varchar } from "drizzle-orm/pg-core";
+import { integer, pgEnum, pgTable, serial, timestamp, varchar } from "drizzle-orm/pg-core";
 
 const timestamps = {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
@@ -24,7 +24,7 @@ export const videos = pgTable("videos", {
   kind: videoKindEnum("kind").notNull(),
   rawUrl: varchar("raw_url", { length: 256 }).notNull(),
   url: varchar("url", { length: 256 }).notNull(),
-  sortOrder: real("sort_order").notNull(),
+  rank: varchar("rank", { length: 256 }).notNull(),
 
   playlistID: integer("playlist_id")
     .references(() => playlists.id, { onDelete: "cascade" })
