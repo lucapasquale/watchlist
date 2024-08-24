@@ -52,12 +52,7 @@ export function Page() {
       <PlaylistForm form={form} onSubmit={onSubmit} />
 
       <article className="w-full">
-        <VideoForm
-          playlistID={playlist.data.id}
-          defaultValues={{
-            videos: playlistVideos.data.map((v) => ({ id: v.id, rawUrl: v.rawUrl })),
-          }}
-        />
+        <VideoForm playlistID={playlist.data.id} defaultValues={{ videos: playlistVideos.data }} />
       </article>
     </section>
   );

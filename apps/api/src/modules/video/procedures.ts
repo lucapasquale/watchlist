@@ -90,7 +90,7 @@ export const createVideo = publicProcedure.input(createInput).mutation(async ({ 
         playlistID: playlist.id,
         rank: lastVideo
           ? LexoRank.parse(lastVideo.rank).genNext().toString()
-          : LexoRank.min().toString(),
+          : LexoRank.middle().toString(),
       },
     ])
     .returning({ id: schema.videos.id });
@@ -126,3 +126,61 @@ export const updateVideo = publicProcedure.input(updateInput).mutation(async ({ 
   });
   return updatedVideo!;
 });
+
+const moveInput = z.object({
+  id: z.number().positive(),
+  videoBeforeID: z.number().positive().nullable(),
+});
+export const moveVideo = publicProcedure.input(moveInput).mutation(async ({ input }) => {
+  const video = await db.query.videos.findFirst({
+    where: eq(schema.videos.id, input.id),
+  });
+  if (!video) {
+    throw new TRPCError({ code: "NOT_FOUND", message: "Video not found" });
+  }
+
+  const updatedRank = await getMoveRank(video, input.videoBeforeID);
+
+  await db
+    .update(schema.videos)
+    .set({ rank: updatedRank.toString() })
+    .where(eq(schema.videos.id, input.id));
+
+  const updatedVideo = await db.query.videos.findFirst({
+    where: eq(schema.videos.id, input.id),
+  });
+  return updatedVideo!;
+});
+
+async function getMoveRank(video: schema.Video, beforeID: number | null) {
+  if (beforeID === null) {
+    const firstVideo = await db.query.videos.findFirst({
+      where: eq(schema.videos.playlistID, video.playlistID),
+      orderBy: [asc(schema.videos.rank)],
+    });
+    if (!firstVideo) {
+      throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid move 1" });
+    }
+
+    const lexoRank = LexoRank.parse(firstVideo.rank);
+    return lexoRank.genPrev();
+  }
+
+  const beforeVideo = await db.query.videos.findFirst({
+    where: and(eq(schema.videos.playlistID, video.playlistID), eq(schema.videos.id, beforeID)),
+  });
+  if (!beforeVideo) {
+    throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid move 2" });
+  }
+
+  const afterVideo = await db.query.videos.findFirst({
+    where: and(
+      eq(schema.videos.playlistID, beforeVideo.playlistID),
+      gt(schema.videos.rank, beforeVideo.rank),
+    ),
+    orderBy: [asc(schema.videos.rank)],
+  });
+
+  const beforeRank = LexoRank.parse(beforeVideo.rank);
+  return afterVideo ? beforeRank.between(LexoRank.parse(afterVideo.rank)) : beforeRank.genNext();
+}
