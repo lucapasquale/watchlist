@@ -1,7 +1,6 @@
-import { Video } from "../../database/schema";
-
-import * as Reddit from "./services/reddit";
-import * as Twitch from "./services/twitch";
+import type { Video } from "../schema";
+import * as Reddit from "../services/reddit";
+import * as Twitch from "../services/twitch";
 
 export async function parseUserURL(
   rawUrl: string,

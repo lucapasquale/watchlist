@@ -1,15 +1,13 @@
-import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 
-import { db } from "../../database/index.js";
-import * as schema from "../../database/schema.js";
 import { publicProcedure } from "../../trpc.js";
+import * as videoDAO from "../video/dao.js";
+
+import * as playlistDAO from "./dao.js";
 
 export const getPlaylist = publicProcedure.input(z.number().positive()).query(async ({ input }) => {
-  const playlist = await db.query.playlists.findFirst({
-    where: eq(schema.playlists.id, input),
-  });
+  const playlist = await playlistDAO.getByID(input);
   if (!playlist) {
     throw new TRPCError({ code: "NOT_FOUND", message: "Playlist not found" });
   }
@@ -17,33 +15,48 @@ export const getPlaylist = publicProcedure.input(z.number().positive()).query(as
   return playlist;
 });
 
-const createInput = z.object({
-  name: z.string().trim().min(1).max(100),
-});
+export const getPlaylistMetadata = publicProcedure
+  .input(z.number().positive())
+  .query(async ({ input }) => {
+    const video = await videoDAO.getByID(input);
+    if (!video) {
+      throw new TRPCError({ code: "NOT_FOUND", message: "Video not found" });
+    }
 
-export const createPlaylist = publicProcedure.input(createInput).mutation(async ({ input }) => {
-  console.log(input);
-});
+    const [previousVideo, nextVideo] = await Promise.all([
+      videoDAO.getPrevious(video),
+      videoDAO.getNext(video),
+    ]);
 
-const updateInput = z.object({
-  id: z.number().positive(),
-  name: z.string().trim().min(1).max(100),
-});
-
-export const updatePlaylist = publicProcedure.input(updateInput).mutation(async ({ input }) => {
-  const playlist = await db.query.playlists.findFirst({
-    where: eq(schema.playlists.id, input.id),
+    return {
+      previousVideoID: previousVideo?.id ?? null,
+      nextVideoID: nextVideo?.id ?? null,
+    };
   });
-  if (!playlist) {
-    throw new TRPCError({ code: "NOT_FOUND", message: "Playlist not found" });
-  }
 
-  await db
-    .update(schema.playlists)
-    .set({ name: input.name })
-    .where(eq(schema.playlists.id, input.id));
-
-  return db.query.playlists.findFirst({
-    where: eq(schema.playlists.id, input.id),
+export const createPlaylist = publicProcedure
+  .input(
+    z.object({
+      name: z.string().trim().min(1).max(100),
+    }),
+  )
+  .mutation(async ({ input }) => {
+    // TODO: implement
+    console.log(input);
   });
-});
+
+export const updatePlaylist = publicProcedure
+  .input(
+    z.object({
+      id: z.number().positive(),
+      name: z.string().trim().min(1).max(100),
+    }),
+  )
+  .mutation(async ({ input }) => {
+    const playlist = await playlistDAO.getByID(input.id);
+    if (!playlist) {
+      throw new TRPCError({ code: "NOT_FOUND", message: "Playlist not found" });
+    }
+
+    return playlistDAO.update(input.id, { name: input.name });
+  });

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { getUrlKind } from "./utils";
+import { getUrlKind } from "./services";
 
 describe("getUrlKind", () => {
   const TEST_CASES = [

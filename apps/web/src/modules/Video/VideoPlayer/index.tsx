@@ -1,32 +1,36 @@
 import ReactPlayer from "react-player/lazy";
 
 import { Link } from "~components/Link";
-import { RouterOutput } from "~utils/trpc";
+import { Route } from "~routes/playlists/$playlistID/$videoID.lazy";
+import { RouterOutput, trpc } from "~utils/trpc";
 
 type Props = {
-  videoData: RouterOutput["getVideo"];
-  onVideoEnded: () => void;
+  video: NonNullable<RouterOutput["getVideo"]>;
 };
 
-export function VideoPlayer({ videoData, onVideoEnded }: Props) {
+export function VideoPlayer({ video }: Props) {
+  const navigate = Route.useNavigate();
+  const metadata = trpc.getPlaylistMetadata.useQuery(video.id);
+
+  const onVideoEnded = () => {
+    if (metadata.data?.nextVideoID) {
+      navigate({ to: `../${metadata.data.nextVideoID.toString()}` });
+    }
+  };
+
   return (
     <article className="w-[640px] h-[360px] flex flex-col gap-6">
-      <ReactPlayer
-        key={videoData.video.id}
-        playing
-        controls
-        url={videoData.video.url}
-        onEnded={onVideoEnded}
-      />
+      <ReactPlayer key={video.id} playing controls url={video.url} onEnded={onVideoEnded} />
 
       <div className="flex w-full justify-between gap-8">
-        {videoData?.metadata.previousVideoID ? (
-          <Link to={`../${videoData?.metadata.previousVideoID}`}>Previous</Link>
+        {metadata.data?.previousVideoID ? (
+          <Link to={`../${metadata.data?.previousVideoID}`}>Previous</Link>
         ) : (
           <div />
         )}
-        {videoData?.metadata.nextVideoID ? (
-          <Link to={`../${videoData?.metadata.nextVideoID}`}>Next</Link>
+
+        {metadata.data?.nextVideoID ? (
+          <Link to={`../${metadata.data?.nextVideoID}`}>Next</Link>
         ) : (
           <div />
         )}
