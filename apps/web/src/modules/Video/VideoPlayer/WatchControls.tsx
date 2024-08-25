@@ -1,6 +1,6 @@
-import React from "react";
-import { Shuffle } from "lucide-react";
+import { Shuffle, SkipBack, SkipForward } from "lucide-react";
 import { Toggle } from "@repo/ui/components/ui/toggle";
+import { Button } from "@ui/components/ui/button";
 
 import { Link } from "~components/Link";
 import { Route } from "~routes/playlists/$playlistID/$videoID";
@@ -27,31 +27,29 @@ export function WatchControls({ metadata }: Props) {
   }
 
   return (
-    <div className="w-full flex items-center justify-between gap-8">
-      <ChangeVideoButton videoID={metadata.previousVideoID}>Previous</ChangeVideoButton>
+    <div className="w-full flex justify-between gap-8">
+      <Link search to="../$videoID" params={{ videoID: metadata.previousVideoID?.toString() }}>
+        <Button disabled={!metadata.previousVideoID}>
+          <SkipBack className="h-4 w-4" />
+        </Button>
+      </Link>
 
-      <Toggle pressed={search.shuffle} onPressedChange={onShufflePress}>
-        <Shuffle className="mr-2 h-4 w-4" />
-        Shuffle
-      </Toggle>
+      <div className="flex gap-2">
+        <Toggle
+          variant="outline"
+          pressed={search.shuffle}
+          onPressedChange={onShufflePress}
+          className="justify-self-center"
+        >
+          <Shuffle className="h-4 w-4" />
+        </Toggle>
 
-      <ChangeVideoButton videoID={metadata.nextVideoID}>Next</ChangeVideoButton>
+        <Link search to="../$videoID" params={{ videoID: metadata.nextVideoID?.toString() }}>
+          <Button disabled={!metadata.nextVideoID}>
+            <SkipForward className="h-4 w-4" />
+          </Button>
+        </Link>
+      </div>
     </div>
-  );
-}
-
-type ChangeVideoButtonProps = React.PropsWithChildren<{
-  videoID: number | null;
-}>;
-
-function ChangeVideoButton({ videoID, children }: ChangeVideoButtonProps) {
-  if (!videoID) {
-    return <div />;
-  }
-
-  return (
-    <Link search to="../$videoID" params={{ videoID: videoID.toString() }}>
-      {children}
-    </Link>
   );
 }
