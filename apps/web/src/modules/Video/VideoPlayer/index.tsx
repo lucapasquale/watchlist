@@ -3,7 +3,7 @@ import ReactPlayer from "react-player/lazy";
 import { Route } from "~routes/playlists/$playlistID/$videoID";
 import { RouterOutput, trpc } from "~utils/trpc";
 
-import { SHUFFLE_KEY, WatchControls } from "./WatchControls";
+import { WatchControls } from "./WatchControls";
 
 type Props = {
   video: NonNullable<RouterOutput["getVideo"]>;
@@ -16,7 +16,6 @@ export function VideoPlayer({ video }: Props) {
   const metadata = trpc.getPlaylistMetadata.useQuery({
     videoID: video.id,
     shuffle: search.shuffle ?? false,
-    seed: localStorage.getItem(SHUFFLE_KEY) ?? "",
   });
 
   const onVideoEnded = () => {
@@ -27,7 +26,7 @@ export function VideoPlayer({ video }: Props) {
 
   return (
     <article className="w-[640px] h-[360px] flex flex-col gap-6">
-      <ReactPlayer key={video.id} playing={false} controls url={video.url} onEnded={onVideoEnded} />
+      <ReactPlayer key={video.id} playing controls url={video.url} onEnded={onVideoEnded} />
 
       <WatchControls metadata={metadata.data} />
     </article>

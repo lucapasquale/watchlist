@@ -1,5 +1,4 @@
-import { and, asc, desc, eq, gt, lt, sql } from "drizzle-orm";
-import crypto from "node:crypto";
+import { and, asc, desc, eq, gt, lt, not, sql } from "drizzle-orm";
 
 import { db } from "../../database";
 
@@ -25,28 +24,13 @@ export async function getSurrounding(video: Video) {
     }),
   ]);
 }
-export async function getSurroundingForSeed(video: Video, seed: string) {
-  const videoHash = crypto
-    .createHash("md5")
-    .update(video.id.toString() + seed)
-    .digest("hex");
 
-  return Promise.all([
-    db.query.videos.findFirst({
-      where: and(
-        eq(videoSchema.playlistID, video.playlistID),
-        sql`md5(${videoSchema.id}::text || ${seed}::text) < ${videoHash}`,
-      ),
-      orderBy: sql`md5(${videoSchema.id}::text || ${seed}::text) DESC`,
-    }),
-    db.query.videos.findFirst({
-      where: and(
-        eq(videoSchema.playlistID, video.playlistID),
-        sql`md5(${videoSchema.id}::text || ${seed}::text) > ${videoHash}`,
-      ),
-      orderBy: sql`md5(${videoSchema.id}::text || ${seed}::text) ASC`,
-    }),
-  ]);
+export async function getManyRandom(video: Video, limit = 1) {
+  return db.query.videos.findMany({
+    where: and(eq(videoSchema.playlistID, video.playlistID), not(eq(videoSchema.id, video.id))),
+    limit,
+    orderBy: sql`random()`,
+  });
 }
 
 export async function getPlaylistFirst(playlistID: number) {

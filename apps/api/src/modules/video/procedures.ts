@@ -90,7 +90,7 @@ export const moveVideo = publicProcedure
       throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid move" });
     }
 
-    const afterVideo = await videoDAO.getNext(beforeVideo);
+    const [, afterVideo] = await videoDAO.getSurrounding(beforeVideo);
 
     return videoDAO.update(input.id, {
       rank: getRankBetween([beforeVideo, afterVideo]).toString(),

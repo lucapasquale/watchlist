@@ -17,14 +17,10 @@ export const getPlaylist = publicProcedure.input(z.number().positive()).query(as
 
 export const getPlaylistMetadata = publicProcedure
   .input(
-    z
-      .object({ videoID: z.number().positive() })
-      .and(
-        z.discriminatedUnion("shuffle", [
-          z.object({ shuffle: z.literal(false) }),
-          z.object({ shuffle: z.literal(true), seed: z.string() }),
-        ]),
-      ),
+    z.object({
+      videoID: z.number().positive(),
+      shuffle: z.boolean().optional(),
+    }),
   )
   .query(async ({ input }) => {
     const video = await videoDAO.getByID(input.videoID);
@@ -33,7 +29,7 @@ export const getPlaylistMetadata = publicProcedure
     }
 
     if (input.shuffle) {
-      const [previousVideo, nextVideo] = await videoDAO.getSurroundingForSeed(video, input.seed);
+      const [previousVideo, nextVideo] = await videoDAO.getManyRandom(video, 2);
 
       return {
         previousVideoID: previousVideo?.id ?? null,
