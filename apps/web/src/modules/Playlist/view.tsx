@@ -17,7 +17,13 @@ export function Page() {
       {playlist.data.name}
 
       {playlistVideos.data.length ? (
-        <Link to={`/playlists/${playlistID}/${playlistVideos.data[0].id}`}>Play</Link>
+        <Link
+          to="/playlists/$playlistID/$videoID"
+          params={{ playlistID, videoID: playlistVideos.data[0].id.toString() }}
+          search={{ view_order: "forwards" }}
+        >
+          Play
+        </Link>
       ) : null}
 
       <Link to={`/playlists/${playlistID}/edit`}>Edit videos</Link>

@@ -1,4 +1,5 @@
-import { and, asc, desc, eq, gt, lt } from "drizzle-orm";
+import { and, asc, desc, eq, gt, lt, sql } from "drizzle-orm";
+import crypto from "node:crypto";
 
 import { db } from "../../database";
 
@@ -12,17 +13,40 @@ export async function getByID(id: number) {
   });
 }
 
-export async function getPrevious(video: Video) {
-  return db.query.videos.findFirst({
-    where: and(eq(videoSchema.playlistID, video.playlistID), lt(videoSchema.rank, video.rank)),
-    orderBy: [desc(videoSchema.rank)],
-  });
+export async function getSurrounding(video: Video) {
+  return Promise.all([
+    db.query.videos.findFirst({
+      where: and(eq(videoSchema.playlistID, video.playlistID), lt(videoSchema.rank, video.rank)),
+      orderBy: [desc(videoSchema.rank)],
+    }),
+    db.query.videos.findFirst({
+      where: and(eq(videoSchema.playlistID, video.playlistID), gt(videoSchema.rank, video.rank)),
+      orderBy: [asc(videoSchema.rank)],
+    }),
+  ]);
 }
-export async function getNext(video: Video) {
-  return db.query.videos.findFirst({
-    where: and(eq(videoSchema.playlistID, video.playlistID), gt(videoSchema.rank, video.rank)),
-    orderBy: [asc(videoSchema.rank)],
-  });
+export async function getSurroundingForSeed(video: Video, seed: string) {
+  const videoHash = crypto
+    .createHash("md5")
+    .update(video.id.toString() + seed)
+    .digest("hex");
+
+  return Promise.all([
+    db.query.videos.findFirst({
+      where: and(
+        eq(videoSchema.playlistID, video.playlistID),
+        sql`md5(${videoSchema.id}::text || ${seed}::text) < ${videoHash}`,
+      ),
+      orderBy: sql`md5(${videoSchema.id}::text || ${seed}::text) DESC`,
+    }),
+    db.query.videos.findFirst({
+      where: and(
+        eq(videoSchema.playlistID, video.playlistID),
+        sql`md5(${videoSchema.id}::text || ${seed}::text) > ${videoHash}`,
+      ),
+      orderBy: sql`md5(${videoSchema.id}::text || ${seed}::text) ASC`,
+    }),
+  ]);
 }
 
 export async function getPlaylistFirst(playlistID: number) {

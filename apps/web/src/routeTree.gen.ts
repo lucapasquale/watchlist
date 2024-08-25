@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as PlaylistsPlaylistIDVideoIDImport } from './routes/playlists/$playlistID/$videoID'
 
 // Create Virtual Routes
 
@@ -22,9 +23,6 @@ const PlaylistsPlaylistIDIndexLazyImport = createFileRoute(
 )()
 const PlaylistsPlaylistIDEditLazyImport = createFileRoute(
   '/playlists/$playlistID/edit',
-)()
-const PlaylistsPlaylistIDVideoIDLazyImport = createFileRoute(
-  '/playlists/$playlistID/$videoID',
 )()
 
 // Create/Update Routes
@@ -50,13 +48,12 @@ const PlaylistsPlaylistIDEditLazyRoute =
     import('./routes/playlists/$playlistID/edit.lazy').then((d) => d.Route),
   )
 
-const PlaylistsPlaylistIDVideoIDLazyRoute =
-  PlaylistsPlaylistIDVideoIDLazyImport.update({
+const PlaylistsPlaylistIDVideoIDRoute = PlaylistsPlaylistIDVideoIDImport.update(
+  {
     path: '/playlists/$playlistID/$videoID',
     getParentRoute: () => rootRoute,
-  } as any).lazy(() =>
-    import('./routes/playlists/$playlistID/$videoID.lazy').then((d) => d.Route),
-  )
+  } as any,
+)
 
 // Populate the FileRoutesByPath interface
 
@@ -73,7 +70,7 @@ declare module '@tanstack/react-router' {
       id: '/playlists/$playlistID/$videoID'
       path: '/playlists/$playlistID/$videoID'
       fullPath: '/playlists/$playlistID/$videoID'
-      preLoaderRoute: typeof PlaylistsPlaylistIDVideoIDLazyImport
+      preLoaderRoute: typeof PlaylistsPlaylistIDVideoIDImport
       parentRoute: typeof rootRoute
     }
     '/playlists/$playlistID/edit': {
@@ -97,7 +94,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
-  PlaylistsPlaylistIDVideoIDLazyRoute,
+  PlaylistsPlaylistIDVideoIDRoute,
   PlaylistsPlaylistIDEditLazyRoute,
   PlaylistsPlaylistIDIndexLazyRoute,
 })
@@ -120,7 +117,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "index.tsx"
     },
     "/playlists/$playlistID/$videoID": {
-      "filePath": "playlists/$playlistID/$videoID.lazy.tsx"
+      "filePath": "playlists/$playlistID/$videoID.tsx"
     },
     "/playlists/$playlistID/edit": {
       "filePath": "playlists/$playlistID/edit.lazy.tsx"

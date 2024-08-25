@@ -16,17 +16,32 @@ export const getPlaylist = publicProcedure.input(z.number().positive()).query(as
 });
 
 export const getPlaylistMetadata = publicProcedure
-  .input(z.number().positive())
+  .input(
+    z
+      .object({ videoID: z.number().positive() })
+      .and(
+        z.discriminatedUnion("shuffle", [
+          z.object({ shuffle: z.literal(false) }),
+          z.object({ shuffle: z.literal(true), seed: z.string() }),
+        ]),
+      ),
+  )
   .query(async ({ input }) => {
-    const video = await videoDAO.getByID(input);
+    const video = await videoDAO.getByID(input.videoID);
     if (!video) {
       throw new TRPCError({ code: "NOT_FOUND", message: "Video not found" });
     }
 
-    const [previousVideo, nextVideo] = await Promise.all([
-      videoDAO.getPrevious(video),
-      videoDAO.getNext(video),
-    ]);
+    if (input.shuffle) {
+      const [previousVideo, nextVideo] = await videoDAO.getSurroundingForSeed(video, input.seed);
+
+      return {
+        previousVideoID: previousVideo?.id ?? null,
+        nextVideoID: nextVideo?.id ?? null,
+      };
+    }
+
+    const [previousVideo, nextVideo] = await videoDAO.getSurrounding(video);
 
     return {
       previousVideoID: previousVideo?.id ?? null,

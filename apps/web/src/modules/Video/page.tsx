@@ -1,5 +1,5 @@
 import { Link } from "~components/Link";
-import { Route } from "~routes/playlists/$playlistID/$videoID.lazy";
+import { Route } from "~routes/playlists/$playlistID/$videoID";
 import { trpc } from "~utils/trpc";
 
 import { VideoPlayer } from "./VideoPlayer";

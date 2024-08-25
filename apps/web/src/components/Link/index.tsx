@@ -2,7 +2,10 @@ import React from "react";
 import { twMerge } from "tailwind-merge";
 import { Link as TanstackLink } from "@tanstack/react-router";
 
-type LinkProps = Pick<React.ComponentProps<typeof TanstackLink>, "to" | "className">;
+type LinkProps = Pick<
+  React.ComponentProps<typeof TanstackLink>,
+  "to" | "params" | "search" | "className"
+>;
 
 type Props = LinkProps & { children: React.ReactNode };
 
