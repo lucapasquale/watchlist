@@ -1,24 +1,27 @@
 import type { Video } from "../schema";
 import * as Reddit from "../services/reddit";
 import * as Twitch from "../services/twitch";
+import * as Youtube from "../services/youtube";
 
-export async function parseUserURL(
-  rawUrl: string,
-): Promise<Pick<Video, "kind" | "rawUrl" | "url"> | null> {
+export async function parseUserURL(rawUrl: string): Promise<Partial<Video> | null> {
   const url = new URL(rawUrl);
 
   switch (getUrlKind(url)) {
     case "youtube": {
       const usp = new URLSearchParams(url.search);
-      const v = usp.get("v");
-      if (!v) {
+      const videoID = usp.get("v");
+      if (!videoID) {
         return null;
       }
+
+      const video = await Youtube.getVideo(videoID);
 
       return {
         kind: "youtube",
         rawUrl,
-        url: `https://www.youtube.com/embed/${v}`,
+        url: `https://www.youtube.com/embed/${videoID}`,
+        title: video.snippet.title,
+        thumbnail_url: video.snippet.thumbnails.medium.url,
       };
     }
 
@@ -34,6 +37,8 @@ export async function parseUserURL(
         kind: "twitch_clip",
         rawUrl,
         url: clip.thumbnail_url.replace(/-preview-.+x.+\..*/gi, ".mp4"),
+        title: clip.title,
+        thumbnail_url: clip.thumbnail_url,
       };
     }
 
@@ -47,6 +52,8 @@ export async function parseUserURL(
         kind: "reddit",
         rawUrl,
         url: post.media.reddit_video.hls_url.split("?")[0],
+        title: post.title,
+        thumbnail_url: post.thumbnail,
       };
     }
 

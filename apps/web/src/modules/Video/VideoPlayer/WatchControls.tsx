@@ -1,16 +1,17 @@
 import { Shuffle, SkipBack, SkipForward } from "lucide-react";
 import { Toggle } from "@repo/ui/components/ui/toggle";
+import { Link } from "@tanstack/react-router";
 import { Button } from "@ui/components/ui/button";
 
-import { Link } from "~components/Link";
 import { Route } from "~routes/playlists/$playlistID/$videoID";
 import { RouterOutput } from "~utils/trpc";
 
 type Props = {
+  video: NonNullable<RouterOutput["getVideo"]>;
   metadata: RouterOutput["getPlaylistMetadata"] | undefined;
 };
 
-export function WatchControls({ metadata }: Props) {
+export function WatchControls({ video, metadata }: Props) {
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
 
@@ -28,11 +29,22 @@ export function WatchControls({ metadata }: Props) {
 
   return (
     <div className="w-full flex justify-between gap-8">
-      <Link search to="../$videoID" params={{ videoID: metadata.previousVideoID?.toString() }}>
+      <div className="flex items-center gap-2">
         <Button disabled={!metadata.previousVideoID}>
-          <SkipBack className="h-4 w-4" />
+          <Link
+            search
+            to="/playlists/$playlistID/$videoID"
+            params={{
+              playlistID: video.playlistID.toString(),
+              videoID: metadata.previousVideoID?.toString() ?? "",
+            }}
+          >
+            <SkipBack className="h-4 w-4" />
+          </Link>
         </Button>
-      </Link>
+
+        <h1 className="text-2xl">{video.title}</h1>
+      </div>
 
       <div className="flex gap-2">
         <Toggle
@@ -44,11 +56,18 @@ export function WatchControls({ metadata }: Props) {
           <Shuffle className="h-4 w-4" />
         </Toggle>
 
-        <Link search to="../$videoID" params={{ videoID: metadata.nextVideoID?.toString() }}>
-          <Button disabled={!metadata.nextVideoID}>
+        <Button disabled={!metadata.nextVideoID}>
+          <Link
+            search
+            to="/playlists/$playlistID/$videoID"
+            params={{
+              playlistID: video.playlistID.toString(),
+              videoID: metadata.nextVideoID?.toString() ?? "",
+            }}
+          >
             <SkipForward className="h-4 w-4" />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </div>
     </div>
   );

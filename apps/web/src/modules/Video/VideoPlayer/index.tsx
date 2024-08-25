@@ -28,7 +28,7 @@ export function VideoPlayer({ video }: Props) {
     <article className="w-[640px] h-[360px] flex flex-col gap-6">
       <ReactPlayer key={video.id} playing controls url={video.url} onEnded={onVideoEnded} />
 
-      <WatchControls metadata={metadata.data} />
+      <WatchControls video={video} metadata={metadata.data} />
     </article>
   );
 }

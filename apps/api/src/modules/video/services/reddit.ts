@@ -1,6 +1,8 @@
 import axios from "axios";
 
 type Post = {
+  title: string;
+  thumbnail: string;
   media: {
     reddit_video: {
       fallback_url: string;

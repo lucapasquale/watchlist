@@ -29,7 +29,7 @@ export function InputFormItem<FormValue extends FieldValues>({
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="grow">
+        <FormItem className="grow w-full">
           <FormLabel>{label}</FormLabel>
 
           <FormControl>
