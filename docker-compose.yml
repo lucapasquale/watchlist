@@ -1,22 +1,11 @@
 version: "3.8"
 
 services:
-  reverse-proxy:
-    image: nginx:latest
-    container_name: nginx_container
-    ports:
-      - 3987:3987
-    volumes:
-      - ./configs/nginx/:/etc/nginx/
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-
   api:
-    image: node-image
     container_name: video-list-api
-    pull_policy: build
-    depends_on:
-      - reverse-proxy
+    restart: always
+    networks:
+      - app_network
     build:
       context: .
       args:
@@ -25,3 +14,9 @@ services:
       - 3000:3000
     env_file:
       - stack.env
+
+# Define a network, which allows containers to communicate
+# with each other, by using their container name as a hostname
+networks:
+  app_network:
+    external: true
