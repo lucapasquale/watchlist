@@ -1,3 +1,4 @@
+/* eslint-disable turbo/no-undeclared-env-vars */
 import "dotenv/config";
 import fastify from "fastify";
 import cors from "@fastify/cors";
@@ -33,6 +34,7 @@ async function startServer() {
   });
 
   await server.register(cors);
-  await server.listen({ port: 3000 });
-  console.log("Server listening at http://localhost:3000");
+  await server.listen({ port: Number(process.env.PORT!) });
+
+  console.info(`Server listening at http://localhost:${process.env.PORT}`);
 }
