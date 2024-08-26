@@ -4,8 +4,6 @@ services:
   api:
     container_name: video-list-api
     restart: always
-    networks:
-      - app_network
     build:
       context: .
       args:
