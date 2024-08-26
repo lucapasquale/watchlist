@@ -7,7 +7,7 @@ services:
     ports:
       - 3987:3987
     volumes:
-      - ./configs/nginx:/etc/nginx
+      - ./configs/nginx/:/etc/nginx/
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
