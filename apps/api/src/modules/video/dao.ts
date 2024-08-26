@@ -1,10 +1,10 @@
 import { and, asc, desc, eq, gt, lt, not, sql } from "drizzle-orm";
 import crypto from "node:crypto";
 
-import { db } from "../../database";
+import { db } from "../../database/index.js";
 
-import { getRankBetween } from "./utils/rank";
-import { type Video, type VideoInsert, videos as videoSchema } from "./schema";
+import { getRankBetween } from "./utils/rank.js";
+import { type Video, type VideoInsert, videos as videoSchema } from "./schema.js";
 
 export async function getByID(id: number) {
   return db.query.videos.findFirst({
@@ -92,7 +92,7 @@ export async function create(value: Omit<VideoInsert, "rank">) {
     .returning({ id: videoSchema.id });
 
   const video = await db.query.videos.findFirst({
-    where: eq(videoSchema.id, inserted[0].id),
+    where: eq(videoSchema.id, inserted[0]!.id),
   });
   return video!;
 }
@@ -105,7 +105,7 @@ export async function update(id: number, value: Partial<Video>) {
     .returning({ id: videoSchema.id });
 
   const updatedVideo = await db.query.videos.findFirst({
-    where: eq(videoSchema.id, updated[0].id),
+    where: eq(videoSchema.id, updated[0]!.id),
   });
   return updatedVideo!;
 }

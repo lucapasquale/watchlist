@@ -1,6 +1,6 @@
 import { LexoRank } from "lexorank";
 
-import type { Video } from "../schema";
+import type { Video } from "../schema.js";
 
 export function getRankBetween([beforeVideo, afterVideo]: [Video | undefined, Video | undefined]) {
   if (beforeVideo && afterVideo) {

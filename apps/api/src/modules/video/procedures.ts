@@ -1,12 +1,12 @@
 import z from "zod";
 import { TRPCError } from "@trpc/server";
 
-import { publicProcedure } from "../../trpc";
-import * as playlistDAO from "../playlist/dao";
+import { publicProcedure } from "../../trpc.js";
+import * as playlistDAO from "../playlist/dao.js";
 
-import { getRankBetween } from "./utils/rank";
-import { parseUserURL } from "./utils/services";
-import * as videoDAO from "./dao";
+import { getRankBetween } from "./utils/rank.js";
+import { parseUserURL } from "./utils/services.js";
+import * as videoDAO from "./dao.js";
 
 export const getPlaylistVideos = publicProcedure
   .input(z.number().positive())

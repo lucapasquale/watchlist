@@ -1,8 +1,8 @@
 import { eq } from "drizzle-orm";
 
-import { db } from "../../database";
+import { db } from "../../database/index.js";
 
-import { type Playlist, playlists as playlistSchema } from "./schema";
+import { type Playlist, playlists as playlistSchema } from "./schema.js";
 
 export async function getByID(id: number) {
   return db.query.playlists.findFirst({

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { getUrlKind } from "./services";
+import { getUrlKind } from "./services.js";
 
 describe("getUrlKind", () => {
   const TEST_CASES = [
@@ -15,7 +15,7 @@ describe("getUrlKind", () => {
   ];
 
   it.for(TEST_CASES)("%# %c %s", ([rawURL, kind]) => {
-    const url = new URL(rawURL);
+    const url = new URL(rawURL!);
 
     expect(getUrlKind(url)).toEqual(kind);
   });

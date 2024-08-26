@@ -1,7 +1,7 @@
 import { integer, pgEnum, pgTable, serial, varchar } from "drizzle-orm/pg-core";
 
-import { timestamps } from "../../database/base-schema";
-import { playlists } from "../playlist/schema";
+import { timestamps } from "../../database/base-schema.js";
+import { playlists } from "../playlist/schema.js";
 
 export const videoKindEnum = pgEnum("video_kind", ["youtube", "twitch_clip", "reddit"]);
 

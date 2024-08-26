@@ -1,6 +1,6 @@
 import { pgTable, serial, varchar } from "drizzle-orm/pg-core";
 
-import { timestamps } from "../../database/base-schema";
+import { timestamps } from "../../database/base-schema.js";
 
 export const playlists = pgTable("playlists", {
   id: serial("id").primaryKey(),

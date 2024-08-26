@@ -1,2 +1,2 @@
-export * from "../modules/playlist/schema";
-export * from "../modules/video/schema";
+export * from "../modules/playlist/schema.js";
+export * from "../modules/video/schema.js";

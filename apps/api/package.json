@@ -3,13 +3,15 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "packageManager": "pnpm@8.15.4",
   "scripts": {
     "db:migration:generate": "npx drizzle-kit generate",
     "db:migration:run": "npx drizzle-kit migrate",
     "dev": "tsx watch src/index.ts",
     "test": "vitest",
     "test:watch": "vitest --watch",
-    "build": "tsc && vite build",
+    "build": "rm -rf ./dist && tsc",
+    "start": "node dist/src/index.js",
     "lint": "eslint \"src/**/*.ts\""
   },
   "dependencies": {

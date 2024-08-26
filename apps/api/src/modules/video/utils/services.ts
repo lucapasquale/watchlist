@@ -1,7 +1,7 @@
-import type { Video } from "../schema";
-import * as Reddit from "../services/reddit";
-import * as Twitch from "../services/twitch";
-import * as Youtube from "../services/youtube";
+import type { Video } from "../schema.js";
+import * as Reddit from "../services/reddit.js";
+import * as Twitch from "../services/twitch.js";
+import * as Youtube from "../services/youtube.js";
 
 export async function parseUserURL(
   rawUrl: string,
@@ -53,7 +53,7 @@ export async function parseUserURL(
       return {
         kind: "reddit",
         rawUrl,
-        url: post.media.reddit_video.hls_url.split("?")[0],
+        url: post.media.reddit_video.hls_url.split("?")[0]!,
         title: post.title,
         thumbnail_url: post.thumbnail,
       };
