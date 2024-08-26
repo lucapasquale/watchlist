@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { httpBatchLink } from "@trpc/client";
 
+import { ThemeProvider } from "~components/theme-provider";
 import { trpc } from "~utils/trpc";
 
 import { routeTree } from "./routeTree.gen";
@@ -37,7 +38,9 @@ export function App() {
     <StrictMode>
       <trpc.Provider client={trpcClient} queryClient={queryClient}>
         <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
+          <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+            <RouterProvider router={router} />
+          </ThemeProvider>
         </QueryClientProvider>
       </trpc.Provider>
     </StrictMode>

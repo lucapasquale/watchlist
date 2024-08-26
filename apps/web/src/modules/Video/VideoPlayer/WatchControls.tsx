@@ -1,8 +1,10 @@
-import { Shuffle, SkipBack, SkipForward } from "lucide-react";
+import { LinkIcon, Shuffle, SkipBack, SkipForward } from "lucide-react";
 import { Toggle } from "@repo/ui/components/ui/toggle";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@ui/components/ui/button";
+import { Skeleton } from "@ui/components/ui/skeleton";
 
+import { VideoKindBadge } from "~components/VideoKindBadge";
 import { Route } from "~routes/playlists/$playlistID/$videoID";
 import { RouterOutput } from "~utils/trpc";
 
@@ -11,26 +13,23 @@ type Props = {
   metadata: RouterOutput["getPlaylistMetadata"] | undefined;
 };
 
-export function WatchControls({ video, metadata }: Props) {
+export function VideoToolbar({ video, metadata }: Props) {
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
 
   const onShufflePress = (pressed: boolean) => {
-    if (!pressed) {
-      return navigate({ search: { shuffle: undefined } });
-    }
-
-    return navigate({ search: { shuffle: true } });
+    const shuffle = pressed ? true : undefined;
+    return navigate({ search: { shuffle } });
   };
 
   if (!metadata) {
-    return null;
+    return <Skeleton className="h-[62px]" />;
   }
 
   return (
     <div className="w-full flex justify-between gap-8">
       <div className="flex items-center gap-2">
-        <Button disabled={!metadata.previousVideoID}>
+        <Button variant="secondary" disabled={!metadata.previousVideoID}>
           <Link
             search
             to="/playlists/$playlistID/$videoID"
@@ -39,21 +38,30 @@ export function WatchControls({ video, metadata }: Props) {
               videoID: metadata.previousVideoID?.toString() ?? "",
             }}
           >
-            <SkipBack className="h-4 w-4" />
+            <SkipBack className="size-4" />
           </Link>
         </Button>
 
-        <h1 className="text-2xl">{video.title}</h1>
+        <div className="flex flex-col gap-2">
+          <h1 className="flex items-baseline gap-2 text-2xl">
+            {video.title}
+
+            <Link target="_blank" rel="noopener noreferrer" to={video.rawUrl}>
+              <LinkIcon className="size-4" />
+            </Link>
+          </h1>
+
+          <VideoKindBadge videoKind={video.kind} />
+        </div>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2">
         <Toggle
-          variant="outline"
-          pressed={search.shuffle}
+          pressed={!!search.shuffle}
           onPressedChange={onShufflePress}
           className="justify-self-center"
         >
-          <Shuffle className="h-4 w-4" />
+          <Shuffle className="size-4" />
         </Toggle>
 
         <Button disabled={!metadata.nextVideoID}>
@@ -64,8 +72,10 @@ export function WatchControls({ video, metadata }: Props) {
               playlistID: video.playlistID.toString(),
               videoID: metadata.nextVideoID?.toString() ?? "",
             }}
+            className="flex items-center gap-2"
           >
-            <SkipForward className="h-4 w-4" />
+            Next
+            <SkipForward className="size-4" />
           </Link>
         </Button>
       </div>

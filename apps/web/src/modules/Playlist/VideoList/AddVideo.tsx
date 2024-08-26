@@ -28,14 +28,20 @@ export function AddVideo({ playlistID, onAdd }: Props) {
     resolver: zodResolver(schema),
   });
 
+  const onCancel = () => {
+    setOpen(false);
+    form.reset({ rawURL: "" });
+  };
+
   const onSubmit = async (values: FormValues) => {
     const inserted = await createVideo.mutateAsync({
       playlistID,
       rawUrl: values.rawURL,
     });
 
-    setOpen(false);
+    form.reset({ rawURL: "" });
     onAdd(inserted);
+    setOpen(false);
   };
 
   return (
@@ -61,10 +67,12 @@ export function AddVideo({ playlistID, onAdd }: Props) {
             />
 
             <div className="flex gap-2">
-              <Button variant="outline" type="reset" onClick={() => setOpen(false)}>
+              <Button variant="outline" type="reset" onClick={onCancel}>
                 Cancel
               </Button>
-              <Button type="submit">Add</Button>
+              <Button type="submit" disabled={createVideo.isPending}>
+                Add
+              </Button>
             </div>
           </form>
         </Form>

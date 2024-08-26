@@ -20,7 +20,6 @@ export function Page() {
         <Link
           to="/playlists/$playlistID/$videoID"
           params={{ playlistID, videoID: playlistVideos.data[0].id.toString() }}
-          search={{ view_order: "forwards" }}
         >
           Play
         </Link>

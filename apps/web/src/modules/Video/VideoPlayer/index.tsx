@@ -1,20 +1,22 @@
 import ReactPlayer from "react-player/lazy";
+import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { Route } from "~routes/playlists/$playlistID/$videoID";
-import { RouterOutput, trpc } from "~utils/trpc";
+import { trpc } from "~utils/trpc";
 
-import { WatchControls } from "./WatchControls";
+import { VideoToolbar } from "./WatchControls";
 
 type Props = {
-  video: NonNullable<RouterOutput["getVideo"]>;
+  videoID: number;
 };
 
-export function VideoPlayer({ video }: Props) {
+export function VideoPlayer({ videoID }: Props) {
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
 
+  const video = trpc.getVideo.useQuery(videoID);
   const metadata = trpc.getPlaylistMetadata.useQuery({
-    videoID: video.id,
+    videoID,
     shuffle: search.shuffle ?? false,
   });
 
@@ -24,11 +26,29 @@ export function VideoPlayer({ video }: Props) {
     }
   };
 
-  return (
-    <article className="w-[640px] h-[360px] flex flex-col gap-6">
-      <ReactPlayer key={video.id} playing controls url={video.url} onEnded={onVideoEnded} />
+  if (!video.data) {
+    return (
+      <article className="flex flex-col gap-6">
+        <Skeleton className="aspect-video w-full" />
+        <Skeleton className="h-[62px]" />
+      </article>
+    );
+  }
 
-      <WatchControls video={video} metadata={metadata.data} />
+  return (
+    <article className="flex flex-col gap-6">
+      <ReactPlayer
+        key={video.data.id}
+        playing
+        controls
+        url={video.data.url}
+        onEnded={onVideoEnded}
+        width="100%"
+        height="100%"
+        style={{ aspectRatio: "16 / 9", maxHeight: "620px" }}
+      />
+
+      <VideoToolbar video={video.data} metadata={metadata.data} />
     </article>
   );
 }

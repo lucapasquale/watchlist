@@ -1,8 +1,10 @@
 import React from "react";
-import { GripVertical, Trash } from "lucide-react";
+import { GripVertical, LinkIcon, Trash } from "lucide-react";
 import { DraggableProvidedDragHandleProps } from "@hello-pangea/dnd";
+import { Link } from "@tanstack/react-router";
 import { Button } from "@ui/components/ui/button";
 
+import { VideoKindBadge } from "~components/VideoKindBadge";
 import { RouterOutput, trpc } from "~utils/trpc";
 
 type Props = React.ComponentProps<"li"> & {
@@ -22,21 +24,30 @@ export const VideoItem = React.forwardRef<HTMLLIElement, Props>(
 
     return (
       <li ref={ref} className="flex items-center justify-between gap-8" {...liProps}>
-        <div className="flex items-center gap-2">
-          <div {...dragHandleProps}>
-            <GripVertical className="h-4 w-4" />
+        <div className="flex items-center">
+          <div {...dragHandleProps} className="flex flex-row items-center self-stretch px-4">
+            <GripVertical className="size-4" />
           </div>
 
-          <img src={video.thumbnail_url} className="w-[160px] h-[90px]" />
+          <div className="flex items-center gap-2">
+            <img src={video.thumbnail_url} className="w-[160px] h-[90px] rounded-md" />
 
-          <div className="flex flex-col gap-2">
-            <h2 className="text-2xl">{video.title}</h2>
-            <h4>{video.kind}</h4>
+            <div className="flex flex-col gap-2">
+              <h1 className="flex items-baseline gap-2 text-2xl">
+                {video.title}
+
+                <Link target="_blank" rel="noopener noreferrer" to={video.rawUrl}>
+                  <LinkIcon className="size-4" />
+                </Link>
+              </h1>
+
+              <VideoKindBadge videoKind={video.kind} />
+            </div>
           </div>
         </div>
 
         <Button variant="destructive" onClick={onClickDelete}>
-          <Trash className="h-4 w-4" />
+          <Trash className="size-4" />
         </Button>
       </li>
     );

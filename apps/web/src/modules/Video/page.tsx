@@ -1,18 +1,16 @@
-import { Link } from "~components/Link";
 import { Route } from "~routes/playlists/$playlistID/$videoID";
-import { trpc } from "~utils/trpc";
 
+import { QueueSidebar } from "./QueueSidebar";
 import { VideoPlayer } from "./VideoPlayer";
 
 export function Page() {
   const { playlistID, videoID } = Route.useParams();
-  const video = trpc.getVideo.useQuery(Number(videoID));
 
   return (
-    <section className="flex flex-col items-center px-8">
-      <Link to={`/playlists/${playlistID}`}>Playlist</Link>
+    <section className="grid grid-cols-[2fr_1fr] gap-x-6">
+      <VideoPlayer videoID={Number(videoID)} />
 
-      {video.data && <VideoPlayer video={video.data} />}
+      <QueueSidebar playlistID={Number(playlistID)} />
     </section>
   );
 }

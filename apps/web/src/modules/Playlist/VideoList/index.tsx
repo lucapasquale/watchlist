@@ -29,6 +29,7 @@ export function VideoList({ playlistID, videos }: Props) {
       // some basic styles to make the items look a bit nicer
       userSelect: "none",
       padding: 8 * 2,
+      paddingLeft: 0,
       margin: `0 0 ${8}px 0`,
 
       // change background colour if dragging
@@ -44,8 +45,8 @@ export function VideoList({ playlistID, videos }: Props) {
       return;
     }
 
-    moveVideo.mutateAsync(moveInput);
     setVideoList(reorderList(videoList, result.source.index, result.destination.index));
+    await moveVideo.mutateAsync(moveInput);
   };
 
   const onDelete = (index: number) => {
@@ -64,7 +65,12 @@ export function VideoList({ playlistID, videos }: Props) {
               {...provided.droppableProps}
             >
               {videoList.map((video, index) => (
-                <Draggable key={video.id} index={index} draggableId={video.id.toString()}>
+                <Draggable
+                  key={video.id}
+                  index={index}
+                  draggableId={video.id.toString()}
+                  isDragDisabled={moveVideo.isPending}
+                >
                   {(provided, snapshot) => (
                     <VideoItem
                       video={video}
