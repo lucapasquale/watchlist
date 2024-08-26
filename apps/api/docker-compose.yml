@@ -5,6 +5,8 @@ services:
     image: node-image
     container_name: video-list-api
     pull_policy: build
+    ports:
+      - 3000:3000
     build:
       context: ../../
       args:
