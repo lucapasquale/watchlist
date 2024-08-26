@@ -1,7 +1,7 @@
+import * as Reddit from "../../services/reddit.js";
+import * as Twitch from "../../services/twitch.js";
+import * as Youtube from "../../services/youtube.js";
 import type { Video } from "../schema.js";
-import * as Reddit from "../services/reddit.js";
-import * as Twitch from "../services/twitch.js";
-import * as Youtube from "../services/youtube.js";
 
 export async function parseUserURL(
   rawUrl: string,
@@ -17,6 +17,9 @@ export async function parseUserURL(
       }
 
       const video = await Youtube.getVideo(videoID);
+      if (!video) {
+        return null;
+      }
 
       return {
         kind: "youtube",

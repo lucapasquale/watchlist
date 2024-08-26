@@ -1,7 +1,9 @@
+import { LexoRank } from "lexorank";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 
 import { publicProcedure } from "../../trpc.js";
+import * as Youtube from "../services/youtube.js";
 import * as videoDAO from "../video/dao.js";
 
 import * as playlistDAO from "./dao.js";
@@ -68,6 +70,58 @@ export const createPlaylist = publicProcedure
   .mutation(async ({ input }) => {
     // TODO: implement
     console.log(input);
+  });
+
+// https://www.youtube.com/playlist?list=PL2gDVp_0vZOQjqMex201dYpUiu1mcGX96
+
+export const createPlaylistFromYoutube = publicProcedure
+  .input(z.object({ url: z.string().url() }))
+  .mutation(async ({ input }) => {
+    const url = new URL(input.url);
+    const usp = new URLSearchParams(url.search);
+    const playlistID = usp.get("list");
+    if (!playlistID) {
+      throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid YouTube playlist URL" });
+    }
+
+    const youtubePlaylist = await Youtube.getPlaylist(playlistID);
+    if (!youtubePlaylist) {
+      throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid YouTube playlist URL" });
+    }
+
+    const playlist = await playlistDAO.create({ name: youtubePlaylist.snippet.title });
+
+    let firstCall = true;
+    let nextPageToken: string | undefined = undefined;
+    let curRank = LexoRank.middle();
+
+    while (firstCall || !!nextPageToken) {
+      firstCall = false;
+
+      const playlistItems = await Youtube.getPlaylistItems(playlistID, nextPageToken);
+      nextPageToken = playlistItems.nextPageToken;
+
+      for await (const playlistItem of playlistItems.items) {
+        // Video no longer available
+        if (!playlistItem.contentDetails.videoPublishedAt) {
+          continue;
+        }
+
+        await videoDAO.insert({
+          playlistID: playlist.id,
+          rank: curRank.toString(),
+          kind: "youtube",
+          url: "https://www.youtube.com/watch?v=" + playlistItem.contentDetails.videoId,
+          rawUrl: "https://www.youtube.com/watch?v=" + playlistItem.contentDetails.videoId,
+          title: playlistItem.snippet.title,
+          thumbnail_url: playlistItem.snippet.thumbnails.medium.url,
+        });
+
+        curRank = curRank.genPrev();
+      }
+    }
+
+    return playlist;
   });
 
 export const updatePlaylist = publicProcedure

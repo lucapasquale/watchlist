@@ -78,6 +78,10 @@ export async function getManyByPlaylistID(playlistID: number) {
   });
 }
 
+export async function insert(value: VideoInsert) {
+  return db.insert(videoSchema).values(value).returning({ id: videoSchema.id });
+}
+
 export async function create(value: Omit<VideoInsert, "rank">) {
   const lastVideo = await db.query.videos.findFirst({
     where: eq(videoSchema.playlistID, value.playlistID),
