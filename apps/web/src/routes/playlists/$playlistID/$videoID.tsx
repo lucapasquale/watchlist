@@ -4,7 +4,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Page } from "~modules/Video/page";
 
 const searchSchema = z.object({
-  shuffle: z.boolean().optional(),
+  shuffleSeed: z.string().min(1).optional(),
 });
 
 export const Route = createFileRoute("/playlists/$playlistID/$videoID")({

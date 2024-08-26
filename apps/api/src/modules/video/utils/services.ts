@@ -3,7 +3,9 @@ import * as Reddit from "../services/reddit";
 import * as Twitch from "../services/twitch";
 import * as Youtube from "../services/youtube";
 
-export async function parseUserURL(rawUrl: string): Promise<Partial<Video> | null> {
+export async function parseUserURL(
+  rawUrl: string,
+): Promise<Pick<Video, "kind" | "rawUrl" | "url" | "title" | "thumbnail_url"> | null> {
   const url = new URL(rawUrl);
 
   switch (getUrlKind(url)) {

@@ -2,27 +2,23 @@ import ReactPlayer from "react-player/lazy";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { Route } from "~routes/playlists/$playlistID/$videoID";
-import { trpc } from "~utils/trpc";
+import { RouterOutput, trpc } from "~utils/trpc";
 
 import { VideoToolbar } from "./WatchControls";
 
 type Props = {
   videoID: number;
+  queue: RouterOutput["getPlaylistQueue"] | undefined;
 };
 
-export function VideoPlayer({ videoID }: Props) {
-  const search = Route.useSearch();
+export function VideoPlayer({ videoID, queue }: Props) {
   const navigate = Route.useNavigate();
 
   const video = trpc.getVideo.useQuery(videoID);
-  const metadata = trpc.getPlaylistMetadata.useQuery({
-    videoID,
-    shuffle: search.shuffle ?? false,
-  });
 
   const onVideoEnded = () => {
-    if (metadata.data?.nextVideoID) {
-      navigate({ to: `../${metadata.data.nextVideoID.toString()}`, search: true });
+    if (queue?.[0]) {
+      navigate({ to: `../${queue[0].id.toString()}`, search: true });
     }
   };
 
@@ -48,7 +44,7 @@ export function VideoPlayer({ videoID }: Props) {
         style={{ aspectRatio: "16 / 9", maxHeight: "620px" }}
       />
 
-      <VideoToolbar video={video.data} metadata={metadata.data} />
+      <VideoToolbar video={video.data} queue={queue} />
     </article>
   );
 }

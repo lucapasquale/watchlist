@@ -45,6 +45,20 @@ export const getPlaylistMetadata = publicProcedure
     };
   });
 
+export const getPlaylistQueue = publicProcedure
+  .input(
+    z.object({
+      playlistID: z.number().positive(),
+      currentVideoID: z.number().positive(),
+      shuffleSeed: z.string().min(1).optional(),
+    }),
+  )
+  .query(async ({ input }) => {
+    const video = await videoDAO.getByID(input.currentVideoID);
+
+    return videoDAO.getQueue({ ...input, after: video }, 5);
+  });
+
 export const createPlaylist = publicProcedure
   .input(
     z.object({

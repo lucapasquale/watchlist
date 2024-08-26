@@ -12,6 +12,22 @@ export const getPlaylistVideos = publicProcedure
   .input(z.number().positive())
   .query(async ({ input }) => videoDAO.getManyByPlaylistID(input));
 
+export const getPlaylistInitialVideo = publicProcedure
+  .input(
+    z.object({
+      playlistID: z.number().positive(),
+      shuffleSeed: z.string().min(1).optional(),
+    }),
+  )
+  .query(async ({ input }) => {
+    const [regular, shuffle] = await Promise.all([
+      videoDAO.getPlaylistFirst(input.playlistID),
+      videoDAO.getPlaylistFirst(input.playlistID, input.shuffleSeed),
+    ]);
+
+    return { regular, shuffle };
+  });
+
 export const getVideo = publicProcedure
   .input(z.number().positive())
   .query(async ({ input }) => videoDAO.getByID(input));

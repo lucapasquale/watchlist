@@ -1,4 +1,5 @@
 import { and, asc, desc, eq, gt, lt, not, sql } from "drizzle-orm";
+import crypto from "node:crypto";
 
 import { db } from "../../database";
 
@@ -33,10 +34,41 @@ export async function getManyRandom(video: Video, limit = 1) {
   });
 }
 
-export async function getPlaylistFirst(playlistID: number) {
+type QueueFilter = {
+  playlistID: number;
+  after?: Video;
+  shuffleSeed?: string;
+};
+export async function getQueue(filter: QueueFilter, limit = 5) {
+  let query = db
+    .select()
+    .from(videoSchema)
+    .where(eq(videoSchema.playlistID, filter.playlistID))
+    .limit(limit)
+    .$dynamic();
+
+  if (filter.after) {
+    if (filter.shuffleSeed) {
+      const hashSQL = shuffleSeedSQL(filter.shuffleSeed);
+
+      const videoHash = crypto
+        .createHash("md5")
+        .update(filter.after.id.toString() + filter.shuffleSeed)
+        .digest("hex");
+
+      query = query.where(gt(hashSQL, videoHash)).orderBy(asc(hashSQL));
+    } else {
+      query = query.where(gt(videoSchema.rank, filter.after.rank)).orderBy(asc(videoSchema.rank));
+    }
+  }
+
+  return query.execute();
+}
+
+export async function getPlaylistFirst(playlistID: number, shuffleSeed?: string) {
   return db.query.videos.findFirst({
     where: eq(videoSchema.playlistID, playlistID),
-    orderBy: [videoSchema.rank],
+    orderBy: shuffleSeed ? asc(shuffleSeedSQL(shuffleSeed)) : asc(videoSchema.rank),
   });
 }
 export async function getManyByPlaylistID(playlistID: number) {
@@ -80,4 +112,8 @@ export async function update(id: number, value: Partial<Video>) {
 
 export async function remove(id: number) {
   return db.delete(videoSchema).where(eq(videoSchema.id, id));
+}
+
+function shuffleSeedSQL(shuffleSeed: string) {
+  return sql`md5(${videoSchema.id}::text || ${shuffleSeed}::text)`;
 }
