@@ -36,33 +36,27 @@ export async function getManyRandom(video: Video, limit = 1) {
 
 type QueueFilter = {
   playlistID: number;
-  after?: Video;
+  after: Video;
   shuffleSeed?: string;
 };
 export async function getQueue(filter: QueueFilter, limit = 5) {
-  let query = db
+  const hashSQL = shuffleSeedSQL(filter.shuffleSeed ?? "");
+  const videoHash = crypto
+    .createHash("md5")
+    .update(filter.after.id.toString() + filter.shuffleSeed)
+    .digest("hex");
+
+  return db
     .select()
     .from(videoSchema)
-    .where(eq(videoSchema.playlistID, filter.playlistID))
+    .where(
+      and(
+        eq(videoSchema.playlistID, filter.playlistID),
+        filter.shuffleSeed ? gt(hashSQL, videoHash) : gt(videoSchema.rank, filter.after.rank),
+      ),
+    )
     .limit(limit)
-    .$dynamic();
-
-  if (filter.after) {
-    if (filter.shuffleSeed) {
-      const hashSQL = shuffleSeedSQL(filter.shuffleSeed);
-
-      const videoHash = crypto
-        .createHash("md5")
-        .update(filter.after.id.toString() + filter.shuffleSeed)
-        .digest("hex");
-
-      query = query.where(gt(hashSQL, videoHash)).orderBy(asc(hashSQL));
-    } else {
-      query = query.where(gt(videoSchema.rank, filter.after.rank)).orderBy(asc(videoSchema.rank));
-    }
-  }
-
-  return query.execute();
+    .orderBy(filter.shuffleSeed ? asc(hashSQL) : asc(videoSchema.rank));
 }
 
 export async function getPlaylistFirst(playlistID: number, shuffleSeed?: string) {

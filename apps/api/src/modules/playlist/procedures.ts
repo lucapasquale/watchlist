@@ -58,7 +58,7 @@ export const getPlaylistQueue = publicProcedure
   .query(async ({ input }) => {
     const video = await videoDAO.getByID(input.currentVideoID);
 
-    return videoDAO.getQueue({ ...input, after: video }, 5);
+    return videoDAO.getQueue({ ...input, after: video! }, 5);
   });
 
 export const createPlaylist = publicProcedure
