@@ -36,7 +36,7 @@ async function startServer() {
   await server.register(cors);
 
   const port = Number(process.env.PORT!);
-  await server.listen({ port });
+  await server.listen({ port, host: "0.0.0.0" });
 
-  console.info(`Server listening at http://localhost:${port}`);
+  console.info(`Server listening at http://0.0.0.0:${port}`);
 }
