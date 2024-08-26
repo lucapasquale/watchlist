@@ -4,6 +4,7 @@ services:
   api:
     container_name: video-list-api
     restart: unless-stopped
+    pull_policy: build
     build:
       context: .
       args:
