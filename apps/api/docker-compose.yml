@@ -10,5 +10,5 @@ services:
       args:
         PROJECT: api
     env_file:
-      - .env
+      - stack.env
 
