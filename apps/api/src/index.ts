@@ -33,7 +33,9 @@ async function startServer() {
     } satisfies FastifyTRPCPluginOptions<AppRouter>["trpcOptions"],
   });
 
-  await server.register(cors);
+  await server.register(cors, {
+    origin: "*",
+  });
 
   const port = Number(process.env.PORT!);
   await server.listen({ port, host: "0.0.0.0" });
