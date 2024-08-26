@@ -34,7 +34,9 @@ async function startServer() {
   });
 
   await server.register(cors);
-  await server.listen({ port: Number(process.env.PORT!) });
 
-  console.info(`Server listening at http://localhost:${process.env.PORT}`);
+  const port = Number(process.env.PORT!);
+  await server.listen({ port });
+
+  console.info(`Server listening at http://localhost:${port}`);
 }

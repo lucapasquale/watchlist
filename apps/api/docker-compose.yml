@@ -5,12 +5,12 @@ services:
     image: node-image
     container_name: video-list-api
     pull_policy: build
-    ports:
-      - 3000:3987
     build:
       context: ../../
       args:
         PROJECT: api
+    ports:
+      - 3000:3000
     env_file:
       - ../../stack.env
 
