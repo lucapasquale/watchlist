@@ -55,3 +55,5 @@ ARG PORT=3000
 ENV PORT=${PORT}
 ENV NODE_ENV=production
 EXPOSE ${PORT}
+
+CMD node dist/src/index.js

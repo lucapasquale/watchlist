@@ -10,28 +10,7 @@ services:
       context: .
       args:
         PROJECT: api
-    command: node dist/src/index.js
-    ports:
-      - 3001:3001
-    env_file:
-      - stack.env
-
-  web:
-    container_name: video-list-web
-    restart: always
-    networks:
-      - app_network
-    build:
-      context: .
-      args:
-        PROJECT: web
-    command: npm run serve
     ports:
       - 3000:3000
     env_file:
       - stack.env
-
-# Define a network, which allows containers to communicate
-# with each other, by using their container name as a hostname
-networks:
-  app_network:
