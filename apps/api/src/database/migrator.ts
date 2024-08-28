@@ -1,4 +1,5 @@
 /* eslint-disable turbo/no-undeclared-env-vars */
+import "dotenv/config";
 import { FileMigrationProvider, Kysely, Migrator, PostgresDialect } from "kysely";
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
