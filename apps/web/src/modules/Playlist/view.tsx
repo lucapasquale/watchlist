@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "@tanstack/react-router";
 
-import { Route } from "~routes/playlists/$playlistID/index.lazy";
+import { Route } from "~routes/p/$playlistID/index.lazy";
 import { trpc } from "~utils/trpc";
 
 export function Page() {
@@ -28,7 +28,7 @@ export function Page() {
         <div className="flex gap-4">
           {firstItem.data.regular && (
             <Link
-              to="/playlists/$playlistID/$videoID"
+              to="/p/$playlistID/$videoID"
               params={{ playlistID, videoID: firstItem.data.regular.id.toString() }}
             >
               Play
@@ -37,7 +37,7 @@ export function Page() {
 
           {firstItem.data.shuffle && (
             <Link
-              to="/playlists/$playlistID/$videoID"
+              to="/p/$playlistID/$videoID"
               params={{ playlistID, videoID: firstItem.data.shuffle.id.toString() }}
               search={{ shuffleSeed: shuffleSeed.current }}
             >
@@ -47,7 +47,9 @@ export function Page() {
         </div>
       )}
 
-      <Link to={`/playlists/${playlistID}/edit`}>Edit videos</Link>
+      <Link to="/p/$playlistID/edit" params={{ playlistID }}>
+        Edit videos
+      </Link>
     </section>
   );
 }

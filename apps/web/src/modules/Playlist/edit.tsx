@@ -1,5 +1,6 @@
-import { Link } from "~components/Link";
-import { Route } from "~routes/playlists/$playlistID/edit.lazy";
+import { Link } from "@tanstack/react-router";
+
+import { Route } from "~routes/p/$playlistID/edit.lazy";
 import { trpc } from "~utils/trpc";
 
 import { VideoList } from "./VideoList";
@@ -14,7 +15,9 @@ export function Page() {
 
   return (
     <section className="flex flex-col items-center px-8 gap-40">
-      <Link to={`/playlists/${playlistID}`}>Back</Link>
+      <Link to="/p/$playlistID" params={{ playlistID }}>
+        Back
+      </Link>
 
       <VideoList playlistID={Number(playlistID)} videos={playlistVideos.data} />
     </section>

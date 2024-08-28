@@ -33,7 +33,7 @@ export function VideoToolbar({ video, queue }: Props) {
       <Button disabled={!queue?.[0]}>
         <Link
           search
-          to="/playlists/$playlistID/$videoID"
+          to="/p/$playlistID/$videoID"
           params={{
             playlistID: video.playlist_id.toString(),
             videoID: queue?.[0]?.id.toString() ?? "",

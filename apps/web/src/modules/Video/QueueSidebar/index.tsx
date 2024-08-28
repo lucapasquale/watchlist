@@ -3,7 +3,7 @@ import { Separator } from "@ui/components/ui/separator";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { VideoKindBadge } from "~components/VideoKindBadge";
-import { Route } from "~routes/playlists/$playlistID/$videoID";
+import { Route } from "~routes/p/$playlistID/$videoID";
 import { RouterOutput, trpc } from "~utils/trpc";
 
 type Props = {
@@ -23,7 +23,11 @@ export function QueueSidebar({ playlistID, queue }: Props) {
   return (
     <aside className="flex flex-col gap-6 m-2 rounded-md bg-gray-700 p-4">
       <div>
-        <Link to={`/playlists/${playlistID}`} className="text-xl">
+        <Link
+          to="/p/$playlistID"
+          params={{ playlistID: playlistID.toString() }}
+          className="text-xl"
+        >
           {playlist.data.name}
         </Link>
 
@@ -37,7 +41,7 @@ export function QueueSidebar({ playlistID, queue }: Props) {
           <li key={video.id}>
             <Link
               search
-              to="/playlists/$playlistID/$videoID"
+              to="/p/$playlistID/$videoID"
               params={{ playlistID: playlistID.toString(), videoID: video.id.toString() }}
               className="flex items-center gap-2"
             >

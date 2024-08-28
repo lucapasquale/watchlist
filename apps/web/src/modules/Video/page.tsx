@@ -1,4 +1,4 @@
-import { Route } from "~routes/playlists/$playlistID/$videoID";
+import { Route } from "~routes/p/$playlistID/$videoID";
 import { trpc } from "~utils/trpc";
 
 import { QueueSidebar } from "./QueueSidebar";
