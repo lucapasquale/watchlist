@@ -1,3 +1,4 @@
+/* eslint-disable turbo/no-undeclared-env-vars */
 import { FileMigrationProvider, Kysely, Migrator, PostgresDialect } from "kysely";
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
@@ -11,13 +12,12 @@ const __dirname = path.dirname(__filename);
 
 async function migrateToLatest() {
   const db = new Kysely<Database>({
-    // TODO: use env vars
     dialect: new PostgresDialect({
       pool: new pg.Pool({
-        host: "localhost",
-        database: "video_list_dev",
-        user: "postgres",
-        password: "postgres",
+        host: process.env.PG_HOST!,
+        database: process.env.PG_DATABASE!,
+        user: process.env.PG_USER!,
+        password: process.env.PG_PASSWORD!,
       }),
     }),
   });

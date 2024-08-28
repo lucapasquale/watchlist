@@ -1,12 +1,11 @@
-import { PlaylistItem } from "../../playlist/models.js";
+import { PlaylistItem, PlaylistItemInsert } from "../../playlist/models.js";
 import * as Reddit from "../../services/reddit.js";
 import * as Twitch from "../../services/twitch.js";
 import * as Youtube from "../../services/youtube.js";
-import type { Video } from "../schema.js";
 
 export async function parseUserURL(
   rawUrl: string,
-): Promise<Pick<PlaylistItem, "kind" | "raw_url" | "url" | "title" | "thumbnail_url"> | null> {
+): Promise<Omit<PlaylistItemInsert, "rank" | "playlist_id"> | null> {
   const url = new URL(rawUrl);
 
   switch (getUrlKind(url)) {
@@ -69,7 +68,7 @@ export async function parseUserURL(
   }
 }
 
-export function getUrlKind(url: URL): Video["kind"] | null {
+export function getUrlKind(url: URL): PlaylistItem["kind"] | null {
   if (url.href.match(/.*reddit\.com.*/gi)) {
     return "reddit";
   }

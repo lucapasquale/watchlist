@@ -1,10 +1,24 @@
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
+/* eslint-disable turbo/no-undeclared-env-vars */
+import { Kysely, PostgresDialect } from "kysely";
+import pg from "pg";
 
-import * as playlistSchema from "../modules/playlist/schema.js";
-import * as videoSchema from "../modules/video/schema.js";
+import { PlaylistItemTable, PlaylistTable } from "../modules/playlist/models.js";
 
-// eslint-disable-next-line turbo/no-undeclared-env-vars
-export const connection = postgres(process.env.DATABASE_URL!);
+export interface Database {
+  playlist: PlaylistTable;
+  playlist_item: PlaylistItemTable;
+}
 
-export const db = drizzle(connection, { schema: { ...playlistSchema, ...videoSchema } });
+const dialect = new PostgresDialect({
+  pool: new pg.Pool({
+    host: process.env.PG_HOST!,
+    database: process.env.PG_DATABASE!,
+    user: process.env.PG_USER!,
+    password: process.env.PG_PASSWORD!,
+    max: 10,
+  }),
+});
+
+export const db = new Kysely<Database>({
+  dialect,
+});

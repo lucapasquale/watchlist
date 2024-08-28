@@ -1,6 +1,6 @@
 {
   "extends": "@repo/typescript-config/base.json",
-  "include": ["src", "drizzle.config.ts"],
+  "include": ["src"],
   "compilerOptions": {
     /* Base Options: */
     "rootDir": ".",

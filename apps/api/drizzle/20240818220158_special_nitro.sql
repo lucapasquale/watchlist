@@ -1,1 +1,0 @@
-ALTER TYPE "video_kind" ADD VALUE 'twitch_clip';

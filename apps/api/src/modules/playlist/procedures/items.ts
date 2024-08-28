@@ -2,11 +2,10 @@ import { sql } from "kysely";
 import z from "zod";
 import { TRPCError } from "@trpc/server";
 
-import { db } from "../../kysely/index.js";
-import { publicProcedure } from "../../trpc.js";
-
-import { getRankBetween } from "./utils/rank.js";
-import { parseUserURL } from "./utils/services.js";
+import { db } from "../../../database/index.js";
+import { publicProcedure } from "../../../trpc.js";
+import { getRankBetween } from "../utils/rank.js";
+import { parseUserURL } from "../utils/services.js";
 
 export const getPlaylistItem = publicProcedure
   .input(z.number().positive())
