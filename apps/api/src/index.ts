@@ -4,6 +4,8 @@ import fastify from "fastify";
 import cors from "@fastify/cors";
 import { fastifyTRPCPlugin, FastifyTRPCPluginOptions } from "@trpc/server/adapters/fastify";
 
+import { db } from "./database/index.js";
+import { migrateToLatest } from "./database/migrator.js";
 import { createContext } from "./context.js";
 import { type AppRouter, appRouter } from "./router.js";
 
@@ -13,6 +15,8 @@ main();
 
 async function main() {
   try {
+    await migrateToLatest(db);
+
     await startServer();
   } catch (err) {
     server.log.error(err);
