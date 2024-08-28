@@ -56,6 +56,4 @@ ENV PORT=${PORT}
 ENV NODE_ENV=production
 EXPOSE ${PORT}
 
-RUN npm run migration:run
-
 CMD npm run start
