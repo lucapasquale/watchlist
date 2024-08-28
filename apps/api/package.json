@@ -5,27 +5,22 @@
   "type": "module",
   "packageManager": "pnpm@8.15.4",
   "scripts": {
-    "db:migration:generate": "npx drizzle-kit generate",
-    "db:migration:run": "npx drizzle-kit migrate",
     "dev": "tsx watch src/index.ts",
     "test": "vitest",
     "test:watch": "vitest --watch",
     "build": "rm -rf ./dist && tsc",
     "start": "node dist/src/index.js",
-    "lint": "eslint \"src/**/*.ts\"",
-    "migration:run": "node dist/src/database/migrator.js"
+    "lint": "eslint \"src/**/*.ts\""
   },
   "dependencies": {
     "@fastify/cors": "^9.0.1",
     "@trpc/server": "11.0.0-rc.477",
     "axios": "^1.7.4",
     "dotenv": "^16.4.5",
-    "drizzle-orm": "^0.33.0",
     "fastify": "^4.28.1",
     "kysely": "^0.27.4",
     "lexorank": "^1.0.5",
     "pg": "^8.12.0",
-    "postgres": "^3.4.4",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -33,7 +28,6 @@
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^22.4.0",
     "@types/pg": "^8.11.8",
-    "drizzle-kit": "^0.24.0",
     "eslint": "^8.57.0",
     "tsx": "^4.17.0",
     "typescript": "^5.5.4",
