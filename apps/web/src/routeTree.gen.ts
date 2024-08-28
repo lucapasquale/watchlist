@@ -14,16 +14,12 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
-import { Route as PlaylistsPlaylistIDVideoIDImport } from './routes/playlists/$playlistID/$videoID'
+import { Route as PPlaylistIDVideoIDImport } from './routes/p/$playlistID/$videoID'
 
 // Create Virtual Routes
 
-const PlaylistsPlaylistIDIndexLazyImport = createFileRoute(
-  '/playlists/$playlistID/',
-)()
-const PlaylistsPlaylistIDEditLazyImport = createFileRoute(
-  '/playlists/$playlistID/edit',
-)()
+const PPlaylistIDIndexLazyImport = createFileRoute('/p/$playlistID/')()
+const PPlaylistIDEditLazyImport = createFileRoute('/p/$playlistID/edit')()
 
 // Create/Update Routes
 
@@ -32,28 +28,24 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const PlaylistsPlaylistIDIndexLazyRoute =
-  PlaylistsPlaylistIDIndexLazyImport.update({
-    path: '/playlists/$playlistID/',
-    getParentRoute: () => rootRoute,
-  } as any).lazy(() =>
-    import('./routes/playlists/$playlistID/index.lazy').then((d) => d.Route),
-  )
-
-const PlaylistsPlaylistIDEditLazyRoute =
-  PlaylistsPlaylistIDEditLazyImport.update({
-    path: '/playlists/$playlistID/edit',
-    getParentRoute: () => rootRoute,
-  } as any).lazy(() =>
-    import('./routes/playlists/$playlistID/edit.lazy').then((d) => d.Route),
-  )
-
-const PlaylistsPlaylistIDVideoIDRoute = PlaylistsPlaylistIDVideoIDImport.update(
-  {
-    path: '/playlists/$playlistID/$videoID',
-    getParentRoute: () => rootRoute,
-  } as any,
+const PPlaylistIDIndexLazyRoute = PPlaylistIDIndexLazyImport.update({
+  path: '/p/$playlistID/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/p/$playlistID/index.lazy').then((d) => d.Route),
 )
+
+const PPlaylistIDEditLazyRoute = PPlaylistIDEditLazyImport.update({
+  path: '/p/$playlistID/edit',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/p/$playlistID/edit.lazy').then((d) => d.Route),
+)
+
+const PPlaylistIDVideoIDRoute = PPlaylistIDVideoIDImport.update({
+  path: '/p/$playlistID/$videoID',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -66,25 +58,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/playlists/$playlistID/$videoID': {
-      id: '/playlists/$playlistID/$videoID'
-      path: '/playlists/$playlistID/$videoID'
-      fullPath: '/playlists/$playlistID/$videoID'
-      preLoaderRoute: typeof PlaylistsPlaylistIDVideoIDImport
+    '/p/$playlistID/$videoID': {
+      id: '/p/$playlistID/$videoID'
+      path: '/p/$playlistID/$videoID'
+      fullPath: '/p/$playlistID/$videoID'
+      preLoaderRoute: typeof PPlaylistIDVideoIDImport
       parentRoute: typeof rootRoute
     }
-    '/playlists/$playlistID/edit': {
-      id: '/playlists/$playlistID/edit'
-      path: '/playlists/$playlistID/edit'
-      fullPath: '/playlists/$playlistID/edit'
-      preLoaderRoute: typeof PlaylistsPlaylistIDEditLazyImport
+    '/p/$playlistID/edit': {
+      id: '/p/$playlistID/edit'
+      path: '/p/$playlistID/edit'
+      fullPath: '/p/$playlistID/edit'
+      preLoaderRoute: typeof PPlaylistIDEditLazyImport
       parentRoute: typeof rootRoute
     }
-    '/playlists/$playlistID/': {
-      id: '/playlists/$playlistID/'
-      path: '/playlists/$playlistID'
-      fullPath: '/playlists/$playlistID'
-      preLoaderRoute: typeof PlaylistsPlaylistIDIndexLazyImport
+    '/p/$playlistID/': {
+      id: '/p/$playlistID/'
+      path: '/p/$playlistID'
+      fullPath: '/p/$playlistID'
+      preLoaderRoute: typeof PPlaylistIDIndexLazyImport
       parentRoute: typeof rootRoute
     }
   }
@@ -94,9 +86,9 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
-  PlaylistsPlaylistIDVideoIDRoute,
-  PlaylistsPlaylistIDEditLazyRoute,
-  PlaylistsPlaylistIDIndexLazyRoute,
+  PPlaylistIDVideoIDRoute,
+  PPlaylistIDEditLazyRoute,
+  PPlaylistIDIndexLazyRoute,
 })
 
 /* prettier-ignore-end */
@@ -108,22 +100,22 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/playlists/$playlistID/$videoID",
-        "/playlists/$playlistID/edit",
-        "/playlists/$playlistID/"
+        "/p/$playlistID/$videoID",
+        "/p/$playlistID/edit",
+        "/p/$playlistID/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/playlists/$playlistID/$videoID": {
-      "filePath": "playlists/$playlistID/$videoID.tsx"
+    "/p/$playlistID/$videoID": {
+      "filePath": "p/$playlistID/$videoID.tsx"
     },
-    "/playlists/$playlistID/edit": {
-      "filePath": "playlists/$playlistID/edit.lazy.tsx"
+    "/p/$playlistID/edit": {
+      "filePath": "p/$playlistID/edit.lazy.tsx"
     },
-    "/playlists/$playlistID/": {
-      "filePath": "playlists/$playlistID/index.lazy.tsx"
+    "/p/$playlistID/": {
+      "filePath": "p/$playlistID/index.lazy.tsx"
     }
   }
 }

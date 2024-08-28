@@ -1,7 +1,7 @@
 import ReactPlayer from "react-player/lazy";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
-import { Route } from "~routes/playlists/$playlistID/$videoID";
+import { Route } from "~routes/p/$playlistID/$videoID";
 import { RouterOutput, trpc } from "~utils/trpc";
 
 import { VideoToolbar } from "./WatchControls";
@@ -14,7 +14,7 @@ type Props = {
 export function VideoPlayer({ videoID, queue }: Props) {
   const navigate = Route.useNavigate();
 
-  const video = trpc.getVideo.useQuery(videoID);
+  const video = trpc.getPlaylistItem.useQuery(videoID);
 
   const onVideoEnded = () => {
     if (queue?.[0]) {

@@ -3,7 +3,7 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 export const Route = createFileRoute("/")({
   loader: () => {
     throw redirect({
-      to: "/playlists/$playlistID",
+      to: "/p/$playlistID",
       params: { playlistID: "1" },
     });
   },

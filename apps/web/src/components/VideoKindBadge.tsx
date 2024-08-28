@@ -3,7 +3,7 @@ import { cn } from "@ui/lib/utils";
 
 import type { RouterOutput } from "~utils/trpc";
 
-type VideoKind = NonNullable<RouterOutput["getPlaylistVideos"]>[number]["kind"];
+type VideoKind = NonNullable<RouterOutput["getPlaylistItems"]>[number]["kind"];
 
 const VIDEO_KINDS: Record<VideoKind, { label: string; className: string }> = {
   youtube: {

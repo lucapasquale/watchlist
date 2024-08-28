@@ -7,7 +7,7 @@ import { VideoKindBadge } from "~components/VideoKindBadge";
 import { RouterOutput } from "~utils/trpc";
 
 type Props = {
-  video: NonNullable<RouterOutput["getVideo"]>;
+  video: NonNullable<RouterOutput["getPlaylistItem"]>;
   queue: RouterOutput["getPlaylistQueue"] | undefined;
 };
 
@@ -22,7 +22,7 @@ export function VideoToolbar({ video, queue }: Props) {
         <h1 className="flex items-baseline gap-2 text-2xl">
           {video.title}
 
-          <Link target="_blank" rel="noopener noreferrer" to={video.rawUrl}>
+          <Link target="_blank" rel="noopener noreferrer" to={video.raw_url}>
             <LinkIcon className="size-4" />
           </Link>
         </h1>
@@ -33,9 +33,9 @@ export function VideoToolbar({ video, queue }: Props) {
       <Button disabled={!queue?.[0]}>
         <Link
           search
-          to="/playlists/$playlistID/$videoID"
+          to="/p/$playlistID/$videoID"
           params={{
-            playlistID: video.playlistID.toString(),
+            playlistID: video.playlist_id.toString(),
             videoID: queue?.[0]?.id.toString() ?? "",
           }}
           className="flex items-center gap-2"

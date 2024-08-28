@@ -1,11 +1,11 @@
+import { PlaylistItem, PlaylistItemInsert } from "../../playlist/models.js";
 import * as Reddit from "../../services/reddit.js";
 import * as Twitch from "../../services/twitch.js";
 import * as Youtube from "../../services/youtube.js";
-import type { Video } from "../schema.js";
 
 export async function parseUserURL(
   rawUrl: string,
-): Promise<Pick<Video, "kind" | "rawUrl" | "url" | "title" | "thumbnail_url"> | null> {
+): Promise<Omit<PlaylistItemInsert, "rank" | "playlist_id"> | null> {
   const url = new URL(rawUrl);
 
   switch (getUrlKind(url)) {
@@ -23,7 +23,7 @@ export async function parseUserURL(
 
       return {
         kind: "youtube",
-        rawUrl,
+        raw_url: rawUrl,
         url: `https://www.youtube.com/embed/${videoID}`,
         title: video.snippet.title,
         thumbnail_url: video.snippet.thumbnails.medium.url,
@@ -40,7 +40,7 @@ export async function parseUserURL(
 
       return {
         kind: "twitch_clip",
-        rawUrl,
+        raw_url: rawUrl,
         url: clip.thumbnail_url.replace(/-preview-.+x.+\..*/gi, ".mp4"),
         title: clip.title,
         thumbnail_url: clip.thumbnail_url,
@@ -55,7 +55,7 @@ export async function parseUserURL(
 
       return {
         kind: "reddit",
-        rawUrl,
+        raw_url: rawUrl,
         url: post.media.reddit_video.hls_url.split("?")[0]!,
         title: post.title,
         thumbnail_url: post.thumbnail,
@@ -68,7 +68,7 @@ export async function parseUserURL(
   }
 }
 
-export function getUrlKind(url: URL): Video["kind"] | null {
+export function getUrlKind(url: URL): PlaylistItem["kind"] | null {
   if (url.href.match(/.*reddit\.com.*/gi)) {
     return "reddit";
   }

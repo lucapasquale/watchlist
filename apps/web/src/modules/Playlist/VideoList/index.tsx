@@ -15,11 +15,11 @@ import { VideoItem } from "./VideoItem";
 
 type Props = {
   playlistID: number;
-  videos: NonNullable<RouterOutput["getPlaylistVideos"]>;
+  videos: NonNullable<RouterOutput["getPlaylistItems"]>;
 };
 
 export function VideoList({ playlistID, videos }: Props) {
-  const moveVideo = trpc.moveVideo.useMutation();
+  const moveVideo = trpc.movePlaylistItem.useMutation();
 
   const [videoList, setVideoList] = React.useState(videos);
 

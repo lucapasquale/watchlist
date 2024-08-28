@@ -1,4 +1,4 @@
-import { Route } from "~routes/playlists/$playlistID/$videoID";
+import { Route } from "~routes/p/$playlistID/$videoID";
 import { trpc } from "~utils/trpc";
 
 import { QueueSidebar } from "./QueueSidebar";
@@ -9,8 +9,7 @@ export function Page() {
   const { playlistID, videoID } = Route.useParams();
 
   const queue = trpc.getPlaylistQueue.useQuery({
-    playlistID: Number(playlistID),
-    currentVideoID: Number(videoID),
+    currentItemID: Number(videoID),
     shuffleSeed: search.shuffleSeed,
   });
 
