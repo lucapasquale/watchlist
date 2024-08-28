@@ -41,12 +41,12 @@ export const getPlaylistQueue = publicProcedure
       query = query
         .where(
           sql`md5(id::text || ${input.shuffleSeed})`,
-          ">=",
+          ">",
           sql`md5(${playlistItem.id}::text || ${input.shuffleSeed})`,
         )
         .orderBy(sql`md5(id::text || ${input.shuffleSeed}) asc`);
     } else {
-      query = query.where("rank", ">=", playlistItem.rank).orderBy("rank asc");
+      query = query.where("rank", ">", playlistItem.rank).orderBy("rank asc");
     }
 
     return query.execute();
