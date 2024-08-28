@@ -8,14 +8,14 @@ import { VideoKindBadge } from "~components/VideoKindBadge";
 import { RouterOutput, trpc } from "~utils/trpc";
 
 type Props = React.ComponentProps<"li"> & {
-  video: NonNullable<RouterOutput["getPlaylistVideos"]>[number];
+  video: NonNullable<RouterOutput["getPlaylistItems"]>[number];
   onDelete: () => void;
   dragHandleProps: DraggableProvidedDragHandleProps | null;
 };
 
 export const VideoItem = React.forwardRef<HTMLLIElement, Props>(
   ({ video, onDelete, dragHandleProps, ...liProps }, ref) => {
-    const deleteVideo = trpc.deleteVideo.useMutation();
+    const deleteVideo = trpc.deletePlaylistItem.useMutation();
 
     const onClickDelete = async () => {
       await deleteVideo.mutateAsync(video.id);
@@ -36,7 +36,7 @@ export const VideoItem = React.forwardRef<HTMLLIElement, Props>(
               <h1 className="flex items-baseline gap-2 text-2xl">
                 {video.title}
 
-                <Link target="_blank" rel="noopener noreferrer" to={video.rawUrl}>
+                <Link target="_blank" rel="noopener noreferrer" to={video.raw_url}>
                   <LinkIcon className="size-4" />
                 </Link>
               </h1>

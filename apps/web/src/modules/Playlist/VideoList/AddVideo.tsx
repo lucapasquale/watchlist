@@ -16,11 +16,11 @@ export type FormValues = z.infer<typeof schema>;
 
 type Props = {
   playlistID: number;
-  onAdd: (video: NonNullable<RouterOutput["getPlaylistVideos"]>[number]) => void;
+  onAdd: (video: NonNullable<RouterOutput["getPlaylistItems"]>[number]) => void;
 };
 
 export function AddVideo({ playlistID, onAdd }: Props) {
-  const createVideo = trpc.createVideo.useMutation();
+  const createVideo = trpc.createPlaylistItem.useMutation();
 
   const [open, setOpen] = React.useState(false);
 

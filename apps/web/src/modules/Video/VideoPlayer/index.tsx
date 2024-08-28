@@ -14,7 +14,7 @@ type Props = {
 export function VideoPlayer({ videoID, queue }: Props) {
   const navigate = Route.useNavigate();
 
-  const video = trpc.getVideo.useQuery(videoID);
+  const video = trpc.getPlaylistItem.useQuery(videoID);
 
   const onVideoEnded = () => {
     if (queue?.[0]) {

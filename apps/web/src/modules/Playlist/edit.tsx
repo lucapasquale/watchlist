@@ -7,7 +7,7 @@ import { VideoList } from "./VideoList";
 export function Page() {
   const { playlistID } = Route.useParams();
 
-  const playlistVideos = trpc.getPlaylistVideos.useQuery(Number(playlistID));
+  const playlistVideos = trpc.getPlaylistItems.useQuery(Number(playlistID));
   if (!playlistVideos.data) {
     return <div>Loading...</div>;
   }

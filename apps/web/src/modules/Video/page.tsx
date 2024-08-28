@@ -9,8 +9,7 @@ export function Page() {
   const { playlistID, videoID } = Route.useParams();
 
   const queue = trpc.getPlaylistQueue.useQuery({
-    playlistID: Number(playlistID),
-    currentVideoID: Number(videoID),
+    currentItemID: Number(videoID),
     shuffleSeed: search.shuffleSeed,
   });
 

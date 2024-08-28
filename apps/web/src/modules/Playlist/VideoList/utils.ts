@@ -3,7 +3,7 @@ import { DropResult } from "@hello-pangea/dnd";
 import { RouterOutput } from "~utils/trpc";
 
 export function getMoveInput(
-  videos: NonNullable<RouterOutput["getPlaylistVideos"]>,
+  videos: NonNullable<RouterOutput["getPlaylistItems"]>,
   result: DropResult,
 ) {
   if (!result.destination || result.source.index === result.destination.index) {
@@ -12,13 +12,13 @@ export function getMoveInput(
 
   const video = videos[result.source.index];
   if (result.destination.index === 0) {
-    return { id: video.id, videoBeforeID: null };
+    return { id: video.id, itemBeforeID: null };
   }
 
   const moveOffset = result.source.index > result.destination.index ? -1 : 0;
   const videoBefore = videos[result.destination.index + moveOffset];
 
-  return { id: video.id, videoBeforeID: videoBefore.id };
+  return { id: video.id, itemBeforeID: videoBefore.id };
 }
 
 export function reorderList<T>(list: T[], startIndex: number, endIndex: number) {
