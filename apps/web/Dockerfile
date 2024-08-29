@@ -35,4 +35,6 @@ WORKDIR /
 
 COPY --from=builder /app/apps/web/dist /usr/share/nginx/html
 
+EXPOSE 80
+
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
