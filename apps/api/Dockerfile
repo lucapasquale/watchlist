@@ -54,6 +54,7 @@ ENV PORT=${PORT}
 ENV NODE_ENV=production
 EXPOSE ${PORT}
 
-HEALTHCHECK CMD curl --fail http://localhost:${PORT}/health || exit 1
+HEALTHCHECK --interval=5m --timeout=3s \
+  CMD wget --no-verbose --tries=1 --spider http://localhost${PORT}/health || exit 1
 
 CMD npm run start
