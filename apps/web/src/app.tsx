@@ -1,4 +1,3 @@
-/* eslint-disable turbo/no-undeclared-env-vars */
 import { StrictMode } from "react";
 import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -30,11 +29,7 @@ export function App() {
   );
   const [trpcClient] = React.useState(() =>
     trpc.createClient({
-      links: [
-        httpBatchLink({
-          url: import.meta.env.VITE_API_URL + "/trpc",
-        }),
-      ],
+      links: [httpBatchLink({ url: import.meta.env.VITE_API_URL + "/trpc" })],
     }),
   );
 

@@ -11,6 +11,8 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   plugins: ["react-refresh", "simple-import-sort"],
   rules: {
+    "turbo/no-undeclared-env-vars": "off",
+
     "simple-import-sort/imports": [
       "error",
       {

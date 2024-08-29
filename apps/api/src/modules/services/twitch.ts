@@ -1,4 +1,3 @@
-/* eslint-disable turbo/no-undeclared-env-vars */
 import axios from "axios";
 
 const client = axios.create({

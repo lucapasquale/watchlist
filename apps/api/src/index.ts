@@ -1,4 +1,3 @@
-/* eslint-disable turbo/no-undeclared-env-vars */
 import "dotenv/config";
 import fastify from "fastify";
 import cors from "@fastify/cors";

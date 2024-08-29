@@ -1,4 +1,3 @@
-/* eslint-disable turbo/no-undeclared-env-vars */
 import { Kysely, PostgresDialect } from "kysely";
 import pg from "pg";
 
