@@ -13,6 +13,8 @@ RUN pnpm config set store-dir ~/.pnpm-store
 # Build the project
 FROM base AS builder
 
+ARG VITE_API_URL
+
 WORKDIR /app
 COPY ../../ .
 
