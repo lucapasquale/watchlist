@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  DragDropContext,
-  Draggable,
-  DraggableStyle,
-  Droppable,
-  DropResult,
-} from "@hello-pangea/dnd";
+import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea/dnd";
 
 import { type RouterOutput, trpc } from "~utils/trpc";
 
@@ -22,22 +16,6 @@ export function VideoList({ playlistID, videos }: Props) {
   const moveVideo = trpc.movePlaylistItem.useMutation();
 
   const [videoList, setVideoList] = React.useState(videos);
-
-  // TODO: use tailwind
-  const getItemStyle = (isDragging: boolean, draggableStyle: DraggableStyle | undefined) =>
-    ({
-      // some basic styles to make the items look a bit nicer
-      userSelect: "none",
-      padding: 8 * 2,
-      paddingLeft: 0,
-      margin: `0 0 ${8}px 0`,
-
-      // change background colour if dragging
-      background: isDragging ? "lightgreen" : "grey",
-
-      // styles we need to apply on draggables
-      ...draggableStyle,
-    }) as React.CSSProperties;
 
   const onDragEnd = async (result: DropResult) => {
     const moveInput = getMoveInput(videos, result);
@@ -60,9 +38,9 @@ export function VideoList({ playlistID, videos }: Props) {
         <Droppable droppableId="droppable">
           {(provided) => (
             <ol
+              {...provided.droppableProps}
               className="w-full flex flex-col"
               ref={provided.innerRef}
-              {...provided.droppableProps}
             >
               {videoList.map((video, index) => (
                 <Draggable
@@ -71,14 +49,15 @@ export function VideoList({ playlistID, videos }: Props) {
                   draggableId={video.id.toString()}
                   isDragDisabled={moveVideo.isPending}
                 >
-                  {(provided, snapshot) => (
+                  {(provided) => (
                     <VideoItem
                       video={video}
                       onDelete={() => onDelete(index)}
                       {...provided.draggableProps}
                       ref={provided.innerRef}
-                      style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
+                      style={provided.draggableProps.style}
                       dragHandleProps={provided.dragHandleProps}
+                      className="mb-4"
                     />
                   )}
                 </Draggable>
