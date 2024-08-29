@@ -45,9 +45,7 @@ function parseEnvVars() {
   });
 
   if (error || !data) {
-    throw new Error("Invalid ENV var config", {
-      cause: error.errors,
-    });
+    throw new Error("Invalid ENV var config " + error.toString());
   }
 
   return data;
