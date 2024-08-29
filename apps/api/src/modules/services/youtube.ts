@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { config } from "../../config.js";
+
 type ApiResponse<T> = {
   kind: string;
   etag: string;
@@ -18,9 +20,7 @@ type Thumbnail = {
 
 const client = axios.create({
   baseURL: "https://www.googleapis.com/youtube/v3",
-  params: {
-    key: process.env.YOUTUBE_API_KEY,
-  },
+  params: { key: config.youtube.apiKey },
 });
 
 type Video = {

@@ -1,25 +1,24 @@
 import axios from "axios";
 
+import { config } from "../../config.js";
+
 const client = axios.create({
   baseURL: "https://api.twitch.tv/helix",
-  headers: {
-    "Client-ID": process.env.TWITCH_CLIENT_ID,
-    Authorization: `Bearer ${process.env.TWITCH_ACCESS_TOKEN}`,
-  },
+  headers: { "Client-ID": config.twitch.clientID },
 });
 
 // TODO: Only authenticate when token expires
-client.interceptors.request.use(async (config) => {
+client.interceptors.request.use(async (req) => {
   const { data: authData } = await axios.post("https://id.twitch.tv/oauth2/token", null, {
     params: {
       grant_type: "client_credentials",
-      client_id: process.env.TWITCH_CLIENT_ID,
-      client_secret: process.env.TWITCH_CLIENT_SECRET,
+      client_id: config.twitch.clientID,
+      client_secret: config.twitch.clientSecret,
     },
   });
 
-  config.headers.Authorization = `Bearer ${authData.access_token}`;
-  return config;
+  req.headers.Authorization = `Bearer ${authData.access_token}`;
+  return req;
 });
 
 type Clip = {

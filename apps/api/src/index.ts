@@ -1,10 +1,10 @@
-import "dotenv/config";
 import fastify from "fastify";
 import cors from "@fastify/cors";
 import { fastifyTRPCPlugin, FastifyTRPCPluginOptions } from "@trpc/server/adapters/fastify";
 
 import { db } from "./database/index.js";
 import { migrateToLatest } from "./database/migrator.js";
+import { config } from "./config.js";
 import { createContext } from "./context.js";
 import { type AppRouter, appRouter } from "./router.js";
 
@@ -40,8 +40,7 @@ async function startServer() {
     origin: "*",
   });
 
-  const port = Number(process.env.PORT!);
-  await server.listen({ port, host: "0.0.0.0" });
+  await server.listen({ port: config.port, host: config.host });
 
-  console.info(`Server listening at http://0.0.0.0:${port}`);
+  console.info(`Server listening at http://${config.host}:${config.port}`);
 }

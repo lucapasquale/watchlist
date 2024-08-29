@@ -1,6 +1,7 @@
 import { Kysely, PostgresDialect } from "kysely";
 import pg from "pg";
 
+import { config } from "../config.js";
 import { PlaylistItemTable, PlaylistTable } from "../modules/playlist/models.js";
 
 export interface Database {
@@ -10,10 +11,10 @@ export interface Database {
 
 const dialect = new PostgresDialect({
   pool: new pg.Pool({
-    host: process.env.PG_HOST!,
-    database: process.env.PG_DATABASE!,
-    user: process.env.PG_USER!,
-    password: process.env.PG_PASSWORD!,
+    host: config.database.host,
+    database: config.database.database,
+    user: config.database.user,
+    password: config.database.password,
     max: 10,
   }),
 });
