@@ -24,6 +24,10 @@ async function main() {
 }
 
 async function startServer() {
+  server.get("/health", function (_req, reply) {
+    reply.send({ status: "ok" });
+  });
+
   server.register(fastifyTRPCPlugin, {
     prefix: "/trpc",
     trpcOptions: {
