@@ -33,6 +33,7 @@ RUN mkdir html
 
 WORKDIR /
 
+COPY --from=builder /app/apps/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/apps/web/dist /usr/share/nginx/html
 
 EXPOSE 80
