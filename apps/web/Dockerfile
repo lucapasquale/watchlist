@@ -30,6 +30,6 @@ RUN adduser -D static
 USER static
 
 WORKDIR /home/static
-COPY --from=builder /app/dist .
+COPY --from=builder /app/apps/web/dist .
 
 CMD ["busybox", "httpd", "-f", "-v", "-p", "8080"]
