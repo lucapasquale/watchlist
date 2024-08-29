@@ -54,6 +54,6 @@ ENV PORT=${PORT}
 ENV NODE_ENV=production
 EXPOSE ${PORT}
 
-HEALTHCHECK CMD curl --fail http://localhost:${PORT} || exit 1
+HEALTHCHECK CMD curl --fail http://localhost:${PORT}/health || exit 1
 
 CMD npm run start
