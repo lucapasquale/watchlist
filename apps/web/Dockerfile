@@ -24,12 +24,16 @@ RUN --mount=type=cache,id=pnpm,target=~/.pnpm-store pnpm prune --prod --no-optio
 RUN rm -rf ./**/*/src
 
 # Final image
-FROM busybox:1.35 as runner
+FROM nginx:alpine
 
-RUN adduser -D static
-USER static
+WORKDIR /usr/share/nginx/
 
-WORKDIR /home/static
-COPY --from=builder /app/apps/web/dist .
+RUN rm -rf html
+RUN mkdir html
 
-CMD ["busybox", "httpd", "-f", "-v", "-p", "8080"]
+WORKDIR /
+
+COPY --from=builder /app/apps/web/nginx.conf /etc/nginx
+COPY --from=builder /app/apps/web/dist /usr/share/nginx/html
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
