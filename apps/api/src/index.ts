@@ -24,7 +24,7 @@ async function main() {
 }
 
 async function startServer() {
-  server.get("/health", function (_req, reply) {
+  server.get("/", function (_req, reply) {
     reply.send({ status: "ok" });
   });
 
