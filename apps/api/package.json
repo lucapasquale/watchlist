@@ -8,7 +8,7 @@
     "test": "vitest",
     "test:watch": "vitest --watch",
     "build": "nest build",
-    "start": "node dist/main",
+    "start": "node dist/src/main",
     "lint": "eslint \"src/**/*.ts\""
   },
   "dependencies": {
