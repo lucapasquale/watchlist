@@ -11,6 +11,13 @@ import { PlaylistModule } from "./modules/watch/watch.module.js";
       driver: ApolloDriver,
       playground: false,
       typePaths: ["./**/*.graphql"],
+      resolvers: {
+        PlaylistItemKind: {
+          YOUTUBE: "youtube",
+          TWITCH_CLIP: "twitch_clip",
+          REDDIT: "reddit",
+        },
+      },
     }),
 
     PlaylistModule,

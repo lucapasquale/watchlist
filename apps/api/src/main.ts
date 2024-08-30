@@ -10,6 +10,7 @@ async function bootstrap() {
   await migrateToLatest(db);
 
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
+  app.enableCors();
   await app.listen(config.port, config.host);
 }
 bootstrap();

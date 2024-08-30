@@ -5,8 +5,15 @@ type Playlist {
   firstItem(shuffleSeed: String): PlaylistItem
 }
 
+enum PlaylistItemKind {
+  YOUTUBE
+  TWITCH_CLIP
+  REDDIT
+}
+
 type PlaylistItem {
   id: ID!
+  kind: PlaylistItemKind!
   title: String!
   thumbnailUrl: String!
   url: String!

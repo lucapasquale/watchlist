@@ -1,24 +1,24 @@
 import { DropResult } from "@hello-pangea/dnd";
 
-import { RouterOutput } from "~utils/trpc";
+import { EditPlaylistItemsQuery, MovePlaylistItemInput } from "../../../../__generated__/graphql";
 
 export function getMoveInput(
-  videos: NonNullable<RouterOutput["getPlaylistItems"]>,
+  videos: EditPlaylistItemsQuery["playlist"]["items"],
   result: DropResult,
-) {
+): MovePlaylistItemInput | null {
   if (!result.destination || result.source.index === result.destination.index) {
     return null;
   }
 
   const video = videos[result.source.index];
   if (result.destination.index === 0) {
-    return { id: video.id, itemBeforeID: null };
+    return { id: video.id, beforeID: null };
   }
 
   const moveOffset = result.source.index > result.destination.index ? -1 : 0;
   const videoBefore = videos[result.destination.index + moveOffset];
 
-  return { id: video.id, itemBeforeID: videoBefore.id };
+  return { id: video.id, beforeID: videoBefore.id };
 }
 
 export function reorderList<T>(list: T[], startIndex: number, endIndex: number) {

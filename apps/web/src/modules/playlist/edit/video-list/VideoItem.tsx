@@ -1,25 +1,36 @@
 import React from "react";
 import { GripVertical, LinkIcon, Trash } from "lucide-react";
+import { useMutation } from "@apollo/client";
 import { DraggableProvidedDragHandleProps } from "@hello-pangea/dnd";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@ui/components/ui/button";
 import { cn } from "@ui/lib/utils";
 
 import { VideoKindBadge } from "~components/VideoKindBadge";
-import { RouterOutput, trpc } from "~utils/trpc";
+
+import { gql } from "../../../../__generated__";
+import { EditPlaylistItemsQuery } from "../../../../__generated__/graphql";
+
+const DELETE_PLAYLIST_ITEM = gql(/* GraphQL */ `
+  mutation DeletePlaylistItem($id: ID!) {
+    deletePlaylistItem(id: $id)
+  }
+`);
 
 type Props = React.ComponentProps<"li"> & {
-  video: NonNullable<RouterOutput["getPlaylistItems"]>[number];
+  playlistItem: EditPlaylistItemsQuery["playlist"]["items"][number];
   onDelete: () => void;
   dragHandleProps: DraggableProvidedDragHandleProps | null;
 };
 
 export const VideoItem = React.forwardRef<HTMLLIElement, Props>(
-  ({ video, onDelete, dragHandleProps, className, ...liProps }, ref) => {
-    const deleteVideo = trpc.deletePlaylistItem.useMutation();
+  ({ playlistItem, onDelete, dragHandleProps, className, ...liProps }, ref) => {
+    const [deleteVideo] = useMutation(DELETE_PLAYLIST_ITEM);
 
     const onClickDelete = async () => {
-      await deleteVideo.mutateAsync(video.id);
+      await deleteVideo({
+        variables: { id: playlistItem.id },
+      });
       onDelete();
     };
 
@@ -38,18 +49,18 @@ export const VideoItem = React.forwardRef<HTMLLIElement, Props>(
           </div>
 
           <div className="flex items-center gap-2 py-4">
-            <img src={video.thumbnail_url} className="w-[160px] h-[90px] rounded-md" />
+            <img src={playlistItem.thumbnailUrl} className="w-[160px] h-[90px] rounded-md" />
 
             <div className="flex flex-col gap-2">
               <h1 className="flex items-baseline gap-2 text-2xl">
-                {video.title}
+                {playlistItem.title}
 
-                <Link target="_blank" rel="noopener noreferrer" to={video.raw_url}>
+                <Link target="_blank" rel="noopener noreferrer" to={playlistItem.rawUrl}>
                   <LinkIcon className="size-4" />
                 </Link>
               </h1>
 
-              <VideoKindBadge videoKind={video.kind} />
+              <VideoKindBadge kind={playlistItem.kind} />
             </div>
           </div>
         </div>
