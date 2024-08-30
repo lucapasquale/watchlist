@@ -7,17 +7,7 @@ import { Button } from "@ui/components/ui/button";
 import { Form } from "@ui/components/ui/form";
 
 import { Route } from "~routes/index.lazy";
-
-import { gql } from "../../../__generated__";
-
-const CREATE_PLAYLIST = gql(/* GraphQL */ `
-  mutation CreatePlaylistFromYoutube($url: String!) {
-    createPlaylistFromYoutube(url: $url) {
-      id
-      name
-    }
-  }
-`);
+import { CreatePlaylistFromYoutubeDocument } from "../../../graphql/types";
 
 const schema = z.object({
   playlistURL: z.string().url(),
@@ -31,7 +21,7 @@ type Props = {
 export function ImportFromYoutube({ onCancel }: Props) {
   const navigate = Route.useNavigate();
 
-  const [createPlaylist, { loading }] = useMutation(CREATE_PLAYLIST);
+  const [createPlaylist, { loading }] = useMutation(CreatePlaylistFromYoutubeDocument);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),

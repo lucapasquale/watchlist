@@ -7,17 +7,7 @@ import { Button } from "@ui/components/ui/button";
 import { Form } from "@ui/components/ui/form";
 
 import { Route } from "~routes/index.lazy";
-
-import { gql } from "../../../__generated__";
-
-const CREATE_PLAYLIST = gql(/* GraphQL */ `
-  mutation CreatePlaylist($input: CreatePlaylistInput!) {
-    createPlaylist(input: $input) {
-      id
-      name
-    }
-  }
-`);
+import { CreatePlaylistDocument } from "../../../graphql/types";
 
 const schema = z.object({
   name: z.string().min(1),
@@ -31,7 +21,7 @@ type Props = {
 export function CreateNew({ onCancel }: Props) {
   const navigate = Route.useNavigate();
 
-  const [createPlaylist, { loading }] = useMutation(CREATE_PLAYLIST);
+  const [createPlaylist, { loading }] = useMutation(CreatePlaylistDocument);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),

@@ -4,8 +4,7 @@ import { Button } from "@ui/components/ui/button";
 
 import { VideoKindBadge } from "~components/VideoKindBadge";
 import { Route } from "~routes/p/$playlistID/$videoID";
-
-import { PlaylistItemViewQuery } from "../../../../__generated__/graphql";
+import { PlaylistItemViewQuery } from "../../../../graphql/types";
 
 type Props = {
   playlistItem: PlaylistItemViewQuery["playlistItem"];

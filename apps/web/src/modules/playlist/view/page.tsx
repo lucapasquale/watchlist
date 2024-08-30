@@ -3,30 +3,13 @@ import { useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
 
 import { Route } from "~routes/p/$playlistID/index.lazy";
-
-import { gql } from "../../../__generated__";
-
-const PLAYLIST_VIEW_QUERY = gql(/* GraphQL */ `
-  query PlaylistView($playlistID: ID!, $shuffleSeed: String!) {
-    playlist(id: $playlistID) {
-      id
-      name
-
-      firstItem {
-        id
-      }
-      shuffleFirstItem: firstItem(shuffleSeed: $shuffleSeed) {
-        id
-      }
-    }
-  }
-`);
+import { PlaylistViewDocument } from "../../../graphql/types";
 
 export function Page() {
   const { playlistID } = Route.useParams();
   const shuffleSeed = React.useRef(Date.now().toString());
 
-  const { data } = useQuery(PLAYLIST_VIEW_QUERY, {
+  const { data } = useQuery(PlaylistViewDocument, {
     variables: { playlistID, shuffleSeed: shuffleSeed.current },
   });
 

@@ -4,33 +4,15 @@ import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { Route } from "~routes/p/$playlistID/$videoID";
 
-import { gql } from "../../../../__generated__";
-
 import { VideoToolbar } from "./video-toolbar";
-
-const PLAYLIST_ITEM_VIEW_QUERY = gql(/* GraphQL */ `
-  query PlaylistItemView($playlistItemID: ID!, $shuffleSeed: String) {
-    playlistItem(id: $playlistItemID) {
-      id
-      kind
-      title
-      thumbnailUrl
-      url
-      rawUrl
-
-      nextItem(shuffleSeed: $shuffleSeed) {
-        id
-      }
-    }
-  }
-`);
+import { PlaylistItemViewDocument } from "../../../../graphql/types";
 
 export function VideoPlayer() {
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
   const { playlistID, videoID } = Route.useParams();
 
-  const { data } = useQuery(PLAYLIST_ITEM_VIEW_QUERY, {
+  const { data } = useQuery(PlaylistItemViewDocument, {
     variables: { playlistItemID: videoID, shuffleSeed: search.shuffleSeed },
   });
 

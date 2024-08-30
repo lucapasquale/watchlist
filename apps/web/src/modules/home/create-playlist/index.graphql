@@ -1,0 +1,13 @@
+mutation CreatePlaylist($input: CreatePlaylistInput!) {
+  createPlaylist(input: $input) {
+    id
+    name
+  }
+}
+
+  mutation CreatePlaylistFromYoutube($url: String!) {
+  createPlaylistFromYoutube(url: $url) {
+    id
+    name
+  }
+}

@@ -7,25 +7,17 @@ import { Button } from "@ui/components/ui/button";
 import { cn } from "@ui/lib/utils";
 
 import { VideoKindBadge } from "~components/VideoKindBadge";
-
-import { gql } from "../../../../__generated__";
-import { EditPlaylistItemsQuery } from "../../../../__generated__/graphql";
-
-const DELETE_PLAYLIST_ITEM = gql(/* GraphQL */ `
-  mutation DeletePlaylistItem($id: ID!) {
-    deletePlaylistItem(id: $id)
-  }
-`);
+import { DeletePlaylistItemDocument, PlaylistItemFragFragment } from "../../../../graphql/types";
 
 type Props = React.ComponentProps<"li"> & {
-  playlistItem: EditPlaylistItemsQuery["playlist"]["items"][number];
+  playlistItem: PlaylistItemFragFragment;
   onDelete: () => void;
   dragHandleProps: DraggableProvidedDragHandleProps | null;
 };
 
 export const VideoItem = React.forwardRef<HTMLLIElement, Props>(
   ({ playlistItem, onDelete, dragHandleProps, className, ...liProps }, ref) => {
-    const [deleteVideo] = useMutation(DELETE_PLAYLIST_ITEM);
+    const [deleteVideo] = useMutation(DeletePlaylistItemDocument);
 
     const onClickDelete = async () => {
       await deleteVideo({

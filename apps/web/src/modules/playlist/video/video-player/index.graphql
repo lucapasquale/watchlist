@@ -1,0 +1,14 @@
+ query PlaylistItemView($playlistItemID: ID!, $shuffleSeed: String) {
+  playlistItem(id: $playlistItemID) {
+    id
+    kind
+    title
+    thumbnailUrl
+    url
+    rawUrl
+
+    nextItem(shuffleSeed: $shuffleSeed) {
+      id
+    }
+  }
+}

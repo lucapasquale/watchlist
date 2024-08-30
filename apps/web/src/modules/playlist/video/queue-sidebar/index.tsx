@@ -5,30 +5,13 @@ import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { VideoKindBadge } from "~components/VideoKindBadge";
 import { Route } from "~routes/p/$playlistID/$videoID";
-
-import { gql } from "../../../../__generated__";
-
-const PLAYLIST_ITEM_SIDEBAR_QUERY = gql(/* GraphQL */ `
-  query PlaylistItemQueueSidebar($playlistID: ID!) {
-    playlist(id: $playlistID) {
-      id
-      name
-
-      items {
-        id
-        kind
-        title
-        thumbnailUrl
-      }
-    }
-  }
-`);
+import { PlaylistItemQueueSidebarDocument } from "../../../../graphql/types";
 
 export function QueueSidebar() {
   const search = Route.useSearch();
   const { playlistID } = Route.useParams();
 
-  const { data } = useQuery(PLAYLIST_ITEM_SIDEBAR_QUERY, {
+  const { data } = useQuery(PlaylistItemQueueSidebarDocument, {
     variables: { playlistID },
   });
 

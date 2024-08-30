@@ -1,7 +1,6 @@
 import { Badge } from "@ui/components/ui/badge";
 import { cn } from "@ui/lib/utils";
-
-import { PlaylistItemKind } from "../__generated__/graphql";
+import { PlaylistItemKind } from "../graphql/types";
 
 const PLAYLIST_ITEM_KINDS: Record<PlaylistItemKind, { label: string; className: string }> = {
   [PlaylistItemKind.Youtube]: {

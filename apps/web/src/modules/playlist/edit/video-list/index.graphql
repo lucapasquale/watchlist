@@ -1,0 +1,34 @@
+query EditPlaylistData($playlistID: ID!) {
+  playlist(id: $playlistID) {
+    id
+    name
+
+    items {
+      ...PlaylistItemFrag
+    }
+  }
+}
+
+mutation CreatePlaylistItem($input: CreatePlaylistItemInput!) {
+  createPlaylistItem(input: $input) {
+    ...PlaylistItemFrag
+  }
+}
+
+mutation MovePlaylistItem($input: MovePlaylistItemInput!) {
+  movePlaylistItem(input: $input) {
+    ...PlaylistItemFrag
+  }
+}
+
+mutation DeletePlaylistItem($id: ID!) {
+  deletePlaylistItem(id: $id)
+}
+
+fragment PlaylistItemFrag on PlaylistItem {
+  id
+  kind
+  title
+  thumbnailUrl
+  rawUrl
+}

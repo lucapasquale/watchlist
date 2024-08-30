@@ -1,0 +1,13 @@
+query PlaylistItemQueueSidebar($playlistID: ID!) {
+  playlist(id: $playlistID) {
+    id
+    name
+
+    items {
+      id
+      kind
+      title
+      thumbnailUrl
+    }
+  }
+}

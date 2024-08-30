@@ -2,21 +2,11 @@ import { useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
 import { Separator } from "@ui/components/ui/separator";
 
-import { gql } from "../../__generated__";
-
 import { CreatePlaylist } from "./create-playlist";
-
-const HOME_QUERY = gql(/* GraphQL */ `
-  query HomePlaylists {
-    playlists {
-      id
-      name
-    }
-  }
-`);
+import { HomePlaylistsDocument } from "../../graphql/types";
 
 export function Page() {
-  const { data } = useQuery(HOME_QUERY);
+  const { data } = useQuery(HomePlaylistsDocument);
 
   if (!data) {
     return <div>Loading...</div>;

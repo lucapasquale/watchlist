@@ -4,50 +4,28 @@ import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea
 
 import { Route } from "~routes/p/$playlistID/edit.lazy";
 
-import { gql } from "../../../../__generated__";
-import { EditPlaylistItemsQuery } from "../../../../__generated__/graphql";
-
-import { AddVideo } from "./AddVideo";
+import { AddVideo } from "./add-video";
 import { getMoveInput, reorderList } from "./utils";
-import { VideoItem } from "./VideoItem";
-
-const EDIT_PLAYLIST_ITEMS_QUERY = gql(/* GraphQL */ `
-  query EditPlaylistItems($playlistID: ID!) {
-    playlist(id: $playlistID) {
-      id
-      name
-
-      items {
-        id
-        kind
-        title
-        thumbnailUrl
-        rawUrl
-      }
-    }
-  }
-`);
-const MOVE_PLAYLIST_ITEM_MUTATION = gql(/* GraphQL */ `
-  mutation MovePlaylistItem($input: MovePlaylistItemInput!) {
-    movePlaylistItem(input: $input) {
-      id
-    }
-  }
-`);
+import { VideoItem } from "./video-item";
+import {
+  EditPlaylistDataDocument,
+  MovePlaylistItemDocument,
+  type PlaylistItemFragFragment,
+} from "../../../../graphql/types";
 
 export function VideoList() {
   const { playlistID } = Route.useParams();
 
-  const [itemList, setItemList] = React.useState<EditPlaylistItemsQuery["playlist"]["items"]>([]);
+  const [itemList, setItemList] = React.useState<PlaylistItemFragFragment[]>([]);
 
-  useQuery(EDIT_PLAYLIST_ITEMS_QUERY, {
+  useQuery(EditPlaylistDataDocument, {
     variables: { playlistID },
     onCompleted: (data) => {
       setItemList(data.playlist.items);
     },
   });
 
-  const [moveVideo, { loading }] = useMutation(MOVE_PLAYLIST_ITEM_MUTATION);
+  const [moveVideo, { loading }] = useMutation(MovePlaylistItemDocument);
 
   const onDragEnd = async (result: DropResult) => {
     const moveInput = getMoveInput(itemList, result);

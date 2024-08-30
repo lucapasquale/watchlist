@@ -9,21 +9,10 @@ import { Button } from "@ui/components/ui/button";
 import { Form } from "@ui/components/ui/form";
 
 import { Route } from "~routes/p/$playlistID/edit.lazy";
-
-import { gql } from "../../../../__generated__";
-import { EditPlaylistItemsQuery } from "../../../../__generated__/graphql";
-
-const CREATE_PLAYLIST_ITEM_MUTATION = gql(/* GraphQL */ `
-  mutation CreatePlaylistItem($input: CreatePlaylistItemInput!) {
-    createPlaylistItem(input: $input) {
-      id
-      kind
-      title
-      thumbnailUrl
-      rawUrl
-    }
-  }
-`);
+import {
+  CreatePlaylistItemDocument,
+  type PlaylistItemFragFragment,
+} from "../../../../graphql/types";
 
 const schema = z.object({
   rawURL: z.string().min(1).url(),
@@ -31,13 +20,13 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 type Props = {
-  onAdd: (video: EditPlaylistItemsQuery["playlist"]["items"][number]) => void;
+  onAdd: (video: PlaylistItemFragFragment) => void;
 };
 
 export function AddVideo({ onAdd }: Props) {
   const { playlistID } = Route.useParams();
 
-  const [createVideo, { loading }] = useMutation(CREATE_PLAYLIST_ITEM_MUTATION, {
+  const [createVideo, { loading }] = useMutation(CreatePlaylistItemDocument, {
     refetchQueries: ["PlaylistItemQueueSidebar"],
   });
 
