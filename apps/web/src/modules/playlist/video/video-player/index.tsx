@@ -39,7 +39,9 @@ export function VideoPlayer({ videoID, queue }: Props) {
         controls
         url={video.data.url}
         onEnded={onVideoEnded}
-        onError={onVideoEnded}
+        onError={(...args) => {
+          console.error("Failed to load video", ...args);
+        }}
         width="100%"
         height="100%"
         style={{ aspectRatio: "16 / 9", maxHeight: "620px" }}

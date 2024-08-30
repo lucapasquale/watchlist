@@ -7,8 +7,7 @@
     "dev": "vite --clearScreen false",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint \"src/**/*.ts\"",
-    "serve": "serve -s dist -p 3000"
+    "lint": "eslint \"src/**/*.ts\""
   },
   "dependencies": {
     "@hello-pangea/dnd": "^16.6.0",
@@ -26,7 +25,6 @@
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.2",
     "react-player": "^2.16.0",
-    "serve": "^14.2.3",
     "tailwind-merge": "^2.5.2",
     "tailwindcss": "4.0.0-alpha.10",
     "zod": "^3.23.8"
