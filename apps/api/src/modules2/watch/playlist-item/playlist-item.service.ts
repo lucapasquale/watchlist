@@ -63,8 +63,8 @@ export class PlaylistItemService {
     return Number(response.itemsCount);
   }
 
-  async create(input: PlaylistItemInsert) {
-    return db.insertInto("playlist_item").values(input).returningAll().executeTakeFirstOrThrow();
+  async create(values: PlaylistItemInsert | PlaylistItemInsert[]) {
+    return db.insertInto("playlist_item").values(values).returningAll().executeTakeFirstOrThrow();
   }
 
   async update({ id, ...input }: PlaylistItemUpdate & { id: number }) {

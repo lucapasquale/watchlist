@@ -19,7 +19,7 @@ input UpdatePlaylistInput {
 
 type Mutation {
   createPlaylist(input: CreatePlaylistInput!): Playlist!
-  # createPlaylistFromYoutube(url: String!): Playlist!
+  createPlaylistFromYoutube(url: String!): Playlist!
 
   updatePlaylist(input: UpdatePlaylistInput!): Playlist!
 
