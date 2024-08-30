@@ -4,7 +4,7 @@ import { Skeleton } from "@ui/components/ui/skeleton";
 import { Route } from "~routes/p/$playlistID/$videoID";
 import { RouterOutput, trpc } from "~utils/trpc";
 
-import { VideoToolbar } from "./WatchControls";
+import { VideoToolbar } from "./video-toolbar";
 
 type Props = {
   videoID: number;

@@ -1,8 +1,8 @@
 import { Route } from "~routes/p/$playlistID/$videoID";
 import { trpc } from "~utils/trpc";
 
-import { QueueSidebar } from "./QueueSidebar";
-import { VideoPlayer } from "./VideoPlayer";
+import { QueueSidebar } from "./queue-sidebar";
+import { VideoPlayer } from "./video-player";
 
 export function Page() {
   const search = Route.useSearch();

@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Route } from "~routes/p/$playlistID/edit.lazy";
 import { trpc } from "~utils/trpc";
 
-import { VideoList } from "./VideoList";
+import { VideoList } from "./video-list";
 
 export function Page() {
   const { playlistID } = Route.useParams();

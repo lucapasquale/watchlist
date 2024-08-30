@@ -12,7 +12,7 @@ import { RouterOutput, trpc } from "~utils/trpc";
 const schema = z.object({
   rawURL: z.string().min(1).url(),
 });
-export type FormValues = z.infer<typeof schema>;
+type FormValues = z.infer<typeof schema>;
 
 type Props = {
   playlistID: number;

@@ -15,6 +15,10 @@ export const getPlaylist = publicProcedure.input(z.number().positive()).query(as
     );
 });
 
+export const getAllPlaylists = publicProcedure.query(async () => {
+  return db.selectFrom("playlist").selectAll().execute();
+});
+
 export const getPlaylistQueue = publicProcedure
   .input(
     z.object({
@@ -50,6 +54,16 @@ export const getPlaylistQueue = publicProcedure
     }
 
     return query.execute();
+  });
+
+export const createPlaylist = publicProcedure
+  .input(z.object({ name: z.string().min(1) }))
+  .mutation(async ({ input }) => {
+    return db
+      .insertInto("playlist")
+      .values({ name: input.name })
+      .returningAll()
+      .executeTakeFirstOrThrow();
   });
 
 export const createPlaylistFromYoutube = publicProcedure

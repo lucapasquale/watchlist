@@ -13,20 +13,20 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as IndexImport } from './routes/index'
 import { Route as PPlaylistIDVideoIDImport } from './routes/p/$playlistID/$videoID'
 
 // Create Virtual Routes
 
+const IndexLazyImport = createFileRoute('/')()
 const PPlaylistIDIndexLazyImport = createFileRoute('/p/$playlistID/')()
 const PPlaylistIDEditLazyImport = createFileRoute('/p/$playlistID/edit')()
 
 // Create/Update Routes
 
-const IndexRoute = IndexImport.update({
+const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
-} as any)
+} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
 const PPlaylistIDIndexLazyRoute = PPlaylistIDIndexLazyImport.update({
   path: '/p/$playlistID/',
@@ -55,7 +55,7 @@ declare module '@tanstack/react-router' {
       id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexImport
+      preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
     '/p/$playlistID/$videoID': {
@@ -85,7 +85,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
-  IndexRoute,
+  IndexLazyRoute,
   PPlaylistIDVideoIDRoute,
   PPlaylistIDEditLazyRoute,
   PPlaylistIDIndexLazyRoute,
@@ -106,7 +106,7 @@ export const routeTree = rootRoute.addChildren({
       ]
     },
     "/": {
-      "filePath": "index.tsx"
+      "filePath": "index.lazy.tsx"
     },
     "/p/$playlistID/$videoID": {
       "filePath": "p/$playlistID/$videoID.tsx"
