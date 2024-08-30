@@ -1,0 +1,44 @@
+type Playlist {
+  id: ID!
+  name: String!
+
+  itemsCount: Int!
+  items(shuffleSeed: String): [PlaylistItem!]!
+
+  firstItem(shuffleSeed: String): PlaylistItem
+}
+
+type PlaylistItem {
+  id: ID!
+  title: String!
+  thumbnailUrl: String!
+  url: String!
+  rawUrl: String!
+
+  playlist: Playlist!
+}
+
+type Query {
+  playlists: [Playlist!]!
+  playlist(id: ID!): Playlist!
+
+  playlistItem(id: ID!): PlaylistItem!
+}
+
+input CreatePlaylistInput {
+  name: String!
+}
+
+input UpdatePlaylistInput {
+  id: ID!
+  name: String!
+}
+
+type Mutation {
+  createPlaylist(input: CreatePlaylistInput!): Playlist!
+  # createPlaylistFromYoutube(url: String!): Playlist!
+
+  updatePlaylist(input: UpdatePlaylistInput!): Playlist!
+
+  deletePlaylist(id: ID!): Boolean
+}

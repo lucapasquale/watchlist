@@ -40,7 +40,7 @@ export const getPlaylistQueue = publicProcedure
 
     let query = db
       .selectFrom("playlist_item")
-      .where("playlist_id", "=", playlistItem.playlist_id)
+      .where("playlistId", "=", playlistItem.playlistId)
       .selectAll()
       .limit(5);
 
@@ -75,7 +75,6 @@ export const createPlaylistFromYoutube = publicProcedure
     const url = new URL(input.url);
     const usp = new URLSearchParams(url.search);
     const playlistID = usp.get("list");
-    console.log({ playlistID });
     if (!playlistID) {
       throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid YouTube playlist URL" });
     }
@@ -111,13 +110,13 @@ export const createPlaylistFromYoutube = publicProcedure
         // Videos without `publishedAt` have been removed
         .filter((playlistItem) => !!playlistItem.contentDetails.videoPublishedAt)
         .map<PlaylistItemInsert>((playlistItem, idx) => ({
-          playlist_id: playlist.id,
+          playlistId: playlist.id,
           rank: ranks[idx]!.toString(),
           kind: "youtube",
           url: "https://www.youtube.com/watch?v=" + playlistItem.contentDetails.videoId,
-          raw_url: "https://www.youtube.com/watch?v=" + playlistItem.contentDetails.videoId,
+          rawUrl: "https://www.youtube.com/watch?v=" + playlistItem.contentDetails.videoId,
           title: playlistItem.snippet.title,
-          thumbnail_url: playlistItem.snippet.thumbnails.medium.url,
+          thumbnailUrl: playlistItem.snippet.thumbnails.medium.url,
         }));
 
       await db.insertInto("playlist_item").values(itemsToAdd).execute();

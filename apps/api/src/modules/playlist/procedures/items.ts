@@ -24,7 +24,7 @@ export const getPlaylistItems = publicProcedure
   .query(async ({ input }) => {
     return db
       .selectFrom("playlist_item")
-      .where("playlist_id", "=", input)
+      .where("playlistId", "=", input)
       .orderBy("rank asc")
       .selectAll()
       .execute();
@@ -41,13 +41,13 @@ export const getPlaylistInitialItem = publicProcedure
     const [regular, shuffle] = await Promise.all([
       db
         .selectFrom("playlist_item")
-        .where("playlist_id", "=", input.playlistID)
+        .where("playlistId", "=", input.playlistID)
         .orderBy("rank asc")
         .selectAll()
         .executeTakeFirst(),
       db
         .selectFrom("playlist_item")
-        .where("playlist_id", "=", input.playlistID)
+        .where("playlistId", "=", input.playlistID)
         .orderBy(sql`md5(id::text || ${input.shuffleSeed ?? ""})`)
         .selectAll()
         .executeTakeFirst(),
@@ -75,7 +75,7 @@ export const createPlaylistItem = publicProcedure
         ),
       db
         .selectFrom("playlist_item")
-        .where("playlist_id", "=", input.playlistID)
+        .where("playlistId", "=", input.playlistID)
         .orderBy("rank desc")
         .selectAll()
         .executeTakeFirst(),
@@ -92,7 +92,7 @@ export const createPlaylistItem = publicProcedure
       .values({
         ...urlPayload,
         rank: nextRank.toString(),
-        playlist_id: playlist.id,
+        playlistId: playlist.id,
       })
       .returningAll()
       .executeTakeFirstOrThrow();
@@ -118,7 +118,7 @@ export const movePlaylistItem = publicProcedure
     if (input.itemBeforeID === null) {
       const firstVideo = await db
         .selectFrom("playlist_item")
-        .where("playlist_id", "=", playlistItem.playlist_id)
+        .where("playlistId", "=", playlistItem.playlistId)
         .orderBy("rank asc")
         .selectAll()
         .executeTakeFirstOrThrow(
@@ -148,7 +148,7 @@ export const movePlaylistItem = publicProcedure
       );
     const afterItem = await db
       .selectFrom("playlist_item")
-      .where("playlist_id", "=", playlistItem.playlist_id)
+      .where("playlistId", "=", playlistItem.playlistId)
       .where("rank", ">", beforeItem.rank)
       .orderBy("rank asc")
       .selectAll()

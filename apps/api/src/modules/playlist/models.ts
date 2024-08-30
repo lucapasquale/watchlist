@@ -5,8 +5,8 @@ export interface PlaylistTable {
 
   name: string;
 
-  created_at: ColumnType<Date, string | undefined, never>;
-  updated_at: ColumnType<Date, string | undefined, string | undefined>;
+  createdAt: ColumnType<Date, string | undefined, never>;
+  updatedAt: ColumnType<Date, string | undefined, string | undefined>;
 }
 export type Playlist = Selectable<PlaylistTable>;
 export type PlaylistInsert = Insertable<PlaylistTable>;
@@ -16,16 +16,16 @@ export interface PlaylistItemTable {
   id: Generated<number>;
 
   kind: "youtube" | "twitch_clip" | "reddit";
-  raw_url: string;
+  rawUrl: string;
   url: string;
   rank: string;
   title: string;
-  thumbnail_url: string;
+  thumbnailUrl: string;
 
-  created_at: ColumnType<Date, string | undefined, never>;
-  updated_at: ColumnType<Date, string | undefined, string | undefined>;
+  createdAt: ColumnType<Date, string | undefined, never>;
+  updatedAt: ColumnType<Date, string | undefined, string | undefined>;
 
-  playlist_id: number;
+  playlistId: number;
 }
 export type PlaylistItem = Selectable<PlaylistItemTable>;
 export type PlaylistItemInsert = Insertable<PlaylistItemTable>;

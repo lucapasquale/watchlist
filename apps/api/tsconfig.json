@@ -25,6 +25,9 @@
     /* If your code doesn't run in the DOM: */
     "lib": ["es2022"],
     "noEmit": false,
-    "allowImportingTsExtensions": false
+    "allowImportingTsExtensions": false,
+
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
   }
 }

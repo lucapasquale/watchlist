@@ -5,7 +5,7 @@ import * as Youtube from "../../services/youtube.js";
 
 export async function parseUserURL(
   rawUrl: string,
-): Promise<Omit<PlaylistItemInsert, "rank" | "playlist_id"> | null> {
+): Promise<Omit<PlaylistItemInsert, "rank" | "playlistId"> | null> {
   const url = new URL(rawUrl);
 
   switch (getUrlKind(url)) {
@@ -23,10 +23,10 @@ export async function parseUserURL(
 
       return {
         kind: "youtube",
-        raw_url: rawUrl,
+        rawUrl: rawUrl,
         url: `https://www.youtube.com/embed/${videoID}`,
         title: video.snippet.title,
-        thumbnail_url: video.snippet.thumbnails.medium.url,
+        thumbnailUrl: video.snippet.thumbnails.medium.url,
       };
     }
 
@@ -40,10 +40,10 @@ export async function parseUserURL(
 
       return {
         kind: "twitch_clip",
-        raw_url: rawUrl,
+        rawUrl: rawUrl,
         url: clip.thumbnail_url.replace(/-preview-.+x.+\..*/gi, ".mp4"),
         title: clip.title,
-        thumbnail_url: clip.thumbnail_url,
+        thumbnailUrl: clip.thumbnail_url,
       };
     }
 
@@ -55,10 +55,10 @@ export async function parseUserURL(
 
       return {
         kind: "reddit",
-        raw_url: rawUrl,
+        rawUrl: rawUrl,
         url: post.media.reddit_video.hls_url.split("?")[0]!,
         title: post.title,
-        thumbnail_url: post.thumbnail,
+        thumbnailUrl: post.thumbnail,
       };
     }
 
