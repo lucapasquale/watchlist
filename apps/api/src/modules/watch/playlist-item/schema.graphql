@@ -20,6 +20,7 @@ type PlaylistItem {
   rawUrl: String!
 
   playlist: Playlist!
+  nextItem(shuffleSeed: String): PlaylistItem
 }
 
 type Query {

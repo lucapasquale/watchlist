@@ -21,7 +21,7 @@ const documents = {
     "\n  query EditPlaylistItems($playlistID: ID!) {\n    playlist(id: $playlistID) {\n      id\n      name\n\n      items {\n        id\n        kind\n        title\n        thumbnailUrl\n        rawUrl\n      }\n    }\n  }\n": types.EditPlaylistItemsDocument,
     "\n  mutation MovePlaylistItem($input: MovePlaylistItemInput!) {\n    movePlaylistItem(input: $input) {\n      id\n    }\n  }\n": types.MovePlaylistItemDocument,
     "\n  query PlaylistItemQueueSidebar($playlistID: ID!) {\n    playlist(id: $playlistID) {\n      id\n      name\n\n      items {\n        id\n        kind\n        title\n        thumbnailUrl\n      }\n    }\n  }\n": types.PlaylistItemQueueSidebarDocument,
-    "\n  query PlaylistItemView($playlistItemID: ID!) {\n    playlistItem(id: $playlistItemID) {\n      id\n      kind\n      title\n      thumbnailUrl\n      url\n      rawUrl\n    }\n  }\n": types.PlaylistItemViewDocument,
+    "\n  query PlaylistItemView($playlistItemID: ID!, $shuffleSeed: String) {\n    playlistItem(id: $playlistItemID) {\n      id\n      kind\n      title\n      thumbnailUrl\n      url\n      rawUrl\n\n      nextItem(shuffleSeed: $shuffleSeed) {\n        id\n      }\n    }\n  }\n": types.PlaylistItemViewDocument,
     "\n  query PlaylistView($playlistID: ID!, $shuffleSeed: String!) {\n    playlist(id: $playlistID) {\n      id\n      name\n\n      firstItem {\n        id\n      }\n      shuffleFirstItem: firstItem(shuffleSeed: $shuffleSeed) {\n        id\n      }\n    }\n  }\n": types.PlaylistViewDocument,
 };
 
@@ -74,7 +74,7 @@ export function gql(source: "\n  query PlaylistItemQueueSidebar($playlistID: ID!
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query PlaylistItemView($playlistItemID: ID!) {\n    playlistItem(id: $playlistItemID) {\n      id\n      kind\n      title\n      thumbnailUrl\n      url\n      rawUrl\n    }\n  }\n"): (typeof documents)["\n  query PlaylistItemView($playlistItemID: ID!) {\n    playlistItem(id: $playlistItemID) {\n      id\n      kind\n      title\n      thumbnailUrl\n      url\n      rawUrl\n    }\n  }\n"];
+export function gql(source: "\n  query PlaylistItemView($playlistItemID: ID!, $shuffleSeed: String) {\n    playlistItem(id: $playlistItemID) {\n      id\n      kind\n      title\n      thumbnailUrl\n      url\n      rawUrl\n\n      nextItem(shuffleSeed: $shuffleSeed) {\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  query PlaylistItemView($playlistItemID: ID!, $shuffleSeed: String) {\n    playlistItem(id: $playlistItemID) {\n      id\n      kind\n      title\n      thumbnailUrl\n      url\n      rawUrl\n\n      nextItem(shuffleSeed: $shuffleSeed) {\n        id\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

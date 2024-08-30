@@ -24,6 +24,11 @@ export class PlaylistItemResolver {
     return this.playlistService.getByID(playlistItem.playlistId);
   }
 
+  @ResolveField()
+  async nextItem(@Parent() playlistItem: PlaylistItem) {
+    return this.playlistItemService.getNextFromPlaylist(playlistItem);
+  }
+
   @Query()
   async playlistItem(@Args("id") id: number) {
     return this.playlistItemService.getByID(id);

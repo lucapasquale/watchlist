@@ -9,7 +9,7 @@ import { gql } from "../../../../__generated__";
 import { VideoToolbar } from "./video-toolbar";
 
 const PLAYLIST_ITEM_VIEW_QUERY = gql(/* GraphQL */ `
-  query PlaylistItemView($playlistItemID: ID!) {
+  query PlaylistItemView($playlistItemID: ID!, $shuffleSeed: String) {
     playlistItem(id: $playlistItemID) {
       id
       kind
@@ -17,23 +17,31 @@ const PLAYLIST_ITEM_VIEW_QUERY = gql(/* GraphQL */ `
       thumbnailUrl
       url
       rawUrl
+
+      nextItem(shuffleSeed: $shuffleSeed) {
+        id
+      }
     }
   }
 `);
 
 export function VideoPlayer() {
-  // const search = Route.useSearch();
-  // const navigate = Route.useNavigate();
-  const { videoID } = Route.useParams();
+  const search = Route.useSearch();
+  const navigate = Route.useNavigate();
+  const { playlistID, videoID } = Route.useParams();
 
   const { data } = useQuery(PLAYLIST_ITEM_VIEW_QUERY, {
-    variables: { playlistItemID: videoID },
+    variables: { playlistItemID: videoID, shuffleSeed: search.shuffleSeed },
   });
 
   const onVideoEnded = () => {
-    // if (queue?.[0]) {
-    //   navigate({ to: `../${queue[0].id.toString()}`, search: true });
-    // }
+    if (data?.playlistItem.nextItem) {
+      navigate({
+        to: "/p/$playlistID/$videoID",
+        params: { playlistID, videoID: data.playlistItem.nextItem.id.toString() },
+        search: true,
+      });
+    }
   };
 
   if (!data) {
