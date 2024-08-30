@@ -1,9 +1,9 @@
 import { DropResult } from "@hello-pangea/dnd";
 
-import { EditPlaylistItemsQuery, MovePlaylistItemInput } from "../../../../__generated__/graphql";
+import { MovePlaylistItemInput, PlaylistItemFragFragment } from "../../../../graphql/types";
 
 export function getMoveInput(
-  videos: EditPlaylistItemsQuery["playlist"]["items"],
+  videos: PlaylistItemFragFragment[],
   result: DropResult,
 ): MovePlaylistItemInput | null {
   if (!result.destination || result.source.index === result.destination.index) {
