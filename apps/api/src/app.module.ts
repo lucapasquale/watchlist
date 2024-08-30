@@ -3,6 +3,7 @@ import { Module } from "@nestjs/common";
 import { GraphQLModule } from "@nestjs/graphql";
 
 import { ExternalClientsModule } from "./modules/external-clients/external-clients.module.js";
+import { HealthModule } from "./modules/health/health.module.js";
 import { PlaylistModule } from "./modules/watch/watch.module.js";
 
 @Module({
@@ -20,6 +21,7 @@ import { PlaylistModule } from "./modules/watch/watch.module.js";
       },
     }),
 
+    HealthModule,
     PlaylistModule,
     ExternalClientsModule,
   ],
