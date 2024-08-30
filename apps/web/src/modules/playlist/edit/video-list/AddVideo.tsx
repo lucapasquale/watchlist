@@ -37,12 +37,15 @@ type Props = {
 export function AddVideo({ onAdd }: Props) {
   const { playlistID } = Route.useParams();
 
-  const [createVideo, { loading }] = useMutation(CREATE_PLAYLIST_ITEM_MUTATION);
+  const [createVideo, { loading }] = useMutation(CREATE_PLAYLIST_ITEM_MUTATION, {
+    refetchQueries: ["PlaylistItemQueueSidebar"],
+  });
 
   const [open, setOpen] = React.useState(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
+    defaultValues: { rawURL: "" },
   });
 
   const onCancel = () => {
