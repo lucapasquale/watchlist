@@ -4,14 +4,15 @@ import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea
 
 import { Route } from "~routes/p/$playlistID/edit.lazy";
 
-import { AddVideo } from "./add-video";
-import { getMoveInput, reorderList } from "./utils";
-import { VideoItem } from "./video-item";
 import {
   EditPlaylistDataDocument,
   MovePlaylistItemDocument,
   type PlaylistItemFragFragment,
 } from "../../../../graphql/types";
+
+import { AddVideo } from "./add-video";
+import { getMoveInput, reorderList } from "./utils";
+import { VideoItem } from "./video-item";
 
 export function VideoList() {
   const { playlistID } = Route.useParams();
