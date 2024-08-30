@@ -1,12 +1,12 @@
+import { LexoRank } from "lexorank";
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 
-import type { PlaylistItem, PlaylistItemInsert } from "../../../modules/playlist/models.js";
-import { getRankBetween } from "../../../modules/playlist/utils/rank.js";
 import { RedditService } from "../../external-clients/reddit.service.js";
 import { TwitchService } from "../../external-clients/twitch.service.js";
 import { YoutubeService } from "../../external-clients/youtube.service.js";
 import { PlaylistService } from "../playlist/playlist.service.js";
 
+import type { PlaylistItem, PlaylistItemInsert } from "./playlist-item.model.js";
 import { PlaylistItemService } from "./playlist-item.service.js";
 
 @Resolver("PlaylistItem")
@@ -41,7 +41,7 @@ export class PlaylistItemResolver {
       throw new Error("Invalid URL");
     }
 
-    const nextRank = getRankBetween([lastItem, undefined]);
+    const nextRank = this.getRankBetween([lastItem, undefined]);
 
     return this.playlistItemService.create({
       ...itemPayload,
@@ -67,7 +67,7 @@ export class PlaylistItemResolver {
 
       return this.playlistItemService.update({
         id: item.id,
-        rank: getRankBetween([undefined, firstItem]).toString(),
+        rank: this.getRankBetween([undefined, firstItem]).toString(),
       });
     }
 
@@ -80,7 +80,7 @@ export class PlaylistItemResolver {
 
     return this.playlistItemService.update({
       id: item.id,
-      rank: getRankBetween([beforeItem, afterItem]).toString(),
+      rank: this.getRankBetween([beforeItem, afterItem]).toString(),
     });
   }
 
@@ -88,6 +88,25 @@ export class PlaylistItemResolver {
   async deletePlaylistItem(@Args("id") id: number) {
     await this.playlistItemService.delete(id);
     return true;
+  }
+
+  private getRankBetween([beforeVideo, afterVideo]: [
+    PlaylistItem | undefined,
+    PlaylistItem | undefined,
+  ]) {
+    if (beforeVideo && afterVideo) {
+      return LexoRank.parse(beforeVideo.rank).between(LexoRank.parse(afterVideo.rank));
+    }
+
+    if (beforeVideo) {
+      return LexoRank.parse(beforeVideo.rank).genNext();
+    }
+
+    if (afterVideo) {
+      return LexoRank.parse(afterVideo.rank).genPrev();
+    }
+
+    return LexoRank.middle();
   }
 
   private async itemFromRawUrl(

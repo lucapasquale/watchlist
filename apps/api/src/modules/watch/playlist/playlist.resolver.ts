@@ -1,10 +1,10 @@
 import { LexoRank } from "lexorank";
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 
-import type { Playlist } from "../../../modules/playlist/models.js";
 import { YoutubeService } from "../../external-clients/youtube.service.js";
 import { PlaylistItemService } from "../playlist-item/playlist-item.service.js";
 
+import type { Playlist } from "./playlist.model.js";
 import { PlaylistService } from "./playlist.service.js";
 
 @Resolver("Playlist")

@@ -1,7 +1,8 @@
 import { Injectable } from "@nestjs/common";
 
 import { db } from "../../../database/index.js";
-import type { PlaylistInsert, PlaylistUpdate } from "../../../modules/playlist/models.js";
+
+import type { PlaylistInsert, PlaylistUpdate } from "./playlist.model.js";
 
 @Injectable()
 export class PlaylistService {

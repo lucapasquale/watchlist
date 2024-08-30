@@ -2,11 +2,12 @@ import { sql } from "kysely";
 import { Injectable } from "@nestjs/common";
 
 import { db } from "../../../database/index.js";
+
 import type {
   PlaylistItem,
   PlaylistItemInsert,
   PlaylistItemUpdate,
-} from "../../../modules/playlist/models.js";
+} from "./playlist-item.model.js";
 
 @Injectable()
 export class PlaylistItemService {

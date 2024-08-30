@@ -2,7 +2,8 @@ import { CamelCasePlugin, Kysely, PostgresDialect } from "kysely";
 import pg from "pg";
 
 import { config } from "../config.js";
-import { PlaylistItemTable, PlaylistTable } from "../modules/playlist/models.js";
+import { PlaylistTable } from "../modules/watch/playlist/playlist.model.js";
+import { PlaylistItemTable } from "../modules/watch/playlist-item/playlist-item.model.js";
 
 export interface Database {
   playlist: PlaylistTable;
