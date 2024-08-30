@@ -4,8 +4,9 @@ import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { Route } from "~routes/p/$playlistID/$videoID";
 
-import { VideoToolbar } from "./video-toolbar";
 import { PlaylistItemViewDocument } from "../../../../graphql/types";
+
+import { VideoToolbar } from "./video-toolbar";
 
 export function VideoPlayer() {
   const search = Route.useSearch();

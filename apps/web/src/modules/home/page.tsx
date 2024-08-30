@@ -2,8 +2,9 @@ import { useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
 import { Separator } from "@ui/components/ui/separator";
 
-import { CreatePlaylist } from "./create-playlist";
 import { HomePlaylistsDocument } from "../../graphql/types";
+
+import { CreatePlaylist } from "./create-playlist";
 
 export function Page() {
   const { data } = useQuery(HomePlaylistsDocument);

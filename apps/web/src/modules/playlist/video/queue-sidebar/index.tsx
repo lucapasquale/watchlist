@@ -1,3 +1,4 @@
+import React from "react";
 import { useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
 import { Separator } from "@ui/components/ui/separator";
@@ -5,22 +6,45 @@ import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { VideoKindBadge } from "~components/VideoKindBadge";
 import { Route } from "~routes/p/$playlistID/$videoID";
+
 import { PlaylistItemQueueSidebarDocument } from "../../../../graphql/types";
 
 export function QueueSidebar() {
   const search = Route.useSearch();
-  const { playlistID } = Route.useParams();
+  const { playlistID, videoID } = Route.useParams();
 
   const { data } = useQuery(PlaylistItemQueueSidebarDocument, {
     variables: { playlistID },
   });
+
+  const refs = React.useMemo(() => {
+    if (!data) {
+      return {};
+    }
+
+    return data.playlist.items.reduce(
+      (acc, value) => {
+        acc[value.id] = React.createRef<HTMLLIElement>();
+        return acc;
+      },
+      {} as Record<string, React.RefObject<HTMLLIElement>>,
+    );
+  }, [data]);
+
+  React.useEffect(() => {
+    if (!refs[videoID]?.current) {
+      return;
+    }
+
+    refs[videoID].current.scrollIntoView({ behavior: "smooth" });
+  }, [refs, videoID]);
 
   if (!data) {
     return <Skeleton />;
   }
 
   return (
-    <aside className="flex flex-col gap-6 rounded-md bg-gray-700 p-4">
+    <aside className="flex flex-col gap-6 rounded-md bg-gray-700 p-4 max-h-[700px]">
       <div>
         <Link
           to="/p/$playlistID"
@@ -35,9 +59,9 @@ export function QueueSidebar() {
 
       <Separator className="bg-primary" />
 
-      <ol className="flex flex-col gap-3">
+      <ol className="flex flex-col gap-3 overflow-x-hidden overflow-y-scroll">
         {data.playlist.items.map((playlistItem) => (
-          <li key={playlistItem.id}>
+          <li key={playlistItem.id} ref={refs[playlistItem.id]}>
             <Link
               search
               to="/p/$playlistID/$videoID"
