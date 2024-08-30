@@ -2,7 +2,7 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { Module } from "@nestjs/common";
 import { GraphQLModule } from "@nestjs/graphql";
 
-import { PlaylistModule } from "./modules2/playlist/playlist.module.js";
+import { PlaylistModule } from "./modules2/watch/watch.module.js";
 
 @Module({
   imports: [

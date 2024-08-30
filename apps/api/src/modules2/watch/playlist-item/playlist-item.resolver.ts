@@ -1,8 +1,8 @@
 import { Args, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 
-import type { PlaylistItem } from "../../modules/playlist/models.js";
+import type { PlaylistItem } from "../../../modules/playlist/models.js";
+import { PlaylistService } from "../playlist/playlist.service.js";
 
-import { PlaylistService } from "./playlist.service.js";
 import { PlaylistItemService } from "./playlist-item.service.js";
 
 @Resolver("PlaylistItem")

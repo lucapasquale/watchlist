@@ -1,9 +1,9 @@
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 
-import type { Playlist } from "../../modules/playlist/models.js";
+import type { Playlist } from "../../../modules/playlist/models.js";
 
 import { PlaylistService } from "./playlist.service.js";
-import { PlaylistItemService } from "./playlist-item.service.js";
+import { PlaylistItemService } from "../playlist-item/playlist-item.service.js";
 
 @Resolver("Playlist")
 export class PlaylistResolver {

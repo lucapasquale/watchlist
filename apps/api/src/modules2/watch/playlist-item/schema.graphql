@@ -1,0 +1,21 @@
+type Playlist {
+  itemsCount: Int!
+  items(shuffleSeed: String): [PlaylistItem!]!
+
+  firstItem(shuffleSeed: String): PlaylistItem
+}
+
+type PlaylistItem {
+  id: ID!
+  title: String!
+  thumbnailUrl: String!
+  url: String!
+  rawUrl: String!
+
+  playlist: Playlist!
+}
+
+type Query {
+  playlistItem(id: ID!): PlaylistItem!
+}
+

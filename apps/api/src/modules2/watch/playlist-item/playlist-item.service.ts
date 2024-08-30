@@ -1,7 +1,7 @@
 import { sql } from "kysely";
 import { Injectable } from "@nestjs/common";
 
-import { db } from "../../database/index.js";
+import { db } from "../../../database/index.js";
 
 @Injectable()
 export class PlaylistItemService {
