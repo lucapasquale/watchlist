@@ -37,8 +37,8 @@ export function CreatePlaylist() {
     });
 
     form.reset({ name: "" });
-    setOpen(false);
     navigate({ to: "/p/$playlistID", params: { playlistID: inserted.id.toString() } });
+    setOpen(false);
   };
 
   return (
