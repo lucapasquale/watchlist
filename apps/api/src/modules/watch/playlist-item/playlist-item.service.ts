@@ -78,6 +78,10 @@ export class PlaylistItemService {
   }
 
   async delete(id: number) {
-    return db.deleteFrom("playlist_item").where("id", "=", id).execute();
+    return db
+      .deleteFrom("playlist_item")
+      .where("id", "=", id)
+      .returningAll()
+      .executeTakeFirstOrThrow();
   }
 }

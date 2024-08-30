@@ -26,11 +26,8 @@ type Props = {
 export function AddVideo({ onAdd }: Props) {
   const { playlistID } = Route.useParams();
 
-  const [createVideo, { loading }] = useMutation(CreatePlaylistItemDocument, {
-    refetchQueries: ["PlaylistItemQueueSidebar"],
-  });
-
   const [open, setOpen] = React.useState(false);
+  const [createVideo, { loading }] = useMutation(CreatePlaylistItemDocument);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),

@@ -13,6 +13,7 @@ enum PlaylistItemKind {
 
 type PlaylistItem {
   id: ID!
+  rank: String!
   kind: PlaylistItemKind!
   title: String!
   thumbnailUrl: String!
@@ -40,5 +41,5 @@ input MovePlaylistItemInput {
 type Mutation {
   createPlaylistItem(input: CreatePlaylistItemInput!): PlaylistItem!
   movePlaylistItem(input: MovePlaylistItemInput!): PlaylistItem!
-  deletePlaylistItem(id: ID!): Boolean!
+  deletePlaylistItem(id: ID!): PlaylistItem!
 }

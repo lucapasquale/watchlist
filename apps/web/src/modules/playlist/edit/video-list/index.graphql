@@ -12,21 +12,48 @@ query EditPlaylistData($playlistID: ID!) {
 mutation CreatePlaylistItem($input: CreatePlaylistItemInput!) {
   createPlaylistItem(input: $input) {
     ...PlaylistItemFrag
+
+    playlist {
+      id
+
+      items {
+        ...PlaylistItemFrag
+      }
+    }
   }
 }
 
 mutation MovePlaylistItem($input: MovePlaylistItemInput!) {
   movePlaylistItem(input: $input) {
     ...PlaylistItemFrag
+
+    playlist {
+      id
+
+      items {
+        ...PlaylistItemFrag
+      }
+    }
   }
 }
 
 mutation DeletePlaylistItem($id: ID!) {
-  deletePlaylistItem(id: $id)
+  deletePlaylistItem(id: $id) {
+    ...PlaylistItemFrag
+
+    playlist {
+      id
+
+      items {
+        ...PlaylistItemFrag
+      }
+    }
+  }
 }
 
 fragment PlaylistItemFrag on PlaylistItem {
   id
+  rank
   kind
   title
   thumbnailUrl

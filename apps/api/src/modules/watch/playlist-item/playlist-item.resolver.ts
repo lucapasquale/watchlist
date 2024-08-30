@@ -91,8 +91,7 @@ export class PlaylistItemResolver {
 
   @Mutation()
   async deletePlaylistItem(@Args("id") id: number) {
-    await this.playlistItemService.delete(id);
-    return true;
+    return this.playlistItemService.delete(id);
   }
 
   private getRankBetween([beforeVideo, afterVideo]: [
