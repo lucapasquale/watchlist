@@ -2,6 +2,11 @@ import { sql } from "kysely";
 import { Injectable } from "@nestjs/common";
 
 import { db } from "../../../database/index.js";
+import type {
+  PlaylistItem,
+  PlaylistItemInsert,
+  PlaylistItemUpdate,
+} from "../../../modules/playlist/models.js";
 
 @Injectable()
 export class PlaylistItemService {
@@ -13,7 +18,7 @@ export class PlaylistItemService {
       .executeTakeFirstOrThrow();
   }
 
-  async getForPlaylist(playlistID: number, shuffleSeed?: string, limit?: number) {
+  async getFromPlaylist(playlistID: number, shuffleSeed?: string, limit?: number) {
     let query = db.selectFrom("playlist_item").where("playlistId", "=", playlistID).selectAll();
 
     if (shuffleSeed) {
@@ -29,7 +34,26 @@ export class PlaylistItemService {
     return query.execute();
   }
 
-  async countForPlaylist(playlistID: number) {
+  async getNextFromPlaylist(item: PlaylistItem) {
+    return await db
+      .selectFrom("playlist_item")
+      .where("playlistId", "=", item.playlistId)
+      .where("rank", ">", item.rank)
+      .orderBy("rank asc")
+      .selectAll()
+      .executeTakeFirst();
+  }
+
+  async getLastFromPlaylist(playlistID: number) {
+    return db
+      .selectFrom("playlist_item")
+      .where("playlistId", "=", playlistID)
+      .orderBy("rank desc")
+      .selectAll()
+      .executeTakeFirst();
+  }
+
+  async countFromPlaylist(playlistID: number) {
     const response = await db
       .selectFrom("playlist_item")
       .where("playlistId", "=", playlistID)
@@ -37,5 +61,22 @@ export class PlaylistItemService {
       .executeTakeFirstOrThrow();
 
     return Number(response.itemsCount);
+  }
+
+  async create(input: PlaylistItemInsert) {
+    return db.insertInto("playlist_item").values(input).returningAll().executeTakeFirstOrThrow();
+  }
+
+  async update({ id, ...input }: PlaylistItemUpdate & { id: number }) {
+    return db
+      .updateTable("playlist_item")
+      .where("id", "=", id)
+      .set(input)
+      .returningAll()
+      .executeTakeFirstOrThrow();
+  }
+
+  async delete(id: number) {
+    return db.deleteFrom("playlist_item").where("id", "=", id).execute();
   }
 }

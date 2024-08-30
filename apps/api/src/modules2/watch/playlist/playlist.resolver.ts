@@ -1,9 +1,9 @@
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 
 import type { Playlist } from "../../../modules/playlist/models.js";
+import { PlaylistItemService } from "../playlist-item/playlist-item.service.js";
 
 import { PlaylistService } from "./playlist.service.js";
-import { PlaylistItemService } from "../playlist-item/playlist-item.service.js";
 
 @Resolver("Playlist")
 export class PlaylistResolver {
@@ -14,18 +14,18 @@ export class PlaylistResolver {
 
   @ResolveField()
   async firstItem(@Parent() playlist: Playlist, @Args("shuffleSeed") shuffleSeed?: string) {
-    const items = await this.playlistItemService.getForPlaylist(playlist.id, shuffleSeed, 1);
+    const items = await this.playlistItemService.getFromPlaylist(playlist.id, shuffleSeed, 1);
     return items[0];
   }
 
   @ResolveField()
   async itemsCount(@Parent() playlist: Playlist) {
-    return this.playlistItemService.countForPlaylist(playlist.id);
+    return this.playlistItemService.countFromPlaylist(playlist.id);
   }
 
   @ResolveField()
   async items(@Parent() playlist: Playlist, @Args("shuffleSeed") shuffleSeed?: string) {
-    return this.playlistItemService.getForPlaylist(playlist.id, shuffleSeed);
+    return this.playlistItemService.getFromPlaylist(playlist.id, shuffleSeed);
   }
 
   @Query()

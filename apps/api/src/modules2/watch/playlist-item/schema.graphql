@@ -19,3 +19,18 @@ type Query {
   playlistItem(id: ID!): PlaylistItem!
 }
 
+input CreatePlaylistItemInput {
+  playlistID: ID!
+  rawUrl: String!
+}
+
+input MovePlaylistItemInput {
+  id: ID!
+  beforeID: ID
+}
+
+type Mutation {
+  createPlaylistItem(input: CreatePlaylistItemInput!): PlaylistItem!
+  movePlaylistItem(input: MovePlaylistItemInput!): PlaylistItem!
+  deletePlaylistItem(id: ID!): Boolean!
+}
