@@ -1,0 +1,45 @@
+type Playlist {
+  itemsCount: Int!
+  items(shuffleSeed: String): [PlaylistItem!]!
+
+  firstItem(shuffleSeed: String): PlaylistItem
+}
+
+enum PlaylistItemKind {
+  YOUTUBE
+  TWITCH_CLIP
+  REDDIT
+}
+
+type PlaylistItem {
+  id: ID!
+  rank: String!
+  kind: PlaylistItemKind!
+  title: String!
+  thumbnailUrl: String!
+  url: String!
+  rawUrl: String!
+
+  playlist: Playlist!
+  nextItem(shuffleSeed: String): PlaylistItem
+}
+
+type Query {
+  playlistItem(id: ID!): PlaylistItem!
+}
+
+input CreatePlaylistItemInput {
+  playlistID: ID!
+  rawUrl: String!
+}
+
+input MovePlaylistItemInput {
+  id: ID!
+  beforeID: ID
+}
+
+type Mutation {
+  createPlaylistItem(input: CreatePlaylistItemInput!): PlaylistItem!
+  movePlaylistItem(input: MovePlaylistItemInput!): PlaylistItem!
+  deletePlaylistItem(id: ID!): PlaylistItem!
+}

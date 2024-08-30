@@ -1,14 +1,14 @@
+import { useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
 import { Separator } from "@ui/components/ui/separator";
 
-import { trpc } from "~utils/trpc";
-
 import { CreatePlaylist } from "./create-playlist";
+import { HomePlaylistsDocument } from "../../graphql/types";
 
 export function Page() {
-  const playlists = trpc.getAllPlaylists.useQuery();
+  const { data } = useQuery(HomePlaylistsDocument);
 
-  if (playlists.isPending) {
+  if (!data) {
     return <div>Loading...</div>;
   }
 
@@ -18,7 +18,7 @@ export function Page() {
         <h2 className="text-xl mb-6">Playlists:</h2>
 
         <ol className="flex flex-col gap-8">
-          {playlists.data?.map((playlist) => (
+          {data.playlists.map((playlist) => (
             <li key={playlist.id}>
               <Link to="/p/$playlistID" params={{ playlistID: playlist.id.toString() }}>
                 {playlist.name}

@@ -1,0 +1,27 @@
+type Playlist {
+  id: ID!
+  name: String!
+}
+
+type Query {
+  playlists: [Playlist!]!
+  playlist(id: ID!): Playlist!
+}
+
+input CreatePlaylistInput {
+  name: String!
+}
+
+input UpdatePlaylistInput {
+  id: ID!
+  name: String!
+}
+
+type Mutation {
+  createPlaylist(input: CreatePlaylistInput!): Playlist!
+  createPlaylistFromYoutube(url: String!): Playlist!
+
+  updatePlaylist(input: UpdatePlaylistInput!): Playlist!
+
+  deletePlaylist(id: ID!): Boolean
+}

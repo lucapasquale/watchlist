@@ -1,51 +1,46 @@
 import React from "react";
+import { useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
 
 import { Route } from "~routes/p/$playlistID/index.lazy";
-import { trpc } from "~utils/trpc";
+import { PlaylistViewDocument } from "../../../graphql/types";
 
 export function Page() {
   const { playlistID } = Route.useParams();
-
-  const playlist = trpc.getPlaylist.useQuery(Number(playlistID));
-
   const shuffleSeed = React.useRef(Date.now().toString());
 
-  const firstItem = trpc.getPlaylistInitialItem.useQuery({
-    playlistID: Number(playlistID),
-    shuffleSeed: shuffleSeed.current,
+  const { data } = useQuery(PlaylistViewDocument, {
+    variables: { playlistID, shuffleSeed: shuffleSeed.current },
   });
 
-  if (!playlist.data) {
+  if (!data) {
     return <div>Loading...</div>;
   }
 
   return (
     <section className="flex flex-col items-center px-8 gap-40">
-      {playlist.data.name}
+      {data.playlist.name}
 
-      {firstItem.data && (
-        <div className="flex gap-4">
-          {firstItem.data.regular && (
-            <Link
-              to="/p/$playlistID/$videoID"
-              params={{ playlistID, videoID: firstItem.data.regular.id.toString() }}
-            >
-              Play
-            </Link>
-          )}
+      <div className="flex gap-4">
+        {data.playlist.firstItem && (
+          <Link
+            to="/p/$playlistID/$videoID"
+            params={{ playlistID, videoID: data.playlist.firstItem.id.toString() }}
+          >
+            Play
+          </Link>
+        )}
 
-          {firstItem.data.shuffle && (
-            <Link
-              to="/p/$playlistID/$videoID"
-              params={{ playlistID, videoID: firstItem.data.shuffle.id.toString() }}
-              search={{ shuffleSeed: shuffleSeed.current }}
-            >
-              Shuffle
-            </Link>
-          )}
-        </div>
-      )}
+        {data.playlist.shuffleFirstItem && (
+          <Link
+            to="/p/$playlistID/$videoID"
+            params={{ playlistID, videoID: data.playlist.shuffleFirstItem.id.toString() }}
+            search={{ shuffleSeed: shuffleSeed.current }}
+          >
+            Shuffle
+          </Link>
+        )}
+      </div>
 
       <Link to="/p/$playlistID/edit" params={{ playlistID }}>
         Edit videos

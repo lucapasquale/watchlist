@@ -1,42 +1,39 @@
 import { LinkIcon, SkipForward } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@ui/components/ui/button";
-import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { VideoKindBadge } from "~components/VideoKindBadge";
-import { RouterOutput } from "~utils/trpc";
+import { Route } from "~routes/p/$playlistID/$videoID";
+import { PlaylistItemViewQuery } from "../../../../graphql/types";
 
 type Props = {
-  video: NonNullable<RouterOutput["getPlaylistItem"]>;
-  queue: RouterOutput["getPlaylistQueue"] | undefined;
+  playlistItem: PlaylistItemViewQuery["playlistItem"];
 };
 
-export function VideoToolbar({ video, queue }: Props) {
-  if (!queue) {
-    return <Skeleton className="h-[62px]" />;
-  }
+export function VideoToolbar({ playlistItem }: Props) {
+  const { playlistID } = Route.useParams();
 
   return (
     <div className="w-full flex justify-between gap-8">
       <div className="flex flex-col gap-2">
         <h1 className="flex items-baseline gap-2 text-2xl">
-          {video.title}
+          {playlistItem.title}
 
-          <Link target="_blank" rel="noopener noreferrer" to={video.raw_url}>
+          <Link target="_blank" rel="noopener noreferrer" to={playlistItem.rawUrl}>
             <LinkIcon className="size-4" />
           </Link>
         </h1>
 
-        <VideoKindBadge videoKind={video.kind} />
+        <VideoKindBadge kind={playlistItem.kind} />
       </div>
 
-      <Button disabled={!queue?.[0]}>
+      <Button disabled={!playlistItem.nextItem}>
         <Link
           search
           to="/p/$playlistID/$videoID"
           params={{
-            playlistID: video.playlist_id.toString(),
-            videoID: queue?.[0]?.id.toString() ?? "",
+            playlistID,
+            videoID: playlistItem.nextItem?.id.toString() ?? "",
           }}
           className="flex items-center gap-2"
         >

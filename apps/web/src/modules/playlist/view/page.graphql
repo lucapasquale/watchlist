@@ -1,0 +1,13 @@
+query PlaylistView($playlistID: ID!, $shuffleSeed: String!) {
+  playlist(id: $playlistID) {
+    id
+    name
+
+    firstItem {
+      id
+    }
+    shuffleFirstItem: firstItem(shuffleSeed: $shuffleSeed) {
+      id
+    }
+  }
+}

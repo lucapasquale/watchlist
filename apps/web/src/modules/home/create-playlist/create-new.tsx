@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InputFormItem } from "@ui/components/form/input-form-item";
 import { Button } from "@ui/components/ui/button";
 import { Form } from "@ui/components/ui/form";
 
 import { Route } from "~routes/index.lazy";
-import { trpc } from "~utils/trpc";
+import { CreatePlaylistDocument } from "../../../graphql/types";
 
 const schema = z.object({
   name: z.string().min(1),
@@ -20,7 +21,7 @@ type Props = {
 export function CreateNew({ onCancel }: Props) {
   const navigate = Route.useNavigate();
 
-  const createPlaylist = trpc.createPlaylist.useMutation();
+  const [createPlaylist, { loading }] = useMutation(CreatePlaylistDocument);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -32,12 +33,16 @@ export function CreateNew({ onCancel }: Props) {
   };
 
   const onSubmit = async (values: FormValues) => {
-    const inserted = await createPlaylist.mutateAsync({
-      name: values.name,
+    const { data } = await createPlaylist({
+      variables: { input: { name: values.name } },
     });
 
+    if (!data) {
+      return;
+    }
+
     form.reset({ name: "" });
-    navigate({ to: "/p/$playlistID", params: { playlistID: inserted.id.toString() } });
+    navigate({ to: "/p/$playlistID", params: { playlistID: data.createPlaylist.id.toString() } });
   };
 
   return (
@@ -52,7 +57,8 @@ export function CreateNew({ onCancel }: Props) {
           <Button variant="outline" type="reset" onClick={onCancelClick}>
             Cancel
           </Button>
-          <Button type="submit" disabled={createPlaylist.isPending}>
+
+          <Button type="submit" disabled={loading}>
             Add
           </Button>
         </div>

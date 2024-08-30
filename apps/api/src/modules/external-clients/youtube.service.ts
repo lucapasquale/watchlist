@@ -1,6 +1,46 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
+import { Injectable } from "@nestjs/common";
 
-import { config } from "../../config.js";
+@Injectable()
+export class YoutubeService {
+  private client: AxiosInstance;
+
+  constructor() {
+    this.client = axios.create({
+      baseURL: "https://www.googleapis.com/youtube/v3",
+      params: { key: process.env.YOUTUBE_API_KEY },
+    });
+  }
+
+  async getVideo(videoID: string) {
+    const { data } = await this.client.get<ApiResponse<Video>>("/videos", {
+      params: { id: videoID, part: "snippet" },
+    });
+
+    return data.items[0];
+  }
+
+  async getPlaylist(playlistID: string) {
+    const { data } = await this.client.get<ApiResponse<Playlist>>("/playlists", {
+      params: { id: playlistID, part: "snippet" },
+    });
+
+    return data.items[0];
+  }
+
+  async getPlaylistItems(playlistID: string, pageToken?: string) {
+    const { data } = await this.client.get<ApiResponse<PlaylistItem>>("/playlistItems", {
+      params: {
+        playlistId: playlistID,
+        part: "snippet,contentDetails",
+        maxResults: 50,
+        pageToken,
+      },
+    });
+
+    return data;
+  }
+}
 
 type ApiResponse<T> = {
   kind: string;
@@ -9,7 +49,13 @@ type ApiResponse<T> = {
     totalResults: number;
     resultsPerPage: number;
   };
-  items: T[];
+  items: Array<
+    T & {
+      kind: string;
+      etag: string;
+      id: string;
+    }
+  >;
   nextPageToken?: string;
 };
 type Thumbnail = {
@@ -18,15 +64,7 @@ type Thumbnail = {
   height: number;
 };
 
-const client = axios.create({
-  baseURL: "https://www.googleapis.com/youtube/v3",
-  params: { key: config.youtube.apiKey },
-});
-
 type Video = {
-  kind: string;
-  etag: string;
-  id: string;
   snippet: {
     publishedAt: string;
     channelId: string;
@@ -48,18 +86,8 @@ type Video = {
     };
   };
 };
-export async function getVideo(videoID: string) {
-  const { data } = await client.get<ApiResponse<Video>>("/videos", {
-    params: { id: videoID, part: "snippet" },
-  });
-
-  return data.items[0];
-}
 
 type Playlist = {
-  kind: string;
-  etag: string;
-  id: string;
   snippet: {
     publishedAt: string;
     channelId: string;
@@ -75,18 +103,8 @@ type Playlist = {
     channelTitle: string;
   };
 };
-export async function getPlaylist(playlistID: string) {
-  const { data } = await client.get<ApiResponse<Playlist>>("/playlists", {
-    params: { id: playlistID, part: "snippet" },
-  });
-
-  return data.items[0];
-}
 
 type PlaylistItem = {
-  kind: string;
-  etag: string;
-  id: string;
   snippet: {
     publishedAt: string;
     channelId: string;
@@ -114,15 +132,3 @@ type PlaylistItem = {
     videoPublishedAt?: string;
   };
 };
-export async function getPlaylistItems(playlistID: string, pageToken?: string) {
-  const { data } = await client.get<ApiResponse<PlaylistItem>>("/playlistItems", {
-    params: {
-      playlistId: playlistID,
-      part: "snippet,contentDetails",
-      maxResults: 50,
-      pageToken,
-    },
-  });
-
-  return data;
-}

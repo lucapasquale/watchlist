@@ -1,34 +1,34 @@
 import { Badge } from "@ui/components/ui/badge";
 import { cn } from "@ui/lib/utils";
+import { PlaylistItemKind } from "../graphql/types";
 
-import type { RouterOutput } from "~utils/trpc";
-
-type VideoKind = NonNullable<RouterOutput["getPlaylistItems"]>[number]["kind"];
-
-const VIDEO_KINDS: Record<VideoKind, { label: string; className: string }> = {
-  youtube: {
+const PLAYLIST_ITEM_KINDS: Record<PlaylistItemKind, { label: string; className: string }> = {
+  [PlaylistItemKind.Youtube]: {
     label: "YouTube",
     className: "text-primary bg-red-700 hover:bg-red-700",
   },
-  twitch_clip: {
+  [PlaylistItemKind.TwitchClip]: {
     label: "Twitch Clip",
     className: "text-primary bg-[#6441a5] hover:bg-[#6441a5]",
   },
-  reddit: {
+  [PlaylistItemKind.Reddit]: {
     label: "Reddit",
     className: "text-primary bg-[#FF5700] hover:bg-[#FF5700]",
   },
 };
 
 type Props = {
-  videoKind: VideoKind;
+  kind: PlaylistItemKind;
   className?: string;
 };
 
-export function VideoKindBadge({ videoKind, className }: Props) {
+export function VideoKindBadge({ kind, className }: Props) {
   return (
-    <Badge variant="default" className={cn("w-fit ", VIDEO_KINDS[videoKind].className, className)}>
-      {VIDEO_KINDS[videoKind].label}
+    <Badge
+      variant="default"
+      className={cn("w-fit ", PLAYLIST_ITEM_KINDS[kind].className, className)}
+    >
+      {PLAYLIST_ITEM_KINDS[kind].label}
     </Badge>
   );
 }

@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InputFormItem } from "@ui/components/form/input-form-item";
 import { Button } from "@ui/components/ui/button";
 import { Form } from "@ui/components/ui/form";
 
 import { Route } from "~routes/index.lazy";
-import { trpc } from "~utils/trpc";
+import { CreatePlaylistFromYoutubeDocument } from "../../../graphql/types";
 
 const schema = z.object({
   playlistURL: z.string().url(),
@@ -20,7 +21,7 @@ type Props = {
 export function ImportFromYoutube({ onCancel }: Props) {
   const navigate = Route.useNavigate();
 
-  const createPlaylistFromYoutube = trpc.createPlaylistFromYoutube.useMutation();
+  const [createPlaylist, { loading }] = useMutation(CreatePlaylistFromYoutubeDocument);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -32,12 +33,18 @@ export function ImportFromYoutube({ onCancel }: Props) {
   };
 
   const onSubmit = async (values: FormValues) => {
-    const inserted = await createPlaylistFromYoutube.mutateAsync({
-      url: values.playlistURL,
+    const { data } = await createPlaylist({
+      variables: { url: values.playlistURL },
     });
+    if (!data) {
+      return;
+    }
 
     form.reset({ playlistURL: "" });
-    navigate({ to: "/p/$playlistID", params: { playlistID: inserted.id.toString() } });
+    navigate({
+      to: "/p/$playlistID",
+      params: { playlistID: data.createPlaylistFromYoutube.id.toString() },
+    });
   };
 
   return (
@@ -57,7 +64,8 @@ export function ImportFromYoutube({ onCancel }: Props) {
           <Button variant="outline" type="reset" onClick={onCancelClick}>
             Cancel
           </Button>
-          <Button type="submit" disabled={createPlaylistFromYoutube.isPending}>
+
+          <Button type="submit" disabled={loading}>
             Add
           </Button>
         </div>

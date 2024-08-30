@@ -1,28 +1,32 @@
 import ReactPlayer from "react-player/lazy";
+import { useQuery } from "@apollo/client";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { Route } from "~routes/p/$playlistID/$videoID";
-import { RouterOutput, trpc } from "~utils/trpc";
 
 import { VideoToolbar } from "./video-toolbar";
+import { PlaylistItemViewDocument } from "../../../../graphql/types";
 
-type Props = {
-  videoID: number;
-  queue: RouterOutput["getPlaylistQueue"] | undefined;
-};
-
-export function VideoPlayer({ videoID, queue }: Props) {
+export function VideoPlayer() {
+  const search = Route.useSearch();
   const navigate = Route.useNavigate();
+  const { playlistID, videoID } = Route.useParams();
 
-  const video = trpc.getPlaylistItem.useQuery(videoID);
+  const { data } = useQuery(PlaylistItemViewDocument, {
+    variables: { playlistItemID: videoID, shuffleSeed: search.shuffleSeed },
+  });
 
   const onVideoEnded = () => {
-    if (queue?.[0]) {
-      navigate({ to: `../${queue[0].id.toString()}`, search: true });
+    if (data?.playlistItem.nextItem) {
+      navigate({
+        to: "/p/$playlistID/$videoID",
+        params: { playlistID, videoID: data.playlistItem.nextItem.id.toString() },
+        search: true,
+      });
     }
   };
 
-  if (!video.data) {
+  if (!data) {
     return (
       <article className="flex flex-col gap-6">
         <Skeleton className="aspect-video w-full" />
@@ -34,10 +38,10 @@ export function VideoPlayer({ videoID, queue }: Props) {
   return (
     <article className="flex flex-col gap-6">
       <ReactPlayer
-        key={video.data.id}
+        key={data.playlistItem.id}
         playing
         controls
-        url={video.data.url}
+        url={data.playlistItem.url}
         onEnded={onVideoEnded}
         onError={(...args) => {
           console.error("Failed to load video", ...args);
@@ -47,7 +51,7 @@ export function VideoPlayer({ videoID, queue }: Props) {
         style={{ aspectRatio: "16 / 9", maxHeight: "620px" }}
       />
 
-      <VideoToolbar video={video.data} queue={queue} />
+      <VideoToolbar playlistItem={data.playlistItem} />
     </article>
   );
 }

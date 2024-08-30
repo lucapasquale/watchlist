@@ -2,12 +2,18 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Plus } from "lucide-react";
 import { z } from "zod";
+import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InputFormItem } from "@ui/components/form/input-form-item";
 import { Button } from "@ui/components/ui/button";
 import { Form } from "@ui/components/ui/form";
 
-import { RouterOutput, trpc } from "~utils/trpc";
+import { Route } from "~routes/p/$playlistID/edit.lazy";
+
+import {
+  CreatePlaylistItemDocument,
+  type PlaylistItemFragFragment,
+} from "../../../../graphql/types";
 
 const schema = z.object({
   rawURL: z.string().min(1).url(),
@@ -15,17 +21,18 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 type Props = {
-  playlistID: number;
-  onAdd: (video: NonNullable<RouterOutput["getPlaylistItems"]>[number]) => void;
+  onAdd: (video: PlaylistItemFragFragment) => void;
 };
 
-export function AddVideo({ playlistID, onAdd }: Props) {
-  const createVideo = trpc.createPlaylistItem.useMutation();
+export function AddVideo({ onAdd }: Props) {
+  const { playlistID } = Route.useParams();
 
   const [open, setOpen] = React.useState(false);
+  const [createVideo, { loading }] = useMutation(CreatePlaylistItemDocument);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
+    defaultValues: { rawURL: "" },
   });
 
   const onCancel = () => {
@@ -34,13 +41,15 @@ export function AddVideo({ playlistID, onAdd }: Props) {
   };
 
   const onSubmit = async (values: FormValues) => {
-    const inserted = await createVideo.mutateAsync({
-      playlistID,
-      rawUrl: values.rawURL,
+    const { data } = await createVideo({
+      variables: { input: { playlistID, rawUrl: values.rawURL } },
     });
+    if (!data) {
+      return;
+    }
 
     form.reset({ rawURL: "" });
-    onAdd(inserted);
+    onAdd(data.createPlaylistItem);
     setOpen(false);
   };
 
@@ -70,7 +79,8 @@ export function AddVideo({ playlistID, onAdd }: Props) {
               <Button variant="outline" type="reset" onClick={onCancel}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={createVideo.isPending}>
+
+              <Button type="submit" disabled={loading}>
                 Add
               </Button>
             </div>
