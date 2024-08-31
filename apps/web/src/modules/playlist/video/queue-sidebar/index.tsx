@@ -4,9 +4,8 @@ import { Link } from "@tanstack/react-router";
 import { Separator } from "@ui/components/ui/separator";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
+import { PlaylistItemQueueSidebarDocument } from "~graphql/types";
 import { Route } from "~routes/p/$playlistID/$videoID";
-
-import { PlaylistItemQueueSidebarDocument } from "../../../../graphql/types";
 
 export function QueueSidebar() {
   const search = Route.useSearch();

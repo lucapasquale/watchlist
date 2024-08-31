@@ -6,12 +6,8 @@ import { Link } from "@tanstack/react-router";
 import { Button } from "@ui/components/ui/button";
 import { cn } from "@ui/lib/utils";
 
-import { VideoKindBadge } from "~components/VideoKindBadge";
-
-import {
-  DeletePlaylistItemDocument,
-  type PlaylistItemFragFragment,
-} from "../../../../graphql/types";
+import { PlaylistItemKindBadge } from "~components/playlist-item-kind-badge";
+import { DeletePlaylistItemDocument, type PlaylistItemFragFragment } from "~graphql/types";
 
 type Props = React.ComponentProps<"li"> & {
   playlistItem: PlaylistItemFragFragment;
@@ -56,7 +52,7 @@ export const VideoItem = React.forwardRef<HTMLLIElement, Props>(
                 </Link>
               </h1>
 
-              <VideoKindBadge kind={playlistItem.kind} />
+              <PlaylistItemKindBadge kind={playlistItem.kind} />
             </div>
           </div>
         </div>

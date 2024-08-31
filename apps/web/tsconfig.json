@@ -7,9 +7,9 @@
       "@ui/*": ["../../libs/ui/src/*"],
 
       "~components/*": ["./src/components/*"],
+      "~graphql/*": ["./src/graphql/*"],
       "~modules/*": ["./src/modules/*"],
       "~routes/*": ["./src/routes/*"],
-      "~utils/*": ["./src/utils/*"],
     }
   },
 

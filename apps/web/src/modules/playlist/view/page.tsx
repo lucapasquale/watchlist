@@ -2,9 +2,8 @@ import React from "react";
 import { useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
 
+import { PlaylistViewDocument } from "~graphql/types";
 import { Route } from "~routes/p/$playlistID/index.lazy";
-
-import { PlaylistViewDocument } from "../../../graphql/types";
 
 export function Page() {
   const { playlistID } = Route.useParams();

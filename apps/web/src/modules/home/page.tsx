@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
 import { Separator } from "@ui/components/ui/separator";
 
-import { HomePlaylistsDocument } from "../../graphql/types";
+import { HomePlaylistsDocument } from "~graphql/types";
 
 import { CreatePlaylist } from "./create-playlist";
 

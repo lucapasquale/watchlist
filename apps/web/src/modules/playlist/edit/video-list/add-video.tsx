@@ -8,12 +8,8 @@ import { InputFormItem } from "@ui/components/form/input-form-item";
 import { Button } from "@ui/components/ui/button";
 import { Form } from "@ui/components/ui/form";
 
+import { CreatePlaylistItemDocument, type PlaylistItemFragFragment } from "~graphql/types";
 import { Route } from "~routes/p/$playlistID/edit.lazy";
-
-import {
-  CreatePlaylistItemDocument,
-  type PlaylistItemFragFragment,
-} from "../../../../graphql/types";
 
 const schema = z.object({
   rawURL: z.string().min(1).url(),

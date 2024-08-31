@@ -6,9 +6,8 @@ import { InputFormItem } from "@ui/components/form/input-form-item";
 import { Button } from "@ui/components/ui/button";
 import { Form } from "@ui/components/ui/form";
 
+import { CreatePlaylistFromYoutubeDocument } from "~graphql/types";
 import { Route } from "~routes/index.lazy";
-
-import { CreatePlaylistFromYoutubeDocument } from "../../../graphql/types";
 
 const schema = z.object({
   playlistURL: z.string().url(),

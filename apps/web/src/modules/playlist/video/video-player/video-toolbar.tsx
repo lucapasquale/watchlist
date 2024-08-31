@@ -4,10 +4,9 @@ import { LinkIcon, SkipForward } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@ui/components/ui/button";
 
-import { VideoKindBadge } from "~components/VideoKindBadge";
+import { PlaylistItemKindBadge } from "~components/playlist-item-kind-badge";
+import { PlaylistItemViewQuery } from "~graphql/types";
 import { Route } from "~routes/p/$playlistID/$videoID";
-
-import { PlaylistItemViewQuery } from "../../../../graphql/types";
 
 export type NextButtonKind = "loading" | "user-input" | "auto-forward";
 
@@ -56,7 +55,7 @@ export function VideoToolbar({ nextButtonKind, playlistItem }: Props) {
           </h1>
         </Link>
 
-        <VideoKindBadge kind={playlistItem.kind} />
+        <PlaylistItemKindBadge kind={playlistItem.kind} />
       </div>
 
       <Link search to="/p/$playlistID/$videoID" params={{ playlistID, videoID: nextItemID ?? "" }}>

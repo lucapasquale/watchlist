@@ -2,13 +2,12 @@ import React from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea/dnd";
 
-import { Route } from "~routes/p/$playlistID/edit.lazy";
-
 import {
   EditPlaylistDataDocument,
   MovePlaylistItemDocument,
   type PlaylistItemFragFragment,
-} from "../../../../graphql/types";
+} from "~graphql/types";
+import { Route } from "~routes/p/$playlistID/edit.lazy";
 
 import { AddVideo } from "./add-video";
 import { getMoveInput, reorderList } from "./utils";
