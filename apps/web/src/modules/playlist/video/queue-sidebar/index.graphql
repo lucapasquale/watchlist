@@ -1,9 +1,9 @@
-query PlaylistItemQueueSidebar($playlistID: ID!) {
+query PlaylistItemQueueSidebar($playlistID: ID!, $shuffleSeed: String) {
   playlist(id: $playlistID) {
     id
     name
 
-    items {
+    items(shuffleSeed: $shuffleSeed) {
       id
       kind
       title

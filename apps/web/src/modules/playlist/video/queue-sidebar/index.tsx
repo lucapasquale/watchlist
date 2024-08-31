@@ -4,7 +4,6 @@ import { Link } from "@tanstack/react-router";
 import { Separator } from "@ui/components/ui/separator";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
-import { VideoKindBadge } from "~components/VideoKindBadge";
 import { Route } from "~routes/p/$playlistID/$videoID";
 
 import { PlaylistItemQueueSidebarDocument } from "../../../../graphql/types";
@@ -14,7 +13,7 @@ export function QueueSidebar() {
   const { playlistID, videoID } = Route.useParams();
 
   const { data } = useQuery(PlaylistItemQueueSidebarDocument, {
-    variables: { playlistID },
+    variables: { playlistID, shuffleSeed: search.shuffleSeed },
   });
 
   const refs = React.useMemo(() => {
@@ -36,8 +35,8 @@ export function QueueSidebar() {
       return;
     }
 
-    refs[videoID].current.scrollIntoView({ behavior: "smooth" });
-  }, [refs, videoID]);
+    refs[videoID].current.scrollIntoView({ behavior: search.shuffleSeed ? "instant" : "smooth" });
+  }, [refs, search.shuffleSeed, videoID]);
 
   if (!data) {
     return <Skeleton />;
@@ -60,24 +59,24 @@ export function QueueSidebar() {
       <Separator className="bg-primary" />
 
       <ol className="flex flex-col gap-3 overflow-x-hidden overflow-y-scroll">
-        {data.playlist.items.map((playlistItem) => (
+        {data.playlist.items.map((playlistItem, idx) => (
           <li key={playlistItem.id} ref={refs[playlistItem.id]}>
             <Link
               search
               to="/p/$playlistID/$videoID"
               params={{ playlistID: playlistID.toString(), videoID: playlistItem.id.toString() }}
-              className="flex items-center gap-2"
+              className="flex items-center gap-3"
             >
+              <p className="text-xs">{idx + 1}</p>
+
               <img
                 src={playlistItem.thumbnailUrl}
                 className="w-[100px] h-[56px] aspect-video rounded-md"
               />
 
-              <div className="flex flex-col gap-1">
-                <h1 className="text-lg">{playlistItem.title}</h1>
-
-                <VideoKindBadge kind={playlistItem.kind} />
-              </div>
+              <h1 title={playlistItem.title} className="line-clamp-2">
+                {playlistItem.title}
+              </h1>
             </Link>
           </li>
         ))}
