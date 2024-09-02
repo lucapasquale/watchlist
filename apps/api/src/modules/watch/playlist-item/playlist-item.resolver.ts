@@ -25,8 +25,8 @@ export class PlaylistItemResolver {
   }
 
   @ResolveField()
-  async nextItem(@Parent() playlistItem: PlaylistItem) {
-    return this.playlistItemService.getNextFromPlaylist(playlistItem);
+  async nextItem(@Parent() playlistItem: PlaylistItem, @Args("shuffleSeed") shuffleSeed?: string) {
+    return this.playlistItemService.getNextFromPlaylist(playlistItem, shuffleSeed);
   }
 
   @Query()

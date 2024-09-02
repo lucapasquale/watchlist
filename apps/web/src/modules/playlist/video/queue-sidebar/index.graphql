@@ -2,6 +2,7 @@ query PlaylistItemQueueSidebar($playlistID: ID!, $shuffleSeed: String) {
   playlist(id: $playlistID) {
     id
     name
+    itemsCount
 
     items(shuffleSeed: $shuffleSeed) {
       id

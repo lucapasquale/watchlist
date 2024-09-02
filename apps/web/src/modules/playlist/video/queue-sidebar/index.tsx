@@ -1,11 +1,12 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
-import { Separator } from "@ui/components/ui/separator";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { PlaylistItemQueueSidebarDocument } from "~graphql/types";
 import { Route } from "~routes/p/$playlistID/$videoID";
+
+import { ItemsList } from "./items-list";
 
 export function QueueSidebar() {
   const search = Route.useSearch();
@@ -15,71 +16,41 @@ export function QueueSidebar() {
     variables: { playlistID, shuffleSeed: search.shuffleSeed },
   });
 
-  const refs = React.useMemo(() => {
+  const currentItemIndex = React.useMemo(() => {
     if (!data) {
-      return {};
+      return -1;
     }
 
-    return data.playlist.items.reduce(
-      (acc, value) => {
-        acc[value.id] = React.createRef<HTMLLIElement>();
-        return acc;
-      },
-      {} as Record<string, React.RefObject<HTMLLIElement>>,
-    );
-  }, [data]);
-
-  React.useEffect(() => {
-    if (!refs[videoID]?.current) {
-      return;
-    }
-
-    refs[videoID].current.scrollIntoView({ behavior: search.shuffleSeed ? "instant" : "smooth" });
-  }, [refs, search.shuffleSeed, videoID]);
+    return data.playlist.items.findIndex((i) => i.id === videoID);
+  }, [data, videoID]);
 
   if (!data) {
     return <Skeleton />;
   }
 
   return (
-    <aside className="flex flex-col gap-6 rounded-md bg-gray-700 p-4 max-h-[700px]">
-      <div>
-        <Link
-          to="/p/$playlistID"
-          params={{ playlistID: playlistID.toString() }}
-          className="text-xl"
-        >
-          {data.playlist.name}
-        </Link>
+    <aside className="flex flex-col rounded-md bg-gray-700 max-h-[700px]">
+      <div className="flex flex-col gap-2 p-4">
+        <div>
+          <Link
+            to="/p/$playlistID"
+            params={{ playlistID: playlistID.toString() }}
+            className="text-xl font-bold"
+          >
+            {data.playlist.name}
+          </Link>
 
-        {search.shuffleSeed && <>- Shuffle</>}
+          {search.shuffleSeed && <>- Shuffle</>}
+        </div>
+
+        {currentItemIndex > -1 && (
+          <div>
+            {currentItemIndex + 1} / {data.playlist.itemsCount}
+          </div>
+        )}
       </div>
 
-      <Separator className="bg-primary" />
-
-      <ol className="flex flex-col gap-3 overflow-x-hidden overflow-y-scroll">
-        {data.playlist.items.map((playlistItem, idx) => (
-          <li key={playlistItem.id} ref={refs[playlistItem.id]}>
-            <Link
-              search
-              to="/p/$playlistID/$videoID"
-              params={{ playlistID: playlistID.toString(), videoID: playlistItem.id.toString() }}
-              className="flex items-center gap-3"
-            >
-              <p className="text-xs">{idx + 1}</p>
-
-              <img
-                src={playlistItem.thumbnailUrl}
-                className="w-[100px] h-[56px] aspect-video rounded-md"
-              />
-
-              <h1 title={playlistItem.title} className="line-clamp-2">
-                {playlistItem.title}
-              </h1>
-            </Link>
-          </li>
-        ))}
-      </ol>
+      <ItemsList playlist={data.playlist} currentItemIndex={currentItemIndex} />
     </aside>
   );
 }

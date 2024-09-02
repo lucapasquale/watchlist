@@ -1,4 +1,5 @@
 import { sql } from "kysely";
+import crypto from "node:crypto";
 import { Injectable } from "@nestjs/common";
 
 import { db } from "../../../database/index.js";
@@ -35,14 +36,26 @@ export class PlaylistItemService {
     return query.execute();
   }
 
-  async getNextFromPlaylist(item: PlaylistItem) {
-    return await db
+  async getNextFromPlaylist(item: PlaylistItem, shuffleSeed?: string) {
+    let query = db
       .selectFrom("playlist_item")
       .where("playlistId", "=", item.playlistId)
-      .where("rank", ">", item.rank)
-      .orderBy("rank asc")
-      .selectAll()
-      .executeTakeFirst();
+      .selectAll();
+
+    if (shuffleSeed) {
+      const itemHash = crypto
+        .createHash("md5")
+        .update(item.id.toString() + shuffleSeed)
+        .digest("hex");
+
+      query = query
+        .where(sql`md5(id::text || ${shuffleSeed})`, ">", itemHash)
+        .orderBy(sql`md5(id::text || ${shuffleSeed}) asc`);
+    } else {
+      query = query.where("rank", ">", item.rank).orderBy("rank asc");
+    }
+
+    return query.executeTakeFirst();
   }
 
   async getLastFromPlaylist(playlistID: number) {
