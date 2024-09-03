@@ -38,15 +38,15 @@ export function VideoPlayer() {
 
   if (!data) {
     return (
-      <article className="flex flex-col gap-6">
+      <section className="flex flex-col gap-6">
         <Skeleton className="aspect-video w-full h-[620px]" />
         <Skeleton className="h-[62px]" />
-      </article>
+      </section>
     );
   }
 
   return (
-    <article className="flex flex-col gap-6">
+    <section className="flex flex-col gap-6">
       <ReactPlayer
         key={data.playlistItem.id}
         playing
@@ -63,6 +63,6 @@ export function VideoPlayer() {
       />
 
       <VideoToolbar playlistItem={data.playlistItem} nextButtonKind={nextButtonKind} />
-    </article>
+    </section>
   );
 }

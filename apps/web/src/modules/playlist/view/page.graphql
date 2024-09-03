@@ -2,6 +2,7 @@ query PlaylistView($playlistID: ID!, $shuffleSeed: String!) {
   playlist(id: $playlistID) {
     id
     name
+    itemsCount
 
     firstItem {
       id

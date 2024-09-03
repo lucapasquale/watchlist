@@ -10,11 +10,11 @@ export function Page() {
   const { data } = useQuery(HomePlaylistsDocument);
 
   if (!data) {
-    return <div>Loading...</div>;
+    return <main>Loading...</main>;
   }
 
   return (
-    <div className="flex flex-col gap-8">
+    <main className="flex flex-col gap-8">
       <section>
         <h2 className="text-xl mb-6">Playlists:</h2>
 
@@ -34,6 +34,6 @@ export function Page() {
       <section>
         <CreatePlaylist />
       </section>
-    </div>
+    </main>
   );
 }
