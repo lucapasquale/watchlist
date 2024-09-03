@@ -1,0 +1,13 @@
+query AddItemUrlInformation($url: String!) {
+  urlInformation(url: $url) {
+		kind
+		title
+		thumbnailUrl
+	}
+}
+
+mutation CreatePlaylistItem($input: CreatePlaylistItemInput!) {
+  createPlaylistItem(input: $input) {
+    id
+  }
+}

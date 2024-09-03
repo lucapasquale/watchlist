@@ -24,8 +24,16 @@ type PlaylistItem {
   nextItem(shuffleSeed: String): PlaylistItem
 }
 
+type UrlInformation {
+  kind: PlaylistItemKind!
+  title: String!
+  thumbnailUrl: String!
+}
+
 type Query {
   playlistItem(id: ID!): PlaylistItem!
+
+  urlInformation(url: String!): UrlInformation
 }
 
 input CreatePlaylistItemInput {

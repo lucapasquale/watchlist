@@ -16,7 +16,7 @@ export function PlaylistInfo({ playlist, shuffleSeed }: Props) {
   return (
     <section className="rounded-xl flex flex-col gap-4 p-4 bg-gray-600">
       <div className="flex flex-col gap-1">
-        <h1 className="text-xl">{playlist.name}</h1>
+        <h1 className="text-2xl">{playlist.name}</h1>
 
         <h3 className="text-sm">{playlist.itemsCount} videos</h3>
       </div>

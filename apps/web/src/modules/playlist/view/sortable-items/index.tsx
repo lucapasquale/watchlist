@@ -23,6 +23,7 @@ export function SortableItems() {
 
   const { data } = useQuery(PlaylistSortableItemsDocument, {
     variables: { playlistID },
+    notifyOnNetworkStatusChange: true,
     onCompleted: (data) => {
       setItems(data.playlist.items);
     },

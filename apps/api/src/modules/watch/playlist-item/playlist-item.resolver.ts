@@ -30,26 +30,31 @@ export class PlaylistItemResolver {
   }
 
   @Query()
+  async urlInformation(@Args("url") url: string) {
+    return this.parseUrlInformation(url);
+  }
+
+  @Query()
   async playlistItem(@Args("id") id: number) {
     return this.playlistItemService.getByID(id);
   }
 
   @Mutation()
   async createPlaylistItem(@Args("input") input: { playlistID: number; rawUrl: string }) {
-    const [playlist, lastItem, itemPayload] = await Promise.all([
+    const [playlist, lastItem, urlInformation] = await Promise.all([
       this.playlistService.getByID(input.playlistID),
       this.playlistItemService.getLastFromPlaylist(input.playlistID),
-      this.itemFromRawUrl(input.rawUrl),
+      this.parseUrlInformation(input.rawUrl),
     ]);
 
-    if (!itemPayload) {
+    if (!urlInformation) {
       throw new Error("Invalid URL");
     }
 
     const nextRank = this.getRankBetween([lastItem, undefined]);
 
     return this.playlistItemService.create({
-      ...itemPayload,
+      ...urlInformation,
       rank: nextRank.toString(),
       playlistId: playlist.id,
     });
@@ -113,7 +118,7 @@ export class PlaylistItemResolver {
     return LexoRank.middle();
   }
 
-  private async itemFromRawUrl(
+  private async parseUrlInformation(
     rawUrl: string,
   ): Promise<Omit<PlaylistItemInsert, "rank" | "playlistId"> | null> {
     const url = new URL(rawUrl);

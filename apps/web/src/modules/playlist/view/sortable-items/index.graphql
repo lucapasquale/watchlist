@@ -8,20 +8,6 @@ query PlaylistSortableItems($playlistID: ID!) {
   }
 }
 
-mutation CreatePlaylistItem($input: CreatePlaylistItemInput!) {
-  createPlaylistItem(input: $input) {
-    ...PlaylistItemFrag
-
-    playlist {
-      id
-
-      items {
-        ...PlaylistItemFrag
-      }
-    }
-  }
-}
-
 mutation MovePlaylistItem($input: MovePlaylistItemInput!) {
   movePlaylistItem(input: $input) {
     ...PlaylistItemFrag
