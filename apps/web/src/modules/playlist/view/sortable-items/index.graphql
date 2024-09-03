@@ -1,7 +1,6 @@
-query EditPlaylistData($playlistID: ID!) {
+query PlaylistSortableItems($playlistID: ID!) {
   playlist(id: $playlistID) {
     id
-    name
 
     items {
       ...PlaylistItemFrag

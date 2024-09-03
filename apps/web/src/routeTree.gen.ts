@@ -19,7 +19,6 @@ import { Route as PPlaylistIDVideoIDImport } from './routes/p/$playlistID/$video
 
 const IndexLazyImport = createFileRoute('/')()
 const PPlaylistIDIndexLazyImport = createFileRoute('/p/$playlistID/')()
-const PPlaylistIDEditLazyImport = createFileRoute('/p/$playlistID/edit')()
 
 // Create/Update Routes
 
@@ -33,13 +32,6 @@ const PPlaylistIDIndexLazyRoute = PPlaylistIDIndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/p/$playlistID/index.lazy').then((d) => d.Route),
-)
-
-const PPlaylistIDEditLazyRoute = PPlaylistIDEditLazyImport.update({
-  path: '/p/$playlistID/edit',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/p/$playlistID/edit.lazy').then((d) => d.Route),
 )
 
 const PPlaylistIDVideoIDRoute = PPlaylistIDVideoIDImport.update({
@@ -65,13 +57,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PPlaylistIDVideoIDImport
       parentRoute: typeof rootRoute
     }
-    '/p/$playlistID/edit': {
-      id: '/p/$playlistID/edit'
-      path: '/p/$playlistID/edit'
-      fullPath: '/p/$playlistID/edit'
-      preLoaderRoute: typeof PPlaylistIDEditLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/p/$playlistID/': {
       id: '/p/$playlistID/'
       path: '/p/$playlistID'
@@ -87,7 +72,6 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren({
   IndexLazyRoute,
   PPlaylistIDVideoIDRoute,
-  PPlaylistIDEditLazyRoute,
   PPlaylistIDIndexLazyRoute,
 })
 
@@ -101,7 +85,6 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/",
         "/p/$playlistID/$videoID",
-        "/p/$playlistID/edit",
         "/p/$playlistID/"
       ]
     },
@@ -110,9 +93,6 @@ export const routeTree = rootRoute.addChildren({
     },
     "/p/$playlistID/$videoID": {
       "filePath": "p/$playlistID/$videoID.tsx"
-    },
-    "/p/$playlistID/edit": {
-      "filePath": "p/$playlistID/edit.lazy.tsx"
     },
     "/p/$playlistID/": {
       "filePath": "p/$playlistID/index.lazy.tsx"
