@@ -56,7 +56,7 @@ export function ItemsList({ playlist, currentItemIndex }: Props) {
               }}
               className="flex items-center gap-3"
             >
-              <p className="text-xs">{index + 1}</p>
+              <p className="text-xs text-center min-w-[26px]">{index + 1}</p>
 
               <img src={item.thumbnailUrl} className="w-[100px] h-[56px] aspect-video rounded-md" />
 

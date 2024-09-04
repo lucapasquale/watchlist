@@ -7,6 +7,11 @@
     url
     rawUrl
 
+    playlist {
+      id
+      name
+    }
+
     nextItem(shuffleSeed: $shuffleSeed) {
       id
     }

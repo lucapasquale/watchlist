@@ -29,7 +29,7 @@ export function QueueSidebar() {
   }
 
   return (
-    <aside className="flex flex-col rounded-md bg-card max-h-[753px]">
+    <aside className="flex flex-col rounded-md bg-card min-w-[400px] max-h-[753px]">
       <div className="flex flex-col gap-2 p-4">
         <div>
           <Link

@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet-async";
 import ReactPlayer from "react-player/lazy";
 import { useQuery } from "@apollo/client";
 import { Skeleton } from "@ui/components/ui/skeleton";
@@ -46,23 +47,31 @@ export function VideoPlayer() {
   }
 
   return (
-    <section className="flex flex-col gap-6">
-      <ReactPlayer
-        key={data.playlistItem.id}
-        playing
-        controls
-        width="100%"
-        height="100%"
-        url={data.playlistItem.url}
-        onEnded={onVideoEnded}
-        onError={(...args) => {
-          console.error("Failed to load video", ...args);
-          setNextButtonKind("auto-forward");
-        }}
-        style={{ aspectRatio: "16 / 9", maxHeight: "620px" }}
-      />
+    <>
+      <Helmet>
+        <title>
+          {data.playlistItem.title} • {data.playlistItem.playlist.name}
+        </title>
+      </Helmet>
 
-      <VideoToolbar playlistItem={data.playlistItem} nextButtonKind={nextButtonKind} />
-    </section>
+      <section className="w-full flex flex-col gap-6">
+        <ReactPlayer
+          key={data.playlistItem.id}
+          playing
+          controls
+          width="100%"
+          height="100%"
+          url={data.playlistItem.url}
+          onEnded={onVideoEnded}
+          onError={(...args) => {
+            console.error("Failed to load video", ...args);
+            setNextButtonKind("auto-forward");
+          }}
+          style={{ aspectRatio: "16 / 9", width: "100%", maxWidth: "1161px", maxHeight: "653px" }}
+        />
+
+        <VideoToolbar playlistItem={data.playlistItem} nextButtonKind={nextButtonKind} />
+      </section>
+    </>
   );
 }

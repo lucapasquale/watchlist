@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet-async";
 import { useQuery } from "@apollo/client";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
@@ -15,6 +16,7 @@ export function Page() {
 
   const { data } = useQuery(PlaylistViewDocument, {
     variables: { playlistID, shuffleSeed: shuffleSeed.current },
+    notifyOnNetworkStatusChange: true,
   });
 
   if (!data) {
@@ -40,14 +42,20 @@ export function Page() {
   }
 
   return (
-    <main className="grid items-start grid-cols-1 xl:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
-      <div className="flex flex-col gap-4">
-        <PlaylistInfo playlist={data.playlist} shuffleSeed={shuffleSeed.current} />
+    <>
+      <Helmet>
+        <title>watchlist • {data.playlist.name}</title>
+      </Helmet>
 
-        <AddItem />
-      </div>
+      <main className="grid items-start grid-cols-1 xl:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
+        <div className="flex flex-col gap-4">
+          <PlaylistInfo playlist={data.playlist} shuffleSeed={shuffleSeed.current} />
 
-      <SortableItems playlist={data.playlist} />
-    </main>
+          <AddItem />
+        </div>
+
+        <SortableItems key={data.playlist.items.length} playlist={data.playlist} />
+      </main>
+    </>
   );
 }

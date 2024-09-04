@@ -11,7 +11,6 @@ import { PlaylistItemKindBadge } from "~components/playlist-item-kind-badge";
 import {
   AddItemUrlInformationDocument,
   CreatePlaylistItemDocument,
-  PlaylistSortableItemsDocument,
   PlaylistViewDocument,
 } from "~graphql/types";
 import { Route } from "~routes/p/$playlistID/index.lazy";
@@ -33,7 +32,7 @@ export function AddItemForm({ onAdd }: Props) {
     AddItemUrlInformationDocument,
   );
   const [createVideo, { loading }] = useMutation(CreatePlaylistItemDocument, {
-    refetchQueries: [PlaylistViewDocument, PlaylistSortableItemsDocument],
+    refetchQueries: [PlaylistViewDocument],
     awaitRefetchQueries: true,
   });
 

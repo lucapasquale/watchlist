@@ -8,12 +8,12 @@ import { cn } from "@ui/lib/utils";
 import { PlaylistItemKindBadge } from "~components/playlist-item-kind-badge";
 import {
   DeletePlaylistItemDocument,
-  type PlaylistSortableItemsQuery,
   PlaylistViewDocument,
+  type PlaylistViewQuery,
 } from "~graphql/types";
 
 type Props = {
-  item: PlaylistSortableItemsQuery["playlist"]["items"][number];
+  item: PlaylistViewQuery["playlist"]["items"][number];
   onDelete?: () => void;
   provided: DraggableProvided;
   isDragging?: boolean;

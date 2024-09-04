@@ -1,4 +1,5 @@
 import { StrictMode } from "react";
+import { HelmetProvider } from "react-helmet-async";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 
@@ -25,11 +26,13 @@ declare module "@tanstack/react-router" {
 export function App() {
   return (
     <StrictMode>
-      <ApolloProvider client={client}>
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-          <RouterProvider router={router} />
-        </ThemeProvider>
-      </ApolloProvider>
+      <HelmetProvider>
+        <ApolloProvider client={client}>
+          <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+            <RouterProvider router={router} />
+          </ThemeProvider>
+        </ApolloProvider>
+      </HelmetProvider>
     </StrictMode>
   );
 }
