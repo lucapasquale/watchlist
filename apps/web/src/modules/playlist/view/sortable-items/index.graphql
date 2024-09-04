@@ -1,13 +1,3 @@
-query PlaylistSortableItems($playlistID: ID!) {
-  playlist(id: $playlistID) {
-    id
-
-    items {
-      ...PlaylistItemFrag
-    }
-  }
-}
-
 mutation MovePlaylistItem($input: MovePlaylistItemInput!) {
   movePlaylistItem(input: $input) {
     ...PlaylistItemFrag

@@ -60,8 +60,8 @@ export function PlaylistItem({ item, onDelete, provided, style, isDragging }: Pr
       ref={provided.innerRef}
       style={getStyle({ provided, style, isDragging })}
       className={cn(
-        "flex items-center justify-between gap-8 rounded-xl bg-slate-800 pr-4 text-primary list-none",
-        isDragging && "bg-slate-600",
+        "flex items-center justify-between gap-8 rounded-xl bg-card pr-4 list-none",
+        isDragging && "bg-card",
       )}
     >
       <div className="flex items-center">

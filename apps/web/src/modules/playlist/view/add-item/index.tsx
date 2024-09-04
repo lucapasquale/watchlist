@@ -22,7 +22,7 @@ export function AddItem() {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="text-primary max-w-[600px]">
+      <DialogContent className="max-w-[600px]">
         <DialogHeader>
           <DialogTitle>Add to playlist</DialogTitle>
         </DialogHeader>

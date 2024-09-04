@@ -45,7 +45,7 @@ export function VideoToolbar({ nextButtonKind, playlistItem }: Props) {
   }, [animate, scope, nextItemID, navigate, playlistID, nextButtonKind]);
 
   return (
-    <div className="w-full flex items-center justify-between gap-8">
+    <div className="w-full flex items-center justify-between gap-8 rounded-xl bg-card px-4 py-6">
       <div className="flex flex-col gap-2">
         <Link target="_blank" rel="noopener noreferrer" to={playlistItem.rawUrl}>
           <h1 className="flex items-baseline gap-2 text-2xl hover:underline">
@@ -64,7 +64,8 @@ export function VideoToolbar({ nextButtonKind, playlistItem }: Props) {
           ref={scope}
           className="flex items-center gap-2"
           style={{
-            background: "linear-gradient(to right, #fff 50%, #ccc 50%)",
+            backgroundImage:
+              "linear-gradient(to right, hsl(346.8 77.2% 49.8%) 50%, hsl(346.8 77.2% 19.8%) 50%)",
             backgroundPositionY: "0%",
             backgroundPositionX: nextButtonKind === "auto-forward" ? "100%" : "0%",
             backgroundSize: "200% 100%",

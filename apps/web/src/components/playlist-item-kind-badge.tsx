@@ -6,15 +6,15 @@ import { PlaylistItemKind } from "~graphql/types";
 const PLAYLIST_ITEM_KINDS: Record<PlaylistItemKind, { label: string; className: string }> = {
   [PlaylistItemKind.Youtube]: {
     label: "YouTube",
-    className: "text-primary bg-red-700 hover:bg-red-700",
+    className: "bg-red-700 hover:bg-red-700",
   },
   [PlaylistItemKind.TwitchClip]: {
     label: "Twitch Clip",
-    className: "text-primary bg-[#6441a5] hover:bg-[#6441a5]",
+    className: "bg-[#6441a5] hover:bg-[#6441a5]",
   },
   [PlaylistItemKind.Reddit]: {
     label: "Reddit",
-    className: "text-primary bg-[#FF5700] hover:bg-[#FF5700]",
+    className: "bg-[#FF5700] hover:bg-[#FF5700]",
   },
 };
 

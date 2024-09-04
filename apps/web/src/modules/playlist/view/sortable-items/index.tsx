@@ -1,33 +1,21 @@
 import React from "react";
 import { FixedSizeList } from "react-window";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea/dnd";
-import { Skeleton } from "@ui/components/ui/skeleton";
 
-import {
-  MovePlaylistItemDocument,
-  PlaylistItemFragFragment,
-  PlaylistSortableItemsDocument,
-  PlaylistViewDocument,
-} from "~graphql/types";
-import { Route } from "~routes/p/$playlistID/index.lazy";
+import { MovePlaylistItemDocument, PlaylistViewDocument, PlaylistViewQuery } from "~graphql/types";
 
 import { PlaylistItem } from "./playlist-item";
 import { getMoveInput, reorderList } from "./utils";
 
 const ITEM_HEIGHT_PX = 130;
 
-export function SortableItems() {
-  const { playlistID } = Route.useParams();
-  const [items, setItems] = React.useState<PlaylistItemFragFragment[]>([]);
+type Props = {
+  playlist: PlaylistViewQuery["playlist"];
+};
 
-  const { data } = useQuery(PlaylistSortableItemsDocument, {
-    variables: { playlistID },
-    notifyOnNetworkStatusChange: true,
-    onCompleted: (data) => {
-      setItems(data.playlist.items);
-    },
-  });
+export function SortableItems({ playlist }: Props) {
+  const [items, setItems] = React.useState(playlist.items);
 
   const [moveVideo, { loading }] = useMutation(MovePlaylistItemDocument, {
     refetchQueries: [PlaylistViewDocument],
@@ -49,22 +37,6 @@ export function SortableItems() {
     setItems(updatedList);
   };
 
-  if (!data) {
-    return (
-      <div
-        className="w-full overflow-y-scroll flex flex-col gap-2"
-        style={{ maxHeight: ITEM_HEIGHT_PX * 5.5 }}
-      >
-        <Skeleton className="h-[122px] flex-none rounded-xl" />
-        <Skeleton className="h-[122px] flex-none rounded-xl" />
-        <Skeleton className="h-[122px] flex-none rounded-xl" />
-        <Skeleton className="h-[122px] flex-none rounded-xl" />
-        <Skeleton className="h-[122px] flex-none rounded-xl" />
-        <Skeleton className="h-[122px] flex-none rounded-xl" />
-      </div>
-    );
-  }
-
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable
@@ -83,7 +55,7 @@ export function SortableItems() {
             itemData={items}
             itemCount={items.length}
             itemSize={ITEM_HEIGHT_PX}
-            height={ITEM_HEIGHT_PX * 5.5}
+            height={ITEM_HEIGHT_PX * 7.5}
             width="100%"
             outerRef={provided.innerRef}
           >

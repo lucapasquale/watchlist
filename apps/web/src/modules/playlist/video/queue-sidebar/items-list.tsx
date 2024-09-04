@@ -43,8 +43,8 @@ export function ItemsList({ playlist, currentItemIndex }: Props) {
             key={item.id}
             style={style}
             className={cn(
-              "absolute top-0 left-0 w-full px-2 py-1 hover:bg-gray-600 list-none",
-              isActive && "bg-gray-600",
+              "absolute top-0 left-0 w-full px-2 py-1 hover:bg-primary/70 list-none",
+              isActive && "bg-primary",
             )}
           >
             <Link

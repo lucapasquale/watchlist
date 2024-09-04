@@ -1,5 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
+import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { PlaylistViewDocument } from "~graphql/types";
 import { Route } from "~routes/p/$playlistID/index.lazy";
@@ -17,7 +18,25 @@ export function Page() {
   });
 
   if (!data) {
-    return <div>Loading...</div>;
+    return (
+      <main className="grid items-start grid-cols-1 xl:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
+        <section className="flex flex-col gap-4">
+          <Skeleton className="h-[144px]" />
+          <Skeleton className="h-10 w-[120px] self-end" />
+        </section>
+
+        <section className="w-full h-[975px] overflow-y-scroll flex flex-col gap-2">
+          <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
+          <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
+          <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
+          <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
+          <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
+          <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
+          <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
+          <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
+        </section>
+      </main>
+    );
   }
 
   return (
@@ -28,7 +47,7 @@ export function Page() {
         <AddItem />
       </div>
 
-      <SortableItems />
+      <SortableItems playlist={data.playlist} />
     </main>
   );
 }

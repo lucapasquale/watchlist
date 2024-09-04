@@ -14,7 +14,7 @@ export function PlaylistInfo({ playlist, shuffleSeed }: Props) {
   const { playlistID } = Route.useParams();
 
   return (
-    <section className="rounded-xl flex flex-col gap-4 p-4 bg-gray-600">
+    <section className="rounded-xl flex flex-col gap-4 p-4 bg-card">
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl">{playlist.name}</h1>
 

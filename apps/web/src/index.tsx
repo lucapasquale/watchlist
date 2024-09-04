@@ -1,4 +1,4 @@
-import "./index.css";
+import "@repo/ui/globals.css";
 import ReactDOM from "react-dom/client";
 
 import { App } from "./app";
