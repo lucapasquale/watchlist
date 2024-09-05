@@ -29,7 +29,7 @@ export function PlaylistInfo({ playlist, shuffleSeed }: Props) {
             search={{ shuffleSeed }}
             className="w-full"
           >
-            <Button variant="secondary" className="w-full">
+            <Button tabIndex={-1} variant="secondary" className="w-full">
               Shuffle <Shuffle className="size-4 ml-2" />
             </Button>
           </Link>
@@ -41,7 +41,7 @@ export function PlaylistInfo({ playlist, shuffleSeed }: Props) {
             params={{ playlistID, videoID: playlist.firstItem.id.toString() }}
             className="w-full"
           >
-            <Button className="w-full">
+            <Button tabIndex={-1} className="w-full">
               Play <Play className="size-4 ml-2" />
             </Button>
           </Link>

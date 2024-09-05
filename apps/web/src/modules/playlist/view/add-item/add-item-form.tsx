@@ -16,7 +16,7 @@ import {
 import { Route } from "~routes/p/$playlistID/index.lazy";
 
 const schema = z.object({
-  url: z.string().min(1).url(),
+  url: z.string().url(),
   title: z.string().min(1),
 });
 type FormValues = z.infer<typeof schema>;
@@ -42,14 +42,16 @@ export function AddItemForm({ onAdd }: Props) {
   });
 
   const onBlur = async () => {
-    await form.trigger("url");
+    const [valid, response] = await Promise.all([
+      form.trigger("url"),
+      getUrlInfo({ variables: { url: form.getValues("url") } }),
+    ]);
 
-    const response = await getUrlInfo({ variables: { url: form.getValues("url") } });
+    if (!valid) {
+      return;
+    }
     if (!response.data?.urlInformation) {
-      form.setError("url", {
-        type: "value",
-        message: "Invalid url, no video found",
-      });
+      form.setError("url", { type: "value", message: "No video found!" });
       return;
     }
 
@@ -108,9 +110,7 @@ export function AddItemForm({ onAdd }: Props) {
 
       <DialogFooter>
         <DialogClose asChild>
-          <Button variant="outline" type="reset">
-            Cancel
-          </Button>
+          <Button variant="outline">Cancel</Button>
         </DialogClose>
 
         <Button

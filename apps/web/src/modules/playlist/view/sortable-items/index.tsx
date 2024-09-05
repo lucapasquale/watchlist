@@ -37,6 +37,10 @@ export function SortableItems({ playlist }: Props) {
     setItems(updatedList);
   };
 
+  if (items.length === 0) {
+    return <h4>No videos added to the playlist</h4>;
+  }
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable
