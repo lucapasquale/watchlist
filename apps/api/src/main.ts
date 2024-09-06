@@ -8,7 +8,9 @@ import { config } from "./config.js";
 async function bootstrap() {
   await migrateToLatest(db);
 
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: ["log", "warn", "error", "fatal"],
+  });
 
   app.enableCors();
 
