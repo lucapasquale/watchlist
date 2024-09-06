@@ -8,7 +8,7 @@ import { GoogleOAuthGuard } from "./google.guard.js";
 export class AuthenticationController {
   constructor(private readonly authenticationService: AuthenticationService) {}
 
-  @Get()
+  @Get("google")
   @UseGuards(GoogleOAuthGuard)
   async googleAuth() {}
 
