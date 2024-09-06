@@ -9,6 +9,7 @@ export class AuthenticationService {
   constructor(private jwtService: JwtService) {}
 
   googleLogin(req: Req) {
+    console.log("req.user", req.user);
     if (!req.user) {
       return null;
     }
@@ -17,6 +18,7 @@ export class AuthenticationService {
   }
 
   async generateTokens(user: User) {
+    console.log("generateTokens", user);
     const payload = { sub: user.id, email: user.email };
 
     return {
