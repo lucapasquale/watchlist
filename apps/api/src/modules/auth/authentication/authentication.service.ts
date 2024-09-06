@@ -5,7 +5,7 @@ import { JwtService } from "@nestjs/jwt";
 import { User } from "../user/user.model.js";
 
 @Injectable()
-export class AuthService {
+export class AuthenticationService {
   constructor(private jwtService: JwtService) {}
 
   googleLogin(req: FastifyRequest & { user?: User }) {

@@ -12,4 +12,4 @@ import { PlaylistItemService } from "./playlist-item/playlist-item.service.js";
   controllers: [],
   providers: [PlaylistResolver, PlaylistService, PlaylistItemResolver, PlaylistItemService],
 })
-export class PlaylistModule {}
+export class WatchModule {}

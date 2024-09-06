@@ -2,10 +2,9 @@ import { Strategy, VerifyCallback } from "passport-google-oauth20";
 import { Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 
-import { config } from "../../config.js";
+import { config } from "../../../config.js";
+import { CredentialService } from "../user/credential.service.js";
 import { UserService } from "../user/user.service.js";
-
-import { CredentialService } from "./credential.service.js";
 
 type Profile = {
   id: string;

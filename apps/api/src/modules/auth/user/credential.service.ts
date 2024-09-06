@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 
-import { db } from "../../database/index.js";
+import { db } from "../../../database/index.js";
 
 import { CredentialInsert, Providers } from "./credential.model.js";
 

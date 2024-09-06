@@ -1,12 +1,12 @@
 import type { FastifyRequest } from "fastify";
 import { Controller, Get, Request, UseGuards } from "@nestjs/common";
 
-import { AuthService } from "./auth.service.js";
+import { AuthenticationService } from "./authentication.service.js";
 import { GoogleOAuthGuard } from "./google.guard.js";
 
 @Controller("auth")
-export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+export class AuthenticationController {
+  constructor(private readonly authenticationService: AuthenticationService) {}
 
   @Get()
   @UseGuards(GoogleOAuthGuard)
@@ -15,9 +15,9 @@ export class AuthController {
   @Get("google-redirect")
   @UseGuards(GoogleOAuthGuard)
   googleAuthRedirect(@Request() req: FastifyRequest) {
-    const user = this.authService.googleLogin(req);
+    const user = this.authenticationService.googleLogin(req);
     if (user) {
-      return this.authService.generateTokens(user);
+      return this.authenticationService.generateTokens(user);
     }
 
     return null;
