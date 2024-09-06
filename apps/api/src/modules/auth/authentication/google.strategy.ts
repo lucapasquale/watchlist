@@ -3,7 +3,7 @@ import { Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 
 import { config } from "../../../config.js";
-import { CredentialService } from "../user/credential.service.js";
+import { CredentialService } from "../credential/credential.service.js";
 import { UserService } from "../user/user.service.js";
 
 type Profile = {

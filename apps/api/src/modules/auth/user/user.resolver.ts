@@ -14,7 +14,6 @@ export class UserResolver {
   @Query()
   @UseGuards(GqlAuthGuard)
   async me(@CurrentUser() user: AccessTokenResponse) {
-    console.log(user);
     return this.userService.getById(user.userId);
   }
 }

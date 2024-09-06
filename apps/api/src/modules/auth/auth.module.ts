@@ -8,7 +8,7 @@ import { AuthenticationController } from "./authentication/authentication.contro
 import { AuthenticationService } from "./authentication/authentication.service.js";
 import { GoogleStrategy } from "./authentication/google.strategy.js";
 import { JwtStrategy } from "./authentication/jwt.strategy.js";
-import { CredentialService } from "./user/credential.service.js";
+import { CredentialService } from "./credential/credential.service.js";
 import { UserResolver } from "./user/user.resolver.js";
 import { UserService } from "./user/user.service.js";
 

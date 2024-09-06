@@ -1,4 +1,4 @@
-import type { FastifyRequest } from "fastify";
+import type { Request as Req } from "express";
 import { Controller, Get, Request, UseGuards } from "@nestjs/common";
 
 import { AuthenticationService } from "./authentication.service.js";
@@ -14,7 +14,7 @@ export class AuthenticationController {
 
   @Get("google-redirect")
   @UseGuards(GoogleOAuthGuard)
-  googleAuthRedirect(@Request() req: FastifyRequest) {
+  googleAuthRedirect(@Request() req: Req) {
     const user = this.authenticationService.googleLogin(req);
     if (user) {
       return this.authenticationService.generateTokens(user);

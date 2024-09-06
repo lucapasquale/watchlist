@@ -1,4 +1,4 @@
-import type { FastifyRequest } from "fastify";
+import type { Request as Req } from "express";
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 
@@ -8,12 +8,12 @@ import { User } from "../user/user.model.js";
 export class AuthenticationService {
   constructor(private jwtService: JwtService) {}
 
-  googleLogin(req: FastifyRequest & { user?: User }) {
+  googleLogin(req: Req) {
     if (!req.user) {
       return null;
     }
 
-    return req.user;
+    return req.user as User;
   }
 
   async generateTokens(user: User) {
