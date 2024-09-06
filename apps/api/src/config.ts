@@ -15,6 +15,14 @@ function parseEnvVars() {
       password: z.string().min(1),
     }),
 
+    auth: z.object({
+      jwtSecret: z.string().uuid(),
+      google: z.object({
+        clientID: z.string().min(1),
+        clientSecret: z.string().min(1),
+      }),
+    }),
+
     youtube: z.object({
       apiKey: z.string().min(1),
     }),
@@ -35,6 +43,13 @@ function parseEnvVars() {
       password: process.env.PG_PASSWORD,
     },
 
+    auth: {
+      jwtSecret: process.env.JWT_SECRET,
+      google: {
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      },
+    },
     youtube: {
       apiKey: process.env.YOUTUBE_API_KEY,
     },

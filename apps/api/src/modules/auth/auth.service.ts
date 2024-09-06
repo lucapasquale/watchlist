@@ -1,30 +1,26 @@
+import type { FastifyRequest } from "fastify";
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 
-import { User, UserService } from "../user/user.service.js";
+import { User } from "../user/user.model.js";
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private userService: UserService,
-    private jwtService: JwtService,
-  ) {}
+  constructor(private jwtService: JwtService) {}
 
-  async validateUser(username: string, pass: string): Promise<Omit<User, "password"> | null> {
-    const user = await this.userService.findOne(username);
-    if (user && user.password === pass) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...result } = user;
-      return result;
+  googleLogin(req: FastifyRequest & { user?: User }) {
+    if (!req.user) {
+      return null;
     }
 
-    return null;
+    return req.user;
   }
 
-  async login(user: Omit<User, "password">) {
-    const payload = { username: user.username, sub: user.userId };
+  async generateTokens(user: User) {
+    const payload = { sub: user.id, email: user.email };
+
     return {
-      access_token: this.jwtService.sign(payload),
+      accessToken: this.jwtService.sign(payload),
     };
   }
 }

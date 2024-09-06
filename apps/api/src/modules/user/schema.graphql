@@ -1,8 +1,10 @@
 type User {
-  userId: ID!
-  username: String!
+  id: ID!
+  email: String!
+  name: String!
+  profilePictureUrl: String
 }
 
 type Query {
-  getUser(username: String!): User
+  me: User
 }
