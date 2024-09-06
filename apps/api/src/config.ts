@@ -5,8 +5,9 @@ export const config = parseEnvVars();
 
 function parseEnvVars() {
   const schema = z.object({
-    port: z.coerce.number().positive().default(3000),
+    url: z.string().url().default("http://localhost:3000"),
     host: z.string().min(1).default("0.0.0.0"),
+    port: z.coerce.number().positive().default(3000),
 
     database: z.object({
       host: z.string().min(1),
@@ -33,6 +34,7 @@ function parseEnvVars() {
   });
 
   const { error, data } = schema.safeParse({
+    url: process.env.APP_URL,
     port: process.env.PORT,
     host: process.env.HOST,
 
