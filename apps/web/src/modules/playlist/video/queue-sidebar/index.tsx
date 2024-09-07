@@ -49,16 +49,16 @@ export function QueueSidebar() {
           )}
         </CardTitle>
 
-        <CardDescription className="flex items-center gap-2 hover:underline">
-          <Avatar className="size-6">
-            <AvatarImage src={data.playlist.user.profilePictureUrl ?? undefined} />
-            <AvatarFallback>{data.playlist.user.initials}</AvatarFallback>
-          </Avatar>
+        <Link to="/u/$userID" params={{ userID: data.playlist.user.id }}>
+          <CardDescription className="flex items-center gap-2 hover:underline">
+            <Avatar className="size-6">
+              <AvatarImage src={data.playlist.user.profilePictureUrl ?? undefined} />
+              <AvatarFallback>{data.playlist.user.initials}</AvatarFallback>
+            </Avatar>
 
-          <Link to="/u/$userID" params={{ userID: data.playlist.user.id }}>
             {data.playlist.user.name}
-          </Link>
-        </CardDescription>
+          </CardDescription>
+        </Link>
       </CardHeader>
 
       <CardContent className="p-0">

@@ -7,12 +7,12 @@ import { Button } from "@ui/components/ui/button";
 import { DialogClose, DialogFooter } from "@ui/components/ui/dialog";
 import { Form } from "@ui/components/ui/form";
 
-import { PLAYLIST_ITEM_KIND } from "~common/translations";
 import {
   AddItemUrlInformationDocument,
   CreatePlaylistItemDocument,
   PlaylistViewDocument,
 } from "~common/graphql-types";
+import { PLAYLIST_ITEM_KIND } from "~common/translations";
 import { Route } from "~routes/p/$playlistID/index.lazy";
 
 const schema = z.object({

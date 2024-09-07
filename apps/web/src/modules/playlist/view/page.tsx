@@ -3,8 +3,8 @@ import { Helmet } from "react-helmet-async";
 import { useQuery } from "@apollo/client";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
-import { useCurrentUser } from "~common/providers/current-user-provider";
 import { PlaylistViewDocument } from "~common/graphql-types";
+import { useCurrentUser } from "~common/providers/current-user-provider";
 import { Route } from "~routes/p/$playlistID/index.lazy";
 
 import { AddItem } from "./add-item";

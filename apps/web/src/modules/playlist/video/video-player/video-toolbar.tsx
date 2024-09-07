@@ -5,8 +5,8 @@ import { Link } from "@tanstack/react-router";
 import { Button } from "@ui/components/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@ui/components/ui/card";
 
-import { PLAYLIST_ITEM_KIND } from "~common/translations";
 import { PlaylistItemViewQuery } from "~common/graphql-types";
+import { PLAYLIST_ITEM_KIND } from "~common/translations";
 import { Route } from "~routes/p/$playlistID/$videoID";
 
 export type NextButtonKind = "loading" | "user-input" | "auto-forward";
@@ -66,6 +66,7 @@ export function VideoToolbar({ nextButtonKind, playlistItem }: Props) {
           search
           to="/p/$playlistID/$videoID"
           params={{ playlistID, videoID: nextItemID ?? "" }}
+          disabled={!nextItemID}
         >
           <Button
             disabled={!nextItemID}

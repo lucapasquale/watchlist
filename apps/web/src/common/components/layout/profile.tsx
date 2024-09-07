@@ -13,12 +13,10 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@ui/components/ui/dropdown-menu";
 
-import { useCurrentUser } from "../../providers/current-user-provider";
+import { useCurrentUser } from "~common/providers/current-user-provider";
 
 export function Profile() {
   const location = useLocation();
@@ -71,9 +69,6 @@ export function Profile() {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent>
-        <DropdownMenuLabel>My account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-
         <Link to="/u/$userID" params={{ userID: user.id }}>
           <DropdownMenuItem>My playlists</DropdownMenuItem>
         </Link>

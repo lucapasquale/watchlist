@@ -10,8 +10,8 @@ import {
   DialogTrigger,
 } from "@ui/components/ui/dialog";
 
-import { useCurrentUser } from "~common/providers/current-user-provider";
 import { UserViewQuery } from "~common/graphql-types";
+import { useCurrentUser } from "~common/providers/current-user-provider";
 
 import { CreateNew } from "./create-new";
 import { ImportFromYoutube } from "./import-from-youtube";
@@ -39,13 +39,13 @@ export function UserInfo({ user }: Props) {
       </CardHeader>
 
       {user.id === currentUser?.id && (
-        <CardFooter className="grid grid-cols-2 items-center justify-between gap-4">
+        <CardFooter className="grid grid-cols-2 items-center justify-between gap-2">
           <Dialog
             open={createState === "youtube"}
             onOpenChange={(o) => setCreateState(o ? "youtube" : null)}
           >
             <DialogTrigger asChild>
-              <Button variant="outline" className="w-full">
+              <Button variant="secondary" className="w-full">
                 Import from Youtube
               </Button>
             </DialogTrigger>

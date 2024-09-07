@@ -27,16 +27,16 @@ export function PlaylistInfo({ playlist, shuffleSeed }: Props) {
       <CardHeader className="gap-2">
         <CardTitle>{playlist.name}</CardTitle>
 
-        <CardDescription className="flex items-center gap-2 hover:underline">
-          <Avatar className="size-6">
-            <AvatarImage src={playlist.user.profilePictureUrl ?? undefined} />
-            <AvatarFallback>{playlist.user.initials}</AvatarFallback>
-          </Avatar>
+        <Link to="/u/$userID" params={{ userID: playlist.user.id }}>
+          <CardDescription className="flex items-center gap-2 hover:underline">
+            <Avatar className="size-6">
+              <AvatarImage src={playlist.user.profilePictureUrl ?? undefined} />
+              <AvatarFallback>{playlist.user.initials}</AvatarFallback>
+            </Avatar>
 
-          <Link to="/u/$userID" params={{ userID: playlist.user.id }}>
             {playlist.user.name}
-          </Link>
-        </CardDescription>
+          </CardDescription>
+        </Link>
       </CardHeader>
 
       <CardContent>
