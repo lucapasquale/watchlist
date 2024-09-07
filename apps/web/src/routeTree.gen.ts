@@ -13,7 +13,10 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as AuthLogoutImport } from './routes/auth/logout'
 import { Route as PPlaylistIDVideoIDImport } from './routes/p/$playlistID/$videoID'
+import { Route as AuthGoogleRedirectImport } from './routes/auth/google/redirect'
+import { Route as AuthGoogleLoginImport } from './routes/auth/google/login'
 
 // Create Virtual Routes
 
@@ -27,6 +30,11 @@ const IndexLazyRoute = IndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
+const AuthLogoutRoute = AuthLogoutImport.update({
+  path: '/auth/logout',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const PPlaylistIDIndexLazyRoute = PPlaylistIDIndexLazyImport.update({
   path: '/p/$playlistID/',
   getParentRoute: () => rootRoute,
@@ -39,6 +47,16 @@ const PPlaylistIDVideoIDRoute = PPlaylistIDVideoIDImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthGoogleRedirectRoute = AuthGoogleRedirectImport.update({
+  path: '/auth/google/redirect',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthGoogleLoginRoute = AuthGoogleLoginImport.update({
+  path: '/auth/google/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -48,6 +66,27 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/auth/logout': {
+      id: '/auth/logout'
+      path: '/auth/logout'
+      fullPath: '/auth/logout'
+      preLoaderRoute: typeof AuthLogoutImport
+      parentRoute: typeof rootRoute
+    }
+    '/auth/google/login': {
+      id: '/auth/google/login'
+      path: '/auth/google/login'
+      fullPath: '/auth/google/login'
+      preLoaderRoute: typeof AuthGoogleLoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/auth/google/redirect': {
+      id: '/auth/google/redirect'
+      path: '/auth/google/redirect'
+      fullPath: '/auth/google/redirect'
+      preLoaderRoute: typeof AuthGoogleRedirectImport
       parentRoute: typeof rootRoute
     }
     '/p/$playlistID/$videoID': {
@@ -71,6 +110,9 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexLazyRoute,
+  AuthLogoutRoute,
+  AuthGoogleLoginRoute,
+  AuthGoogleRedirectRoute,
   PPlaylistIDVideoIDRoute,
   PPlaylistIDIndexLazyRoute,
 })
@@ -84,12 +126,24 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/auth/logout",
+        "/auth/google/login",
+        "/auth/google/redirect",
         "/p/$playlistID/$videoID",
         "/p/$playlistID/"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
+    },
+    "/auth/logout": {
+      "filePath": "auth/logout.tsx"
+    },
+    "/auth/google/login": {
+      "filePath": "auth/google/login.tsx"
+    },
+    "/auth/google/redirect": {
+      "filePath": "auth/google/redirect.tsx"
     },
     "/p/$playlistID/$videoID": {
       "filePath": "p/$playlistID/$videoID.tsx"

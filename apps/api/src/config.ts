@@ -5,9 +5,11 @@ export const config = parseEnvVars();
 
 function parseEnvVars() {
   const schema = z.object({
-    url: z.string().url().default("http://localhost:3000"),
     host: z.string().min(1).default("0.0.0.0"),
     port: z.coerce.number().positive().default(3000),
+
+    clientUrl: z.string().url().default("http://localhost:5173"),
+    serverUrl: z.string().url().default("http://localhost:3000"),
 
     database: z.object({
       host: z.string().min(1),
@@ -37,6 +39,9 @@ function parseEnvVars() {
     url: process.env.APP_URL,
     port: process.env.PORT,
     host: process.env.HOST,
+
+    clientUrl: process.env.CLIENT_URL,
+    serverUrl: process.env.SERVER_URL,
 
     database: {
       host: process.env.PG_HOST,

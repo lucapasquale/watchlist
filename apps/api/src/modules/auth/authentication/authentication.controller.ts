@@ -1,5 +1,7 @@
 import type { Request as Req } from "express";
-import { Controller, Get, Request, UseGuards } from "@nestjs/common";
+import { Controller, Get, Redirect, Request, UseGuards } from "@nestjs/common";
+
+import { config } from "../../../config.js";
 
 import { AuthenticationService } from "./authentication.service.js";
 import { GoogleOAuthGuard } from "./google.guard.js";
@@ -14,12 +16,21 @@ export class AuthenticationController {
 
   @Get("google-redirect")
   @UseGuards(GoogleOAuthGuard)
-  googleAuthRedirect(@Request() req: Req) {
+  @Redirect()
+  async googleAuthRedirect(@Request() req: Req) {
     const user = this.authenticationService.googleLogin(req);
-    if (user) {
-      return this.authenticationService.generateTokens(user);
+    if (!user) {
+      return null;
     }
 
-    return null;
+    const { accessToken } = await this.authenticationService.generateTokens(user);
+
+    const url = new URL(config.clientUrl);
+    url.pathname = "/auth/google/redirect";
+
+    const usp = new URLSearchParams({ accessToken });
+    url.search = usp.toString();
+
+    return { url: url.toString() };
   }
 }

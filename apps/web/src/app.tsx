@@ -3,6 +3,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 
+import { AUTH_TOKEN_KEY } from "~common/constants";
 import { ThemeProvider } from "~components/theme-provider";
 
 import { routeTree } from "./routeTree.gen";
@@ -10,6 +11,9 @@ import { routeTree } from "./routeTree.gen";
 const client = new ApolloClient({
   uri: import.meta.env.VITE_API_URL + "/graphql",
   cache: new InMemoryCache(),
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN_KEY)}`,
+  },
 });
 
 const router = createRouter({

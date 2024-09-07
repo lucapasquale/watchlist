@@ -2,8 +2,7 @@ import { UseGuards } from "@nestjs/common";
 import { Query, Resolver } from "@nestjs/graphql";
 
 import { GqlAuthGuard } from "../authentication/authentication.guard.js";
-import type { AccessTokenResponse } from "../authentication/jwt.strategy.js";
-import { CurrentUser } from "../current-user.decorator.js";
+import { CurrentUser, type CurrentUserType } from "../current-user.decorator.js";
 
 import { UserService } from "./user.service.js";
 
@@ -13,7 +12,11 @@ export class UserResolver {
 
   @Query()
   @UseGuards(GqlAuthGuard)
-  async me(@CurrentUser() user: AccessTokenResponse) {
+  async me(@CurrentUser() user: CurrentUserType) {
+    if (!user) {
+      return null;
+    }
+
     return this.userService.getById(user.userId);
   }
 }
