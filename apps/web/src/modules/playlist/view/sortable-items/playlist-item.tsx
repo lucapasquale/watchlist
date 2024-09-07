@@ -14,13 +14,14 @@ import { Route } from "~routes/p/$playlistID/index.lazy";
 
 type Props = {
   item: PlaylistViewQuery["playlist"]["items"][number];
+  isOwner: boolean;
   onDelete?: () => void;
   provided: DraggableProvided;
   isDragging?: boolean;
   style?: React.CSSProperties;
 };
 
-export function PlaylistItem({ item, onDelete, provided, style, isDragging }: Props) {
+export function PlaylistItem({ item, isOwner, onDelete, provided, style, isDragging }: Props) {
   const { playlistID } = Route.useParams();
 
   const [deleteVideo] = useMutation(DeletePlaylistItemDocument, {
@@ -66,12 +67,16 @@ export function PlaylistItem({ item, onDelete, provided, style, isDragging }: Pr
       )}
     >
       <div className="flex items-center">
-        <div
-          {...provided.dragHandleProps}
-          className="hidden md:flex flex-row items-center self-stretch px-4"
-        >
-          <GripVertical className="size-4" />
-        </div>
+        {isOwner ? (
+          <div
+            {...provided.dragHandleProps}
+            className="hidden md:flex flex-row items-center self-stretch px-4"
+          >
+            <GripVertical className="size-4" />
+          </div>
+        ) : (
+          <div className="px-4 size-4" />
+        )}
 
         <Link
           to="/p/$playlistID/$videoID"
@@ -89,9 +94,11 @@ export function PlaylistItem({ item, onDelete, provided, style, isDragging }: Pr
         </Link>
       </div>
 
-      <Button variant="destructive" onClick={onClickDelete} className="mr-4">
-        <Trash className="size-4" />
-      </Button>
+      {isOwner && (
+        <Button variant="destructive" onClick={onClickDelete} className="mr-4">
+          <Trash className="size-4" />
+        </Button>
+      )}
     </li>
   );
 }

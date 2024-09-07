@@ -5,6 +5,8 @@ export interface PlaylistTable {
 
   name: string;
 
+  userId: ColumnType<number, number, never>;
+
   createdAt: ColumnType<Date, string | undefined, never>;
   updatedAt: ColumnType<Date, string | undefined, string | undefined>;
 }

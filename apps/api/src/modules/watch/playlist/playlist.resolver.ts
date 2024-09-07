@@ -1,6 +1,10 @@
 import { LexoRank } from "lexorank";
+import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 
+import { GqlAuthGuard } from "../../auth/authentication/authentication.guard.js";
+import { CurrentUser, type CurrentUserType } from "../../auth/current-user.decorator.js";
+import { UserService } from "../../auth/user/user.service.js";
 import { YoutubeService } from "../../external-clients/youtube.service.js";
 import { PlaylistItemService } from "../playlist-item/playlist-item.service.js";
 
@@ -12,6 +16,7 @@ export class PlaylistResolver {
   constructor(
     private playlistService: PlaylistService,
     private playlistItemService: PlaylistItemService,
+    private userService: UserService,
     private youtubeService: YoutubeService,
   ) {}
 
@@ -31,6 +36,11 @@ export class PlaylistResolver {
     return this.playlistItemService.getFromPlaylist(playlist.id, shuffleSeed);
   }
 
+  @ResolveField()
+  async user(@Parent() playlist: Playlist) {
+    return this.userService.getById(playlist.userId);
+  }
+
   @Query()
   async playlists() {
     return this.playlistService.getAll();
@@ -42,12 +52,20 @@ export class PlaylistResolver {
   }
 
   @Mutation()
-  async createPlaylist(@Args("input") input: { name: string }) {
-    return this.playlistService.create(input);
+  @UseGuards(GqlAuthGuard)
+  async createPlaylist(
+    @CurrentUser() user: CurrentUserType,
+    @Args("input") input: { name: string },
+  ) {
+    return this.playlistService.create({
+      name: input.name,
+      userId: user.userId,
+    });
   }
 
   @Mutation()
-  async createPlaylistFromYoutube(@Args("url") url: string) {
+  @UseGuards(GqlAuthGuard)
+  async createPlaylistFromYoutube(@CurrentUser() user: CurrentUserType, @Args("url") url: string) {
     const usp = new URLSearchParams(new URL(url).search);
     const playlistID = usp.get("list");
     if (!playlistID) {
@@ -59,7 +77,10 @@ export class PlaylistResolver {
       throw new Error("Invalid YouTube playlist URL");
     }
 
-    const playlist = await this.playlistService.create({ name: youtubePlaylist.snippet.title });
+    const playlist = await this.playlistService.create({
+      name: youtubePlaylist.snippet.title,
+      userId: user.userId,
+    });
 
     let firstCall = true;
     let nextPageToken: string | undefined = undefined;
@@ -96,12 +117,27 @@ export class PlaylistResolver {
   }
 
   @Mutation()
-  async updatePlaylist(@Args("input") input: { id: number; name: string }) {
+  @UseGuards(GqlAuthGuard)
+  async updatePlaylist(
+    @CurrentUser() user: CurrentUserType,
+    @Args("input") input: { id: number; name: string },
+  ) {
+    const playlist = await this.playlistService.getByID(input.id);
+    if (playlist.userId !== user.userId) {
+      throw new Error("Playlist not found");
+    }
+
     return this.playlistService.update(input);
   }
 
   @Mutation()
-  async deletePlaylist(@Args("id") id: number) {
+  @UseGuards(GqlAuthGuard)
+  async deletePlaylist(@CurrentUser() user: CurrentUserType, @Args("id") id: number) {
+    const playlist = await this.playlistService.getByID(id);
+    if (playlist.userId !== user.userId) {
+      throw new Error("Playlist not found");
+    }
+
     return this.playlistService.delete(id);
   }
 }

@@ -4,6 +4,13 @@ query PlaylistView($playlistID: ID!, $shuffleSeed: String!) {
     name
     itemsCount
 
+    user {
+      id
+      name
+      initials
+      profilePictureUrl
+    }
+
     firstItem {
       id
     }

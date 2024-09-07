@@ -9,6 +9,7 @@ import { AuthenticationService } from "./authentication/authentication.service.j
 import { GoogleStrategy } from "./authentication/google.strategy.js";
 import { JwtStrategy } from "./authentication/jwt.strategy.js";
 import { CredentialService } from "./credential/credential.service.js";
+import { MeResolver } from "./user/me.resolver.js";
 import { UserResolver } from "./user/user.resolver.js";
 import { UserService } from "./user/user.service.js";
 
@@ -27,6 +28,7 @@ import { UserService } from "./user/user.service.js";
     GoogleStrategy,
     CredentialService,
     UserService,
+    MeResolver,
     UserResolver,
   ],
   exports: [AuthenticationService, UserService],

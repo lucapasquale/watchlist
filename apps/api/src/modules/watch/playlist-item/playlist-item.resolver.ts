@@ -1,6 +1,9 @@
 import { LexoRank } from "lexorank";
+import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 
+import { GqlAuthGuard } from "../../auth/authentication/authentication.guard.js";
+import { CurrentUser, type CurrentUserType } from "../../auth/current-user.decorator.js";
 import { RedditService } from "../../external-clients/reddit.service.js";
 import { TwitchService } from "../../external-clients/twitch.service.js";
 import { YoutubeService } from "../../external-clients/youtube.service.js";
@@ -40,13 +43,20 @@ export class PlaylistItemResolver {
   }
 
   @Mutation()
-  async createPlaylistItem(@Args("input") input: { playlistID: number; rawUrl: string }) {
+  @UseGuards(GqlAuthGuard)
+  async createPlaylistItem(
+    @CurrentUser() user: CurrentUserType,
+    @Args("input") input: { playlistID: number; rawUrl: string },
+  ) {
     const [playlist, lastItem, urlInformation] = await Promise.all([
       this.playlistService.getByID(input.playlistID),
       this.playlistItemService.getLastFromPlaylist(input.playlistID),
       this.parseUrlInformation(input.rawUrl),
     ]);
 
+    if (playlist.userId !== user.userId) {
+      throw new Error("Playlist not found");
+    }
     if (!urlInformation) {
       throw new Error("Invalid URL");
     }
@@ -61,8 +71,17 @@ export class PlaylistItemResolver {
   }
 
   @Mutation()
-  async movePlaylistItem(@Args("input") input: { id: number; beforeID?: number }) {
+  @UseGuards(GqlAuthGuard)
+  async movePlaylistItem(
+    @CurrentUser() user: CurrentUserType,
+    @Args("input") input: { id: number; beforeID?: number },
+  ) {
     const item = await this.playlistItemService.getByID(input.id);
+
+    const playlist = await this.playlistService.getByID(item.playlistId);
+    if (playlist.userId !== user.userId) {
+      throw new Error("Playlist not found");
+    }
 
     // Assigned to be before the first video in the playlist
     if (!input.beforeID) {
@@ -95,7 +114,15 @@ export class PlaylistItemResolver {
   }
 
   @Mutation()
-  async deletePlaylistItem(@Args("id") id: number) {
+  @UseGuards(GqlAuthGuard)
+  async deletePlaylistItem(@CurrentUser() user: CurrentUserType, @Args("id") id: number) {
+    const item = await this.playlistItemService.getByID(id);
+
+    const playlist = await this.playlistService.getByID(item.playlistId);
+    if (playlist.userId !== user.userId) {
+      throw new Error("Playlist not found");
+    }
+
     return this.playlistItemService.delete(id);
   }
 

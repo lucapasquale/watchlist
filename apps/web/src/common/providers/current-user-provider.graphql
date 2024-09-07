@@ -1,7 +1,8 @@
-query HeaderUserInformation {
+query UserProvider {
   me {
     id
     name
+    initials
     profilePictureUrl
   }
 }

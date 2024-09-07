@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
+import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@ui/components/ui/card";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
@@ -42,13 +43,22 @@ export function QueueSidebar() {
           </Link>
         </CardTitle>
 
-        <CardDescription>
-          {currentItemIndex + 1} / {data.playlist.itemsCount}
-          {search.shuffleSeed && <span> - Shuffle</span>}
+        <CardDescription className="flex items-center gap-2">
+          <Avatar className="size-6">
+            <AvatarImage src={data.playlist.user.profilePictureUrl ?? undefined} />
+            <AvatarFallback>{data.playlist.user.initials}</AvatarFallback>
+          </Avatar>
+
+          {data.playlist.user.name}
         </CardDescription>
       </CardHeader>
 
       <CardContent className="px-0">
+        <div className="px-6 py-2">
+          Video {currentItemIndex + 1} / {data.playlist.itemsCount}
+          {search.shuffleSeed && <span> - Shuffle</span>}
+        </div>
+
         <ItemsList playlist={data.playlist} currentItemIndex={currentItemIndex} />
       </CardContent>
     </Card>

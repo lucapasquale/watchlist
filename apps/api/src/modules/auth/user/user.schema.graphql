@@ -1,10 +1,22 @@
-type User {
+type Me {
   id: ID!
   email: String!
   name: String!
+  initials: String!
   profilePictureUrl: String
 }
 
+type User {
+  id: ID!
+  name: String!
+  initials: String!
+  profilePictureUrl: String
+}
+
+type Playlist {
+  user: User!
+}
+
 type Query {
-  me: User
+  me: Me!
 }

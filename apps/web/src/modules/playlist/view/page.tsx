@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { useQuery } from "@apollo/client";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
+import { useCurrentUser } from "~common/providers/current-user-provider";
 import { PlaylistViewDocument } from "~graphql/types";
 import { Route } from "~routes/p/$playlistID/index.lazy";
 
@@ -12,6 +13,8 @@ import { SortableItems } from "./sortable-items";
 
 export function Page() {
   const { playlistID } = Route.useParams();
+  const { user } = useCurrentUser();
+
   const shuffleSeed = React.useRef(Date.now().toString());
 
   const { data } = useQuery(PlaylistViewDocument, {
@@ -23,7 +26,7 @@ export function Page() {
     return (
       <main className="grid items-start grid-cols-1 xl:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
         <section className="flex flex-col gap-4">
-          <Skeleton className="h-[144px]" />
+          <Skeleton className="h-[256px]" />
           <Skeleton className="h-10 w-[120px] self-end" />
         </section>
 
@@ -41,6 +44,8 @@ export function Page() {
     );
   }
 
+  const isOwner = data.playlist.user.id === user?.id;
+
   return (
     <>
       <Helmet>
@@ -51,10 +56,14 @@ export function Page() {
         <div className="flex flex-col gap-4">
           <PlaylistInfo playlist={data.playlist} shuffleSeed={shuffleSeed.current} />
 
-          <AddItem />
+          {isOwner && <AddItem />}
         </div>
 
-        <SortableItems key={data.playlist.items.length} playlist={data.playlist} />
+        <SortableItems
+          key={data.playlist.items.length}
+          playlist={data.playlist}
+          isOwner={isOwner}
+        />
       </main>
     </>
   );

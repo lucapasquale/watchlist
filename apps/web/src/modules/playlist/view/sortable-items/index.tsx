@@ -8,13 +8,14 @@ import { MovePlaylistItemDocument, PlaylistViewDocument, PlaylistViewQuery } fro
 import { PlaylistItem } from "./playlist-item";
 import { getMoveInput, reorderList } from "./utils";
 
-const ITEM_HEIGHT_PX = 130;
+const ITEM_HEIGHT_PX = 132;
 
 type Props = {
   playlist: PlaylistViewQuery["playlist"];
+  isOwner: boolean;
 };
 
-export function SortableItems({ playlist }: Props) {
+export function SortableItems({ playlist, isOwner }: Props) {
   const [items, setItems] = React.useState(playlist.items);
 
   const [moveVideo, { loading }] = useMutation(MovePlaylistItemDocument, {
@@ -48,6 +49,7 @@ export function SortableItems({ playlist }: Props) {
         mode="virtual"
         renderClone={(provided, snapshot, rubric) => (
           <PlaylistItem
+            isOwner={isOwner}
             provided={provided}
             isDragging={snapshot.isDragging}
             item={items[rubric.source.index]}
@@ -71,13 +73,14 @@ export function SortableItems({ playlist }: Props) {
                   key={item.id}
                   draggableId={item.id}
                   index={index}
-                  isDragDisabled={loading}
+                  isDragDisabled={!isOwner || loading}
                 >
                   {(provided) => (
                     <PlaylistItem
                       provided={provided}
                       item={item}
                       style={style}
+                      isOwner={isOwner}
                       onDelete={() => onDelete(index)}
                     />
                   )}

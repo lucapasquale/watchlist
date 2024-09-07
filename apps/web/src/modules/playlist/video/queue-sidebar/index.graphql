@@ -4,6 +4,13 @@ query PlaylistItemQueueSidebar($playlistID: ID!, $shuffleSeed: String) {
     name
     itemsCount
 
+    user {
+      id
+      name
+      initials
+      profilePictureUrl
+    }
+
     items(shuffleSeed: $shuffleSeed) {
       id
       kind

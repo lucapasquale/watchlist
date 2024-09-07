@@ -1,5 +1,4 @@
 import React from "react";
-import { useQuery } from "@apollo/client";
 import { Link, useLocation } from "@tanstack/react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar";
 import { Button } from "@ui/components/ui/button";
@@ -19,14 +18,13 @@ import {
   DropdownMenuTrigger,
 } from "@ui/components/ui/dropdown-menu";
 
-import { HeaderUserInformationDocument } from "~graphql/types";
+import { useCurrentUser } from "../../common/providers/current-user-provider";
 
 export function Profile() {
   const location = useLocation();
+  const { loading, user } = useCurrentUser();
 
   const [redirectUrl, setRedirectUrl] = React.useState(window.location.href);
-
-  const { loading, data, error } = useQuery(HeaderUserInformationDocument);
 
   React.useEffect(() => {
     const url = new URL(window.location.href);
@@ -40,7 +38,7 @@ export function Profile() {
     return null;
   }
 
-  if (error || !data?.me) {
+  if (!user) {
     return (
       <Dialog>
         <DialogTrigger asChild>
@@ -67,15 +65,8 @@ export function Profile() {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
-          <AvatarImage src={data.me.profilePictureUrl ?? undefined} />
-          <AvatarFallback>
-            {data.me.name
-              .split(" ")
-              .map((name) => name[0])
-              .join("")
-              .slice(0, 2)
-              .toUpperCase()}
-          </AvatarFallback>
+          <AvatarImage src={user.profilePictureUrl ?? undefined} />
+          <AvatarFallback>{user.initials}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
 

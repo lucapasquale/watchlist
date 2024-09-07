@@ -4,7 +4,8 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 
 import { AUTH_TOKEN_KEY } from "~common/constants";
-import { ThemeProvider } from "~components/theme-provider";
+import { CurrentUserProvider } from "~common/providers/current-user-provider";
+import { ThemeProvider } from "~common/providers/theme-provider";
 
 import { routeTree } from "./routeTree.gen";
 
@@ -33,7 +34,9 @@ export function App() {
       <HelmetProvider>
         <ApolloProvider client={client}>
           <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-            <RouterProvider router={router} />
+            <CurrentUserProvider>
+              <RouterProvider router={router} />
+            </CurrentUserProvider>
           </ThemeProvider>
         </ApolloProvider>
       </HelmetProvider>
