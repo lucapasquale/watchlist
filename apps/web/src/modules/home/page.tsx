@@ -1,10 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
-import { Separator } from "@ui/components/ui/separator";
 
 import { HomePlaylistsDocument } from "~graphql/types";
-
-import { CreatePlaylist } from "./create-playlist";
 
 export function Page() {
   const { data } = useQuery(HomePlaylistsDocument);
@@ -27,12 +24,6 @@ export function Page() {
             </li>
           ))}
         </ol>
-      </section>
-
-      <Separator />
-
-      <section>
-        <CreatePlaylist />
       </section>
     </main>
   );

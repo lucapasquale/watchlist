@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 
 import { AuthModule } from "../auth/auth.module.js";
 import { ExternalClientsModule } from "../external-clients/external-clients.module.js";
@@ -9,8 +9,9 @@ import { PlaylistItemResolver } from "./playlist-item/playlist-item.resolver.js"
 import { PlaylistItemService } from "./playlist-item/playlist-item.service.js";
 
 @Module({
-  imports: [ExternalClientsModule, AuthModule],
+  imports: [ExternalClientsModule, forwardRef(() => AuthModule)],
   controllers: [],
   providers: [PlaylistResolver, PlaylistService, PlaylistItemResolver, PlaylistItemService],
+  exports: [PlaylistService, PlaylistItemService],
 })
 export class WatchModule {}

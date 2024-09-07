@@ -3,6 +3,10 @@ type Playlist {
   name: String!
 }
 
+type User {
+  playlists: [Playlist!]!
+}
+
 type Query {
   playlists: [Playlist!]!
   playlist(id: ID!): Playlist!

@@ -41,24 +41,27 @@ export function QueueSidebar() {
           >
             {data.playlist.name}
           </Link>
+
+          {search.shuffleSeed && (
+            <div className="text-base font-normal bg-white text-black rounded-lg px-2 py-0.5">
+              Shuffle
+            </div>
+          )}
         </CardTitle>
 
-        <CardDescription className="flex items-center gap-2">
+        <CardDescription className="flex items-center gap-2 hover:underline">
           <Avatar className="size-6">
             <AvatarImage src={data.playlist.user.profilePictureUrl ?? undefined} />
             <AvatarFallback>{data.playlist.user.initials}</AvatarFallback>
           </Avatar>
 
-          {data.playlist.user.name}
+          <Link to="/u/$userID" params={{ userID: data.playlist.user.id }}>
+            {data.playlist.user.name}
+          </Link>
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="px-0">
-        <div className="px-6 py-2">
-          Video {currentItemIndex + 1} / {data.playlist.itemsCount}
-          {search.shuffleSeed && <span> - Shuffle</span>}
-        </div>
-
+      <CardContent className="p-0">
         <ItemsList playlist={data.playlist} currentItemIndex={currentItemIndex} />
       </CardContent>
     </Card>

@@ -24,7 +24,7 @@ export class PlaylistItemResolver {
 
   @ResolveField()
   async playlist(@Parent() playlistItem: PlaylistItem) {
-    return this.playlistService.getByID(playlistItem.playlistId);
+    return this.playlistService.getById(playlistItem.playlistId);
   }
 
   @ResolveField()
@@ -49,7 +49,7 @@ export class PlaylistItemResolver {
     @Args("input") input: { playlistID: number; rawUrl: string },
   ) {
     const [playlist, lastItem, urlInformation] = await Promise.all([
-      this.playlistService.getByID(input.playlistID),
+      this.playlistService.getById(input.playlistID),
       this.playlistItemService.getLastFromPlaylist(input.playlistID),
       this.parseUrlInformation(input.rawUrl),
     ]);
@@ -78,7 +78,7 @@ export class PlaylistItemResolver {
   ) {
     const item = await this.playlistItemService.getByID(input.id);
 
-    const playlist = await this.playlistService.getByID(item.playlistId);
+    const playlist = await this.playlistService.getById(item.playlistId);
     if (playlist.userId !== user.userId) {
       throw new Error("Playlist not found");
     }
@@ -118,7 +118,7 @@ export class PlaylistItemResolver {
   async deletePlaylistItem(@CurrentUser() user: CurrentUserType, @Args("id") id: number) {
     const item = await this.playlistItemService.getByID(id);
 
-    const playlist = await this.playlistService.getByID(item.playlistId);
+    const playlist = await this.playlistService.getById(item.playlistId);
     if (playlist.userId !== user.userId) {
       throw new Error("Playlist not found");
     }

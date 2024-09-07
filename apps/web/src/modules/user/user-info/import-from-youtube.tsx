@@ -4,6 +4,7 @@ import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InputFormItem } from "@ui/components/form/input-form-item";
 import { Button } from "@ui/components/ui/button";
+import { DialogClose, DialogFooter } from "@ui/components/ui/dialog";
 import { Form } from "@ui/components/ui/form";
 
 import { CreatePlaylistFromYoutubeDocument } from "~graphql/types";
@@ -14,11 +15,7 @@ const schema = z.object({
 });
 type FormValues = z.infer<typeof schema>;
 
-type Props = {
-  onCancel: () => void;
-};
-
-export function ImportFromYoutube({ onCancel }: Props) {
+export function ImportFromYoutube() {
   const navigate = Route.useNavigate();
 
   const [createPlaylist, { loading }] = useMutation(CreatePlaylistFromYoutubeDocument);
@@ -26,11 +23,6 @@ export function ImportFromYoutube({ onCancel }: Props) {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
   });
-
-  const onCancelClick = () => {
-    form.reset({ playlistURL: "" });
-    onCancel();
-  };
 
   const onSubmit = async (values: FormValues) => {
     const { data } = await createPlaylist({
@@ -50,25 +42,30 @@ export function ImportFromYoutube({ onCancel }: Props) {
   return (
     <Form {...form}>
       <form
+        id="playlist-from-youtube"
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full flex flex-col items-center gap-4"
       >
         <InputFormItem
           control={form.control}
           name="playlistURL"
-          label="URL"
+          label="Playlist URL"
           placeholder="https://www.youtube.com/playlist?list=PL2gDVp_0vZOQjqMex201dYpUiu1mcGX96"
         />
 
-        <div className="flex gap-2">
-          <Button variant="outline" type="reset" onClick={onCancelClick}>
-            Cancel
-          </Button>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DialogClose>
 
-          <Button type="submit" disabled={loading}>
+          <Button
+            type="submit"
+            form="playlist-from-youtube"
+            disabled={!form.formState.isValid || loading}
+          >
             Add
           </Button>
-        </div>
+        </DialogFooter>
       </form>
     </Form>
   );

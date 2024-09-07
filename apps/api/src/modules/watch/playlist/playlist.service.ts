@@ -10,8 +10,12 @@ export class PlaylistService {
     return db.selectFrom("playlist").selectAll().execute();
   }
 
-  async getByID(id: number) {
+  async getById(id: number) {
     return db.selectFrom("playlist").where("id", "=", id).selectAll().executeTakeFirstOrThrow();
+  }
+
+  async getAllByUser(userId: number) {
+    return db.selectFrom("playlist").where("userId", "=", userId).selectAll().execute();
   }
 
   async create(input: PlaylistInsert) {

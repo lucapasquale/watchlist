@@ -4,6 +4,7 @@ import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InputFormItem } from "@ui/components/form/input-form-item";
 import { Button } from "@ui/components/ui/button";
+import { DialogClose, DialogFooter } from "@ui/components/ui/dialog";
 import { Form } from "@ui/components/ui/form";
 
 import { CreatePlaylistDocument } from "~graphql/types";
@@ -14,11 +15,7 @@ const schema = z.object({
 });
 type FormValues = z.infer<typeof schema>;
 
-type Props = {
-  onCancel: () => void;
-};
-
-export function CreateNew({ onCancel }: Props) {
+export function CreateNew() {
   const navigate = Route.useNavigate();
 
   const [createPlaylist, { loading }] = useMutation(CreatePlaylistDocument);
@@ -26,11 +23,6 @@ export function CreateNew({ onCancel }: Props) {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
   });
-
-  const onCancelClick = () => {
-    form.reset({ name: "" });
-    onCancel();
-  };
 
   const onSubmit = async (values: FormValues) => {
     const { data } = await createPlaylist({
@@ -48,20 +40,25 @@ export function CreateNew({ onCancel }: Props) {
   return (
     <Form {...form}>
       <form
+        id="create-playlist"
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full flex flex-col items-center gap-4"
       >
         <InputFormItem control={form.control} name="name" label="Name" placeholder="My playlist" />
 
-        <div className="flex gap-2">
-          <Button variant="outline" type="reset" onClick={onCancelClick}>
-            Cancel
-          </Button>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DialogClose>
 
-          <Button type="submit" disabled={loading}>
+          <Button
+            type="submit"
+            form="create-playlist"
+            disabled={!form.formState.isValid || loading}
+          >
             Add
           </Button>
-        </div>
+        </DialogFooter>
       </form>
     </Form>
   );

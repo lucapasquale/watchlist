@@ -1,8 +1,9 @@
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 
 import { config } from "../../config.js";
+import { WatchModule } from "../watch/watch.module.js";
 
 import { AuthenticationController } from "./authentication/authentication.controller.js";
 import { AuthenticationService } from "./authentication/authentication.service.js";
@@ -20,6 +21,8 @@ import { UserService } from "./user/user.service.js";
       secret: config.auth.jwtSecret,
       signOptions: { expiresIn: "3h" },
     }),
+
+    forwardRef(() => WatchModule),
   ],
   controllers: [AuthenticationController],
   providers: [

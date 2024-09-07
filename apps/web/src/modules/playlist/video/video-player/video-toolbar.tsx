@@ -5,7 +5,7 @@ import { Link } from "@tanstack/react-router";
 import { Button } from "@ui/components/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@ui/components/ui/card";
 
-import { PlaylistItemKindBadge } from "~components/playlist-item-kind-badge";
+import { PLAYLIST_ITEM_KIND } from "~common/translations";
 import { PlaylistItemViewQuery } from "~graphql/types";
 import { Route } from "~routes/p/$playlistID/$videoID";
 
@@ -58,9 +58,7 @@ export function VideoToolbar({ nextButtonKind, playlistItem }: Props) {
           </Link>
         </CardTitle>
 
-        <CardDescription>
-          <PlaylistItemKindBadge kind={playlistItem.kind} />
-        </CardDescription>
+        <CardDescription>{PLAYLIST_ITEM_KIND[playlistItem.kind]}</CardDescription>
       </CardHeader>
 
       <CardFooter className="py-0">

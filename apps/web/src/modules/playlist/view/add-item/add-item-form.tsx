@@ -7,7 +7,7 @@ import { Button } from "@ui/components/ui/button";
 import { DialogClose, DialogFooter } from "@ui/components/ui/dialog";
 import { Form } from "@ui/components/ui/form";
 
-import { PlaylistItemKindBadge } from "~components/playlist-item-kind-badge";
+import { PLAYLIST_ITEM_KIND } from "~common/translations";
 import {
   AddItemUrlInformationDocument,
   CreatePlaylistItemDocument,
@@ -101,7 +101,7 @@ export function AddItemForm({ onAdd }: Props) {
           <div className="flex flex-col gap-2">
             <h1 className="text-2xl">{urlData.urlInformation.title}</h1>
 
-            <PlaylistItemKindBadge kind={urlData.urlInformation.kind} />
+            {PLAYLIST_ITEM_KIND[urlData.urlInformation.kind]}
           </div>
         </div>
       ) : (

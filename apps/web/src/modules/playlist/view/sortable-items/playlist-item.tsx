@@ -3,8 +3,10 @@ import { useMutation } from "@apollo/client";
 import { DraggableProvided } from "@hello-pangea/dnd";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@ui/components/ui/button";
+import { Card, CardDescription, CardHeader, CardTitle } from "@ui/components/ui/card";
 import { cn } from "@ui/lib/utils";
 
+import { PLAYLIST_ITEM_KIND } from "~common/translations";
 import {
   DeletePlaylistItemDocument,
   PlaylistViewDocument,
@@ -57,7 +59,7 @@ export function PlaylistItem({ item, isOwner, onDelete, provided, style, isDragg
   };
 
   return (
-    <li
+    <Card
       {...provided.draggableProps}
       ref={provided.innerRef}
       style={getStyle({ provided, style, isDragging })}
@@ -78,20 +80,29 @@ export function PlaylistItem({ item, isOwner, onDelete, provided, style, isDragg
           <div className="px-4 size-4" />
         )}
 
-        <Link
-          to="/p/$playlistID/$videoID"
-          params={{ playlistID, videoID: item.id }}
-          className="flex items-start md:items-center gap-2 flex-1 basis-0"
-        >
-          <img
-            src={item.thumbnailUrl}
-            className="aspect-video min-w-[160px] min-h-[90px] basis-0 rounded-md"
-          />
+        <CardHeader className="p-0">
+          <Link
+            to="/p/$playlistID/$videoID"
+            params={{ playlistID, videoID: item.id }}
+            className="flex items-start md:items-center gap-2 flex-1 basis-0"
+          >
+            <img
+              src={item.thumbnailUrl}
+              className="aspect-video min-w-[160px] min-h-[90px] basis-0 rounded-md"
+            />
 
-          <h4 title={item.title} className="text-sm md:text-xl line-clamp-2 hover:underline">
-            {item.title}
-          </h4>
-        </Link>
+            <div className="flex flex-col gap-0.5">
+              <CardTitle
+                title={item.title}
+                className="text-sm md:text-xl line-clamp-2 hover:underline"
+              >
+                {item.title}
+              </CardTitle>
+
+              <CardDescription>{PLAYLIST_ITEM_KIND[item.kind]}</CardDescription>
+            </div>
+          </Link>
+        </CardHeader>
       </div>
 
       {isOwner && (
@@ -99,6 +110,6 @@ export function PlaylistItem({ item, isOwner, onDelete, provided, style, isDragg
           <Trash className="size-4" />
         </Button>
       )}
-    </li>
+    </Card>
   );
 }

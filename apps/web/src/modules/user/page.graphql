@@ -1,0 +1,14 @@
+query UserView($userID: ID!) {
+  user(id: $userID) {
+    id
+    name
+    initials
+    profilePictureUrl
+
+    playlists {
+      id
+      name
+      itemsCount
+    }
+  }
+}

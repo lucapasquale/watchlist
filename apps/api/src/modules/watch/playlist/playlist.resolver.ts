@@ -48,7 +48,7 @@ export class PlaylistResolver {
 
   @Query()
   async playlist(@Args("id") id: number) {
-    return this.playlistService.getByID(id);
+    return this.playlistService.getById(id);
   }
 
   @Mutation()
@@ -122,7 +122,7 @@ export class PlaylistResolver {
     @CurrentUser() user: CurrentUserType,
     @Args("input") input: { id: number; name: string },
   ) {
-    const playlist = await this.playlistService.getByID(input.id);
+    const playlist = await this.playlistService.getById(input.id);
     if (playlist.userId !== user.userId) {
       throw new Error("Playlist not found");
     }
@@ -133,7 +133,7 @@ export class PlaylistResolver {
   @Mutation()
   @UseGuards(GqlAuthGuard)
   async deletePlaylist(@CurrentUser() user: CurrentUserType, @Args("id") id: number) {
-    const playlist = await this.playlistService.getByID(id);
+    const playlist = await this.playlistService.getById(id);
     if (playlist.userId !== user.userId) {
       throw new Error("Playlist not found");
     }

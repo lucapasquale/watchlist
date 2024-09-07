@@ -19,4 +19,6 @@ type Playlist {
 
 type Query {
   me: Me!
+
+  user(id: ID!): User!
 }

@@ -18,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@ui/components/ui/dropdown-menu";
 
-import { useCurrentUser } from "../../common/providers/current-user-provider";
+import { useCurrentUser } from "../../providers/current-user-provider";
 
 export function Profile() {
   const location = useLocation();
@@ -74,11 +74,11 @@ export function Profile() {
         <DropdownMenuLabel>My account</DropdownMenuLabel>
         <DropdownMenuSeparator />
 
-        <Link to="/auth/logout" className="cursor-pointer">
+        <Link to="/u/$userID" params={{ userID: user.id }}>
           <DropdownMenuItem>My playlists</DropdownMenuItem>
         </Link>
 
-        <Link to="/auth/logout" className="cursor-pointer">
+        <Link to="/auth/logout">
           <DropdownMenuItem>Logout</DropdownMenuItem>
         </Link>
       </DropdownMenuContent>
