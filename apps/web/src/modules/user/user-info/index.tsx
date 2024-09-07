@@ -11,7 +11,7 @@ import {
 } from "@ui/components/ui/dialog";
 
 import { useCurrentUser } from "~common/providers/current-user-provider";
-import { UserViewQuery } from "~graphql/types";
+import { UserViewQuery } from "~common/graphql-types";
 
 import { CreateNew } from "./create-new";
 import { ImportFromYoutube } from "./import-from-youtube";

@@ -1,4 +1,4 @@
-import { PlaylistItemKind } from "~graphql/types";
+import { PlaylistItemKind } from "~common/graphql-types";
 
 export const PLAYLIST_ITEM_KIND: Record<PlaylistItemKind, string> = {
   [PlaylistItemKind.Youtube]: "YouTube",

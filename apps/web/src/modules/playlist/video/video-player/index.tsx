@@ -4,7 +4,7 @@ import ReactPlayer from "react-player/lazy";
 import { useQuery } from "@apollo/client";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
-import { PlaylistItemViewDocument } from "~graphql/types";
+import { PlaylistItemViewDocument } from "~common/graphql-types";
 import { Route } from "~routes/p/$playlistID/$videoID";
 
 import { type NextButtonKind, VideoToolbar } from "./video-toolbar";

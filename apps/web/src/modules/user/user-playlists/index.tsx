@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Card, CardDescription, CardHeader, CardTitle } from "@ui/components/ui/card";
 
-import { UserViewQuery } from "~graphql/types";
+import { UserViewQuery } from "~common/graphql-types";
 
 type Props = {
   user: UserViewQuery["user"];

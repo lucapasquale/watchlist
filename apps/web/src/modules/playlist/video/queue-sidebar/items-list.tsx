@@ -3,7 +3,7 @@ import { FixedSizeList } from "react-window";
 import { Link } from "@tanstack/react-router";
 import { cn } from "@ui/lib/utils";
 
-import { type PlaylistItemQueueSidebarQuery } from "~graphql/types";
+import { type PlaylistItemQueueSidebarQuery } from "~common/graphql-types";
 import { Route } from "~routes/p/$playlistID/$videoID";
 
 const ITEM_HEIGHT_PX = 64;

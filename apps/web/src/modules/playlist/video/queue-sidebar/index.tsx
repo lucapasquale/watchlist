@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@ui/components/ui/card";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
-import { PlaylistItemQueueSidebarDocument } from "~graphql/types";
+import { PlaylistItemQueueSidebarDocument } from "~common/graphql-types";
 import { Route } from "~routes/p/$playlistID/$videoID";
 
 import { ItemsList } from "./items-list";
@@ -37,7 +37,7 @@ export function QueueSidebar() {
           <Link
             to="/p/$playlistID"
             params={{ playlistID: playlistID.toString() }}
-            className="text-2xl font-bold"
+            className="text-2xl font-bold hover:underline"
           >
             {data.playlist.name}
           </Link>

@@ -1,6 +1,6 @@
 import { DropResult } from "@hello-pangea/dnd";
 
-import { MovePlaylistItemInput, PlaylistItemFragFragment } from "~graphql/types";
+import { MovePlaylistItemInput, PlaylistItemFragFragment } from "~common/graphql-types";
 
 export function getMoveInput(
   videos: PlaylistItemFragFragment[],

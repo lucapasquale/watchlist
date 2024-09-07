@@ -12,7 +12,7 @@ import {
   AddItemUrlInformationDocument,
   CreatePlaylistItemDocument,
   PlaylistViewDocument,
-} from "~graphql/types";
+} from "~common/graphql-types";
 import { Route } from "~routes/p/$playlistID/index.lazy";
 
 const schema = z.object({

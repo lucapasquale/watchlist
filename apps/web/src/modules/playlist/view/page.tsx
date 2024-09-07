@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/client";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { useCurrentUser } from "~common/providers/current-user-provider";
-import { PlaylistViewDocument } from "~graphql/types";
+import { PlaylistViewDocument } from "~common/graphql-types";
 import { Route } from "~routes/p/$playlistID/index.lazy";
 
 import { AddItem } from "./add-item";

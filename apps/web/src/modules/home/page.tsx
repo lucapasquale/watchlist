@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
 
-import { HomePlaylistsDocument } from "~graphql/types";
+import { HomePlaylistsDocument } from "~common/graphql-types";
 
 export function Page() {
   const { data } = useQuery(HomePlaylistsDocument);

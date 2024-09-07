@@ -6,12 +6,12 @@ import { Button } from "@ui/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@ui/components/ui/card";
 import { cn } from "@ui/lib/utils";
 
-import { PLAYLIST_ITEM_KIND } from "~common/translations";
 import {
   DeletePlaylistItemDocument,
   PlaylistViewDocument,
   type PlaylistViewQuery,
-} from "~graphql/types";
+} from "~common/graphql-types";
+import { PLAYLIST_ITEM_KIND } from "~common/translations";
 import { Route } from "~routes/p/$playlistID/index.lazy";
 
 type Props = {
@@ -84,7 +84,7 @@ export function PlaylistItem({ item, isOwner, onDelete, provided, style, isDragg
           <Link
             to="/p/$playlistID/$videoID"
             params={{ playlistID, videoID: item.id }}
-            className="flex items-start md:items-center gap-2 flex-1 basis-0"
+            className="group flex items-start md:items-center gap-2 flex-1 basis-0"
           >
             <img
               src={item.thumbnailUrl}
@@ -94,7 +94,7 @@ export function PlaylistItem({ item, isOwner, onDelete, provided, style, isDragg
             <div className="flex flex-col gap-0.5">
               <CardTitle
                 title={item.title}
-                className="text-sm md:text-xl line-clamp-2 hover:underline"
+                className="text-sm md:text-xl line-clamp-2 group-hover:underline"
               >
                 {item.title}
               </CardTitle>

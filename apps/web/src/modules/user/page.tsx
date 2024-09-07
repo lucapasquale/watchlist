@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { useQuery } from "@apollo/client";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
-import { UserViewDocument } from "~graphql/types";
+import { UserViewDocument } from "~common/graphql-types";
 import { Route } from "~routes/u/$userID.lazy";
 
 import { UserInfo } from "./user-info";

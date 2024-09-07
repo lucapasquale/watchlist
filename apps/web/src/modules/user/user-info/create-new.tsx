@@ -7,7 +7,7 @@ import { Button } from "@ui/components/ui/button";
 import { DialogClose, DialogFooter } from "@ui/components/ui/dialog";
 import { Form } from "@ui/components/ui/form";
 
-import { CreatePlaylistDocument } from "~graphql/types";
+import { CreatePlaylistDocument } from "~common/graphql-types";
 import { Route } from "~routes/index.lazy";
 
 const schema = z.object({

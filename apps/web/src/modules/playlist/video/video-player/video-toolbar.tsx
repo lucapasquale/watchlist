@@ -6,7 +6,7 @@ import { Button } from "@ui/components/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@ui/components/ui/card";
 
 import { PLAYLIST_ITEM_KIND } from "~common/translations";
-import { PlaylistItemViewQuery } from "~graphql/types";
+import { PlaylistItemViewQuery } from "~common/graphql-types";
 import { Route } from "~routes/p/$playlistID/$videoID";
 
 export type NextButtonKind = "loading" | "user-input" | "auto-forward";

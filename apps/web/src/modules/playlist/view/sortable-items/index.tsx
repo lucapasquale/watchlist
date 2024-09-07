@@ -3,7 +3,11 @@ import { FixedSizeList } from "react-window";
 import { useMutation } from "@apollo/client";
 import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea/dnd";
 
-import { MovePlaylistItemDocument, PlaylistViewDocument, PlaylistViewQuery } from "~graphql/types";
+import {
+  MovePlaylistItemDocument,
+  PlaylistViewDocument,
+  PlaylistViewQuery,
+} from "~common/graphql-types";
 
 import { PlaylistItem } from "./playlist-item";
 import { getMoveInput, reorderList } from "./utils";

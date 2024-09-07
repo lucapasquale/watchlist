@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@ui/components/ui/card";
 
-import { PlaylistViewQuery } from "~graphql/types";
+import { PlaylistViewQuery } from "~common/graphql-types";
 import { Route } from "~routes/p/$playlistID/index.lazy";
 
 type Props = {
