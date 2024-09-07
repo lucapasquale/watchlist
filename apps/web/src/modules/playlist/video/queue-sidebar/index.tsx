@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@ui/components/ui/card";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { PlaylistItemQueueSidebarDocument } from "~graphql/types";
@@ -29,28 +30,27 @@ export function QueueSidebar() {
   }
 
   return (
-    <aside className="flex flex-col rounded-md bg-card min-w-[400px] max-h-[753px]">
-      <div className="flex flex-col gap-2 p-4">
-        <div>
+    <Card className="flex flex-col rounded-md bg-card w-full xl:min-w-[400px] xl:w-[400px] xl:max-h-[753px]">
+      <CardHeader>
+        <CardTitle className="flex items-center justify-between">
           <Link
             to="/p/$playlistID"
             params={{ playlistID: playlistID.toString() }}
-            className="text-xl font-bold"
+            className="text-2xl font-bold"
           >
             {data.playlist.name}
           </Link>
+        </CardTitle>
 
-          {search.shuffleSeed && <>- Shuffle</>}
-        </div>
+        <CardDescription>
+          {currentItemIndex + 1} / {data.playlist.itemsCount}
+          {search.shuffleSeed && <span> - Shuffle</span>}
+        </CardDescription>
+      </CardHeader>
 
-        {currentItemIndex > -1 && (
-          <div>
-            {currentItemIndex + 1} / {data.playlist.itemsCount}
-          </div>
-        )}
-      </div>
-
-      <ItemsList playlist={data.playlist} currentItemIndex={currentItemIndex} />
-    </aside>
+      <CardContent className="px-0">
+        <ItemsList playlist={data.playlist} currentItemIndex={currentItemIndex} />
+      </CardContent>
+    </Card>
   );
 }

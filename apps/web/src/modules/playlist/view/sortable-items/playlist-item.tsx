@@ -1,16 +1,16 @@
-import { GripVertical, LinkIcon, Trash } from "lucide-react";
+import { GripVertical, Trash } from "lucide-react";
 import { useMutation } from "@apollo/client";
 import { DraggableProvided } from "@hello-pangea/dnd";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@ui/components/ui/button";
 import { cn } from "@ui/lib/utils";
 
-import { PlaylistItemKindBadge } from "~components/playlist-item-kind-badge";
 import {
   DeletePlaylistItemDocument,
   PlaylistViewDocument,
   type PlaylistViewQuery,
 } from "~graphql/types";
+import { Route } from "~routes/p/$playlistID/index.lazy";
 
 type Props = {
   item: PlaylistViewQuery["playlist"]["items"][number];
@@ -21,6 +21,8 @@ type Props = {
 };
 
 export function PlaylistItem({ item, onDelete, provided, style, isDragging }: Props) {
+  const { playlistID } = Route.useParams();
+
   const [deleteVideo] = useMutation(DeletePlaylistItemDocument, {
     refetchQueries: [PlaylistViewDocument],
     awaitRefetchQueries: true,
@@ -56,37 +58,38 @@ export function PlaylistItem({ item, onDelete, provided, style, isDragging }: Pr
   return (
     <li
       {...provided.draggableProps}
-      {...provided.dragHandleProps}
       ref={provided.innerRef}
       style={getStyle({ provided, style, isDragging })}
       className={cn(
-        "flex items-center justify-between gap-8 rounded-xl bg-card pr-4 list-none",
+        "flex items-center justify-between gap-1 rounded-xl bg-card list-none",
         isDragging && "bg-card",
       )}
     >
       <div className="flex items-center">
-        <div className="flex flex-row items-center self-stretch px-4">
+        <div
+          {...provided.dragHandleProps}
+          className="hidden md:flex flex-row items-center self-stretch px-4"
+        >
           <GripVertical className="size-4" />
         </div>
 
-        <div className="flex items-center gap-2 py-4">
-          <img src={item.thumbnailUrl} className="w-[160px] h-[90px] rounded-md" />
+        <Link
+          to="/p/$playlistID/$videoID"
+          params={{ playlistID, videoID: item.id }}
+          className="flex items-start md:items-center gap-2 flex-1 basis-0"
+        >
+          <img
+            src={item.thumbnailUrl}
+            className="aspect-video min-w-[160px] min-h-[90px] basis-0 rounded-md"
+          />
 
-          <div className="flex flex-col gap-2">
-            <h1 className="flex items-baseline gap-2 text-2xl">
-              {item.title}
-
-              <Link target="_blank" rel="noopener noreferrer" to={item.rawUrl}>
-                <LinkIcon className="size-4" />
-              </Link>
-            </h1>
-
-            <PlaylistItemKindBadge kind={item.kind} />
-          </div>
-        </div>
+          <h4 title={item.title} className="text-sm md:text-xl line-clamp-2 hover:underline">
+            {item.title}
+          </h4>
+        </Link>
       </div>
 
-      <Button variant="destructive" onClick={onClickDelete}>
+      <Button variant="destructive" onClick={onClickDelete} className="mr-4">
         <Trash className="size-4" />
       </Button>
     </li>

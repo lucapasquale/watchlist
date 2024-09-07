@@ -40,7 +40,7 @@ export function VideoPlayer() {
   if (!data) {
     return (
       <section className="flex flex-col gap-6">
-        <Skeleton className="aspect-video w-full h-[620px]" />
+        <Skeleton className="aspect-video w-[912px] h-[619px]" />
         <Skeleton className="h-[62px]" />
       </section>
     );
@@ -54,7 +54,7 @@ export function VideoPlayer() {
         </title>
       </Helmet>
 
-      <section className="w-full flex flex-col gap-6">
+      <section className="w-full flex flex-col items-center gap-6">
         <ReactPlayer
           key={data.playlistItem.id}
           playing
@@ -67,7 +67,7 @@ export function VideoPlayer() {
             console.error("Failed to load video", ...args);
             setNextButtonKind("auto-forward");
           }}
-          style={{ aspectRatio: "16 / 9", width: "100%", maxWidth: "1161px", maxHeight: "653px" }}
+          style={{ aspectRatio: "16 / 9", width: "100%", maxWidth: "912px", maxHeight: "619px" }}
         />
 
         <VideoToolbar playlistItem={data.playlistItem} nextButtonKind={nextButtonKind} />

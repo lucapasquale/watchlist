@@ -3,6 +3,7 @@ import { useAnimate } from "framer-motion";
 import { LinkIcon, SkipForward } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@ui/components/ui/button";
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@ui/components/ui/card";
 
 import { PlaylistItemKindBadge } from "~components/playlist-item-kind-badge";
 import { PlaylistItemViewQuery } from "~graphql/types";
@@ -45,36 +46,46 @@ export function VideoToolbar({ nextButtonKind, playlistItem }: Props) {
   }, [animate, scope, nextItemID, navigate, playlistID, nextButtonKind]);
 
   return (
-    <div className="w-full flex items-center justify-between gap-8 rounded-xl bg-card px-4 py-6">
-      <div className="flex flex-col gap-2">
-        <Link target="_blank" rel="noopener noreferrer" to={playlistItem.rawUrl}>
-          <h1 className="flex items-baseline gap-2 text-2xl hover:underline">
-            {playlistItem.title}
+    <Card className="w-full flex items-center justify-between gap-1 rounded-xl bg-card">
+      <CardHeader>
+        <CardTitle>
+          <Link target="_blank" rel="noopener noreferrer" to={playlistItem.rawUrl}>
+            <h1 className="text-lg md:text-2xl hover:underline">
+              {playlistItem.title}
 
-            <LinkIcon className="size-4" />
-          </h1>
-        </Link>
+              <LinkIcon className="inline ml-2 size-4" />
+            </h1>
+          </Link>
+        </CardTitle>
 
-        <PlaylistItemKindBadge kind={playlistItem.kind} />
-      </div>
+        <CardDescription>
+          <PlaylistItemKindBadge kind={playlistItem.kind} />
+        </CardDescription>
+      </CardHeader>
 
-      <Link search to="/p/$playlistID/$videoID" params={{ playlistID, videoID: nextItemID ?? "" }}>
-        <Button
-          disabled={!nextItemID}
-          ref={scope}
-          className="flex items-center gap-2"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, hsl(346.8 77.2% 49.8%) 50%, hsl(346.8 77.2% 19.8%) 50%)",
-            backgroundPositionY: "0%",
-            backgroundPositionX: nextButtonKind === "auto-forward" ? "100%" : "0%",
-            backgroundSize: "200% 100%",
-          }}
+      <CardFooter className="py-0">
+        <Link
+          search
+          to="/p/$playlistID/$videoID"
+          params={{ playlistID, videoID: nextItemID ?? "" }}
         >
-          Next
-          <SkipForward className="size-4" />
-        </Button>
-      </Link>
-    </div>
+          <Button
+            disabled={!nextItemID}
+            ref={scope}
+            className="flex items-center gap-2"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, hsl(346.8 77.2% 49.8%) 50%, hsl(346.8 77.2% 19.8%) 50%)",
+              backgroundPositionY: "0%",
+              backgroundPositionX: nextButtonKind === "auto-forward" ? "100%" : "0%",
+              backgroundSize: "200% 100%",
+            }}
+          >
+            Next
+            <SkipForward className="size-4" />
+          </Button>
+        </Link>
+      </CardFooter>
+    </Card>
   );
 }

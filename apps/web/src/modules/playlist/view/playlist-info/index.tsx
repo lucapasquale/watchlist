@@ -1,6 +1,7 @@
 import { Play, Shuffle } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@ui/components/ui/button";
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@ui/components/ui/card";
 
 import { PlaylistViewQuery } from "~graphql/types";
 import { Route } from "~routes/p/$playlistID/index.lazy";
@@ -14,14 +15,13 @@ export function PlaylistInfo({ playlist, shuffleSeed }: Props) {
   const { playlistID } = Route.useParams();
 
   return (
-    <section className="rounded-xl flex flex-col gap-4 p-4 bg-card">
-      <div className="flex flex-col gap-1">
-        <h1 className="text-2xl">{playlist.name}</h1>
+    <Card className="rounded-xl flex flex-col gap-4 bg-card">
+      <CardHeader>
+        <CardTitle>{playlist.name}</CardTitle>
+        <CardDescription>{playlist.itemsCount} videos</CardDescription>
+      </CardHeader>
 
-        <h3 className="text-sm">{playlist.itemsCount} videos</h3>
-      </div>
-
-      <div className="flex items-center justify-between gap-4">
+      <CardFooter className="flex items-center justify-between gap-4">
         {playlist.shuffleFirstItem && (
           <Link
             to="/p/$playlistID/$videoID"
@@ -46,7 +46,7 @@ export function PlaylistInfo({ playlist, shuffleSeed }: Props) {
             </Button>
           </Link>
         )}
-      </div>
-    </section>
+      </CardFooter>
+    </Card>
   );
 }

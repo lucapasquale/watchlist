@@ -11,7 +11,7 @@ export function Page() {
 
     const redirectHref = localStorage.getItem(LOGIN_REDIRECT_URL_KEY);
     if (redirectHref) {
-      // localStorage.removeItem(LOGIN_REDIRECT_URL_KEY);
+      localStorage.removeItem(LOGIN_REDIRECT_URL_KEY);
       window.location.href = redirectHref;
       return;
     }
