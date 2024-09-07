@@ -8,6 +8,7 @@ export function Page() {
 
   React.useEffect(() => {
     localStorage.setItem(AUTH_TOKEN_KEY, search.accessToken);
+    window.location.search = "";
 
     const redirectHref = localStorage.getItem(LOGIN_REDIRECT_URL_KEY);
     if (redirectHref) {
