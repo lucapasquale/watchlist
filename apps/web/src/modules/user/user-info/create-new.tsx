@@ -34,7 +34,7 @@ export function CreateNew() {
     }
 
     form.reset({ name: "" });
-    navigate({ to: "/p/$playlistID", params: { playlistID: data.createPlaylist.id.toString() } });
+    navigate({ to: "/p/$playlistID", params: { playlistID: data.createPlaylist.id } });
   };
 
   return (

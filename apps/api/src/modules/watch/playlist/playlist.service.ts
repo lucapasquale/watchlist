@@ -32,6 +32,6 @@ export class PlaylistService {
   }
 
   async delete(id: number) {
-    return db.deleteFrom("playlist").where("id", "=", id);
+    return db.deleteFrom("playlist").where("id", "=", id).returningAll().executeTakeFirstOrThrow();
   }
 }

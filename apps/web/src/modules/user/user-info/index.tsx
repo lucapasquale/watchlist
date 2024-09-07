@@ -11,18 +11,16 @@ import {
 } from "@ui/components/ui/dialog";
 
 import { UserViewQuery } from "~common/graphql-types";
-import { useCurrentUser } from "~common/providers/current-user-provider";
 
 import { CreateNew } from "./create-new";
 import { ImportFromYoutube } from "./import-from-youtube";
 
 type Props = {
   user: UserViewQuery["user"];
+  isOwner: boolean;
 };
 
-export function UserInfo({ user }: Props) {
-  const { user: currentUser } = useCurrentUser();
-
+export function UserInfo({ user, isOwner }: Props) {
   const [createState, setCreateState] = React.useState<null | "new" | "youtube">(null);
 
   return (
@@ -38,7 +36,7 @@ export function UserInfo({ user }: Props) {
         </CardTitle>
       </CardHeader>
 
-      {user.id === currentUser?.id && (
+      {isOwner && (
         <CardFooter className="grid grid-cols-2 items-center justify-between gap-2">
           <Dialog
             open={createState === "youtube"}

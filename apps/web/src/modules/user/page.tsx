@@ -3,6 +3,7 @@ import { useQuery } from "@apollo/client";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { UserViewDocument } from "~common/graphql-types";
+import { useCurrentUser } from "~common/providers/current-user-provider";
 import { Route } from "~routes/u/$userID.lazy";
 
 import { UserInfo } from "./user-info";
@@ -10,6 +11,7 @@ import { UserPlaylists } from "./user-playlists";
 
 export function Page() {
   const { userID } = Route.useParams();
+  const { user: currentUser } = useCurrentUser();
 
   const { loading, data } = useQuery(UserViewDocument, {
     variables: { userID },
@@ -31,6 +33,8 @@ export function Page() {
     );
   }
 
+  const isOwner = data.user.id === currentUser?.id;
+
   return (
     <>
       <Helmet>
@@ -38,9 +42,9 @@ export function Page() {
       </Helmet>
 
       <main className="grid items-start grid-cols-1 xl:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
-        <UserInfo user={data.user} />
+        <UserInfo user={data.user} isOwner={isOwner} />
 
-        <UserPlaylists user={data.user} />
+        <UserPlaylists user={data.user} isOwner={isOwner} />
       </main>
     </>
   );

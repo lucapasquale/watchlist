@@ -1,7 +1,19 @@
+import React from "react";
 import { GripVertical, Trash } from "lucide-react";
 import { useMutation } from "@apollo/client";
 import { DraggableProvided } from "@hello-pangea/dnd";
 import { Link } from "@tanstack/react-router";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@ui/components/ui/alert-dialog";
 import { Button } from "@ui/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@ui/components/ui/card";
 import { cn } from "@ui/lib/utils";
@@ -26,15 +38,17 @@ type Props = {
 export function PlaylistItem({ item, isOwner, onDelete, provided, style, isDragging }: Props) {
   const { playlistID } = Route.useParams();
 
-  const [deleteVideo] = useMutation(DeletePlaylistItemDocument, {
+  const [open, setOpen] = React.useState(false);
+
+  const [deletePlaylistItem] = useMutation(DeletePlaylistItemDocument, {
     refetchQueries: [PlaylistViewDocument],
     awaitRefetchQueries: true,
   });
 
   const onClickDelete = async () => {
-    await deleteVideo({
-      variables: { id: item.id },
-    });
+    await deletePlaylistItem({ variables: { id: item.id } });
+
+    setOpen(false);
     onDelete?.();
   };
 
@@ -106,9 +120,25 @@ export function PlaylistItem({ item, isOwner, onDelete, provided, style, isDragg
       </div>
 
       {isOwner && (
-        <Button variant="destructive" onClick={onClickDelete} className="mr-4">
-          <Trash className="size-4" />
-        </Button>
+        <AlertDialog open={open} onOpenChange={setOpen}>
+          <AlertDialogTrigger asChild>
+            <Button variant="ghost" className="mr-4 hover:bg-destructive">
+              <Trash className="size-4" />
+            </Button>
+          </AlertDialogTrigger>
+
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+              <AlertDialogDescription>This action cannot be undone</AlertDialogDescription>
+            </AlertDialogHeader>
+
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={onClickDelete}>Delete</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       )}
     </Card>
   );

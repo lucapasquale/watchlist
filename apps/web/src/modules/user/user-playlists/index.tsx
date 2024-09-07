@@ -1,24 +1,79 @@
+import React from "react";
+import { Trash } from "lucide-react";
+import { useMutation } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@ui/components/ui/alert-dialog";
+import { Button } from "@ui/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@ui/components/ui/card";
 
-import { UserViewQuery } from "~common/graphql-types";
+import { DeletePlaylistDocument, UserViewDocument, UserViewQuery } from "~common/graphql-types";
 
 type Props = {
   user: UserViewQuery["user"];
+  isOwner: boolean;
 };
 
-export function UserPlaylists({ user }: Props) {
+export function UserPlaylists({ user, isOwner }: Props) {
+  const [open, setOpen] = React.useState(false);
+
+  const [deletePlaylist] = useMutation(DeletePlaylistDocument, {
+    refetchQueries: [UserViewDocument],
+    awaitRefetchQueries: true,
+  });
+
+  const onClickDelete = async (playlistId: string) => {
+    await deletePlaylist({ variables: { id: playlistId } });
+
+    setOpen(false);
+  };
+
   return (
     <ol className="space-y-4">
       {user.playlists.map((playlist) => (
-        <Card key={playlist.id}>
+        <Card key={playlist.id} className="flex items-center justify-between">
           <CardHeader>
             <Link to="/p/$playlistID" params={{ playlistID: playlist.id }}>
               <CardTitle className="hover:underline">{playlist.name}</CardTitle>
             </Link>
 
-            <CardDescription>{playlist.itemsCount} videos</CardDescription>
+            <CardDescription>
+              {playlist.itemsCount} video{playlist.itemsCount === 1 ? "" : "s"}
+            </CardDescription>
           </CardHeader>
+
+          {isOwner && (
+            <AlertDialog open={open} onOpenChange={setOpen}>
+              <AlertDialogTrigger asChild>
+                <Button variant="ghost" className="mr-4 hover:bg-destructive">
+                  <Trash className="size-4" />
+                </Button>
+              </AlertDialogTrigger>
+
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                  <AlertDialogDescription>This action cannot be undone</AlertDialogDescription>
+                </AlertDialogHeader>
+
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => onClickDelete(playlist.id)}>
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
         </Card>
       ))}
     </ol>

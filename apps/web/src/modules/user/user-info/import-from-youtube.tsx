@@ -33,10 +33,7 @@ export function ImportFromYoutube() {
     }
 
     form.reset({ playlistURL: "" });
-    navigate({
-      to: "/p/$playlistID",
-      params: { playlistID: data.createPlaylistFromYoutube.id.toString() },
-    });
+    navigate({ to: "/p/$playlistID", params: { playlistID: data.createPlaylistFromYoutube.id } });
   };
 
   return (
