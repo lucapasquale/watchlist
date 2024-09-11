@@ -5,9 +5,9 @@ import { Args, Context, Mutation, Parent, Query, ResolveField, Resolver } from "
 import { GqlAuthGuard } from "../../auth/authentication/authentication.guard.js";
 import { CurrentUser, type CurrentUserType } from "../../auth/user/current-user.decorator.js";
 import type { Loaders } from "../../common/data-loader.service.js";
-import { RedditService } from "../../external-clients/reddit.service.js";
-import { TwitchService } from "../../external-clients/twitch.service.js";
-import { YoutubeService } from "../../external-clients/youtube.service.js";
+import { RedditService } from "../external-clients/reddit.service.js";
+import { TwitchService } from "../external-clients/twitch.service.js";
+import { YoutubeService } from "../external-clients/youtube.service.js";
 import { PlaylistService } from "../playlist/playlist.service.js";
 
 import type { PlaylistItem, PlaylistItemInsert } from "./playlist-item.model.js";

@@ -5,7 +5,6 @@ import { GraphQLModule } from "@nestjs/graphql";
 import { AuthModule } from "./modules/auth/auth.module.js";
 import { CommonModule } from "./modules/common/common.module.js";
 import { DataLoaderService } from "./modules/common/data-loader.service.js";
-import { ExternalClientsModule } from "./modules/external-clients/external-clients.module.js";
 import { WatchModule } from "./modules/watch/watch.module.js";
 
 @Module({
@@ -34,7 +33,6 @@ import { WatchModule } from "./modules/watch/watch.module.js";
     }),
 
     AuthModule,
-    ExternalClientsModule,
     CommonModule,
     WatchModule,
   ],
