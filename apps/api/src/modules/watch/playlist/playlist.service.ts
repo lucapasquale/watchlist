@@ -1,17 +1,36 @@
+import DataLoader from "dataloader";
 import { Injectable } from "@nestjs/common";
 
 import { db } from "../../../database/index.js";
 
-import type { PlaylistInsert, PlaylistUpdate } from "./playlist.model.js";
+import type { Playlist, PlaylistInsert, PlaylistUpdate } from "./playlist.model.js";
 
 @Injectable()
 export class PlaylistService {
+  loader: DataLoader<number, Playlist>;
+
+  constructor() {
+    this.loader = new DataLoader<number, Playlist>(async (ids) => {
+      const playlists = await db
+        .selectFrom("playlist")
+        .where("id", "in", [...ids])
+        .selectAll()
+        .execute();
+
+      return ids.map((id) => playlists.find((playlist) => playlist.id === id)!);
+    });
+  }
+
   async getAll() {
     return db.selectFrom("playlist").selectAll().execute();
   }
 
   async getById(id: number) {
     return db.selectFrom("playlist").where("id", "=", id).selectAll().executeTakeFirstOrThrow();
+  }
+
+  async getByIds(ids: number[]) {
+    return db.selectFrom("playlist").where("id", "in", ids).selectAll().execute();
   }
 
   async getAllByUser(userId: number) {

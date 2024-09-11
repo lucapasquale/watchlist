@@ -10,6 +10,10 @@ export class UserService {
     return db.selectFrom("user").where("id", "=", id).selectAll().executeTakeFirstOrThrow();
   }
 
+  async getByIds(ids: number[]) {
+    return db.selectFrom("user").where("id", "in", ids).selectAll().execute();
+  }
+
   async create(values: UserInsert) {
     return db.insertInto("user").values(values).returningAll().executeTakeFirstOrThrow();
   }

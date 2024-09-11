@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 import { GqlExecutionContext } from "@nestjs/graphql";
 
-import { AccessTokenResponse } from "./authentication/jwt.strategy.js";
+import { AccessTokenResponse } from "../authentication/jwt.strategy.js";
 
 export type CurrentUserType = AccessTokenResponse;
 

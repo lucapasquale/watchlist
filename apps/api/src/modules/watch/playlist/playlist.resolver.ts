@@ -1,10 +1,10 @@
 import { LexoRank } from "lexorank";
 import { UseGuards } from "@nestjs/common";
-import { Args, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
+import { Args, Context, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 
 import { GqlAuthGuard } from "../../auth/authentication/authentication.guard.js";
-import { CurrentUser, type CurrentUserType } from "../../auth/current-user.decorator.js";
-import { UserService } from "../../auth/user/user.service.js";
+import { CurrentUser, type CurrentUserType } from "../../auth/user/current-user.decorator.js";
+import type { Loaders } from "../../common/data-loader.service.js";
 import { YoutubeService } from "../../external-clients/youtube.service.js";
 import { PlaylistItemService } from "../playlist-item/playlist-item.service.js";
 
@@ -16,7 +16,6 @@ export class PlaylistResolver {
   constructor(
     private playlistService: PlaylistService,
     private playlistItemService: PlaylistItemService,
-    private userService: UserService,
     private youtubeService: YoutubeService,
   ) {}
 
@@ -37,8 +36,8 @@ export class PlaylistResolver {
   }
 
   @ResolveField()
-  async user(@Parent() playlist: Playlist) {
-    return this.userService.getById(playlist.userId);
+  async user(@Parent() playlist: Playlist, @Context("loaders") loaders: Loaders) {
+    return loaders.user.load(playlist.userId);
   }
 
   @Query()
@@ -47,8 +46,8 @@ export class PlaylistResolver {
   }
 
   @Query()
-  async playlist(@Args("id") id: number) {
-    return this.playlistService.getById(id);
+  async playlist(@Args("id") id: number, @Context("loaders") loaders: Loaders) {
+    return loaders.playlist.load(id);
   }
 
   @Mutation()

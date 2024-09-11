@@ -20,6 +20,10 @@ export class PlaylistItemService {
       .executeTakeFirstOrThrow();
   }
 
+  async getByIds(ids: number[]) {
+    return db.selectFrom("playlist_item").where("id", "in", ids).selectAll().execute();
+  }
+
   async getFromPlaylist(playlistID: number, shuffleSeed?: string, limit?: number) {
     let query = db.selectFrom("playlist_item").where("playlistId", "=", playlistID).selectAll();
 
