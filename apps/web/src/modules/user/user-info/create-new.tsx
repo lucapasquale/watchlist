@@ -47,7 +47,13 @@ export function CreateNew() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full flex flex-col items-center gap-4"
       >
-        <InputFormItem control={form.control} name="name" label="Name" placeholder="My playlist" />
+        <InputFormItem
+          autoComplete="off"
+          control={form.control}
+          name="name"
+          label="Name"
+          placeholder="My playlist"
+        />
 
         <DialogFooter>
           <DialogClose asChild>
