@@ -7,7 +7,7 @@ import { Button } from "@ui/components/ui/button";
 import { DialogClose, DialogFooter } from "@ui/components/ui/dialog";
 import { Form } from "@ui/components/ui/form";
 
-import { CreatePlaylistDocument } from "~common/graphql-types";
+import { CreatePlaylistDocument, UserViewDocument } from "~common/graphql-types";
 import { Route } from "~routes/index.lazy";
 
 const schema = z.object({
@@ -18,10 +18,13 @@ type FormValues = z.infer<typeof schema>;
 export function CreateNew() {
   const navigate = Route.useNavigate();
 
-  const [createPlaylist, { loading }] = useMutation(CreatePlaylistDocument);
+  const [createPlaylist, { loading }] = useMutation(CreatePlaylistDocument, {
+    refetchQueries: [UserViewDocument],
+  });
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
+    defaultValues: { name: "" },
   });
 
   const onSubmit = async (values: FormValues) => {

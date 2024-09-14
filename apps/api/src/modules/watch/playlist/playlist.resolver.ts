@@ -26,8 +26,8 @@ export class PlaylistResolver {
   }
 
   @ResolveField()
-  async itemsCount(@Parent() playlist: Playlist) {
-    return this.playlistItemService.countFromPlaylist(playlist.id);
+  async itemsCount(@Parent() playlist: Playlist, @Context("loaders") loaders: Loaders) {
+    return loaders.playlistItemsCount.load(playlist.id);
   }
 
   @ResolveField()

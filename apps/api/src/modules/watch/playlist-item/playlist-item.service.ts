@@ -24,8 +24,23 @@ export class PlaylistItemService {
     return db.selectFrom("playlist_item").where("id", "in", ids).selectAll().execute();
   }
 
-  async getFromPlaylist(playlistID: number, shuffleSeed?: string, limit?: number) {
-    let query = db.selectFrom("playlist_item").where("playlistId", "=", playlistID).selectAll();
+  async countByPlaylists(playlistIds: number[]) {
+    const response = await db
+      .selectFrom("playlist_item")
+      .where("playlistId", "in", playlistIds)
+      .select("playlistId")
+      .select((eb) => eb.fn.count("id").as("count"))
+      .groupBy("playlistId")
+      .execute();
+
+    return playlistIds.map((playlistId) => {
+      const item = response.find((item) => item.playlistId === playlistId);
+      return item ? Number(item.count) : 0;
+    });
+  }
+
+  async getFromPlaylist(playlistId: number, shuffleSeed?: string, limit?: number) {
+    let query = db.selectFrom("playlist_item").where("playlistId", "=", playlistId).selectAll();
 
     if (shuffleSeed) {
       query = query.orderBy(sql`md5(id::text || ${shuffleSeed}) asc`);
@@ -62,23 +77,13 @@ export class PlaylistItemService {
     return query.executeTakeFirst();
   }
 
-  async getLastFromPlaylist(playlistID: number) {
+  async getLastFromPlaylist(playlistId: number) {
     return db
       .selectFrom("playlist_item")
-      .where("playlistId", "=", playlistID)
+      .where("playlistId", "=", playlistId)
       .orderBy("rank desc")
       .selectAll()
       .executeTakeFirst();
-  }
-
-  async countFromPlaylist(playlistID: number) {
-    const response = await db
-      .selectFrom("playlist_item")
-      .where("playlistId", "=", playlistID)
-      .select((eb) => eb.fn.count("id").as("itemsCount"))
-      .executeTakeFirstOrThrow();
-
-    return Number(response.itemsCount);
   }
 
   async create(values: PlaylistItemInsert | PlaylistItemInsert[]) {

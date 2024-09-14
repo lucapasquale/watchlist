@@ -23,6 +23,7 @@ export class DataLoaderService {
       user: this.createUserLoader(),
       playlist: this.createPlaylistLoader(),
       playlistItem: this.createPlaylistItemLoader(),
+      playlistItemsCount: this.createPlaylistItemsCountLoader(),
     };
   }
 
@@ -39,6 +40,12 @@ export class DataLoaderService {
       const items = await this.playlistItemService.getByIds([...ids]);
 
       return this.mapKeysToValues(ids, items, (playlistItem) => playlistItem.id);
+    });
+  }
+
+  private createPlaylistItemsCountLoader() {
+    return new DataLoader<number, number>(async (ids) => {
+      return this.playlistItemService.countByPlaylists([...ids]);
     });
   }
 

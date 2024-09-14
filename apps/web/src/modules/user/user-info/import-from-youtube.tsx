@@ -7,7 +7,7 @@ import { Button } from "@ui/components/ui/button";
 import { DialogClose, DialogFooter } from "@ui/components/ui/dialog";
 import { Form } from "@ui/components/ui/form";
 
-import { CreatePlaylistFromYoutubeDocument } from "~common/graphql-types";
+import { CreatePlaylistFromYoutubeDocument, UserViewDocument } from "~common/graphql-types";
 import { Route } from "~routes/index.lazy";
 
 const schema = z.object({
@@ -18,10 +18,13 @@ type FormValues = z.infer<typeof schema>;
 export function ImportFromYoutube() {
   const navigate = Route.useNavigate();
 
-  const [createPlaylist, { loading }] = useMutation(CreatePlaylistFromYoutubeDocument);
+  const [createPlaylist, { loading }] = useMutation(CreatePlaylistFromYoutubeDocument, {
+    refetchQueries: [UserViewDocument],
+  });
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
+    defaultValues: { playlistURL: "" },
   });
 
   const onSubmit = async (values: FormValues) => {
