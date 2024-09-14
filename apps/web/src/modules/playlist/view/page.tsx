@@ -1,11 +1,10 @@
-import React from "react";
 import { Helmet } from "react-helmet-async";
 import { useQuery } from "@apollo/client";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { PlaylistViewDocument } from "~common/graphql-types";
 import { useCurrentUser } from "~common/providers/current-user-provider";
-import { Route } from "~routes/p/$playlistID/index.lazy";
+import { Route } from "~routes/p/$playlistID/index";
 
 import { AddItem } from "./add-item";
 import { PlaylistInfo } from "./playlist-info";
@@ -15,10 +14,8 @@ export function Page() {
   const { playlistID } = Route.useParams();
   const { user } = useCurrentUser();
 
-  const shuffleSeed = React.useRef(Date.now().toString());
-
   const { data } = useQuery(PlaylistViewDocument, {
-    variables: { playlistID, shuffleSeed: shuffleSeed.current },
+    variables: { playlistID },
     notifyOnNetworkStatusChange: true,
   });
 
@@ -54,11 +51,7 @@ export function Page() {
 
       <main className="grid items-start grid-cols-1 xl:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
         <div className="flex flex-col gap-4">
-          <PlaylistInfo
-            playlist={data.playlist}
-            isOwner={isOwner}
-            shuffleSeed={shuffleSeed.current}
-          />
+          <PlaylistInfo playlist={data.playlist} isOwner={isOwner} />
 
           {isOwner && <AddItem />}
         </div>

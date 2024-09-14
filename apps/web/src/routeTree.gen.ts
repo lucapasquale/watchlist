@@ -13,7 +13,9 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as UUserIDImport } from './routes/u/$userID'
 import { Route as AuthLogoutImport } from './routes/auth/logout'
+import { Route as PPlaylistIDIndexImport } from './routes/p/$playlistID/index'
 import { Route as PPlaylistIDVideoIDImport } from './routes/p/$playlistID/$videoID'
 import { Route as AuthGoogleRedirectImport } from './routes/auth/google/redirect'
 import { Route as AuthGoogleLoginImport } from './routes/auth/google/login'
@@ -21,8 +23,6 @@ import { Route as AuthGoogleLoginImport } from './routes/auth/google/login'
 // Create Virtual Routes
 
 const IndexLazyImport = createFileRoute('/')()
-const UUserIDLazyImport = createFileRoute('/u/$userID')()
-const PPlaylistIDIndexLazyImport = createFileRoute('/p/$playlistID/')()
 
 // Create/Update Routes
 
@@ -31,22 +31,20 @@ const IndexLazyRoute = IndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
-const UUserIDLazyRoute = UUserIDLazyImport.update({
+const UUserIDRoute = UUserIDImport.update({
   path: '/u/$userID',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/u/$userID.lazy').then((d) => d.Route))
+} as any)
 
 const AuthLogoutRoute = AuthLogoutImport.update({
   path: '/auth/logout',
   getParentRoute: () => rootRoute,
 } as any)
 
-const PPlaylistIDIndexLazyRoute = PPlaylistIDIndexLazyImport.update({
+const PPlaylistIDIndexRoute = PPlaylistIDIndexImport.update({
   path: '/p/$playlistID/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/p/$playlistID/index.lazy').then((d) => d.Route),
-)
+} as any)
 
 const PPlaylistIDVideoIDRoute = PPlaylistIDVideoIDImport.update({
   path: '/p/$playlistID/$videoID',
@@ -85,7 +83,7 @@ declare module '@tanstack/react-router' {
       id: '/u/$userID'
       path: '/u/$userID'
       fullPath: '/u/$userID'
-      preLoaderRoute: typeof UUserIDLazyImport
+      preLoaderRoute: typeof UUserIDImport
       parentRoute: typeof rootRoute
     }
     '/auth/google/login': {
@@ -113,7 +111,7 @@ declare module '@tanstack/react-router' {
       id: '/p/$playlistID/'
       path: '/p/$playlistID'
       fullPath: '/p/$playlistID'
-      preLoaderRoute: typeof PPlaylistIDIndexLazyImport
+      preLoaderRoute: typeof PPlaylistIDIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -124,11 +122,11 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren({
   IndexLazyRoute,
   AuthLogoutRoute,
-  UUserIDLazyRoute,
+  UUserIDRoute,
   AuthGoogleLoginRoute,
   AuthGoogleRedirectRoute,
   PPlaylistIDVideoIDRoute,
-  PPlaylistIDIndexLazyRoute,
+  PPlaylistIDIndexRoute,
 })
 
 /* prettier-ignore-end */
@@ -155,7 +153,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "auth/logout.tsx"
     },
     "/u/$userID": {
-      "filePath": "u/$userID.lazy.tsx"
+      "filePath": "u/$userID.tsx"
     },
     "/auth/google/login": {
       "filePath": "auth/google/login.tsx"
@@ -167,7 +165,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "p/$playlistID/$videoID.tsx"
     },
     "/p/$playlistID/": {
-      "filePath": "p/$playlistID/index.lazy.tsx"
+      "filePath": "p/$playlistID/index.tsx"
     }
   }
 }

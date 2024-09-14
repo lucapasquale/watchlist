@@ -1,29 +1,22 @@
 import React from "react";
-import { Pencil, Play, Shuffle } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar";
 import { Button } from "@ui/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@ui/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@ui/components/ui/card";
 import { cn } from "@ui/lib/utils";
 
 import { PlaylistViewQuery } from "~common/graphql-types";
 
+import { FirstItemButtons } from "./first-item-buttons";
 import { UpdatePlaylistForm } from "./update-playlist-form";
 
 type Props = {
   playlist: PlaylistViewQuery["playlist"];
   isOwner: boolean;
-  shuffleSeed: string;
 };
 
-export function PlaylistInfo({ playlist, isOwner, shuffleSeed }: Props) {
+export function PlaylistInfo({ playlist, isOwner }: Props) {
   const [isEditing, setIsEditing] = React.useState(false);
 
   return (
@@ -64,32 +57,7 @@ export function PlaylistInfo({ playlist, isOwner, shuffleSeed }: Props) {
         {playlist.itemsCount} video{playlist.itemsCount === 1 ? "" : "s"}
       </CardContent>
 
-      <CardFooter className="flex items-center justify-between gap-4">
-        {playlist.shuffleFirstItem && (
-          <Link
-            to="/p/$playlistID/$videoID"
-            params={{ playlistID: playlist.id, videoID: playlist.shuffleFirstItem.id.toString() }}
-            search={{ shuffleSeed }}
-            className="w-full"
-          >
-            <Button tabIndex={-1} variant="secondary" className="w-full">
-              Shuffle <Shuffle className="size-4 ml-2" />
-            </Button>
-          </Link>
-        )}
-
-        {playlist.firstItem && (
-          <Link
-            to="/p/$playlistID/$videoID"
-            params={{ playlistID: playlist.id, videoID: playlist.firstItem.id.toString() }}
-            className="w-full"
-          >
-            <Button tabIndex={-1} className="w-full">
-              Play <Play className="size-4 ml-2" />
-            </Button>
-          </Link>
-        )}
-      </CardFooter>
+      <FirstItemButtons playlist={playlist} />
     </Card>
   );
 }

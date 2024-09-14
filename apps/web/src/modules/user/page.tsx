@@ -4,7 +4,7 @@ import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { UserViewDocument } from "~common/graphql-types";
 import { useCurrentUser } from "~common/providers/current-user-provider";
-import { Route } from "~routes/u/$userID.lazy";
+import { Route } from "~routes/u/$userID";
 
 import { UserInfo } from "./user-info";
 import { UserPlaylists } from "./user-playlists";

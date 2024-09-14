@@ -1,4 +1,4 @@
-query PlaylistView($playlistID: ID!, $shuffleSeed: String!) {
+query PlaylistView($playlistID: ID!) {
   playlist(id: $playlistID) {
     id
     name
@@ -12,9 +12,6 @@ query PlaylistView($playlistID: ID!, $shuffleSeed: String!) {
     }
 
     firstItem {
-      id
-    }
-    shuffleFirstItem: firstItem(shuffleSeed: $shuffleSeed) {
       id
     }
 

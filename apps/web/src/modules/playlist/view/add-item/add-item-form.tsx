@@ -13,7 +13,7 @@ import {
   PlaylistViewDocument,
 } from "~common/graphql-types";
 import { PLAYLIST_ITEM_KIND } from "~common/translations";
-import { Route } from "~routes/p/$playlistID/index.lazy";
+import { Route } from "~routes/p/$playlistID/index";
 
 const schema = z.object({
   url: z.string().url(),

@@ -1,21 +1,12 @@
 import { StrictMode } from "react";
 import { HelmetProvider } from "react-helmet-async";
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 
-import { API_URL, AUTH_TOKEN_KEY } from "~common/constants";
+import { ApolloProvider } from "~common/providers/apollo-provider";
 import { CurrentUserProvider } from "~common/providers/current-user-provider";
 import { ThemeProvider } from "~common/providers/theme-provider";
 
 import { routeTree } from "./routeTree.gen";
-
-const client = new ApolloClient({
-  uri: API_URL + "/graphql",
-  cache: new InMemoryCache(),
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN_KEY)}`,
-  },
-});
 
 const router = createRouter({
   routeTree,
@@ -32,7 +23,7 @@ export function App() {
   return (
     <StrictMode>
       <HelmetProvider>
-        <ApolloProvider client={client}>
+        <ApolloProvider>
           <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <CurrentUserProvider>
               <RouterProvider router={router} />

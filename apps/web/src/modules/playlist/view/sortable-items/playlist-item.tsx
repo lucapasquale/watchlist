@@ -24,7 +24,7 @@ import {
   type PlaylistViewQuery,
 } from "~common/graphql-types";
 import { PLAYLIST_ITEM_KIND } from "~common/translations";
-import { Route } from "~routes/p/$playlistID/index.lazy";
+import { Route } from "~routes/p/$playlistID/index";
 
 type Props = {
   item: PlaylistViewQuery["playlist"]["items"][number];
