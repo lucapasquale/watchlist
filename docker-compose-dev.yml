@@ -6,7 +6,7 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_DB=video_list_dev
+      - POSTGRES_DB=watchlist_dev
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
@@ -17,7 +17,7 @@ services:
     ports:
       - "5431:5432"
     environment:
-      - POSTGRES_DB=video_list_test
+      - POSTGRES_DB=watchlist_test
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 

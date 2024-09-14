@@ -19,7 +19,7 @@ function parseEnvVars() {
     }),
 
     auth: z.object({
-      jwtSecret: z.string().uuid(),
+      jwtSecret: z.string().min(1),
       google: z.object({
         clientID: z.string().min(1),
         clientSecret: z.string().min(1),
@@ -36,7 +36,6 @@ function parseEnvVars() {
   });
 
   const { error, data } = schema.safeParse({
-    url: process.env.APP_URL,
     port: process.env.PORT,
     host: process.env.HOST,
 
