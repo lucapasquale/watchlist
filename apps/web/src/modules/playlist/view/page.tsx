@@ -54,7 +54,11 @@ export function Page() {
 
       <main className="grid items-start grid-cols-1 xl:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
         <div className="flex flex-col gap-4">
-          <PlaylistInfo playlist={data.playlist} shuffleSeed={shuffleSeed.current} />
+          <PlaylistInfo
+            playlist={data.playlist}
+            isOwner={isOwner}
+            shuffleSeed={shuffleSeed.current}
+          />
 
           {isOwner && <AddItem />}
         </div>
