@@ -9,6 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@ui/components/ui/dialog";
+import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { UserViewQuery } from "~common/graphql-types";
 
@@ -78,3 +79,9 @@ export function UserInfo({ user, isOwner }: Props) {
     </Card>
   );
 }
+
+UserInfo.Skeleton = () => (
+  <section className="flex flex-col gap-4">
+    <Skeleton className="h-[154px]" />
+  </section>
+);

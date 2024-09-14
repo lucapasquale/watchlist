@@ -15,6 +15,7 @@ import {
 } from "@ui/components/ui/alert-dialog";
 import { Button } from "@ui/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@ui/components/ui/card";
+import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { DeletePlaylistDocument, UserViewDocument, UserViewQuery } from "~common/graphql-types";
 
@@ -79,3 +80,11 @@ export function UserPlaylists({ user, isOwner }: Props) {
     </ol>
   );
 }
+
+UserPlaylists.Skeleton = () => (
+  <section className="w-full h-[975px] overflow-y-scroll flex flex-col gap-2">
+    <Skeleton className="h-[98px] bg-card flex-none rounded-xl" />
+    <Skeleton className="h-[98px] bg-card flex-none rounded-xl" />
+    <Skeleton className="h-[98px] bg-card flex-none rounded-xl" />
+  </section>
+);

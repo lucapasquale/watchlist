@@ -2,6 +2,7 @@ import React from "react";
 import { FixedSizeList } from "react-window";
 import { useMutation } from "@apollo/client";
 import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea/dnd";
+import { Skeleton } from "@ui/components/ui/skeleton";
 
 import {
   MovePlaylistItemDocument,
@@ -97,3 +98,16 @@ export function SortableItems({ playlist, isOwner }: Props) {
     </DragDropContext>
   );
 }
+
+SortableItems.Skeleton = () => (
+  <section className="w-full h-[975px] overflow-y-scroll flex flex-col gap-2">
+    <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
+    <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
+    <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
+    <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
+    <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
+    <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
+    <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
+    <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
+  </section>
+);

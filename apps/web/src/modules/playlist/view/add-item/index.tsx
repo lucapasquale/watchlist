@@ -8,6 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@ui/components/ui/dialog";
+import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { AddItemForm } from "./add-item-form";
 
@@ -32,3 +33,5 @@ export function AddItem() {
     </Dialog>
   );
 }
+
+AddItem.Skeleton = () => <Skeleton className="h-10 w-[120px] self-end" />;

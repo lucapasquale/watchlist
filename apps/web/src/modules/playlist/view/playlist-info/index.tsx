@@ -4,6 +4,7 @@ import { Link } from "@tanstack/react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar";
 import { Button } from "@ui/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@ui/components/ui/card";
+import { Skeleton } from "@ui/components/ui/skeleton";
 import { cn } from "@ui/lib/utils";
 
 import { PlaylistViewQuery } from "~common/graphql-types";
@@ -61,3 +62,5 @@ export function PlaylistInfo({ playlist, isOwner }: Props) {
     </Card>
   );
 }
+
+PlaylistInfo.Skeleton = () => <Skeleton className="h-[256px]" />;

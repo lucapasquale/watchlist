@@ -1,6 +1,5 @@
 import { Helmet } from "react-helmet-async";
 import { useQuery } from "@apollo/client";
-import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { PlaylistViewDocument } from "~common/graphql-types";
 import { useCurrentUser } from "~common/providers/current-user-provider";
@@ -23,20 +22,11 @@ export function Page() {
     return (
       <main className="grid items-start grid-cols-1 xl:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
         <section className="flex flex-col gap-4">
-          <Skeleton className="h-[256px]" />
-          <Skeleton className="h-10 w-[120px] self-end" />
+          <PlaylistInfo.Skeleton />
+          <AddItem.Skeleton />
         </section>
 
-        <section className="w-full h-[975px] overflow-y-scroll flex flex-col gap-2">
-          <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
-          <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
-          <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
-          <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
-          <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
-          <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
-          <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
-          <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
-        </section>
+        <SortableItems.Skeleton />
       </main>
     );
   }

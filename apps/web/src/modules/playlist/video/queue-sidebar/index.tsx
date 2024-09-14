@@ -67,3 +67,5 @@ export function QueueSidebar() {
     </Card>
   );
 }
+
+QueueSidebar.Skeleton = () => <Skeleton className="w-full" />;
