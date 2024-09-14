@@ -12,6 +12,31 @@ export class YoutubeService {
     });
   }
 
+  urlMatches(url: URL) {
+    return url.href.match(/youtube.com\/watch/gi);
+  }
+
+  async playlistItemDataFromUrl(url: URL) {
+    const usp = new URLSearchParams(url.search);
+    const videoID = usp.get("v");
+    if (!videoID) {
+      return null;
+    }
+
+    const video = await this.getVideo(videoID);
+    if (!video) {
+      return null;
+    }
+
+    return {
+      kind: "youtube" as const,
+      rawUrl: url.toString(),
+      url: `https://www.youtube.com/embed/${videoID}`,
+      title: video.snippet.title,
+      thumbnailUrl: video.snippet.thumbnails.medium.url,
+    };
+  }
+
   async getVideo(videoID: string) {
     const { data } = await this.client.get<ApiResponse<Video>>("/videos", {
       params: { id: videoID, part: "snippet" },

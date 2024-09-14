@@ -9,9 +9,58 @@ export class RedditService {
     this.client = axios.create();
   }
 
-  async getPost(postURL: string) {
-    const { data } = await this.client.get<ApiResponse<Post>>(postURL + ".json");
+  urlMatches(url: URL) {
+    return url.href.match(/.*reddit\.com.*/gi) || url.href.match(/.*v\.redd\.it.*/gi);
+  }
 
+  async playlistItemDataFromUrl(url: URL) {
+    const postUrl = await this.getPostUrl(url.toString());
+    if (!postUrl) {
+      return null;
+    }
+
+    const post = await this.getPost(postUrl);
+    if (!post) {
+      return null;
+    }
+
+    return {
+      kind: "reddit" as const,
+      rawUrl: url.toString(),
+      url: post.media.reddit_video.hls_url.split("?")[0]!,
+      title: post.title,
+      thumbnailUrl: post.thumbnail,
+    };
+  }
+
+  private async getPostUrl(rawUrl: string) {
+    if (rawUrl.includes("/r/")) {
+      return rawUrl;
+    }
+
+    let postUrl = null;
+
+    await axios.get(rawUrl, {
+      beforeRedirect: (config) => {
+        console.log(config.host);
+        if (config.host === "www.reddit.com") {
+          postUrl = config.href;
+        }
+      },
+    });
+
+    if (!postUrl) {
+      return null;
+    }
+
+    const url = new URL(postUrl);
+    url.search = "";
+
+    return url.toString();
+  }
+
+  async getPost(url: string) {
+    const { data } = await this.client.get<ApiResponse<Post>>(url + ".json");
     return data?.[0]?.data?.children?.[0]?.data ?? null;
   }
 }

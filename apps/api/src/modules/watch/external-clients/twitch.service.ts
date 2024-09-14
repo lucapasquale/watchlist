@@ -25,6 +25,27 @@ export class TwitchService {
     });
   }
 
+  urlMatches(url: URL) {
+    return url.href.match(/twitch.tv\/.+\/clip/gi);
+  }
+
+  async playlistItemDataFromUrl(url: URL) {
+    const clipID = url.pathname.split("/").pop();
+    if (!clipID) {
+      return null;
+    }
+
+    const clip = await this.getClip(clipID);
+
+    return {
+      kind: "twitch_clip" as const,
+      rawUrl: url.toString(),
+      url: clip.thumbnail_url.replace(/-preview-.+x.+\..*/gi, ".mp4"),
+      title: clip.title,
+      thumbnailUrl: clip.thumbnail_url,
+    };
+  }
+
   async getClip(clipID: string) {
     const { data } = await this.client.get<ApiResponse<Clip>>("/clips", {
       params: { id: clipID },
