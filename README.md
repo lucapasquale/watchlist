@@ -1,6 +1,5 @@
-# Video-List
+# Watchlist
 
-### TODO
+Create and share playlists of your favorite videos!
 
- - Improve Twitch service auth
- - UI for changing Playlist name
+Supports YouTube, Twitch and Reddit
