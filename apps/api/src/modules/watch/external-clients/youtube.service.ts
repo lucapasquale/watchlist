@@ -16,7 +16,13 @@ export class YoutubeService {
     return url.href.match(/youtube.com\/watch/gi);
   }
 
-  async playlistItemDataFromUrl(url: URL) {
+  async playlistItemData(input: {
+    rawUrl: string;
+    startTimeSeconds?: number;
+    endTimeSeconds?: number;
+  }) {
+    const url = new URL(input.rawUrl);
+
     const usp = new URLSearchParams(url.search);
     const videoID = usp.get("v");
     if (!videoID) {
@@ -28,10 +34,18 @@ export class YoutubeService {
       return null;
     }
 
+    const videoUrl = new URL(`https://www.youtube.com/embed/${videoID}`);
+    if (input.startTimeSeconds) {
+      videoUrl.searchParams.set("start", String(input.startTimeSeconds));
+    }
+    if (input.endTimeSeconds) {
+      videoUrl.searchParams.set("end", String(input.endTimeSeconds));
+    }
+
     return {
       kind: "youtube" as const,
-      rawUrl: url.toString(),
-      url: `https://www.youtube.com/embed/${videoID}`,
+      rawUrl: input.rawUrl,
+      url: videoUrl.toString(),
       title: video.snippet.title,
       thumbnailUrl: video.snippet.thumbnails.medium.url,
     };

@@ -24,21 +24,29 @@ type PlaylistItem {
   nextItem(shuffleSeed: String): PlaylistItem
 }
 
+input UrlInformationInput {
+  rawUrl: String!
+  startTimeSeconds: Int
+  endTimeSeconds: Int
+}
 type UrlInformation {
   kind: PlaylistItemKind!
   title: String!
   thumbnailUrl: String!
+  url: String!
 }
 
 type Query {
   playlistItem(id: ID!): PlaylistItem!
 
-  urlInformation(url: String!): UrlInformation
+  urlInformation(input: UrlInformationInput!): UrlInformation
 }
 
 input CreatePlaylistItemInput {
   playlistID: ID!
   rawUrl: String!
+  startTimeSeconds: Int
+  endTimeSeconds: Int
 }
 
 input MovePlaylistItemInput {
