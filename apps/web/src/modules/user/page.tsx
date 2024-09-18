@@ -18,7 +18,7 @@ export function Page() {
 
   if (loading || !data) {
     return (
-      <main className="grid items-start grid-cols-1 xl:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
+      <main className="grid items-start grid-cols-1 lg:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
         <UserInfo.Skeleton />
 
         <UserPlaylists.Skeleton />
@@ -34,7 +34,7 @@ export function Page() {
         <title>watchlist • {data.user.name}</title>
       </Helmet>
 
-      <main className="grid items-start grid-cols-1 xl:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
+      <main className="grid items-start grid-cols-1 lg:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
         <UserInfo user={data.user} isOwner={isOwner} />
 
         <UserPlaylists user={data.user} isOwner={isOwner} />
