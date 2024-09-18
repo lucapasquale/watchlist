@@ -21,7 +21,7 @@ const schema = z
   .object({
     rawUrl: z.string().url(),
     title: z.string().min(1),
-    timeRange: z.tuple([z.number().positive(), z.number().positive()]).optional(),
+    timeRange: z.tuple([z.number().positive(), z.number().positive()]),
   })
   .refine((data) => {
     if (data.timeRange) {
@@ -49,7 +49,7 @@ export function AddItemForm({ onAdd }: Props) {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { rawUrl: "" },
+    defaultValues: { rawUrl: "", timeRange: [0, 60] },
   });
 
   const onUrlBlur = async () => {
@@ -80,8 +80,6 @@ export function AddItemForm({ onAdd }: Props) {
 
     if (response.data.urlInformation.durationSeconds) {
       form.setValue("timeRange", [0, response.data.urlInformation.durationSeconds]);
-    } else {
-      form.setValue("timeRange", undefined);
     }
 
     form.setValue("title", response.data.urlInformation.title, {
@@ -97,13 +95,20 @@ export function AddItemForm({ onAdd }: Props) {
     }
 
     const url = new URL(urlData.urlInformation.url);
-    if (timeRange && urlData.urlInformation.durationSeconds) {
+    if (urlData.urlInformation.durationSeconds) {
       url.searchParams.set("start", String(timeRange[0]));
       url.searchParams.set("end", String(timeRange[1]));
     }
 
     return url.toString();
   }, [urlData, timeRange]);
+
+  const renderDuration = React.useCallback((durationSeconds: number) => {
+    const minutes = Math.floor(durationSeconds / 60);
+    const seconds = durationSeconds % 60;
+
+    return `${minutes}:${String(seconds).padStart(2, "0")}`;
+  }, []);
 
   const onSubmit = async (values: FormValues) => {
     const { data } = await createVideo({
@@ -150,17 +155,20 @@ export function AddItemForm({ onAdd }: Props) {
             </div>
           )}
 
-          {timeRange && (
+          {urlData?.urlInformation?.durationSeconds && (
             <SliderFormItem
               disabled={urlLoading || !urlData?.urlInformation}
               control={form.control}
               name="timeRange"
               label="Time range"
               min={0}
-              max={urlData?.urlInformation?.durationSeconds ?? 60}
+              max={urlData?.urlInformation?.durationSeconds}
               minStepsBetweenThumbs={1}
+              renderTooltipValue={renderDuration}
             />
           )}
+
+          <pre>{JSON.stringify(form.watch(), null, 2)}</pre>
         </form>
       </Form>
 
