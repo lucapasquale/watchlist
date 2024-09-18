@@ -4,6 +4,7 @@ query AddItemUrlInformation($input: UrlInformationInput!) {
 		title
 		thumbnailUrl
     url
+    durationSeconds
 	}
 }
 

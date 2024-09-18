@@ -34,6 +34,7 @@ type UrlInformation {
   title: String!
   thumbnailUrl: String!
   url: String!
+  durationSeconds: Int
 }
 
 type Query {

@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import ReactPlayer from "react-player";
 import { z } from "zod";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,7 +15,6 @@ import {
   CreatePlaylistItemDocument,
   PlaylistViewDocument,
 } from "~common/graphql-types";
-import { PLAYLIST_ITEM_KIND } from "~common/translations";
 import { Route } from "~routes/p/$playlistID/index";
 
 const schema = z
@@ -49,10 +49,10 @@ export function AddItemForm({ onAdd }: Props) {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { rawUrl: "", timeRange: [0, 60] },
+    defaultValues: { rawUrl: "" },
   });
 
-  const onBlur = async () => {
+  const onUrlBlur = async () => {
     const values = form.getValues();
 
     const [valid, response] = await Promise.all([
@@ -78,10 +78,32 @@ export function AddItemForm({ onAdd }: Props) {
       return;
     }
 
+    if (response.data.urlInformation.durationSeconds) {
+      form.setValue("timeRange", [0, response.data.urlInformation.durationSeconds]);
+    } else {
+      form.setValue("timeRange", undefined);
+    }
+
     form.setValue("title", response.data.urlInformation.title, {
       shouldValidate: true,
     });
   };
+
+  const timeRange = form.watch("timeRange");
+
+  const previewUrl = React.useMemo(() => {
+    if (!urlData?.urlInformation) {
+      return null;
+    }
+
+    const url = new URL(urlData.urlInformation.url);
+    if (timeRange && urlData.urlInformation.durationSeconds) {
+      url.searchParams.set("start", String(timeRange[0]));
+      url.searchParams.set("end", String(timeRange[1]));
+    }
+
+    return url.toString();
+  }, [urlData, timeRange]);
 
   const onSubmit = async (values: FormValues) => {
     const { data } = await createVideo({
@@ -109,7 +131,6 @@ export function AddItemForm({ onAdd }: Props) {
       <Form {...form}>
         <form
           id="add-playlist-item"
-          onBlur={onBlur}
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full flex flex-col items-center gap-4"
         >
@@ -117,38 +138,31 @@ export function AddItemForm({ onAdd }: Props) {
             disabled={urlLoading}
             control={form.control}
             name="rawUrl"
-            label="Add new URL from video"
+            label="Video link"
             placeholder="URL"
+            onBlur={onUrlBlur}
             className="w-full"
           />
 
-          <SliderFormItem
-            control={form.control}
-            name="timeRange"
-            label="Time range"
-            min={0}
-            max={100}
-            minStepsBetweenThumbs={1}
-          />
+          {previewUrl && (
+            <div className="aspect-video max-h-[270px]">
+              <ReactPlayer controls url={previewUrl} width="100%" height="100%" />
+            </div>
+          )}
+
+          {timeRange && (
+            <SliderFormItem
+              disabled={urlLoading || !urlData?.urlInformation}
+              control={form.control}
+              name="timeRange"
+              label="Time range"
+              min={0}
+              max={urlData?.urlInformation?.durationSeconds ?? 60}
+              minStepsBetweenThumbs={1}
+            />
+          )}
         </form>
       </Form>
-
-      {urlData?.urlInformation ? (
-        <div className="flex items-center gap-2">
-          <img
-            src={urlData.urlInformation.thumbnailUrl}
-            className="w-[160px] h-[90px] rounded-md"
-          />
-
-          <div className="flex flex-col gap-2">
-            <h1 className="text-2xl">{urlData.urlInformation.title}</h1>
-
-            {PLAYLIST_ITEM_KIND[urlData.urlInformation.kind]}
-          </div>
-        </div>
-      ) : (
-        <div className="h-[90px]" />
-      )}
 
       <DialogFooter>
         <DialogClose asChild>
