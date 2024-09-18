@@ -42,10 +42,6 @@ export function AddItemForm({ onAdd }: Props) {
   });
 
   const onBlur = async () => {
-    if (!form.formState.isDirty) {
-      return;
-    }
-
     const [valid, response] = await Promise.all([
       form.trigger("url"),
       getUrlInfo({ variables: { url: form.getValues("url") } }),
