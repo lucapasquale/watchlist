@@ -70,12 +70,16 @@ export class PlaylistItemResolver {
       throw new Error("Invalid URL");
     }
 
-    const nextRank = this.getRankBetween([lastItem, undefined]);
-
     return this.playlistItemService.create({
-      ...urlInformation,
-      rank: nextRank.toString(),
       playlistId: playlist.id,
+      rank: this.getRankBetween([lastItem, undefined]).toString(),
+
+      kind: urlInformation.kind,
+      rawUrl: input.rawUrl,
+      url: urlInformation.url,
+      title: urlInformation.title,
+      thumbnailUrl: urlInformation.thumbnailUrl,
+      durationSeconds: urlInformation.durationSeconds,
     });
   }
 

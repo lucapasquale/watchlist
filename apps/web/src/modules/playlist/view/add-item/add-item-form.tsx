@@ -1,35 +1,32 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import ReactPlayer from "react-player";
 import { z } from "zod";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InputFormItem } from "@ui/components/form/input-form-item";
-import { SliderFormItem } from "@ui/components/form/slider-form-item";
 import { Button } from "@ui/components/ui/button";
 import { DialogClose, DialogFooter } from "@ui/components/ui/dialog";
 import { Form } from "@ui/components/ui/form";
+import { Label } from "@ui/components/ui/label";
 
 import {
   AddItemUrlInformationDocument,
   CreatePlaylistItemDocument,
+  PlaylistItemKind,
   PlaylistViewDocument,
 } from "~common/graphql-types";
 import { Route } from "~routes/p/$playlistID/index";
 
-const schema = z
-  .object({
-    rawUrl: z.string().url(),
+const schema = z.object({
+  rawUrl: z.string().url(),
+  videoInfo: z.object({
+    kind: z.nativeEnum(PlaylistItemKind),
+    url: z.string().url(),
     title: z.string().min(1),
-    timeRange: z.tuple([z.number().positive(), z.number().positive()]),
-  })
-  .refine((data) => {
-    if (data.timeRange) {
-      return data.timeRange[0] < data.timeRange[1];
-    }
-
-    return true;
-  });
+    thumbnailUrl: z.string().url(),
+    durationSeconds: z.number().int().positive().nullish(),
+  }),
+});
 type FormValues = z.infer<typeof schema>;
 
 type Props = {
@@ -39,9 +36,7 @@ type Props = {
 export function AddItemForm({ onAdd }: Props) {
   const { playlistID } = Route.useParams();
 
-  const [getUrlInfo, { data: urlData, loading: urlLoading }] = useLazyQuery(
-    AddItemUrlInformationDocument,
-  );
+  const [getUrlInfo, { loading: urlLoading }] = useLazyQuery(AddItemUrlInformationDocument);
   const [createVideo, { loading }] = useMutation(CreatePlaylistItemDocument, {
     refetchQueries: [PlaylistViewDocument],
     awaitRefetchQueries: true,
@@ -49,66 +44,41 @@ export function AddItemForm({ onAdd }: Props) {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { rawUrl: "", timeRange: [0, 60] },
+    defaultValues: { rawUrl: "" },
   });
+
+  const videoInfo = form.watch("videoInfo");
 
   const onUrlBlur = async () => {
     const values = form.getValues();
+    if (!values.rawUrl) {
+      return;
+    }
 
     const [valid, response] = await Promise.all([
       form.trigger("rawUrl"),
       getUrlInfo({
-        variables: {
-          input: {
-            rawUrl: values.rawUrl,
-            ...(values.timeRange && {
-              startTimeSeconds: values.timeRange[0],
-              endTimeSeconds: values.timeRange[1],
-            }),
-          },
-        },
+        variables: { input: { rawUrl: values.rawUrl } },
       }),
     ]);
 
     if (!valid) {
+      // @ts-expect-error zod resolver doesn't support resetting value back to `undefined`
+      form.setValue("videoInfo", undefined, { shouldValidate: true });
       return;
     }
     if (!response.data?.urlInformation) {
       form.setError("rawUrl", { type: "value", message: "No video found!" });
+      // @ts-expect-error zod resolver doesn't support resetting value back to `undefined`
+      form.setValue("videoInfo", undefined, { shouldValidate: true });
       return;
     }
 
-    if (response.data.urlInformation.durationSeconds) {
-      form.setValue("timeRange", [0, response.data.urlInformation.durationSeconds]);
-    }
-
-    form.setValue("title", response.data.urlInformation.title, {
+    form.clearErrors("rawUrl");
+    form.setValue("videoInfo", response.data.urlInformation, {
       shouldValidate: true,
     });
   };
-
-  const timeRange = form.watch("timeRange");
-
-  const previewUrl = React.useMemo(() => {
-    if (!urlData?.urlInformation) {
-      return null;
-    }
-
-    const url = new URL(urlData.urlInformation.url);
-    if (urlData.urlInformation.durationSeconds) {
-      url.searchParams.set("start", String(timeRange[0]));
-      url.searchParams.set("end", String(timeRange[1]));
-    }
-
-    return url.toString();
-  }, [urlData, timeRange]);
-
-  const renderDuration = React.useCallback((durationSeconds: number) => {
-    const minutes = Math.floor(durationSeconds / 60);
-    const seconds = durationSeconds % 60;
-
-    return `${minutes}:${String(seconds).padStart(2, "0")}`;
-  }, []);
 
   const onSubmit = async (values: FormValues) => {
     const { data } = await createVideo({
@@ -116,10 +86,6 @@ export function AddItemForm({ onAdd }: Props) {
         input: {
           playlistID,
           rawUrl: values.rawUrl,
-          ...(values.timeRange && {
-            startTimeSeconds: values.timeRange[0],
-            endTimeSeconds: values.timeRange[1],
-          }),
         },
       },
     });
@@ -149,26 +115,15 @@ export function AddItemForm({ onAdd }: Props) {
             className="w-full"
           />
 
-          {previewUrl && (
-            <div className="aspect-video max-h-[270px]">
-              <ReactPlayer controls url={previewUrl} width="100%" height="100%" />
+          {videoInfo && (
+            <div className="w-full flex flex-col">
+              <Label>Preview</Label>
+
+              <div className="aspect-video mt-2">
+                <ReactPlayer controls url={videoInfo.url} width="100%" height="100%" />
+              </div>
             </div>
           )}
-
-          {urlData?.urlInformation?.durationSeconds && (
-            <SliderFormItem
-              disabled={urlLoading || !urlData?.urlInformation}
-              control={form.control}
-              name="timeRange"
-              label="Time range"
-              min={0}
-              max={urlData?.urlInformation?.durationSeconds}
-              minStepsBetweenThumbs={1}
-              renderTooltipValue={renderDuration}
-            />
-          )}
-
-          <pre>{JSON.stringify(form.watch(), null, 2)}</pre>
         </form>
       </Form>
 
