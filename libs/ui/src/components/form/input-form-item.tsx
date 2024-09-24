@@ -30,10 +30,11 @@ export function InputFormItem<FormValue extends FieldValues>({
       name={name}
       render={({ field }) => (
         <FormItem className="grow w-full">
-          <FormLabel>{label}</FormLabel>
+          <FormLabel htmlFor={name}>{label}</FormLabel>
 
           <FormControl>
             <Input
+              id={name}
               {...inputProps}
               {...field}
               onBlur={(e) => {

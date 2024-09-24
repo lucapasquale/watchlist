@@ -43,6 +43,7 @@ export class TwitchService {
       url: clip.thumbnail_url.replace(/-preview-.+x.+\..*/gi, ".mp4"),
       title: clip.title,
       thumbnailUrl: clip.thumbnail_url,
+      durationSeconds: Math.floor(clip.duration),
     };
   }
 

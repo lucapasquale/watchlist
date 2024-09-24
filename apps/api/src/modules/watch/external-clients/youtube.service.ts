@@ -16,7 +16,13 @@ export class YoutubeService {
     return url.href.match(/youtube.com\/watch/gi);
   }
 
-  async playlistItemDataFromUrl(url: URL) {
+  async playlistItemData(input: {
+    rawUrl: string;
+    startTimeSeconds?: number;
+    endTimeSeconds?: number;
+  }) {
+    const url = new URL(input.rawUrl);
+
     const usp = new URLSearchParams(url.search);
     const videoID = usp.get("v");
     if (!videoID) {
@@ -28,18 +34,27 @@ export class YoutubeService {
       return null;
     }
 
+    const videoUrl = new URL(`https://www.youtube.com/embed/${videoID}`);
+    if (input.startTimeSeconds) {
+      videoUrl.searchParams.set("start", String(input.startTimeSeconds));
+    }
+    if (input.endTimeSeconds) {
+      videoUrl.searchParams.set("end", String(input.endTimeSeconds));
+    }
+
     return {
       kind: "youtube" as const,
-      rawUrl: url.toString(),
-      url: `https://www.youtube.com/embed/${videoID}`,
+      rawUrl: input.rawUrl,
+      url: videoUrl.toString(),
       title: video.snippet.title,
       thumbnailUrl: video.snippet.thumbnails.medium.url,
+      durationSeconds: this.getVideoDuration(video.contentDetails.duration),
     };
   }
 
   async getVideo(videoID: string) {
     const { data } = await this.client.get<ApiResponse<Video>>("/videos", {
-      params: { id: videoID, part: "snippet" },
+      params: { id: videoID, part: "snippet,contentDetails" },
     });
 
     return data.items[0];
@@ -64,6 +79,19 @@ export class YoutubeService {
     });
 
     return data;
+  }
+
+  private getVideoDuration(durationCode: string) {
+    const matches = /(\d+H)?(\d+M)?(\d+S)/g.exec(durationCode);
+    if (!matches) {
+      return null;
+    }
+
+    const hours = matches[1] ? parseInt(matches[1].replace("H", "")) : 0;
+    const minutes = matches[2] ? parseInt(matches[2].replace("M", "")) : 0;
+    const seconds = matches[3] ? parseInt(matches[3].replace("S", "")) : 0;
+
+    return hours * 3600 + minutes * 60 + seconds;
   }
 }
 
@@ -109,6 +137,15 @@ type Video = {
       title: string;
       description: string;
     };
+  };
+  contentDetails: {
+    duration: string;
+    dimension: string;
+    definition: string;
+    caption: string;
+    licensedContent: boolean;
+    contentRating: object;
+    projection: string;
   };
 };
 

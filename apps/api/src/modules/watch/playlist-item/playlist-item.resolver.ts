@@ -34,8 +34,10 @@ export class PlaylistItemResolver {
   }
 
   @Query()
-  async urlInformation(@Args("url") url: string) {
-    return this.parseUrlInformation(url);
+  async urlInformation(
+    @Args("input") input: { rawUrl: string; startTimeSeconds?: number; endTimeSeconds?: number },
+  ) {
+    return this.getItemInputData(input);
   }
 
   @Query()
@@ -47,12 +49,18 @@ export class PlaylistItemResolver {
   @UseGuards(GqlAuthGuard)
   async createPlaylistItem(
     @CurrentUser() user: CurrentUserType,
-    @Args("input") input: { playlistID: number; rawUrl: string },
+    @Args("input")
+    input: {
+      playlistID: number;
+      rawUrl: string;
+      startTimeSeconds?: number;
+      endTimeSeconds?: number;
+    },
   ) {
     const [playlist, lastItem, urlInformation] = await Promise.all([
       this.playlistService.getById(input.playlistID),
       this.playlistItemService.getLastFromPlaylist(input.playlistID),
-      this.parseUrlInformation(input.rawUrl),
+      this.getItemInputData(input),
     ]);
 
     if (playlist.userId !== user.userId) {
@@ -62,12 +70,16 @@ export class PlaylistItemResolver {
       throw new Error("Invalid URL");
     }
 
-    const nextRank = this.getRankBetween([lastItem, undefined]);
-
     return this.playlistItemService.create({
-      ...urlInformation,
-      rank: nextRank.toString(),
       playlistId: playlist.id,
+      rank: this.getRankBetween([lastItem, undefined]).toString(),
+
+      kind: urlInformation.kind,
+      rawUrl: input.rawUrl,
+      url: urlInformation.url,
+      title: urlInformation.title,
+      thumbnailUrl: urlInformation.thumbnailUrl,
+      durationSeconds: urlInformation.durationSeconds,
     });
   }
 
@@ -146,13 +158,15 @@ export class PlaylistItemResolver {
     return LexoRank.middle();
   }
 
-  private async parseUrlInformation(
-    rawUrl: string,
-  ): Promise<Omit<PlaylistItemInsert, "rank" | "playlistId"> | null> {
-    const url = new URL(rawUrl);
+  private async getItemInputData(input: {
+    rawUrl: string;
+    startTimeSeconds?: number;
+    endTimeSeconds?: number;
+  }): Promise<Omit<PlaylistItemInsert, "rank" | "playlistId"> | null> {
+    const url = new URL(input.rawUrl);
 
     if (this.youtubeService.urlMatches(url)) {
-      return this.youtubeService.playlistItemDataFromUrl(url);
+      return this.youtubeService.playlistItemData(input);
     }
 
     if (this.twitchService.urlMatches(url)) {

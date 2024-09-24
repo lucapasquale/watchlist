@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import ReactPlayer from "react-player";
 import { z } from "zod";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -6,18 +7,25 @@ import { InputFormItem } from "@ui/components/form/input-form-item";
 import { Button } from "@ui/components/ui/button";
 import { DialogClose, DialogFooter } from "@ui/components/ui/dialog";
 import { Form } from "@ui/components/ui/form";
+import { Label } from "@ui/components/ui/label";
 
 import {
   AddItemUrlInformationDocument,
   CreatePlaylistItemDocument,
+  PlaylistItemKind,
   PlaylistViewDocument,
 } from "~common/graphql-types";
-import { PLAYLIST_ITEM_KIND } from "~common/translations";
 import { Route } from "~routes/p/$playlistID/index";
 
 const schema = z.object({
-  url: z.string().url(),
-  title: z.string().min(1),
+  rawUrl: z.string().url(),
+  videoInfo: z.object({
+    kind: z.nativeEnum(PlaylistItemKind),
+    url: z.string().url(),
+    title: z.string().min(1),
+    thumbnailUrl: z.string().url(),
+    durationSeconds: z.number().int().positive().nullish(),
+  }),
 });
 type FormValues = z.infer<typeof schema>;
 
@@ -28,9 +36,7 @@ type Props = {
 export function AddItemForm({ onAdd }: Props) {
   const { playlistID } = Route.useParams();
 
-  const [getUrlInfo, { data: urlData, loading: urlLoading }] = useLazyQuery(
-    AddItemUrlInformationDocument,
-  );
+  const [getUrlInfo, { loading: urlLoading }] = useLazyQuery(AddItemUrlInformationDocument);
   const [createVideo, { loading }] = useMutation(CreatePlaylistItemDocument, {
     refetchQueries: [PlaylistViewDocument],
     awaitRefetchQueries: true,
@@ -38,32 +44,52 @@ export function AddItemForm({ onAdd }: Props) {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { url: "" },
+    defaultValues: { rawUrl: "" },
   });
 
-  const onBlur = async () => {
+  const videoInfo = form.watch("videoInfo");
+
+  const onUrlBlur = async () => {
+    const values = form.getValues();
+    if (!values.rawUrl) {
+      return;
+    }
+
     const [valid, response] = await Promise.all([
-      form.trigger("url"),
-      getUrlInfo({ variables: { url: form.getValues("url") } }),
+      form.trigger("rawUrl"),
+      getUrlInfo({
+        variables: { input: { rawUrl: values.rawUrl } },
+      }),
     ]);
 
     if (!valid) {
+      // @ts-expect-error zod resolver doesn't support resetting value back to `undefined`
+      form.setValue("videoInfo", undefined, { shouldValidate: true });
       return;
     }
     if (!response.data?.urlInformation) {
-      form.setError("url", { type: "value", message: "No video found!" });
+      form.setError("rawUrl", { type: "value", message: "No video found!" });
+      // @ts-expect-error zod resolver doesn't support resetting value back to `undefined`
+      form.setValue("videoInfo", undefined, { shouldValidate: true });
       return;
     }
 
-    form.setValue("title", response.data.urlInformation.title, {
+    form.clearErrors("rawUrl");
+    form.setValue("videoInfo", response.data.urlInformation, {
       shouldValidate: true,
     });
   };
 
   const onSubmit = async (values: FormValues) => {
     const { data } = await createVideo({
-      variables: { input: { playlistID, rawUrl: values.url } },
+      variables: {
+        input: {
+          playlistID,
+          rawUrl: values.rawUrl,
+        },
+      },
     });
+
     if (!data) {
       return;
     }
@@ -76,37 +102,30 @@ export function AddItemForm({ onAdd }: Props) {
       <Form {...form}>
         <form
           id="add-playlist-item"
-          onBlur={onBlur}
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full flex flex-col items-center gap-4"
         >
           <InputFormItem
             disabled={urlLoading}
             control={form.control}
-            name="url"
-            label="Add new URL from video"
+            name="rawUrl"
+            label="Video link"
             placeholder="URL"
+            onBlur={onUrlBlur}
             className="w-full"
           />
+
+          {videoInfo && (
+            <div className="w-full flex flex-col">
+              <Label>Preview</Label>
+
+              <div className="aspect-video mt-2">
+                <ReactPlayer controls url={videoInfo.url} width="100%" height="100%" />
+              </div>
+            </div>
+          )}
         </form>
       </Form>
-
-      {urlData?.urlInformation ? (
-        <div className="flex items-center gap-2">
-          <img
-            src={urlData.urlInformation.thumbnailUrl}
-            className="w-[160px] h-[90px] rounded-md"
-          />
-
-          <div className="flex flex-col gap-2">
-            <h1 className="text-2xl">{urlData.urlInformation.title}</h1>
-
-            {PLAYLIST_ITEM_KIND[urlData.urlInformation.kind]}
-          </div>
-        </div>
-      ) : (
-        <div className="h-[90px]" />
-      )}
 
       <DialogFooter>
         <DialogClose asChild>

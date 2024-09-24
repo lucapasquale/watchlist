@@ -1,8 +1,10 @@
-query AddItemUrlInformation($url: String!) {
-  urlInformation(url: $url) {
-		kind
-		title
-		thumbnailUrl
+query AddItemUrlInformation($input: UrlInformationInput!) {
+  urlInformation(input: $input) {
+    kind
+    title
+    thumbnailUrl
+    url
+    durationSeconds
 	}
 }
 
