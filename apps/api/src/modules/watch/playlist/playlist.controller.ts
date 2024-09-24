@@ -48,7 +48,11 @@ export class PlaylistController {
           durationSeconds: data.durationSeconds ?? undefined,
         });
       } catch (err) {
-        console.error("Error syncing playlist item", item.id, err);
+        console.error(
+          "Error syncing playlist item",
+          item.id,
+          err instanceof Error ? err.message : err,
+        );
       }
     });
   }
