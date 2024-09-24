@@ -35,17 +35,21 @@ export class PlaylistController {
     console.log("Syncing playlist", playlist.id, "with", items.length, "items");
 
     items.forEach(async (item) => {
-      const data = await this.externalClientsService.getUrlVideoData(item.rawUrl);
-      if (!data) {
-        return;
-      }
+      try {
+        const data = await this.externalClientsService.getUrlVideoData(item.rawUrl);
+        if (!data) {
+          return;
+        }
 
-      await this.playlistItemService.update({
-        id: item.id,
-        title: data.title,
-        thumbnailUrl: data.thumbnailUrl,
-        durationSeconds: data.durationSeconds ?? undefined,
-      });
+        await this.playlistItemService.update({
+          id: item.id,
+          title: data.title,
+          thumbnailUrl: data.thumbnailUrl,
+          durationSeconds: data.durationSeconds ?? undefined,
+        });
+      } catch (err) {
+        console.error("Error syncing playlist item", item.id, err);
+      }
     });
   }
 }
