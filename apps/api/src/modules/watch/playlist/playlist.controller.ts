@@ -35,7 +35,7 @@ export class PlaylistController {
     console.log("Syncing playlist", playlist.id, "with", items.length, "items");
 
     items
-      .filter((i) => i.durationSeconds)
+      .filter((i) => !i.durationSeconds)
       .forEach(async (item) => {
         try {
           const data = await this.externalClientsService.getUrlVideoData(item.rawUrl);
