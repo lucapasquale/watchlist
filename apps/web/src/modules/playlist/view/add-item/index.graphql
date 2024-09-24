@@ -1,8 +1,8 @@
 query AddItemUrlInformation($input: UrlInformationInput!) {
   urlInformation(input: $input) {
-		kind
-		title
-		thumbnailUrl
+    kind
+    title
+    thumbnailUrl
     url
     durationSeconds
 	}
