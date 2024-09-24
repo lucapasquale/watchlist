@@ -30,6 +30,7 @@ export class RedditService {
       url: post.media.reddit_video.hls_url.split("?")[0]!,
       title: post.title,
       thumbnailUrl: post.thumbnail,
+      durationSeconds: post.media.reddit_video.duration,
     };
   }
 
@@ -87,12 +88,14 @@ type Post = {
   thumbnail: string;
   media: {
     reddit_video: {
+      bitrate_kbps: number;
       fallback_url: string;
-      height: string;
-      width: string;
+      has_audio: boolean;
+      height: number;
+      width: number;
       scrubber_media_url: string;
       dash_url: string;
-      duration: string;
+      duration: number;
       hls_url: string;
       is_gif: string;
       transcoding_status: string;

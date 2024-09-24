@@ -17,6 +17,7 @@ type PlaylistItem {
   kind: PlaylistItemKind!
   title: String!
   thumbnailUrl: String!
+  durationSeconds: Int
   url: String!
   rawUrl: String!
 
