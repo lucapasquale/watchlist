@@ -1,6 +1,8 @@
 import axios, { AxiosInstance } from "axios";
 import { Injectable } from "@nestjs/common";
 
+import { UrlOptions } from "./external-clients.service.js";
+
 @Injectable()
 export class YoutubeService {
   private client: AxiosInstance;
@@ -16,13 +18,7 @@ export class YoutubeService {
     return url.href.match(/youtube.com\/watch/gi);
   }
 
-  async playlistItemData(input: {
-    rawUrl: string;
-    startTimeSeconds?: number;
-    endTimeSeconds?: number;
-  }) {
-    const url = new URL(input.rawUrl);
-
+  async playlistItemData(url: URL, options: UrlOptions = {}) {
     const usp = new URLSearchParams(url.search);
     const videoID = usp.get("v");
     if (!videoID) {
@@ -35,16 +31,16 @@ export class YoutubeService {
     }
 
     const videoUrl = new URL(`https://www.youtube.com/embed/${videoID}`);
-    if (input.startTimeSeconds) {
-      videoUrl.searchParams.set("start", String(input.startTimeSeconds));
+    if (options.startTimeSeconds) {
+      videoUrl.searchParams.set("start", String(options.startTimeSeconds));
     }
-    if (input.endTimeSeconds) {
-      videoUrl.searchParams.set("end", String(input.endTimeSeconds));
+    if (options.endTimeSeconds) {
+      videoUrl.searchParams.set("end", String(options.endTimeSeconds));
     }
 
     return {
       kind: "youtube" as const,
-      rawUrl: input.rawUrl,
+      rawUrl: url.toString(),
       url: videoUrl.toString(),
       title: video.snippet.title,
       thumbnailUrl: video.snippet.thumbnails.medium.url,

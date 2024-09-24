@@ -8,6 +8,7 @@ function parseEnvVars() {
     host: z.string().min(1).default("0.0.0.0"),
     port: z.coerce.number().positive().default(3000),
 
+    adminToken: z.string().min(1),
     clientUrl: z.string().url().default("http://localhost:5173"),
     serverUrl: z.string().url().default("http://localhost:3000"),
 
@@ -39,6 +40,7 @@ function parseEnvVars() {
     port: process.env.PORT,
     host: process.env.HOST,
 
+    adminToken: process.env.ADMIN_TOKEN,
     clientUrl: process.env.CLIENT_URL,
     serverUrl: process.env.SERVER_URL,
 

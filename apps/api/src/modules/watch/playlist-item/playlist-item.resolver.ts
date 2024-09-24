@@ -5,12 +5,10 @@ import { Args, Context, Mutation, Parent, Query, ResolveField, Resolver } from "
 import { GqlAuthGuard } from "../../auth/authentication/authentication.guard.js";
 import { CurrentUser, type CurrentUserType } from "../../auth/user/current-user.decorator.js";
 import type { Loaders } from "../../common/data-loader.service.js";
-import { RedditService } from "../external-clients/reddit.service.js";
-import { TwitchService } from "../external-clients/twitch.service.js";
-import { YoutubeService } from "../external-clients/youtube.service.js";
+import { ExternalClientsService } from "../external-clients/external-clients.service.js";
 import { PlaylistService } from "../playlist/playlist.service.js";
 
-import type { PlaylistItem, PlaylistItemInsert } from "./playlist-item.model.js";
+import type { PlaylistItem } from "./playlist-item.model.js";
 import { PlaylistItemService } from "./playlist-item.service.js";
 
 @Resolver("PlaylistItem")
@@ -18,9 +16,7 @@ export class PlaylistItemResolver {
   constructor(
     private playlistService: PlaylistService,
     private playlistItemService: PlaylistItemService,
-    private youtubeService: YoutubeService,
-    private twitchService: TwitchService,
-    private redditService: RedditService,
+    private externalClientsService: ExternalClientsService,
   ) {}
 
   @ResolveField()
@@ -37,7 +33,10 @@ export class PlaylistItemResolver {
   async urlInformation(
     @Args("input") input: { rawUrl: string; startTimeSeconds?: number; endTimeSeconds?: number },
   ) {
-    return this.getItemInputData(input);
+    return this.externalClientsService.getUrlVideoData(input.rawUrl, {
+      startTimeSeconds: input.startTimeSeconds,
+      endTimeSeconds: input.endTimeSeconds,
+    });
   }
 
   @Query()
@@ -60,7 +59,10 @@ export class PlaylistItemResolver {
     const [playlist, lastItem, urlInformation] = await Promise.all([
       this.playlistService.getById(input.playlistID),
       this.playlistItemService.getLastFromPlaylist(input.playlistID),
-      this.getItemInputData(input),
+      this.externalClientsService.getUrlVideoData(input.rawUrl, {
+        startTimeSeconds: input.startTimeSeconds,
+        endTimeSeconds: input.endTimeSeconds,
+      }),
     ]);
 
     if (playlist.userId !== user.userId) {
@@ -156,27 +158,5 @@ export class PlaylistItemResolver {
     }
 
     return LexoRank.middle();
-  }
-
-  private async getItemInputData(input: {
-    rawUrl: string;
-    startTimeSeconds?: number;
-    endTimeSeconds?: number;
-  }): Promise<Omit<PlaylistItemInsert, "rank" | "playlistId"> | null> {
-    const url = new URL(input.rawUrl);
-
-    if (this.youtubeService.urlMatches(url)) {
-      return this.youtubeService.playlistItemData(input);
-    }
-
-    if (this.twitchService.urlMatches(url)) {
-      return this.twitchService.playlistItemDataFromUrl(url);
-    }
-
-    if (this.redditService.urlMatches(url)) {
-      return this.redditService.playlistItemDataFromUrl(url);
-    }
-
-    return null;
   }
 }
