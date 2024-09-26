@@ -91,24 +91,34 @@ export class PlaylistResolver {
       const playlistItems = await this.youtubeService.getPlaylistItems(playlistID, nextPageToken);
       nextPageToken = playlistItems.nextPageToken;
 
-      const ranks = new Array(playlistItems.items.length).fill(null).map(() => {
+      const videos = await Promise.all(
+        playlistItems.items
+          // Videos without `publishedAt` have been removed
+          .filter((playlistItem) => !!playlistItem.contentDetails.videoPublishedAt)
+          .map((playlistItem) =>
+            this.youtubeService.playlistItemData(
+              new URL("https://www.youtube.com/watch?v=" + playlistItem.contentDetails.videoId),
+            ),
+          ),
+      );
+
+      const ranks = new Array(videos.length).fill(null).map(() => {
         curRank = curRank.genNext();
         return curRank;
       });
 
       await this.playlistItemService.create(
-        playlistItems.items
-          // Videos without `publishedAt` have been removed
-          .filter((playlistItem) => !!playlistItem.contentDetails.videoPublishedAt)
-          .map((playlistItem, idx) => ({
+        videos.flatMap((video, idx) => {
+          if (!video) {
+            return [];
+          }
+
+          return {
             playlistId: playlist.id,
             rank: ranks[idx]!.toString(),
-            kind: "youtube",
-            url: "https://www.youtube.com/watch?v=" + playlistItem.contentDetails.videoId,
-            rawUrl: "https://www.youtube.com/watch?v=" + playlistItem.contentDetails.videoId,
-            title: playlistItem.snippet.title,
-            thumbnailUrl: playlistItem.snippet.thumbnails.medium.url,
-          })),
+            ...video,
+          };
+        }),
       );
     }
 

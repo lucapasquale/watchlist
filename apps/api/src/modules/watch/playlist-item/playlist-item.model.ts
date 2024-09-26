@@ -9,7 +9,7 @@ export interface PlaylistItemTable {
   rank: string;
   title: string;
   thumbnailUrl: string;
-  durationSeconds: ColumnType<number | null, number | null, number | never>;
+  durationSeconds: number;
 
   createdAt: ColumnType<Date, string | undefined, never>;
   updatedAt: ColumnType<Date, string | undefined, string | undefined>;

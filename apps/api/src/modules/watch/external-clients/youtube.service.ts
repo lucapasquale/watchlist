@@ -68,7 +68,7 @@ export class YoutubeService {
     const { data } = await this.client.get<ApiResponse<PlaylistItem>>("/playlistItems", {
       params: {
         playlistId: playlistID,
-        part: "snippet,contentDetails",
+        part: "contentDetails",
         maxResults: 50,
         pageToken,
       },
@@ -78,14 +78,15 @@ export class YoutubeService {
   }
 
   private getVideoDuration(durationCode: string) {
-    const matches = /(\d+H)?(\d+M)?(\d+S)/g.exec(durationCode);
+    const matches = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/.exec(durationCode);
     if (!matches) {
-      return null;
+      console.error("Invalid duration code", durationCode);
+      throw new Error("Invalid duration code");
     }
 
-    const hours = matches[1] ? parseInt(matches[1].replace("H", "")) : 0;
-    const minutes = matches[2] ? parseInt(matches[2].replace("M", "")) : 0;
-    const seconds = matches[3] ? parseInt(matches[3].replace("S", "")) : 0;
+    const hours = parseInt(matches[1] || "0");
+    const minutes = parseInt(matches[2] || "0");
+    const seconds = parseInt(matches[3] || "0");
 
     return hours * 3600 + minutes * 60 + seconds;
   }
@@ -163,28 +164,6 @@ type Playlist = {
 };
 
 type PlaylistItem = {
-  snippet: {
-    publishedAt: string;
-    channelId: string;
-    title: string;
-    description: string;
-    thumbnails: {
-      default: Thumbnail;
-      medium: Thumbnail;
-      high: Thumbnail;
-      standard: Thumbnail;
-      maxres: Thumbnail;
-    };
-    channelTitle: string;
-    playlistId: string;
-    position: 0;
-    resourceId: {
-      kind: string;
-      videoId: string;
-    };
-    videoOwnerChannelTitle: string;
-    videoOwnerChannelId: string;
-  };
   contentDetails: {
     videoId: string;
     videoPublishedAt?: string;
