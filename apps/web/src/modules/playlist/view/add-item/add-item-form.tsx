@@ -119,7 +119,7 @@ export function AddItemForm({ onAdd }: Props) {
             <div className="w-full flex flex-col">
               <Label>Preview</Label>
 
-              <div className="aspect-video mt-2">
+              <div className="aspect-video mt-2 max-h-[310px]">
                 <ReactPlayer controls url={videoInfo.url} width="100%" height="100%" />
               </div>
             </div>
