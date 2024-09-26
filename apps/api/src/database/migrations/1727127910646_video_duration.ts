@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Kysely } from "kysely";
 
 export async function up(db: Kysely<unknown>): Promise<void> {

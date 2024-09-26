@@ -5,7 +5,7 @@ export async function up(db: Kysely<unknown>): Promise<void> {
   await db
     .updateTable<any>("playlist_item")
     .set({ duration_seconds: 0 })
-    .where("duration_seconds", "is", null)
+    .where("duration_seconds" as any, "is", null)
     .execute();
 
   await db.schema
