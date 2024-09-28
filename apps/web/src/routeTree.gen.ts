@@ -119,15 +119,91 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({
-  IndexLazyRoute,
-  AuthLogoutRoute,
-  UUserIDRoute,
-  AuthGoogleLoginRoute,
-  AuthGoogleRedirectRoute,
-  PPlaylistIDVideoIDRoute,
-  PPlaylistIDIndexRoute,
-})
+export interface FileRoutesByFullPath {
+  '/': typeof IndexLazyRoute
+  '/auth/logout': typeof AuthLogoutRoute
+  '/u/$userID': typeof UUserIDRoute
+  '/auth/google/login': typeof AuthGoogleLoginRoute
+  '/auth/google/redirect': typeof AuthGoogleRedirectRoute
+  '/p/$playlistID/$videoID': typeof PPlaylistIDVideoIDRoute
+  '/p/$playlistID': typeof PPlaylistIDIndexRoute
+}
+
+export interface FileRoutesByTo {
+  '/': typeof IndexLazyRoute
+  '/auth/logout': typeof AuthLogoutRoute
+  '/u/$userID': typeof UUserIDRoute
+  '/auth/google/login': typeof AuthGoogleLoginRoute
+  '/auth/google/redirect': typeof AuthGoogleRedirectRoute
+  '/p/$playlistID/$videoID': typeof PPlaylistIDVideoIDRoute
+  '/p/$playlistID': typeof PPlaylistIDIndexRoute
+}
+
+export interface FileRoutesById {
+  __root__: typeof rootRoute
+  '/': typeof IndexLazyRoute
+  '/auth/logout': typeof AuthLogoutRoute
+  '/u/$userID': typeof UUserIDRoute
+  '/auth/google/login': typeof AuthGoogleLoginRoute
+  '/auth/google/redirect': typeof AuthGoogleRedirectRoute
+  '/p/$playlistID/$videoID': typeof PPlaylistIDVideoIDRoute
+  '/p/$playlistID/': typeof PPlaylistIDIndexRoute
+}
+
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | '/'
+    | '/auth/logout'
+    | '/u/$userID'
+    | '/auth/google/login'
+    | '/auth/google/redirect'
+    | '/p/$playlistID/$videoID'
+    | '/p/$playlistID'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/auth/logout'
+    | '/u/$userID'
+    | '/auth/google/login'
+    | '/auth/google/redirect'
+    | '/p/$playlistID/$videoID'
+    | '/p/$playlistID'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth/logout'
+    | '/u/$userID'
+    | '/auth/google/login'
+    | '/auth/google/redirect'
+    | '/p/$playlistID/$videoID'
+    | '/p/$playlistID/'
+  fileRoutesById: FileRoutesById
+}
+
+export interface RootRouteChildren {
+  IndexLazyRoute: typeof IndexLazyRoute
+  AuthLogoutRoute: typeof AuthLogoutRoute
+  UUserIDRoute: typeof UUserIDRoute
+  AuthGoogleLoginRoute: typeof AuthGoogleLoginRoute
+  AuthGoogleRedirectRoute: typeof AuthGoogleRedirectRoute
+  PPlaylistIDVideoIDRoute: typeof PPlaylistIDVideoIDRoute
+  PPlaylistIDIndexRoute: typeof PPlaylistIDIndexRoute
+}
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexLazyRoute: IndexLazyRoute,
+  AuthLogoutRoute: AuthLogoutRoute,
+  UUserIDRoute: UUserIDRoute,
+  AuthGoogleLoginRoute: AuthGoogleLoginRoute,
+  AuthGoogleRedirectRoute: AuthGoogleRedirectRoute,
+  PPlaylistIDVideoIDRoute: PPlaylistIDVideoIDRoute,
+  PPlaylistIDIndexRoute: PPlaylistIDIndexRoute,
+}
+
+export const routeTree = rootRoute
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 /* prettier-ignore-end */
 
