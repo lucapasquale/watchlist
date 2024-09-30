@@ -78,21 +78,42 @@ function getMarks(totalDuration: number | null) {
     return undefined;
   }
 
-  if (totalDuration < 10 || totalDuration > 60 * 60) {
+  if (totalDuration < 10) {
     return [];
   }
 
   if (totalDuration < 60) {
-    return Array.from({ length: totalDuration / 10 }, (_, i) => (i + 1) * 10);
+    return Array.from({ length: totalDuration / 10 }, (_, i) => (i + 1) * 10).slice(0, -1);
   }
 
-  if (totalDuration < 300) {
-    return Array.from({ length: totalDuration / 30 }, (_, i) => (i + 1) * 30);
+  if (totalDuration < 5 * 60) {
+    return Array.from({ length: totalDuration / 30 }, (_, i) => (i + 1) * 30).slice(0, -1);
   }
 
-  if (totalDuration < 600) {
-    return Array.from({ length: totalDuration / 60 }, (_, i) => (i + 1) * 60);
+  if (totalDuration < 10 * 60) {
+    return Array.from({ length: totalDuration / 60 }, (_, i) => (i + 1) * 60).slice(0, -1);
   }
 
-  return Array.from({ length: totalDuration / 300 }, (_, i) => (i + 1) * 300);
+  if (totalDuration < 30 * 60) {
+    return Array.from({ length: totalDuration / (5 * 60) }, (_, i) => (i + 1) * (5 * 60)).slice(
+      0,
+      -1,
+    );
+  }
+
+  if (totalDuration < 60 * 60) {
+    return Array.from({ length: totalDuration / (10 * 60) }, (_, i) => (i + 1) * (10 * 60)).slice(
+      0,
+      -1,
+    );
+  }
+
+  if (totalDuration < 2 * 60 * 60) {
+    return Array.from({ length: totalDuration / (30 * 60) }, (_, i) => (i + 1) * (30 * 60)).slice(
+      0,
+      -1,
+    );
+  }
+
+  return [];
 }

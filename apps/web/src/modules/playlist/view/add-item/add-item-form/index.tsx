@@ -77,11 +77,16 @@ export function AddItemForm({ onAdd }: Props) {
   }, 250);
 
   const onSubmit = async (values: FormValues) => {
+    const hasCustomTimeRange =
+      values.timeRange[0] !== 0 || values.timeRange[1] !== values.videoInfo.durationSeconds;
+
     const { data } = await createVideo({
       variables: {
         input: {
           playlistID,
           rawUrl: values.rawUrl,
+          startTimeSeconds: hasCustomTimeRange ? values.timeRange[0] : undefined,
+          endTimeSeconds: hasCustomTimeRange ? values.timeRange[1] : undefined,
         },
       },
     });

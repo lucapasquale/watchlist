@@ -1,6 +1,6 @@
 export function formatDuration(durationSeconds: number) {
   const hours = Math.floor(durationSeconds / (60 * 60));
-  const minutes = Math.floor(durationSeconds / 60);
+  const minutes = Math.floor(durationSeconds / 60) % 60;
   const seconds = durationSeconds % 60;
 
   if (hours > 0) {
