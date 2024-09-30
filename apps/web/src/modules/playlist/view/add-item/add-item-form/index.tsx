@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import ReactPlayer from "react-player";
+import { debounce } from "lodash";
 import { z } from "zod";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,7 +7,6 @@ import { InputFormItem } from "@ui/components/form/input-form-item";
 import { Button } from "@ui/components/ui/button";
 import { DialogClose, DialogFooter } from "@ui/components/ui/dialog";
 import { Form } from "@ui/components/ui/form";
-import { Label } from "@ui/components/ui/label";
 
 import {
   AddItemUrlInformationDocument,
@@ -17,17 +16,20 @@ import {
 } from "~common/graphql-types";
 import { Route } from "~routes/p/$playlistID/index";
 
+import { VideoPreview } from "./video-preview";
+
 const schema = z.object({
   rawUrl: z.string().url(),
+  timeRange: z.tuple([z.number().int().min(0), z.number().int().min(0)]),
   videoInfo: z.object({
     kind: z.nativeEnum(PlaylistItemKind),
     url: z.string().url(),
     title: z.string().min(1),
     thumbnailUrl: z.string().url(),
-    durationSeconds: z.number().int().positive().nullish(),
+    durationSeconds: z.number().int().positive(),
   }),
 });
-type FormValues = z.infer<typeof schema>;
+export type FormValues = z.infer<typeof schema>;
 
 type Props = {
   onAdd: () => void;
@@ -44,22 +46,17 @@ export function AddItemForm({ onAdd }: Props) {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { rawUrl: "" },
+    defaultValues: { rawUrl: "", timeRange: [0, 0] },
   });
 
-  const videoInfo = form.watch("videoInfo");
-
-  const onUrlBlur = async () => {
-    const values = form.getValues();
-    if (!values.rawUrl) {
+  const onUrlChange = debounce(async (rawUrl: string) => {
+    if (!rawUrl) {
       return;
     }
 
     const [valid, response] = await Promise.all([
       form.trigger("rawUrl"),
-      getUrlInfo({
-        variables: { input: { rawUrl: values.rawUrl } },
-      }),
+      getUrlInfo({ variables: { input: { rawUrl } } }),
     ]);
 
     if (!valid) {
@@ -74,18 +71,22 @@ export function AddItemForm({ onAdd }: Props) {
       return;
     }
 
-    form.clearErrors("rawUrl");
-    form.setValue("videoInfo", response.data.urlInformation, {
-      shouldValidate: true,
-    });
-  };
+    form.clearErrors();
+    form.setValue("timeRange", [0, response.data.urlInformation.durationSeconds]);
+    form.setValue("videoInfo", response.data.urlInformation, { shouldValidate: true });
+  }, 250);
 
   const onSubmit = async (values: FormValues) => {
+    const hasCustomTimeRange =
+      values.timeRange[0] !== 0 || values.timeRange[1] !== values.videoInfo.durationSeconds;
+
     const { data } = await createVideo({
       variables: {
         input: {
           playlistID,
           rawUrl: values.rawUrl,
+          startTimeSeconds: hasCustomTimeRange ? values.timeRange[0] : undefined,
+          endTimeSeconds: hasCustomTimeRange ? values.timeRange[1] : undefined,
         },
       },
     });
@@ -111,19 +112,11 @@ export function AddItemForm({ onAdd }: Props) {
             name="rawUrl"
             label="Video link"
             placeholder="URL"
-            onBlur={onUrlBlur}
+            onChange={(e) => onUrlChange(e.target.value)}
             className="w-full"
           />
 
-          {videoInfo && (
-            <div className="w-full flex flex-col">
-              <Label>Preview</Label>
-
-              <div className="aspect-video mt-2 max-h-[310px]">
-                <ReactPlayer controls url={videoInfo.url} width="100%" height="100%" />
-              </div>
-            </div>
-          )}
+          <VideoPreview loading={urlLoading} />
         </form>
       </Form>
 

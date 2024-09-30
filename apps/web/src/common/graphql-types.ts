@@ -108,6 +108,7 @@ export type PlaylistItemsArgs = {
 
 export type PlaylistItem = {
   __typename?: 'PlaylistItem';
+  durationSeconds: Scalars['Int']['output'];
   id: Scalars['ID']['output'];
   kind: PlaylistItemKind;
   nextItem?: Maybe<PlaylistItem>;
@@ -167,7 +168,7 @@ export type UpdatePlaylistInput = {
 
 export type UrlInformation = {
   __typename?: 'UrlInformation';
-  durationSeconds?: Maybe<Scalars['Int']['output']>;
+  durationSeconds: Scalars['Int']['output'];
   kind: PlaylistItemKind;
   thumbnailUrl: Scalars['String']['output'];
   title: Scalars['String']['output'];
@@ -220,7 +221,7 @@ export type AddItemUrlInformationQueryVariables = Exact<{
 }>;
 
 
-export type AddItemUrlInformationQuery = { __typename?: 'Query', urlInformation?: { __typename?: 'UrlInformation', kind: PlaylistItemKind, title: string, thumbnailUrl: string, url: string, durationSeconds?: number | null } | null };
+export type AddItemUrlInformationQuery = { __typename?: 'Query', urlInformation?: { __typename?: 'UrlInformation', kind: PlaylistItemKind, title: string, thumbnailUrl: string, url: string, durationSeconds: number } | null };
 
 export type CreatePlaylistItemMutationVariables = Exact<{
   input: CreatePlaylistItemInput;

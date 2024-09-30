@@ -8,21 +8,21 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { Input, InputProps } from "../ui/input";
+import { Slider, SliderProps } from "../ui/slider/index";
 
-type Props<FormValue extends FieldValues> = InputProps & {
+type Props<FormValue extends FieldValues> = SliderProps & {
   control: Control<FormValue>;
   name: Path<FormValue>;
   label?: React.ReactNode;
   description?: React.ReactNode;
 };
 
-export function InputFormItem<FormValue extends FieldValues>({
+export function SliderFormItem<FormValue extends FieldValues>({
   control,
   name,
   label,
   description,
-  ...inputProps
+  ...sliderProps
 }: Props<FormValue>) {
   return (
     <FormField
@@ -33,17 +33,18 @@ export function InputFormItem<FormValue extends FieldValues>({
           <FormLabel htmlFor={name}>{label}</FormLabel>
 
           <FormControl>
-            <Input
+            <Slider
               id={name}
-              {...inputProps}
-              {...field}
-              onChange={(e) => {
-                field.onChange(e);
-                inputProps.onChange?.(e);
+              {...sliderProps}
+              ref={field.ref}
+              value={field.value}
+              onValueChange={(value) => {
+                field.onChange(value);
+                sliderProps.onValueChange?.(value);
               }}
               onBlur={(e) => {
                 field.onBlur();
-                inputProps.onBlur?.(e);
+                sliderProps.onBlur?.(e);
               }}
             />
           </FormControl>
