@@ -64,7 +64,7 @@ export function VideoPreview({ loading }: Props) {
           min={0}
           max={videoInfo.durationSeconds}
           marks={getMarks(videoInfo.durationSeconds)}
-          label="Video Range"
+          label="Time Range"
           formatValue={formatDuration}
           onValueChange={onTimeRangeChange}
         />
@@ -72,6 +72,33 @@ export function VideoPreview({ loading }: Props) {
     </>
   );
 }
+
+const durationMarkConfigs = [
+  {
+    maxDuration: 60,
+    interval: 10,
+  },
+  {
+    maxDuration: 5 * 60,
+    interval: 30,
+  },
+  {
+    maxDuration: 10 * 60,
+    interval: 60,
+  },
+  {
+    maxDuration: 30 * 60,
+    interval: 5 * 60,
+  },
+  {
+    maxDuration: 60 * 60,
+    interval: 10 * 60,
+  },
+  {
+    maxDuration: 2 * 60 * 60,
+    interval: 30 * 60,
+  },
+];
 
 function getMarks(totalDuration: number | null) {
   if (!totalDuration) {
@@ -82,38 +109,16 @@ function getMarks(totalDuration: number | null) {
     return [];
   }
 
-  if (totalDuration < 60) {
-    return Array.from({ length: totalDuration / 10 }, (_, i) => (i + 1) * 10).slice(0, -1);
+  const durationMarks = durationMarkConfigs.find(({ maxDuration }) => totalDuration < maxDuration);
+  if (!durationMarks) {
+    return [];
   }
 
-  if (totalDuration < 5 * 60) {
-    return Array.from({ length: totalDuration / 30 }, (_, i) => (i + 1) * 30).slice(0, -1);
-  }
+  const allMarks = Array.from(
+    { length: totalDuration / durationMarks.interval },
+    (_, i) => (i + 1) * durationMarks.interval,
+  );
 
-  if (totalDuration < 10 * 60) {
-    return Array.from({ length: totalDuration / 60 }, (_, i) => (i + 1) * 60).slice(0, -1);
-  }
-
-  if (totalDuration < 30 * 60) {
-    return Array.from({ length: totalDuration / (5 * 60) }, (_, i) => (i + 1) * (5 * 60)).slice(
-      0,
-      -1,
-    );
-  }
-
-  if (totalDuration < 60 * 60) {
-    return Array.from({ length: totalDuration / (10 * 60) }, (_, i) => (i + 1) * (10 * 60)).slice(
-      0,
-      -1,
-    );
-  }
-
-  if (totalDuration < 2 * 60 * 60) {
-    return Array.from({ length: totalDuration / (30 * 60) }, (_, i) => (i + 1) * (30 * 60)).slice(
-      0,
-      -1,
-    );
-  }
-
-  return [];
+  // Hide last mark so it doesn't overlap with the end of the slider
+  return allMarks.slice(0, -1);
 }
