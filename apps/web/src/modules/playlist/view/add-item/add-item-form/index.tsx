@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { debounce } from "lodash";
 import { z } from "zod";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -6,7 +7,6 @@ import { InputFormItem } from "@ui/components/form/input-form-item";
 import { Button } from "@ui/components/ui/button";
 import { DialogClose, DialogFooter } from "@ui/components/ui/dialog";
 import { Form } from "@ui/components/ui/form";
-import { useDebounce } from "@ui/lib/utils";
 
 import {
   AddItemUrlInformationDocument,
@@ -49,16 +49,14 @@ export function AddItemForm({ onAdd }: Props) {
     defaultValues: { rawUrl: "", timeRange: [0, 0] },
   });
 
-  const onUrlChange = useDebounce(async (rawUrl: string) => {
+  const onUrlChange = debounce(async (rawUrl: string) => {
     if (!rawUrl) {
       return;
     }
 
     const [valid, response] = await Promise.all([
       form.trigger("rawUrl"),
-      getUrlInfo({
-        variables: { input: { rawUrl } },
-      }),
+      getUrlInfo({ variables: { input: { rawUrl } } }),
     ]);
 
     if (!valid) {
@@ -73,40 +71,10 @@ export function AddItemForm({ onAdd }: Props) {
       return;
     }
 
-    form.clearErrors("rawUrl");
+    form.clearErrors();
     form.setValue("timeRange", [0, response.data.urlInformation.durationSeconds]);
     form.setValue("videoInfo", response.data.urlInformation, { shouldValidate: true });
   }, 250);
-
-  const onUrlBlur = async () => {
-    const values = form.getValues();
-    if (!values.rawUrl) {
-      return;
-    }
-
-    const [valid, response] = await Promise.all([
-      form.trigger("rawUrl"),
-      getUrlInfo({
-        variables: { input: { rawUrl: values.rawUrl } },
-      }),
-    ]);
-
-    if (!valid) {
-      // @ts-expect-error zod resolver doesn't support resetting value back to `undefined`
-      form.setValue("videoInfo", undefined, { shouldValidate: true });
-      return;
-    }
-    if (!response.data?.urlInformation) {
-      form.setError("rawUrl", { type: "value", message: "No video found!" });
-      // @ts-expect-error zod resolver doesn't support resetting value back to `undefined`
-      form.setValue("videoInfo", undefined, { shouldValidate: true });
-      return;
-    }
-
-    form.clearErrors("rawUrl");
-    form.setValue("timeRange", [0, response.data.urlInformation.durationSeconds]);
-    form.setValue("videoInfo", response.data.urlInformation, { shouldValidate: true });
-  };
 
   const onSubmit = async (values: FormValues) => {
     const { data } = await createVideo({
@@ -139,8 +107,7 @@ export function AddItemForm({ onAdd }: Props) {
             name="rawUrl"
             label="Video link"
             placeholder="URL"
-            onBlur={onUrlBlur}
-            onChange={onUrlChange}
+            onChange={(e) => onUrlChange(e.target.value)}
             className="w-full"
           />
 

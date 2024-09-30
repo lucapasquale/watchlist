@@ -1,10 +1,10 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import ReactPlayer from "react-player";
+import { debounce } from "lodash";
 import { SliderFormItem } from "@ui/components/form/slider-form-item";
 import { Label } from "@ui/components/ui/label";
 import { Skeleton } from "@ui/components/ui/skeleton";
-import { useDebounce } from "@ui/lib/utils";
 
 import { PlaylistItemKind } from "~common/graphql-types";
 import { formatDuration } from "~common/utils/time";
@@ -26,7 +26,7 @@ export function VideoPreview({ loading }: Props) {
     _setPreviewUrl(videoInfo?.url ?? null);
   }, [videoInfo]);
 
-  const onTimeRangeChange = useDebounce((value: [number, number]) => {
+  const onTimeRangeChange = debounce((value: [number, number]) => {
     if (!videoInfo) {
       _setPreviewUrl(null);
       return;
