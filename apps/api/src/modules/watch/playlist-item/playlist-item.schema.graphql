@@ -17,7 +17,7 @@ type PlaylistItem {
   kind: PlaylistItemKind!
   title: String!
   thumbnailUrl: String!
-  durationSeconds: Int
+  durationSeconds: Int!
   url: String!
   rawUrl: String!
 
@@ -35,7 +35,7 @@ type UrlInformation {
   title: String!
   thumbnailUrl: String!
   url: String!
-  durationSeconds: Int
+  durationSeconds: Int!
 }
 
 type Query {

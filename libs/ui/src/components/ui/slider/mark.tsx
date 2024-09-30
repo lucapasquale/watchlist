@@ -1,4 +1,5 @@
-import React from "react";
+import * as React from "react";
+import { cn } from "@ui/lib/utils";
 
 const THUMB_SIZE = 20;
 
@@ -15,14 +16,21 @@ export function Mark({ value, min, max, formatValue }: Props) {
   }, [value, min, max]);
 
   return (
-    <p className="absolute -translate-x-1/2" style={{ left: offset }}>
+    <p
+      className={cn(
+        "absolute -translate-x-1/2",
+        value === min && "translate-x-0",
+        value === max && "-translate-x-full",
+      )}
+      style={{ left: offset }}
+    >
       {formatValue(value)}
     </p>
   );
 }
 
-function calcStepMarkOffset(index: number, [min, max]: [number, number]) {
-  const percent = convertValueToPercentage(index, min, max);
+function calcStepMarkOffset(value: number, [min, max]: [number, number]) {
+  const percent = convertValueToPercentage(value, min, max);
   const thumbInBoundsOffset = getThumbInBoundsOffset(THUMB_SIZE, percent, 1);
   return `calc(${percent}% + ${thumbInBoundsOffset}px)`;
 }
@@ -34,11 +42,15 @@ function convertValueToPercentage(value: number, min: number, max: number) {
   return Math.max(0, Math.min(100, percentage));
 }
 
-function getThumbInBoundsOffset(width: number, left: number, direction: number) {
+function getThumbInBoundsOffset(width: number, percent: number, direction: number) {
+  if (percent === 0 || percent === 100) {
+    return 0;
+  }
+
   const halfWidth = width / 2;
   const halfPercent = 50;
   const offset = linearScale([0, halfPercent], [0, halfWidth]);
-  return (halfWidth - offset(left) * direction) * direction;
+  return (halfWidth - offset(percent) * direction) * direction;
 }
 
 function linearScale(input: readonly [number, number], output: readonly [number, number]) {

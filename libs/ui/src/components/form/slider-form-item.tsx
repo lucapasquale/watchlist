@@ -38,8 +38,14 @@ export function SliderFormItem<FormValue extends FieldValues>({
               {...sliderProps}
               ref={field.ref}
               value={field.value}
-              onBlur={field.onBlur}
-              onValueChange={field.onChange}
+              onValueChange={(value) => {
+                field.onChange(value);
+                sliderProps.onValueChange?.(value);
+              }}
+              onBlur={(e) => {
+                field.onBlur();
+                sliderProps.onBlur?.(e);
+              }}
             />
           </FormControl>
 

@@ -37,6 +37,10 @@ export function InputFormItem<FormValue extends FieldValues>({
               id={name}
               {...inputProps}
               {...field}
+              onChange={(e) => {
+                field.onChange(e);
+                inputProps.onChange?.(e);
+              }}
               onBlur={(e) => {
                 field.onBlur();
                 inputProps.onBlur?.(e);

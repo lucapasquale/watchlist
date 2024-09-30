@@ -3,6 +3,7 @@ import * as SliderPrimitive from "@radix-ui/react-slider";
 import { cn } from "@ui/lib/utils";
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../tooltip";
+
 import { Mark } from "./mark";
 
 export interface SliderProps extends React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> {
@@ -11,7 +12,7 @@ export interface SliderProps extends React.ComponentPropsWithoutRef<typeof Slide
 }
 
 const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, SliderProps>(
-  ({ className, marks, onValueChange: _onValueChange, formatValue = (v) => v, ...props }, ref) => {
+  ({ className, marks, formatValue = (v) => v, ...props }, ref) => {
     const [showTooltip, _setShowTooltip] = React.useState(props.value?.map(() => false) ?? [false]);
 
     const setShowTooltip = React.useCallback((index: number, value: boolean) => {
@@ -28,22 +29,13 @@ const Slider = React.forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, S
       }
 
       return [props.min, ...marks, props.max];
-    }, [marks, formatValue]);
-
-    const onValueChange = React.useCallback(
-      (value: number[]) => {
-        console.log(value);
-        _onValueChange?.(value);
-      },
-      [_onValueChange],
-    );
+    }, [marks, props.min, props.max]);
 
     return (
       <div className="flex flex-col gap-2">
         <SliderPrimitive.Root
           ref={ref}
           className={cn("relative flex w-full touch-none select-none items-center", className)}
-          onValueChange={onValueChange}
           {...props}
         >
           <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">

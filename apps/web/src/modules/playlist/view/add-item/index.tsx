@@ -10,7 +10,7 @@ import {
 } from "@ui/components/ui/dialog";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
-import { AddItemForm } from "./add-item-form";
+import { AddItemForm } from "./add-item-form/index";
 
 export function AddItem() {
   const [open, setOpen] = React.useState(false);
