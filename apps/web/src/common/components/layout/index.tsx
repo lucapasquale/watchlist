@@ -7,7 +7,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     <>
       <Header />
 
-      <div className="container px-2 sm:px-8 my-4">{children}</div>
+      {children}
     </>
   );
 }
