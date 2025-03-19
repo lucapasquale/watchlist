@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { PlaylistViewDocument } from "~common/graphql-types";
-import { client } from "~common/providers/apollo-provider";
-import { Page } from "~modules/playlist/view/page";
+import { PlaylistViewDocument } from "~common/graphql-types.js";
+import { client } from "~common/providers/apollo-provider.js";
+import { Page } from "~modules/playlist/view/page.js";
 
 export const Route = createFileRoute("/p/$playlistID/")({
   loader: async ({ params }) => {

@@ -1,10 +1,10 @@
 import { useQuery } from "@apollo/client";
 
-import { PlaylistItemViewDocument } from "~common/graphql-types";
-import { Route } from "~routes/p/$playlistID/$videoID";
+import { PlaylistItemViewDocument } from "~common/graphql-types.js";
+import { Route } from "~routes/p/$playlistID/$videoID.js";
 
-import { QueueSidebar } from "./queue-sidebar";
-import { VideoPlayer } from "./video-player";
+import { QueueSidebar } from "./queue-sidebar/index.js";
+import { VideoPlayer } from "./video-player/index.js";
 
 export function Page() {
   const search = Route.useSearch();

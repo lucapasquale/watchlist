@@ -1,13 +1,13 @@
 import { Helmet } from "react-helmet-async";
 import { useQuery } from "@apollo/client";
 
-import { PlaylistViewDocument } from "~common/graphql-types";
-import { useCurrentUser } from "~common/providers/current-user-provider";
-import { Route } from "~routes/p/$playlistID/index";
+import { PlaylistViewDocument } from "~common/graphql-types.js";
+import { useCurrentUser } from "~common/providers/current-user-provider.js";
+import { Route } from "~routes/p/$playlistID/index.js";
 
-import { AddItem } from "./add-item";
-import { PlaylistInfo } from "./playlist-info";
-import { SortableItems } from "./sortable-items";
+import { AddItem } from "./add-item/index.js";
+import { PlaylistInfo } from "./playlist-info/index.js";
+import { SortableItems } from "./sortable-items/index.js";
 
 export function Page() {
   const { playlistID } = Route.useParams();

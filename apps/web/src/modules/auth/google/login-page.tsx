@@ -1,7 +1,7 @@
 import React from "react";
 
-import { API_URL, LOGIN_REDIRECT_URL_KEY } from "~common/constants";
-import { Route } from "~routes/auth/google/login";
+import { API_URL, LOGIN_REDIRECT_URL_KEY } from "~common/constants.js";
+import { Route } from "~routes/auth/google/login.js";
 
 export function Page() {
   const { redirectUrl } = Route.useSearch();

@@ -3,13 +3,19 @@ import { Helmet } from "react-helmet-async";
 import ReactPlayer from "react-player/lazy";
 import { LinkIcon, SkipForward } from "lucide-react";
 import { Link, useRouter } from "@tanstack/react-router";
-import { Button } from "@ui/components/ui/button";
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@ui/components/ui/card";
-import { Skeleton } from "@ui/components/ui/skeleton";
+import { Button } from "@ui/components/ui/button.js";
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@ui/components/ui/card.js";
+import { Skeleton } from "@ui/components/ui/skeleton.js";
 
-import { PlaylistItemViewQuery } from "~common/graphql-types";
-import { PLAYLIST_ITEM_KIND } from "~common/translations";
-import { Route } from "~routes/p/$playlistID/$videoID";
+import { PlaylistItemViewQuery } from "~common/graphql-types.js";
+import { PLAYLIST_ITEM_KIND } from "~common/translations.js";
+import { Route } from "~routes/p/$playlistID/$videoID.js";
 
 type Props = {
   playlistItem: PlaylistItemViewQuery["playlistItem"];

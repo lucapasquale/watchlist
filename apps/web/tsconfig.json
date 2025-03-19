@@ -1,5 +1,5 @@
 {
-  "extends": "../../libs/typescript-config/base.json",
+  "extends": "@workspace/typescript-config/react-library.json",
   "include": ["src"],
   "compilerOptions": {
     "paths": {

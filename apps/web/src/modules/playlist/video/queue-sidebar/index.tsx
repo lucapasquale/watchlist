@@ -1,14 +1,20 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
-import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@ui/components/ui/card";
-import { Skeleton } from "@ui/components/ui/skeleton";
+import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar.js";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@ui/components/ui/card.js";
+import { Skeleton } from "@ui/components/ui/skeleton.js";
 
-import { PlaylistItemQueueSidebarDocument } from "~common/graphql-types";
-import { Route } from "~routes/p/$playlistID/$videoID";
+import { PlaylistItemQueueSidebarDocument } from "~common/graphql-types.js";
+import { Route } from "~routes/p/$playlistID/$videoID.js";
 
-import { ItemsList } from "./items-list";
+import { ItemsList } from "./items-list.js";
 
 export function QueueSidebar() {
   const search = Route.useSearch();

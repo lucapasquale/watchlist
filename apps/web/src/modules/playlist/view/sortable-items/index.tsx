@@ -2,16 +2,16 @@ import React from "react";
 import { FixedSizeList } from "react-window";
 import { useMutation } from "@apollo/client";
 import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea/dnd";
-import { Skeleton } from "@ui/components/ui/skeleton";
+import { Skeleton } from "@ui/components/ui/skeleton.js";
 
 import {
   MovePlaylistItemDocument,
   PlaylistViewDocument,
   PlaylistViewQuery,
-} from "~common/graphql-types";
+} from "~common/graphql-types.js";
 
-import { PlaylistItem } from "./playlist-item";
-import { getMoveInput, reorderList } from "./utils";
+import { PlaylistItem } from "./playlist-item.js";
+import { getMoveInput, reorderList } from "./utils.js";
 
 const ITEM_HEIGHT_PX = 132;
 
@@ -57,7 +57,7 @@ export function SortableItems({ playlist, isOwner }: Props) {
             isOwner={isOwner}
             provided={provided}
             isDragging={snapshot.isDragging}
-            item={items[rubric.source.index]}
+            item={items[rubric.source.index]!}
           />
         )}
       >
@@ -71,7 +71,7 @@ export function SortableItems({ playlist, isOwner }: Props) {
             outerRef={provided.innerRef}
           >
             {({ index, style }) => {
-              const item = items[index];
+              const item = items[index]!;
 
               return (
                 <Draggable

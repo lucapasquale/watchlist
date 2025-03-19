@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Page } from "~modules/auth/google/redirect-page";
+import { Page } from "~modules/auth/google/redirect-page.js";
 
 const searchSchema = z.object({
   accessToken: z.string().min(1),

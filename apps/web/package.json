@@ -8,13 +8,14 @@
     "dev": "vite --clearScreen false",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint \"src/**/*.ts\""
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@apollo/client": "^3.12.8",
     "@hello-pangea/dnd": "^17.0.0",
     "@hookform/resolvers": "^3.10.0",
-    "@repo/ui": "workspace:*",
+    "@workspace/ui": "workspace:*",
     "@tanstack/react-query": "^5.65.1",
     "@tanstack/react-router": "^1.98.3",
     "autoprefixer": "^10.4.20",
@@ -39,8 +40,8 @@
     "@graphql-codegen/typed-document-node": "^5.0.13",
     "@graphql-codegen/typescript-react-apollo": "^4.3.2",
     "@graphql-typed-document-node/core": "^3.2.0",
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
+    "@workspace/eslint-config": "workspace:^",
+    "@workspace/typescript-config": "workspace:*",
     "@tanstack/router-vite-plugin": "^1.98.3",
     "@types/lodash": "^4.17.15",
     "@types/react": "^19.0.8",

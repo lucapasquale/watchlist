@@ -7,8 +7,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input, InputProps } from "../ui/input";
+} from "../ui/form.js";
+import { Input, InputProps } from "../ui/input.js";
 
 type Props<FormValue extends FieldValues> = InputProps & {
   control: Control<FormValue>;

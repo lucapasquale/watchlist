@@ -1,12 +1,12 @@
 import { Helmet } from "react-helmet-async";
 import { useQuery } from "@apollo/client";
 
-import { UserViewDocument } from "~common/graphql-types";
-import { useCurrentUser } from "~common/providers/current-user-provider";
-import { Route } from "~routes/u/$userID";
+import { UserViewDocument } from "~common/graphql-types.js";
+import { useCurrentUser } from "~common/providers/current-user-provider.js";
+import { Route } from "~routes/u/$userID.js";
 
-import { UserInfo } from "./user-info";
-import { UserPlaylists } from "./user-playlists";
+import { UserInfo } from "./user-info/index.js";
+import { UserPlaylists } from "./user-playlists/index.js";
 
 export function Page() {
   const { userID } = Route.useParams();

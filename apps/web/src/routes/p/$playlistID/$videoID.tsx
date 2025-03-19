@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { createFileRoute } from "@tanstack/react-router";
 
-import { PlaylistItemViewDocument } from "~common/graphql-types";
-import { client } from "~common/providers/apollo-provider";
-import { Page } from "~modules/playlist/video/page";
+import { PlaylistItemViewDocument } from "~common/graphql-types.js";
+import { client } from "~common/providers/apollo-provider.js";
+import { Page } from "~modules/playlist/video/page.js";
 
 const searchSchema = z.object({
   shuffleSeed: z.string().min(1).optional(),

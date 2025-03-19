@@ -1,16 +1,22 @@
 import React from "react";
 import { Pencil } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar";
-import { Button } from "@ui/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@ui/components/ui/card";
-import { Skeleton } from "@ui/components/ui/skeleton";
-import { cn } from "@ui/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar.js";
+import { Button } from "@ui/components/ui/button.js";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@ui/components/ui/card.js";
+import { Skeleton } from "@ui/components/ui/skeleton.js";
+import { cn } from "@workspace/ui/lib/utils";
 
-import { PlaylistViewQuery } from "~common/graphql-types";
+import { PlaylistViewQuery } from "~common/graphql-types.js";
 
-import { FirstItemButtons } from "./first-item-buttons";
-import { UpdatePlaylistForm } from "./update-playlist-form";
+import { FirstItemButtons } from "./first-item-buttons.js";
+import { UpdatePlaylistForm } from "./update-playlist-form.js";
 
 type Props = {
   playlist: PlaylistViewQuery["playlist"];

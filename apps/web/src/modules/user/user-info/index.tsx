@@ -1,20 +1,20 @@
 import React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar";
-import { Button } from "@ui/components/ui/button";
-import { Card, CardFooter, CardHeader, CardTitle } from "@ui/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar.js";
+import { Button } from "@ui/components/ui/button.js";
+import { Card, CardFooter, CardHeader, CardTitle } from "@ui/components/ui/card.js";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@ui/components/ui/dialog";
-import { Skeleton } from "@ui/components/ui/skeleton";
+} from "@ui/components/ui/dialog.js";
+import { Skeleton } from "@ui/components/ui/skeleton.js";
 
-import { UserViewQuery } from "~common/graphql-types";
+import { UserViewQuery } from "~common/graphql-types.js";
 
-import { CreateNew } from "./create-new";
-import { ImportFromYoutube } from "./import-from-youtube";
+import { CreateNew } from "./create-new.js";
+import { ImportFromYoutube } from "./import-from-youtube.js";
 
 type Props = {
   user: UserViewQuery["user"];

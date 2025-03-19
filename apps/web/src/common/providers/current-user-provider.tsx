@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 
-import { UserProviderDocument, UserProviderQuery } from "~common/graphql-types";
+import { UserProviderDocument, UserProviderQuery } from "~common/graphql-types.js";
 
 type UserProviderState = {
   loading: boolean;

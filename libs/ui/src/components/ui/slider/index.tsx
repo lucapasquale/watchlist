@@ -1,10 +1,10 @@
 import * as React from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
-import { cn } from "@ui/lib/utils";
+import { cn } from "@workspace/ui/lib/utils";
 
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../tooltip.js";
 
-import { Mark } from "./mark";
+import { Mark } from "./mark.js";
 
 export interface SliderProps extends React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> {
   formatValue?: (value: number) => React.ReactNode;
