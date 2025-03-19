@@ -1,16 +1,16 @@
 import React from "react";
 import { Plus } from "lucide-react";
-import { Button } from "@ui/components/ui/button";
+import { Button } from "@ui/components/ui/button.js";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@ui/components/ui/dialog";
-import { Skeleton } from "@ui/components/ui/skeleton";
+} from "@ui/components/ui/dialog.js";
+import { Skeleton } from "@ui/components/ui/skeleton.js";
 
-import { AddItemForm } from "./add-item-form/index";
+import { AddItemForm } from "./add-item-form/index.js";
 
 export function AddItem() {
   const [open, setOpen] = React.useState(false);

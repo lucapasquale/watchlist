@@ -13,18 +13,18 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@ui/components/ui/alert-dialog";
-import { Button } from "@ui/components/ui/button";
-import { Card, CardDescription, CardHeader, CardTitle } from "@ui/components/ui/card";
-import { cn } from "@ui/lib/utils";
+} from "@ui/components/ui/alert-dialog.js";
+import { Button } from "@ui/components/ui/button.js";
+import { Card, CardDescription, CardHeader, CardTitle } from "@ui/components/ui/card.js";
+import { cn } from "@workspace/ui/lib/utils";
 
 import {
   DeletePlaylistItemDocument,
   PlaylistViewDocument,
   type PlaylistViewQuery,
-} from "~common/graphql-types";
-import { PLAYLIST_ITEM_KIND } from "~common/translations";
-import { Route } from "~routes/p/$playlistID/index";
+} from "~common/graphql-types.js";
+import { PLAYLIST_ITEM_KIND } from "~common/translations.js";
+import { Route } from "~routes/p/$playlistID/index.js";
 
 type Props = {
   item: PlaylistViewQuery["playlist"]["items"][number];

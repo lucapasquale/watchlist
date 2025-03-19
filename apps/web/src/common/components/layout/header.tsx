@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 
-import { Profile } from "./profile";
+import { Profile } from "./profile.js";
 
 export function Header() {
   return (

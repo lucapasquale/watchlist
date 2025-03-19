@@ -1,22 +1,22 @@
 import React from "react";
 import { Link, useLocation } from "@tanstack/react-router";
-import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar";
-import { Button } from "@ui/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar.js";
+import { Button } from "@ui/components/ui/button.js";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@ui/components/ui/dialog";
+} from "@ui/components/ui/dialog.js";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@ui/components/ui/dropdown-menu";
+} from "@ui/components/ui/dropdown-menu.js";
 
-import { useCurrentUser } from "~common/providers/current-user-provider";
+import { useCurrentUser } from "~common/providers/current-user-provider.js";
 
 export function Profile() {
   const location = useLocation();

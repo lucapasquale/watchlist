@@ -2,11 +2,11 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { InputFormItem } from "@ui/components/form/input-form-item";
-import { Button } from "@ui/components/ui/button";
-import { Form } from "@ui/components/ui/form";
+import { InputFormItem } from "@ui/components/form/input-form-item.js";
+import { Button } from "@ui/components/ui/button.js";
+import { Form } from "@ui/components/ui/form.js";
 
-import { PlaylistViewQuery, UpdatePlaylistDocument } from "~common/graphql-types";
+import { PlaylistViewQuery, UpdatePlaylistDocument } from "~common/graphql-types.js";
 
 const schema = z.object({
   name: z.string().min(1),

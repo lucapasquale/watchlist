@@ -3,20 +3,20 @@ import { debounce } from "lodash";
 import { z } from "zod";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { InputFormItem } from "@ui/components/form/input-form-item";
-import { Button } from "@ui/components/ui/button";
-import { DialogClose, DialogFooter } from "@ui/components/ui/dialog";
-import { Form } from "@ui/components/ui/form";
+import { InputFormItem } from "@ui/components/form/input-form-item.js";
+import { Button } from "@ui/components/ui/button.js";
+import { DialogClose, DialogFooter } from "@ui/components/ui/dialog.js";
+import { Form } from "@ui/components/ui/form.js";
 
 import {
   AddItemUrlInformationDocument,
   CreatePlaylistItemDocument,
   PlaylistItemKind,
   PlaylistViewDocument,
-} from "~common/graphql-types";
-import { Route } from "~routes/p/$playlistID/index";
+} from "~common/graphql-types.js";
+import { Route } from "~routes/p/$playlistID/index.js";
 
-import { VideoPreview } from "./video-preview";
+import { VideoPreview } from "./video-preview.js";
 
 const schema = z.object({
   rawUrl: z.string().url(),

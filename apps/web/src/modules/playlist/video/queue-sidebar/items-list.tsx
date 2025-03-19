@@ -1,10 +1,10 @@
 import React from "react";
 import { FixedSizeList } from "react-window";
 import { Link } from "@tanstack/react-router";
-import { cn } from "@ui/lib/utils";
+import { cn } from "@workspace/ui/lib/utils";
 
-import { type PlaylistItemQueueSidebarQuery } from "~common/graphql-types";
-import { Route } from "~routes/p/$playlistID/$videoID";
+import { type PlaylistItemQueueSidebarQuery } from "~common/graphql-types.js";
+import { Route } from "~routes/p/$playlistID/$videoID.js";
 
 const ITEM_HEIGHT_PX = 64;
 
@@ -35,7 +35,7 @@ export function ItemsList({ playlist, currentItemIndex }: Props) {
       width="100%"
     >
       {({ index, style }) => {
-        const item = playlist.items[index];
+        const item = playlist.items[index]!;
         const isActive = index === currentItemIndex;
 
         return (

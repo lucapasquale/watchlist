@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 
-import { Layout } from "~common/components/layout";
+import { Layout } from "~common/components/layout/index.js";
 
 export const Route = createRootRoute({
   component: () => (

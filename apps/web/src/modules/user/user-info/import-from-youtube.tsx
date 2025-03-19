@@ -2,13 +2,13 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { InputFormItem } from "@ui/components/form/input-form-item";
-import { Button } from "@ui/components/ui/button";
-import { DialogClose, DialogFooter } from "@ui/components/ui/dialog";
-import { Form } from "@ui/components/ui/form";
+import { InputFormItem } from "@ui/components/form/input-form-item.js";
+import { Button } from "@ui/components/ui/button.js";
+import { DialogClose, DialogFooter } from "@ui/components/ui/dialog.js";
+import { Form } from "@ui/components/ui/form.js";
 
-import { CreatePlaylistFromYoutubeDocument, UserViewDocument } from "~common/graphql-types";
-import { Route } from "~routes/index.lazy";
+import { CreatePlaylistFromYoutubeDocument, UserViewDocument } from "~common/graphql-types.js";
+import { Route } from "~routes/index.lazy.js";
 
 const schema = z.object({
   playlistURL: z.string().url(),

@@ -2,11 +2,11 @@ import { StrictMode } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 
-import { ApolloProvider } from "~common/providers/apollo-provider";
-import { CurrentUserProvider } from "~common/providers/current-user-provider";
-import { ThemeProvider } from "~common/providers/theme-provider";
+import { ApolloProvider } from "~common/providers/apollo-provider.js";
+import { CurrentUserProvider } from "~common/providers/current-user-provider.js";
+import { ThemeProvider } from "~common/providers/theme-provider.js";
 
-import { routeTree } from "./routeTree.gen";
+import { routeTree } from "./routeTree.gen.js";
 
 const router = createRouter({
   routeTree,

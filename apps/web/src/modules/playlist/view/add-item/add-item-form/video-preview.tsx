@@ -2,14 +2,14 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import ReactPlayer from "react-player";
 import { debounce } from "lodash";
-import { SliderFormItem } from "@ui/components/form/slider-form-item";
-import { Label } from "@ui/components/ui/label";
-import { Skeleton } from "@ui/components/ui/skeleton";
+import { SliderFormItem } from "@ui/components/form/slider-form-item.js";
+import { Label } from "@ui/components/ui/label.js";
+import { Skeleton } from "@ui/components/ui/skeleton.js";
 
-import { PlaylistItemKind } from "~common/graphql-types";
-import { formatDuration } from "~common/utils/time";
+import { PlaylistItemKind } from "~common/graphql-types.js";
+import { formatDuration } from "~common/utils/time.js";
 
-import { type FormValues } from ".";
+import { type FormValues } from "./index.js";
 
 type Props = {
   loading: boolean;

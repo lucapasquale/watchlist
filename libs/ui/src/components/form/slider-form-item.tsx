@@ -7,8 +7,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Slider, SliderProps } from "../ui/slider/index";
+} from "../ui/form.js";
+import { Slider, SliderProps } from "../ui/slider/index.js";
 
 type Props<FormValue extends FieldValues> = SliderProps & {
   control: Control<FormValue>;
