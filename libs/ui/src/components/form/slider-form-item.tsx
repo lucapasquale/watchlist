@@ -8,9 +8,9 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form.js";
-import { Slider, SliderProps } from "../ui/slider/index.js";
+import { Slider } from "../ui/slider/index.js";
 
-type Props<FormValue extends FieldValues> = SliderProps & {
+type Props<FormValue extends FieldValues> = React.ComponentProps<typeof Slider> & {
   control: Control<FormValue>;
   name: Path<FormValue>;
   label?: React.ReactNode;
@@ -26,6 +26,7 @@ export function SliderFormItem<FormValue extends FieldValues>({
 }: Props<FormValue>) {
   return (
     <FormField
+      data-slot="slider-form-item"
       control={control}
       name={name}
       render={({ field }) => (

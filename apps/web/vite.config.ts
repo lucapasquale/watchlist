@@ -5,5 +5,5 @@ import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
 import react from "@vitejs/plugin-react-swc";
 
 export default defineConfig({
-  plugins: [react(), tsconfigPaths(), tailwindcss(), TanStackRouterVite()],
+  plugins: [react(), tailwindcss(), tsconfigPaths(), TanStackRouterVite()],
 });
