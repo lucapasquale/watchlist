@@ -1,17 +1,8 @@
 {
-  "extends": "@workspace/typescript-config/react-library.json",
-  "include": ["src"],
-  "compilerOptions": {
-    "paths": {
-      "@api/*": ["../api/src/*"],
-      "@ui/*": ["../../libs/ui/src/*"],
-
-      "~common/*": ["./src/common/*"],
-      "~graphql/*": ["./src/graphql/*"],
-      "~modules/*": ["./src/modules/*"],
-      "~routes/*": ["./src/routes/*"],
-    }
-  },
-
-  "references": [{ "path": "./tsconfig.node.json" }],
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }
+

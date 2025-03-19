@@ -1,0 +1,19 @@
+{
+  "extends": "@workspace/typescript-config/react-library.json",
+  "include": ["src"],
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+
+    "baseUrl": ".",
+    "paths": {
+      "@api/*": ["../api/src/*"],
+      "@ui/*": ["../../libs/ui/src/*"],
+
+      "~common/*": ["./src/common/*"],
+      "~graphql/*": ["./src/graphql/*"],
+      "~modules/*": ["./src/modules/*"],
+      "~routes/*": ["./src/routes/*"],
+    }
+  },
+}
