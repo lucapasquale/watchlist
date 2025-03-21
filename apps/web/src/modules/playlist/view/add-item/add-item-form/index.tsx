@@ -12,6 +12,7 @@ import {
   AddItemUrlInformationDocument,
   CreatePlaylistItemDocument,
   PlaylistItemKind,
+  PlaylistItemQueueSidebarDocument,
   PlaylistViewDocument,
 } from "~common/graphql-types.js";
 import { Route } from "~routes/p/$playlistID/index.js";
@@ -40,7 +41,7 @@ export function AddItemForm({ onAdd }: Props) {
 
   const [getUrlInfo, { loading: urlLoading }] = useLazyQuery(AddItemUrlInformationDocument);
   const [createVideo, { loading }] = useMutation(CreatePlaylistItemDocument, {
-    refetchQueries: [PlaylistViewDocument],
+    refetchQueries: [PlaylistViewDocument, PlaylistItemQueueSidebarDocument],
     awaitRefetchQueries: true,
   });
 

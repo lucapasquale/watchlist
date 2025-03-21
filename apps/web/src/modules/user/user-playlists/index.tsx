@@ -14,7 +14,7 @@ import {
   AlertDialogTrigger,
 } from "@ui/components/ui/alert-dialog.js";
 import { Button } from "@ui/components/ui/button.js";
-import { Card, CardDescription, CardHeader, CardTitle } from "@ui/components/ui/card.js";
+import { Card, CardDescription, CardTitle } from "@ui/components/ui/card.js";
 import { Skeleton } from "@ui/components/ui/skeleton.js";
 
 import { DeletePlaylistDocument, UserViewDocument, UserViewQuery } from "~common/graphql-types.js";
@@ -41,8 +41,8 @@ export function UserPlaylists({ user, isOwner }: Props) {
   return (
     <ol className="space-y-4">
       {user.playlists.map((playlist) => (
-        <Card key={playlist.id} className="flex items-center justify-between">
-          <CardHeader>
+        <Card key={playlist.id} className="flex flex-row items-center justify-between">
+          <div className="ml-4">
             <Link to="/p/$playlistID" params={{ playlistID: playlist.id }}>
               <CardTitle className="hover:underline">{playlist.name}</CardTitle>
             </Link>
@@ -50,7 +50,7 @@ export function UserPlaylists({ user, isOwner }: Props) {
             <CardDescription>
               {playlist.itemsCount} video{playlist.itemsCount === 1 ? "" : "s"}
             </CardDescription>
-          </CardHeader>
+          </div>
 
           {isOwner && (
             <AlertDialog open={open} onOpenChange={setOpen}>

@@ -8,9 +8,9 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form.js";
-import { Input, InputProps } from "../ui/input.js";
+import { Input } from "../ui/input.js";
 
-type Props<FormValue extends FieldValues> = InputProps & {
+type Props<FormValue extends FieldValues> = React.ComponentProps<typeof Input> & {
   control: Control<FormValue>;
   name: Path<FormValue>;
   label?: React.ReactNode;
@@ -26,6 +26,7 @@ export function InputFormItem<FormValue extends FieldValues>({
 }: Props<FormValue>) {
   return (
     <FormField
+      data-slot="input-form-item"
       control={control}
       name={name}
       render={({ field }) => (

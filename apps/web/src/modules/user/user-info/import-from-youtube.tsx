@@ -40,33 +40,35 @@ export function ImportFromYoutube() {
   };
 
   return (
-    <Form {...form}>
-      <form
-        id="playlist-from-youtube"
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full flex flex-col items-center gap-4"
-      >
-        <InputFormItem
-          control={form.control}
-          name="playlistURL"
-          label="Playlist URL"
-          placeholder="https://www.youtube.com/playlist?list=PL2gDVp_0vZOQjqMex201dYpUiu1mcGX96"
-        />
+    <>
+      <Form {...form}>
+        <form
+          id="playlist-from-youtube"
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full flex flex-col items-center gap-4"
+        >
+          <InputFormItem
+            control={form.control}
+            name="playlistURL"
+            label="Playlist URL"
+            placeholder="https://www.youtube.com/playlist?list=PL2gDVp_0vZOQjqMex201dYpUiu1mcGX96"
+          />
+        </form>
+      </Form>
 
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
+      <DialogFooter>
+        <DialogClose asChild>
+          <Button variant="outline">Cancel</Button>
+        </DialogClose>
 
-          <Button
-            type="submit"
-            form="playlist-from-youtube"
-            disabled={!form.formState.isValid || loading}
-          >
-            Add
-          </Button>
-        </DialogFooter>
-      </form>
-    </Form>
+        <Button
+          type="submit"
+          form="playlist-from-youtube"
+          disabled={!form.formState.isValid || loading}
+        >
+          Add
+        </Button>
+      </DialogFooter>
+    </>
   );
 }
