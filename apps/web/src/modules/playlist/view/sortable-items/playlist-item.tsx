@@ -15,11 +15,12 @@ import {
   AlertDialogTrigger,
 } from "@ui/components/ui/alert-dialog.js";
 import { Button } from "@ui/components/ui/button.js";
-import { Card, CardDescription, CardHeader, CardTitle } from "@ui/components/ui/card.js";
+import { Card, CardDescription, CardTitle } from "@ui/components/ui/card.js";
 import { cn } from "@workspace/ui/lib/utils";
 
 import {
   DeletePlaylistItemDocument,
+  PlaylistItemQueueSidebarDocument,
   PlaylistViewDocument,
   type PlaylistViewQuery,
 } from "~common/graphql-types.js";
@@ -41,7 +42,7 @@ export function PlaylistItem({ item, isOwner, onDelete, provided, style, isDragg
   const [open, setOpen] = React.useState(false);
 
   const [deletePlaylistItem] = useMutation(DeletePlaylistItemDocument, {
-    refetchQueries: [PlaylistViewDocument],
+    refetchQueries: [PlaylistViewDocument, PlaylistItemQueueSidebarDocument],
     awaitRefetchQueries: true,
   });
 
@@ -78,7 +79,7 @@ export function PlaylistItem({ item, isOwner, onDelete, provided, style, isDragg
       ref={provided.innerRef}
       style={getStyle({ provided, style, isDragging })}
       className={cn(
-        "flex items-center justify-between gap-1 rounded-xl bg-card list-none",
+        "flex flex-row items-center justify-between gap-1 rounded-xl bg-card list-none",
         isDragging && "bg-card",
       )}
     >
@@ -94,11 +95,11 @@ export function PlaylistItem({ item, isOwner, onDelete, provided, style, isDragg
           <div className="px-4 size-4" />
         )}
 
-        <CardHeader className="p-0">
+        <div className="p-0">
           <Link
             to="/p/$playlistID/$videoID"
             params={{ playlistID, videoID: item.id }}
-            className="group flex items-start md:items-center gap-2 flex-1 basis-0"
+            className="group flex items-start md:items-center gap-4 flex-1 basis-0"
           >
             <img
               src={item.thumbnailUrl}
@@ -116,7 +117,7 @@ export function PlaylistItem({ item, isOwner, onDelete, provided, style, isDragg
               <CardDescription>{PLAYLIST_ITEM_KIND[item.kind]}</CardDescription>
             </div>
           </Link>
-        </CardHeader>
+        </div>
       </div>
 
       {isOwner && (

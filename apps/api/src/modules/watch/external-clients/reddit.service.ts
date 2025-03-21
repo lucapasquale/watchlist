@@ -43,7 +43,6 @@ export class RedditService {
 
     await axios.get(rawUrl, {
       beforeRedirect: (config) => {
-        console.log(config.host);
         if (config.host === "www.reddit.com") {
           postUrl = config.href;
         }

@@ -37,10 +37,20 @@ export class TwitchService {
 
     const clip = await this.getClip(clipID);
 
+    const usp = new URLSearchParams();
+    usp.append("clip", clip.id);
+    usp.append("parent", "localhost");
+    usp.append("parent", "watchlist.luca.codes");
+    usp.append("autoplay", "true");
+    usp.append("muted", "false");
+
+    const embedUrl = new URL("/embed", "https://clips.twitch.tv");
+    embedUrl.search = usp.toString();
+
     return {
       kind: "twitch_clip" as const,
       rawUrl: url.toString(),
-      url: clip.thumbnail_url.replace(/-preview-.+x.+\..*/gi, ".mp4"),
+      url: embedUrl.toString(),
       title: clip.title,
       thumbnailUrl: clip.thumbnail_url,
       durationSeconds: Math.floor(clip.duration),

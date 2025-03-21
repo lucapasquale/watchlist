@@ -48,7 +48,7 @@ export function FirstItemButtons({ playlist }: Props) {
           className="w-full"
         >
           <Button tabIndex={-1} variant="secondary" className="w-full">
-            Shuffle <Shuffle className="size-4 ml-2" />
+            Shuffle <Shuffle className="size-4" />
           </Button>
         </Link>
       )}
@@ -60,7 +60,7 @@ export function FirstItemButtons({ playlist }: Props) {
           className="w-full"
         >
           <Button tabIndex={-1} className="w-full">
-            Play <Play className="size-4 ml-2" />
+            Play <Play className="size-4" />
           </Button>
         </Link>
       )}

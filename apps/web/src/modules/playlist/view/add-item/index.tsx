@@ -19,7 +19,7 @@ export function AddItem() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="ghost" className="self-end">
-          Add video <Plus className="size-4 ml-2" />
+          Add video <Plus className="size-4" />
         </Button>
       </DialogTrigger>
 

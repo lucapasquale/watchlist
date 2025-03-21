@@ -41,34 +41,32 @@ export function CreateNew() {
   };
 
   return (
-    <Form {...form}>
-      <form
-        id="create-playlist"
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full flex flex-col items-center gap-4"
-      >
-        <InputFormItem
-          autoComplete="off"
-          control={form.control}
-          name="name"
-          label="Name"
-          placeholder="My playlist"
-        />
+    <>
+      <Form {...form}>
+        <form
+          id="create-playlist"
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full flex flex-col items-center gap-4"
+        >
+          <InputFormItem
+            autoComplete="off"
+            control={form.control}
+            name="name"
+            label="Name"
+            placeholder="My playlist"
+          />
+        </form>
+      </Form>
 
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
+      <DialogFooter>
+        <DialogClose asChild>
+          <Button variant="outline">Cancel</Button>
+        </DialogClose>
 
-          <Button
-            type="submit"
-            form="create-playlist"
-            disabled={!form.formState.isValid || loading}
-          >
-            Add
-          </Button>
-        </DialogFooter>
-      </form>
-    </Form>
+        <Button type="submit" form="create-playlist" disabled={!form.formState.isValid || loading}>
+          Add
+        </Button>
+      </DialogFooter>
+    </>
   );
 }
