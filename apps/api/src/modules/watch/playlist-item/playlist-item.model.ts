@@ -3,7 +3,7 @@ import { ColumnType, Generated, Insertable, Selectable, Updateable } from "kysel
 export interface PlaylistItemTable {
   id: Generated<number>;
 
-  kind: "youtube" | "twitch_clip" | "reddit";
+  kind: "youtube" | "reddit";
   rawUrl: string;
   url: string;
   rank: string;

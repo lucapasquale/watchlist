@@ -14,7 +14,7 @@ export const Route = createRootRoute({
         <title>watchlist • Watch your favorite videos</title>
         <meta
           name="description"
-          content="Create and share playlists of your favorite videos from YouTube, Twitch, Reddit and more"
+          content="Create and share playlists of your favorite videos from YouTube, Reddit and more"
         />
         <link rel="canonical" href="https://watchlist.luca.codes/" />
       </Helmet>

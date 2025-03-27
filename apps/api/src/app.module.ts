@@ -24,7 +24,6 @@ import { WatchModule } from "./modules/watch/watch.module.js";
           resolvers: {
             PlaylistItemKind: {
               YOUTUBE: "youtube",
-              TWITCH_CLIP: "twitch_clip",
               REDDIT: "reddit",
             },
           },
