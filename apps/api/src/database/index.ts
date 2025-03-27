@@ -16,10 +16,10 @@ export interface Database {
 
 const dialect = new PostgresDialect({
   pool: new pg.Pool({
-    host: config.database.host,
-    database: config.database.database,
-    user: config.database.user,
-    password: config.database.password,
+    host: config.postgres.host,
+    database: config.postgres.database,
+    user: config.postgres.user,
+    password: config.postgres.password,
     max: 10,
   }),
 });

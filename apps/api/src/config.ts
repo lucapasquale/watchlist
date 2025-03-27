@@ -12,7 +12,7 @@ function parseEnvVars() {
     clientUrl: z.string().url().default("http://localhost:5173"),
     serverUrl: z.string().url().default("http://localhost:3000"),
 
-    database: z.object({
+    postgres: z.object({
       host: z.string().min(1),
       database: z.string().min(1),
       user: z.string().min(1),
@@ -37,14 +37,14 @@ function parseEnvVars() {
   });
 
   const { error, data } = schema.safeParse({
-    port: process.env.PORT,
     host: process.env.HOST,
+    port: process.env.PORT,
 
     adminToken: process.env.ADMIN_TOKEN,
     clientUrl: process.env.CLIENT_URL,
     serverUrl: process.env.SERVER_URL,
 
-    database: {
+    postgres: {
       host: process.env.PG_HOST,
       database: process.env.PG_DATABASE,
       user: process.env.PG_USER,

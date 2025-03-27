@@ -30,16 +30,6 @@ export class PlaylistItemResolver {
   }
 
   @Query()
-  async urlInformation(
-    @Args("input") input: { rawUrl: string; startTimeSeconds?: number; endTimeSeconds?: number },
-  ) {
-    return this.externalClientsService.getUrlVideoData(input.rawUrl, {
-      startTimeSeconds: input.startTimeSeconds,
-      endTimeSeconds: input.endTimeSeconds,
-    });
-  }
-
-  @Query()
   async playlistItem(@Args("id") id: number, @Context("loaders") loaders: Loaders) {
     return loaders.playlistItem.load(id);
   }

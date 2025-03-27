@@ -1,6 +1,8 @@
 import axios, { AxiosInstance } from "axios";
 import { Injectable } from "@nestjs/common";
 
+import { config } from "../../../config.js";
+
 @Injectable()
 export class TwitchService {
   private client: AxiosInstance;
@@ -8,15 +10,15 @@ export class TwitchService {
   constructor() {
     this.client = axios.create({
       baseURL: "https://api.twitch.tv/helix",
-      headers: { "Client-ID": process.env.TWITCH_CLIENT_ID },
+      headers: { "Client-ID": config.twitch.clientID },
     });
 
     this.client.interceptors.request.use(async (req) => {
       const { data: authData } = await axios.post("https://id.twitch.tv/oauth2/token", null, {
         params: {
           grant_type: "client_credentials",
-          client_id: process.env.TWITCH_CLIENT_ID,
-          client_secret: process.env.TWITCH_CLIENT_SECRET,
+          client_id: config.twitch.clientID,
+          client_secret: config.twitch.clientSecret,
         },
       });
 

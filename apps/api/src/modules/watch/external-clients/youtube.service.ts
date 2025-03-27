@@ -1,6 +1,8 @@
 import axios, { AxiosInstance } from "axios";
 import { Injectable } from "@nestjs/common";
 
+import { config } from "../../../config.js";
+
 import { UrlOptions } from "./external-clients.service.js";
 
 @Injectable()
@@ -10,7 +12,7 @@ export class YoutubeService {
   constructor() {
     this.client = axios.create({
       baseURL: "https://www.googleapis.com/youtube/v3",
-      params: { key: process.env.YOUTUBE_API_KEY },
+      params: { key: config.youtube.apiKey },
     });
   }
 

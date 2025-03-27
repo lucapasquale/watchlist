@@ -20,14 +20,14 @@ export class DataLoaderService {
 
   generateLoaders() {
     return {
-      user: this.createUserLoader(),
-      playlist: this.createPlaylistLoader(),
-      playlistItem: this.createPlaylistItemLoader(),
-      playlistItemsCount: this.createPlaylistItemsCountLoader(),
+      user: this.generateUserLoader(),
+      playlist: this.generatePlaylistLoader(),
+      playlistItem: this.generatePlaylistItemLoader(),
+      playlistItemsCount: this.generatePlaylistItemsCountLoader(),
     };
   }
 
-  private createPlaylistLoader() {
+  private generatePlaylistLoader() {
     return new DataLoader<number, Playlist>(async (ids) => {
       const playlists = await this.playlistService.getByIds([...ids]);
 
@@ -35,7 +35,7 @@ export class DataLoaderService {
     });
   }
 
-  private createPlaylistItemLoader() {
+  private generatePlaylistItemLoader() {
     return new DataLoader<number, PlaylistItem>(async (ids) => {
       const items = await this.playlistItemService.getByIds([...ids]);
 
@@ -43,13 +43,13 @@ export class DataLoaderService {
     });
   }
 
-  private createPlaylistItemsCountLoader() {
+  private generatePlaylistItemsCountLoader() {
     return new DataLoader<number, number>(async (ids) => {
       return this.playlistItemService.countByPlaylists([...ids]);
     });
   }
 
-  private createUserLoader() {
+  private generateUserLoader() {
     return new DataLoader<number, User>(async (ids) => {
       const users = await this.userService.getByIds([...ids]);
 

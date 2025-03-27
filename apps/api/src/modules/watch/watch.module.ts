@@ -2,6 +2,7 @@ import { forwardRef, Module } from "@nestjs/common";
 
 import { AuthModule } from "../auth/auth.module.js";
 
+import { ExternalClientsResolver } from "./external-clients/external-clients.resolver.js";
 import { ExternalClientsService } from "./external-clients/external-clients.service.js";
 import { RedditService } from "./external-clients/reddit.service.js";
 import { TwitchService } from "./external-clients/twitch.service.js";
@@ -16,6 +17,7 @@ import { PlaylistItemService } from "./playlist-item/playlist-item.service.js";
   imports: [forwardRef(() => AuthModule)],
   controllers: [PlaylistController],
   providers: [
+    ExternalClientsResolver,
     ExternalClientsService,
     RedditService,
     TwitchService,
