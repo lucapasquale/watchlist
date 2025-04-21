@@ -18,12 +18,16 @@ import { WatchModule } from "./modules/watch/watch.module.js";
       inject: [DataLoaderService],
       useFactory: (dataloaderService: DataLoaderService) => {
         return {
-          playground: false,
+          playground: true,
           typePaths: ["./**/*.graphql"],
           context: () => ({
             loaders: dataloaderService.generateLoaders(),
           }),
           resolvers: {
+            PlaylistNewItemsPosition: {
+              BOTTOM: "bottom",
+              TOP: "top",
+            },
             PlaylistItemKind: {
               YOUTUBE: "youtube",
               REDDIT: "reddit",

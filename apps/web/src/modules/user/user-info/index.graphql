@@ -2,6 +2,7 @@ mutation CreatePlaylist($input: CreatePlaylistInput!) {
   createPlaylist(input: $input) {
     id
     name
+    newItemsPosition
   }
 }
 
@@ -9,5 +10,6 @@ mutation CreatePlaylist($input: CreatePlaylistInput!) {
   createPlaylistFromYoutube(url: $url) {
     id
     name
+    newItemsPosition
   }
 }

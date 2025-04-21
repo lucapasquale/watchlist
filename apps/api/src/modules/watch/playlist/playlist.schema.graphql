@@ -1,6 +1,14 @@
+enum PlaylistNewItemsPosition {
+  BOTTOM
+  TOP
+}
+
 type Playlist {
   id: ID!
   name: String!
+  newItemsPosition: PlaylistNewItemsPosition!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type User {
@@ -14,11 +22,13 @@ type Query {
 
 input CreatePlaylistInput {
   name: String!
+  newItemsPosition: PlaylistNewItemsPosition
 }
 
 input UpdatePlaylistInput {
   id: ID!
-  name: String!
+  name: String
+  newItemsPosition: PlaylistNewItemsPosition
 }
 
 type Mutation {

@@ -77,6 +77,15 @@ export class PlaylistItemService {
     return query.executeTakeFirst();
   }
 
+  async getFirstFromPlaylist(playlistId: number) {
+    return db
+      .selectFrom("playlist_item")
+      .where("playlistId", "=", playlistId)
+      .orderBy("rank asc")
+      .selectAll()
+      .executeTakeFirst();
+  }
+
   async getLastFromPlaylist(playlistId: number) {
     return db
       .selectFrom("playlist_item")

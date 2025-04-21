@@ -16,7 +16,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { PlaylistViewQuery } from "~common/graphql-types.js";
 
 import { FirstItemButtons } from "./first-item-buttons.js";
-import { UpdatePlaylistForm } from "./update-playlist-form.js";
+import { EditPlaylistForm } from "./edit-playlist-form.js";
 
 type Props = {
   playlist: PlaylistViewQuery["playlist"];
@@ -26,26 +26,38 @@ type Props = {
 export function PlaylistInfo({ playlist, isOwner }: Props) {
   const [isEditing, setIsEditing] = React.useState(false);
 
+  if (isEditing) {
+    return (
+      <Card className="rounded-xl flex flex-col gap-4 bg-card">
+        <CardHeader className="gap-2">
+          <CardTitle>
+            <EditPlaylistForm playlist={playlist} onClose={() => setIsEditing(false)} />
+          </CardTitle>
+
+          <CardContent>
+            {playlist.itemsCount} video{playlist.itemsCount === 1 ? "" : "s"}
+          </CardContent>
+        </CardHeader>
+      </Card>
+    );
+  }
+
   return (
     <Card className="rounded-xl flex flex-col gap-4 bg-card">
       <CardHeader className="gap-2">
         <CardTitle>
-          {isEditing ? (
-            <UpdatePlaylistForm playlist={playlist} onClose={() => setIsEditing(false)} />
-          ) : (
-            <span className="flex items-center justify-between gap-2">
-              {playlist.name}
+          <span className="flex items-center justify-between gap-2">
+            {playlist.name}
 
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setIsEditing(true)}
-                className={cn(!isOwner && "hidden")}
-              >
-                <Pencil className="size-4" />
-              </Button>
-            </span>
-          )}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsEditing(true)}
+              className={cn(!isOwner && "hidden")}
+            >
+              <Pencil className="size-4" />
+            </Button>
+          </span>
         </CardTitle>
 
         <Link to="/u/$userID" params={{ userID: playlist.user.id }}>
@@ -60,8 +72,14 @@ export function PlaylistInfo({ playlist, isOwner }: Props) {
         </Link>
       </CardHeader>
 
-      <CardContent>
-        {playlist.itemsCount} video{playlist.itemsCount === 1 ? "" : "s"}
+      <CardContent className="space-y-2">
+        <div>
+          {playlist.itemsCount} video{playlist.itemsCount === 1 ? "" : "s"}
+        </div>
+
+        <span className="text-xs text-muted-foreground">
+          Created on {new Date(playlist.createdAt).toLocaleDateString("en-US")}
+        </span>
       </CardContent>
 
       <FirstItemButtons playlist={playlist} />

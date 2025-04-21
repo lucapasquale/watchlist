@@ -12,5 +12,6 @@ mutation UpdatePlaylist($input: UpdatePlaylistInput!) {
   updatePlaylist(input: $input) {
     id
     name
+    newItemsPosition
   }
 }

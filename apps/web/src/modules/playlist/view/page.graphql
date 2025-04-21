@@ -2,7 +2,9 @@ query PlaylistView($playlistID: ID!) {
   playlist(id: $playlistID) {
     id
     name
+    newItemsPosition
     itemsCount
+    createdAt
 
     user {
       id

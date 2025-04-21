@@ -32,6 +32,7 @@ export function Page() {
   }
 
   const isOwner = data.playlist.user.id === user?.id;
+  console.log(data.playlist.items);
 
   return (
     <>

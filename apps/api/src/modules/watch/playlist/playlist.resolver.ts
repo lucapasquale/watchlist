@@ -54,10 +54,11 @@ export class PlaylistResolver {
   @UseGuards(GqlAuthGuard)
   async createPlaylist(
     @CurrentUser() user: CurrentUserType,
-    @Args("input") input: { name: string },
+    @Args("input")
+    input: { name: Playlist["name"]; newItemsPosition?: Playlist["newItemsPosition"] },
   ) {
     return this.playlistService.create({
-      name: input.name,
+      ...input,
       userId: user.userId,
     });
   }
@@ -129,7 +130,8 @@ export class PlaylistResolver {
   @UseGuards(GqlAuthGuard)
   async updatePlaylist(
     @CurrentUser() user: CurrentUserType,
-    @Args("input") input: { id: number; name: string },
+    @Args("input")
+    input: { id: number; name: Playlist["name"]; newItemsPosition?: Playlist["newItemsPosition"] },
   ) {
     const playlist = await this.playlistService.getById(input.id);
     if (playlist.userId !== user.userId) {

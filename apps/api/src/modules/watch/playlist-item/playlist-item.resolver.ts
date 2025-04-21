@@ -46,8 +46,9 @@ export class PlaylistItemResolver {
       endTimeSeconds?: number;
     },
   ) {
-    const [playlist, lastItem, urlInformation] = await Promise.all([
+    const [playlist, firstItem, lastItem, urlInformation] = await Promise.all([
       this.playlistService.getById(input.playlistID),
+      this.playlistItemService.getFirstFromPlaylist(input.playlistID),
       this.playlistItemService.getLastFromPlaylist(input.playlistID),
       this.externalClientsService.getUrlVideoData(input.rawUrl, {
         startTimeSeconds: input.startTimeSeconds,
@@ -64,7 +65,9 @@ export class PlaylistItemResolver {
 
     return this.playlistItemService.create({
       playlistId: playlist.id,
-      rank: this.getRankBetween([lastItem, undefined]).toString(),
+      rank: this.getRankBetween(
+        playlist.newItemsPosition === "bottom" ? [lastItem, undefined] : [undefined, firstItem],
+      ).toString(),
 
       kind: urlInformation.kind,
       rawUrl: input.rawUrl,
