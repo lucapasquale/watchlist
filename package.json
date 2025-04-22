@@ -11,7 +11,6 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@workspace/typescript-config": "workspace:*",
     "oxlint": "^0.16.7",
     "prettier": "^3.5.3",
