@@ -9,7 +9,7 @@
     "test:watch": "vitest --watch",
     "build": "nest build",
     "start": "node dist/src/main",
-    "lint": "oxlint",
+    "lint": "oxlint --config ./.oxlintrc.json",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

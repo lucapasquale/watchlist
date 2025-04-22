@@ -2,5 +2,8 @@
   "parser": "typescript",
   "printWidth": 100,
   "trailingComma": "all",
-  "bracketSpacing": true
+  "bracketSpacing": true,
+  "importOrder": ["^@core/(.*)$", "^@server/(.*)$", "^@ui/(.*)$", "^[./]"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }

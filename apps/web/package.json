@@ -8,7 +8,7 @@
     "dev": "vite --clearScreen false",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "lint": "oxlint",
+    "lint": "oxlint --config ./.oxlintrc.json",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

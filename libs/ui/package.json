@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "lint": "oxlint",
+    "lint": "oxlint --config ./.oxlintrc.json",
     "check-types": "tsc --noEmit"
   },
   "exports": {

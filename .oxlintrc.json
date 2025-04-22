@@ -3,5 +3,6 @@
   "categories": {},
   "env": {
     "builtin": true
-  }
+  },
+  "rules": {}
 }
