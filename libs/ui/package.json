@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "lint": "eslint . --max-warnings 0",
+    "lint": "oxlint",
     "check-types": "tsc --noEmit"
   },
   "exports": {
@@ -43,7 +43,6 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.4",
     "@types/react": "^19.1.2",
-    "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
     "tailwindcss": "^4.1.4",
     "typescript": "^5.8.3"

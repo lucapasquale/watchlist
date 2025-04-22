@@ -103,10 +103,12 @@ export class PlaylistResolver {
           ),
       );
 
-      const ranks = new Array(videos.length).fill(null).map(() => {
-        curRank = curRank.genNext();
-        return curRank;
-      });
+      const ranks = Array.from({ length: videos.length })
+        .fill(null)
+        .map(() => {
+          curRank = curRank.genNext();
+          return curRank;
+        });
 
       await this.playlistItemService.create(
         videos.flatMap((video, idx) => {
