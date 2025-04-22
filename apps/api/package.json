@@ -9,7 +9,7 @@
     "test:watch": "vitest --watch",
     "build": "nest build",
     "start": "node dist/src/main",
-    "lint": "eslint . --max-warnings 0",
+    "lint": "oxlint --config ./.oxlintrc.json",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -48,7 +48,6 @@
     "@types/passport-jwt": "^4.0.1",
     "@types/passport-local": "^1.0.38",
     "@types/pg": "^8.11.13",
-    "@workspace/eslint-config": "workspace:^",
     "@workspace/typescript-config": "workspace:*",
     "typescript": "^5.8.3",
     "vitest": "^3.1.1"
