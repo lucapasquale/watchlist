@@ -40,48 +40,50 @@ export function EditPlaylistForm({ playlist, onClose }: Props) {
   };
 
   return (
-    <div className="flex flex-col gap-y-2">
-      <Form {...form}>
-        <form
-          id="update-playlist"
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full flex flex-col items-center gap-4"
-        >
-          <InputFormItem
-            autoFocus
-            autoComplete="off"
-            disabled={loading}
-            control={form.control}
-            name="name"
-            label="Playlist name"
-            placeholder="My playlist"
-            className="w-full"
-          />
+    <Form {...form}>
+      <form
+        id="update-playlist"
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-full flex flex-col items-center gap-4"
+      >
+        <InputFormItem
+          autoFocus
+          autoComplete="off"
+          disabled={loading}
+          control={form.control}
+          name="name"
+          label="Playlist name"
+          placeholder="My playlist"
+          className="w-full"
+        />
 
-          <SelectFormItem control={form.control} name="newItemsPosition" label="New items position">
-            <FormControl>
-              <SelectTrigger>
-                <SelectValue placeholder="Select a sort order" />
-              </SelectTrigger>
-            </FormControl>
+        <SelectFormItem control={form.control} name="newItemsPosition" label="New items position">
+          <FormControl>
+            <SelectTrigger>
+              <SelectValue placeholder="Select a sort order" />
+            </SelectTrigger>
+          </FormControl>
 
-            <SelectContent>
-              <SelectItem value={PlaylistNewItemsPosition.Bottom}>Bottom</SelectItem>
-              <SelectItem value={PlaylistNewItemsPosition.Top}>Top</SelectItem>
-            </SelectContent>
-          </SelectFormItem>
-        </form>
-      </Form>
+          <SelectContent>
+            <SelectItem value={PlaylistNewItemsPosition.Bottom}>Bottom</SelectItem>
+            <SelectItem value={PlaylistNewItemsPosition.Top}>Top</SelectItem>
+          </SelectContent>
+        </SelectFormItem>
 
-      <div className="flex flex-row items-center self-end gap-2">
-        <Button variant="outline" onClick={onClose}>
-          Cancel
-        </Button>
+        <div className="flex flex-row items-center self-end gap-2">
+          <Button variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
 
-        <Button type="submit" form="update-playlist" disabled={!form.formState.isValid || loading}>
-          Update
-        </Button>
-      </div>
-    </div>
+          <Button
+            type="submit"
+            form="update-playlist"
+            disabled={!form.formState.isValid || loading}
+          >
+            Update
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 }

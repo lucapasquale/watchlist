@@ -28,22 +28,16 @@ export function PlaylistInfo({ playlist, isOwner }: Props) {
 
   if (isEditing) {
     return (
-      <Card className="rounded-xl flex flex-col gap-4 bg-card">
-        <CardHeader className="gap-2">
-          <CardTitle>
-            <EditPlaylistForm playlist={playlist} onClose={() => setIsEditing(false)} />
-          </CardTitle>
-
-          <CardContent>
-            {playlist.itemsCount} video{playlist.itemsCount === 1 ? "" : "s"}
-          </CardContent>
-        </CardHeader>
+      <Card>
+        <CardContent className="space-y-2">
+          <EditPlaylistForm playlist={playlist} onClose={() => setIsEditing(false)} />
+        </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className="rounded-xl flex flex-col gap-4 bg-card">
+    <Card>
       <CardHeader className="gap-2">
         <CardTitle>
           <span className="flex items-center justify-between gap-2">

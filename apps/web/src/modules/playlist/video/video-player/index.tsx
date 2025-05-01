@@ -20,7 +20,6 @@ export function VideoPlayer({ playlistItem }: Props) {
   const navigate = Route.useNavigate();
 
   const [failedToLoad, setFailedToLoad] = React.useState(false);
-
   const nextItemID = playlistItem.nextItem?.id;
 
   React.useEffect(() => {
@@ -53,11 +52,6 @@ export function VideoPlayer({ playlistItem }: Props) {
     });
   };
 
-  const onError = () => {
-    setFailedToLoad(true);
-    setTimeout(navigateToNextVideo, 3_000);
-  };
-
   return (
     <>
       <Helmet>
@@ -74,7 +68,7 @@ export function VideoPlayer({ playlistItem }: Props) {
           width="100%"
           height="100%"
           url={playlistItem.url}
-          onError={onError}
+          onError={() => setFailedToLoad(true)}
           onEnded={navigateToNextVideo}
           style={{ aspectRatio: "16 / 9", width: "100%", maxWidth: "912px", maxHeight: "619px" }}
         />
