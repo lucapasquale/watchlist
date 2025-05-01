@@ -1,0 +1,10 @@
+/* https://emilkowal.ski/ui/building-a-hold-to-delete-component */
+#hold-overlay {
+  transition: clip-path 0ms ease-out;
+  clip-path: inset(0px 100% 0px 0px);
+}
+
+#main-button[data-skip=true] #hold-overlay {
+  transition: clip-path 3s linear;
+  clip-path: inset(0px 0px 0px 0px);
+}

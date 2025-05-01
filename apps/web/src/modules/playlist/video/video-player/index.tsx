@@ -1,15 +1,15 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import ReactPlayer from "react-player/lazy";
-import { LinkIcon, SkipForward } from "lucide-react";
+import { LinkIcon } from "lucide-react";
 import { Link, useRouter } from "@tanstack/react-router";
-import { Button } from "@ui/components/ui/button.js";
 import { Card, CardDescription, CardFooter, CardTitle } from "@ui/components/ui/card.js";
 import { Skeleton } from "@ui/components/ui/skeleton.js";
 
 import { PlaylistItemViewQuery } from "~common/graphql-types.js";
 import { PLAYLIST_ITEM_KIND } from "~common/translations.js";
 import { Route } from "~routes/p/$playlistID/$videoID.js";
+import { PlayNextButton } from "./play-next-button";
 
 type Props = {
   playlistItem: PlaylistItemViewQuery["playlistItem"];
@@ -18,6 +18,8 @@ type Props = {
 export function VideoPlayer({ playlistItem }: Props) {
   const router = useRouter();
   const navigate = Route.useNavigate();
+
+  const [failedToLoad, setFailedToLoad] = React.useState(false);
 
   const nextItemID = playlistItem.nextItem?.id;
 
@@ -35,6 +37,10 @@ export function VideoPlayer({ playlistItem }: Props) {
       .catch(() => {});
   }, [router, playlistItem, nextItemID]);
 
+  React.useEffect(() => {
+    setFailedToLoad(false);
+  }, [playlistItem.id]);
+
   const navigateToNextVideo = () => {
     if (!nextItemID) {
       return;
@@ -45,6 +51,11 @@ export function VideoPlayer({ playlistItem }: Props) {
       params: { playlistID: playlistItem.playlist.id, videoID: nextItemID },
       search: true,
     });
+  };
+
+  const onError = () => {
+    setFailedToLoad(true);
+    setTimeout(navigateToNextVideo, 3_000);
   };
 
   return (
@@ -63,7 +74,7 @@ export function VideoPlayer({ playlistItem }: Props) {
           width="100%"
           height="100%"
           url={playlistItem.url}
-          onError={navigateToNextVideo}
+          onError={onError}
           onEnded={navigateToNextVideo}
           style={{ aspectRatio: "16 / 9", width: "100%", maxWidth: "912px", maxHeight: "619px" }}
         />
@@ -86,17 +97,11 @@ export function VideoPlayer({ playlistItem }: Props) {
           </div>
 
           <CardFooter className="py-0">
-            <Link
-              search
-              to="/p/$playlistID/$videoID"
-              params={{ playlistID: playlistItem.playlist.id, videoID: nextItemID ?? "" }}
-              disabled={!nextItemID}
-            >
-              <Button disabled={!nextItemID}>
-                Next
-                <SkipForward className="size-4" />
-              </Button>
-            </Link>
+            <PlayNextButton
+              playlistID={playlistItem.playlist.id}
+              nextItemID={nextItemID}
+              failedToLoad={failedToLoad}
+            />
           </CardFooter>
         </Card>
       </section>

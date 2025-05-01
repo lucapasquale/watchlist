@@ -28,7 +28,9 @@ export function Page() {
     <main className="flex flex-col xl:flex-row gap-6">
       <VideoPlayer playlistItem={data.playlistItem} />
 
-      <QueueSidebar />
+      <aside>
+        <QueueSidebar />
+      </aside>
     </main>
   );
 }
