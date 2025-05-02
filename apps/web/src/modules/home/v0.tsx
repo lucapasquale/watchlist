@@ -2,7 +2,6 @@ import { Link } from "@tanstack/react-router";
 import { Button } from "@ui/components/ui/button";
 import {
   Play,
-  ArrowRight,
   RssIcon as Reddit,
   Youtube,
   Twitch,
@@ -15,109 +14,6 @@ export function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
-        {/* Hero Section with Popular Playlists */}
-        <section className="py-12 md:py-24 lg:py-32 bg-muted/50">
-          <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
-              <div className="flex flex-col justify-center space-y-4">
-                <div className="space-y-2">
-                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                    Create Video Playlists From Anywhere
-                  </h1>
-                  <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                    Combine videos from YouTube, Reddit, and more into custom playlists. Share with
-                    friends or keep them private.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button size="lg" asChild>
-                    <Link to="/">
-                      Get Started <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                  <Button size="lg" variant="outline" asChild>
-                    <Link to="." hash="how-it-works">
-                      Learn More
-                    </Link>
-                  </Button>
-                </div>
-              </div>
-              <div className="space-y-4 lg:order-last">
-                <h2 className="text-2xl font-bold">Most Popular Playlists</h2>
-
-                {/* Playlist 1 */}
-                <div className="rounded-lg border bg-card shadow-sm">
-                  <div className="p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-bold text-lg">Gaming Highlights 2023</h3>
-                      <div className="flex items-center gap-1 bg-primary/90 text-primary-foreground text-xs rounded-full px-2 py-1">
-                        <Play className="h-3 w-3" />
-                        <span>24.5K</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="rounded-full bg-primary/10 p-1">
-                          <Youtube className="h-4 w-4 text-primary" />
-                        </div>
-                        <div className="rounded-full bg-primary/10 p-1">
-                          <Twitch className="h-4 w-4 text-primary" />
-                        </div>
-                      </div>
-                      <span className="text-sm text-muted-foreground">18 videos</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Playlist 2 */}
-                <div className="rounded-lg border bg-card shadow-sm">
-                  <div className="p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-bold text-lg">Indie Music Collection</h3>
-                      <div className="flex items-center gap-1 bg-primary/90 text-primary-foreground text-xs rounded-full px-2 py-1">
-                        <Play className="h-3 w-3" />
-                        <span>18.2K</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="rounded-full bg-primary/10 p-1">
-                          <Youtube className="h-4 w-4 text-primary" />
-                        </div>
-                      </div>
-                      <span className="text-sm text-muted-foreground">32 videos</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Playlist 3 */}
-                <div className="rounded-lg border bg-card shadow-sm">
-                  <div className="p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-bold text-lg">Quick Cooking Tutorials</h3>
-                      <div className="flex items-center gap-1 bg-primary/90 text-primary-foreground text-xs rounded-full px-2 py-1">
-                        <Play className="h-3 w-3" />
-                        <span>12.8K</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="rounded-full bg-primary/10 p-1">
-                          <Youtube className="h-4 w-4 text-primary" />
-                        </div>
-                        <div className="rounded-full bg-primary/10 p-1">
-                          <Reddit className="h-4 w-4 text-primary" />
-                        </div>
-                      </div>
-                      <span className="text-sm text-muted-foreground">24 videos</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* Sources Section */}
         <section id="sources" className="py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">

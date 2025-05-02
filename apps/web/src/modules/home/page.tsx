@@ -1,14 +1,11 @@
-import { useQuery } from "@apollo/client";
-
-import { HomePlaylistsDocument } from "~common/graphql-types.js";
 import { LandingPage } from "./v0";
+import { HeroSection } from "./sections/hero";
 
 export function Page() {
-  const { data } = useQuery(HomePlaylistsDocument);
-
-  if (!data) {
-    return <main>Loading...</main>;
-  }
-
-  return <LandingPage />;
+  return (
+    <>
+      <HeroSection />
+      <LandingPage />
+    </>
+  );
 }

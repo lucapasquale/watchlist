@@ -54,7 +54,7 @@ export function ItemsList({ playlist, currentItemIndex }: Props) {
                 playlistID: playlistID.toString(),
                 videoID: item.id.toString(),
               }}
-              className="flex items-center gap-3"
+              className="flex items-center gap-3 hover:no-underline"
             >
               <p className="text-xs text-center min-w-[26px]">{index + 1}</p>
 

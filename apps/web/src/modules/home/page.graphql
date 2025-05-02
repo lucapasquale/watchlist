@@ -1,6 +1,0 @@
-query HomePlaylists {
-  playlists {
-    id
-    name
-  }
-}

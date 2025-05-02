@@ -4,6 +4,10 @@ query HomeHeroPlaylists {
     name
     itemsCount
 
+    firstItem {
+      id
+    }
+
     user {
       id
       name

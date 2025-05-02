@@ -128,3 +128,9 @@
     cursor: pointer;
   }
 }
+
+@layer base {
+  a:hover {
+     @apply underline;
+  }
+}

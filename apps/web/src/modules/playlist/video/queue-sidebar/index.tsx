@@ -43,7 +43,7 @@ export function QueueSidebar() {
           <Link
             to="/p/$playlistID"
             params={{ playlistID: playlistID.toString() }}
-            className="text-2xl font-bold hover:underline"
+            className="text-2xl font-bold"
           >
             {data.playlist.name}
           </Link>
@@ -56,7 +56,7 @@ export function QueueSidebar() {
         </CardTitle>
 
         <Link to="/u/$userID" params={{ userID: data.playlist.user.id }}>
-          <CardDescription className="flex items-center gap-2 hover:underline">
+          <CardDescription className="flex items-center gap-2">
             <Avatar className="size-6">
               <AvatarImage src={data.playlist.user.profilePictureUrl ?? undefined} />
               <AvatarFallback>{data.playlist.user.initials}</AvatarFallback>

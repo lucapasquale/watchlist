@@ -55,7 +55,7 @@ export function PlaylistInfo({ playlist, isOwner }: Props) {
         </CardTitle>
 
         <Link to="/u/$userID" params={{ userID: playlist.user.id }}>
-          <CardDescription className="flex items-center gap-2 hover:underline">
+          <CardDescription className="flex items-center gap-2">
             <Avatar className="size-6">
               <AvatarImage src={playlist.user.profilePictureUrl ?? undefined} />
               <AvatarFallback>{playlist.user.initials}</AvatarFallback>

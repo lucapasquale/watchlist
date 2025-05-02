@@ -61,7 +61,7 @@ export function Profile() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center gap-2 hover:underline">
+      <DropdownMenuTrigger className="flex items-center gap-2">
         <h4>{user.name}</h4>
 
         <Avatar>
