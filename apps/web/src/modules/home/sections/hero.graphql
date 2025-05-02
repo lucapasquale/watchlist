@@ -2,6 +2,7 @@ query HomeHeroPlaylists {
   playlists {
     id
     name
+    itemsKind
     itemsCount
 
     firstItem {

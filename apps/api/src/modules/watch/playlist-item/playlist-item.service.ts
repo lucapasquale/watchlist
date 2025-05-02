@@ -39,6 +39,25 @@ export class PlaylistItemService {
     });
   }
 
+  async kindsByPlaylist(playlistIds: number[]) {
+    const response = await db
+      .selectFrom("playlist_item")
+      .where("playlistId", "in", playlistIds)
+      .select("playlistId")
+      .select(
+        sql<
+          PlaylistItem["kind"][]
+        >`array_agg(distinct playlist_item.kind order by playlist_item.kind)`.as("kinds"),
+      )
+      .groupBy("playlistId")
+      .execute();
+
+    return playlistIds.map((playlistId) => {
+      const item = response.find((item) => item.playlistId === playlistId);
+      return item ? item.kinds : [];
+    });
+  }
+
   async getFromPlaylist(playlistId: number, shuffleSeed?: string, limit?: number) {
     let query = db.selectFrom("playlist_item").where("playlistId", "=", playlistId).selectAll();
 

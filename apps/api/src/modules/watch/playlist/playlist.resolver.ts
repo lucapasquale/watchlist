@@ -31,6 +31,11 @@ export class PlaylistResolver {
   }
 
   @ResolveField()
+  async itemsKind(@Parent() playlist: Playlist, @Context("loaders") loaders: Loaders) {
+    return loaders.playlistItemsKind.load(playlist.id);
+  }
+
+  @ResolveField()
   async items(@Parent() playlist: Playlist, @Args("shuffleSeed") shuffleSeed?: string) {
     return this.playlistItemService.getFromPlaylist(playlist.id, shuffleSeed);
   }

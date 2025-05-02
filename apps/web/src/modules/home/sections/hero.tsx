@@ -2,9 +2,11 @@ import { useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar";
 import { Button } from "@ui/components/ui/button";
+import { Card } from "@ui/components/ui/card";
 import { Skeleton } from "@ui/components/ui/skeleton";
-import { ArrowRight, Youtube, Twitch } from "lucide-react";
-import { HomeHeroPlaylistsDocument } from "~common/graphql-types";
+import { ArrowRight } from "lucide-react";
+import { Reddit, Youtube } from "~common/components/icons";
+import { HomeHeroPlaylistsDocument, PlaylistItemKind } from "~common/graphql-types";
 
 export function HeroSection() {
   const { data, loading } = useQuery(HomeHeroPlaylistsDocument);
@@ -49,40 +51,46 @@ export function HeroSection() {
             )}
 
             {data?.playlists.slice(0, 3).map((playlist) => (
-              <div key={playlist.id} className="h-24 rounded-lg border bg-card shadow-sm">
-                <div className="p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <Link
-                      to="/p/$playlistID/$videoID"
-                      params={{ playlistID: playlist.id, videoID: playlist.firstItem?.id ?? "" }}
-                    >
-                      <h3 className="font-bold text-lg">{playlist.name}</h3>
-                    </Link>
+              <Card key={playlist.id}>
+                <Link
+                  to="/p/$playlistID/$videoID"
+                  params={{ playlistID: playlist.id, videoID: playlist.firstItem?.id ?? "" }}
+                  className="h-24 rounded-lg border bg-card shadow-sm"
+                >
+                  <div key={playlist.id} className="h-24 rounded-lg border bg-card shadow-sm">
+                    <div className="p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="font-bold text-lg">{playlist.name}</h3>
 
-                    <Link to="/u/$userID" params={{ userID: playlist.user.id }}>
-                      <Avatar>
-                        <AvatarImage src={playlist.user.profilePictureUrl ?? undefined} />
-                        <AvatarFallback>{playlist.user.initials}</AvatarFallback>
-                      </Avatar>
-                    </Link>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="rounded-full bg-primary/10 p-1">
-                        <Youtube className="h-4 w-4 text-primary" />
+                        <Link to="/u/$userID" params={{ userID: playlist.user.id }}>
+                          <Avatar>
+                            <AvatarImage src={playlist.user.profilePictureUrl ?? undefined} />
+                            <AvatarFallback>{playlist.user.initials}</AvatarFallback>
+                          </Avatar>
+                        </Link>
                       </div>
-                      <div className="rounded-full bg-primary/10 p-1">
-                        <Twitch className="h-4 w-4 text-primary" />
+
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          {playlist.itemsKind.map((kind) => {
+                            const Icon = kind === PlaylistItemKind.Youtube ? Youtube : Reddit;
+
+                            return (
+                              <div key={kind} className="rounded-full bg-primary/10 p-1">
+                                {Icon && <Icon className="size-4 text-primary" />}
+                              </div>
+                            );
+                          })}
+                        </div>
+
+                        <span className="text-sm text-muted-foreground">
+                          {playlist.itemsCount} videos
+                        </span>
                       </div>
                     </div>
-
-                    <span className="text-sm text-muted-foreground">
-                      {playlist.itemsCount} videos
-                    </span>
                   </div>
-                </div>
-              </div>
+                </Link>
+              </Card>
             ))}
           </article>
         </div>

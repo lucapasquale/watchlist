@@ -1,8 +1,9 @@
 type Playlist {
   itemsCount: Int!
-  items(shuffleSeed: String): [PlaylistItem!]!
+  itemsKind: [PlaylistItemKind!]!
 
   firstItem(shuffleSeed: String): PlaylistItem
+  items(shuffleSeed: String): [PlaylistItem!]!
 }
 
 enum PlaylistItemKind {

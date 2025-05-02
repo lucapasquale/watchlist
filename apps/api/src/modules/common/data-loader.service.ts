@@ -24,6 +24,7 @@ export class DataLoaderService {
       playlist: this.generatePlaylistLoader(),
       playlistItem: this.generatePlaylistItemLoader(),
       playlistItemsCount: this.generatePlaylistItemsCountLoader(),
+      playlistItemsKind: this.generatePlaylistItemsKindLoader(),
     };
   }
 
@@ -46,6 +47,12 @@ export class DataLoaderService {
   private generatePlaylistItemsCountLoader() {
     return new DataLoader<number, number>(async (ids) => {
       return this.playlistItemService.countByPlaylists([...ids]);
+    });
+  }
+
+  private generatePlaylistItemsKindLoader() {
+    return new DataLoader<number, PlaylistItem["kind"][]>(async (ids) => {
+      return this.playlistItemService.kindsByPlaylist([...ids]);
     });
   }
 
