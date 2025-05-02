@@ -21,7 +21,7 @@ export function QueueSidebar() {
   const { playlistID, videoID } = Route.useParams();
 
   const { data } = useQuery(PlaylistItemQueueSidebarDocument, {
-    variables: { playlistID, shuffleSeed: search.shuffleSeed },
+    variables: { playlistID, shuffleSeed: search.shuffleSeed ?? null },
   });
 
   const currentItemIndex = React.useMemo(() => {
