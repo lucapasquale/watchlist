@@ -61,7 +61,9 @@ export function Profile() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger className="flex items-center gap-2 hover:underline">
+        <h4>{user.name}</h4>
+
         <Avatar>
           <AvatarImage src={user.profilePictureUrl ?? undefined} />
           <AvatarFallback>{user.initials}</AvatarFallback>
@@ -74,7 +76,7 @@ export function Profile() {
         </Link>
 
         <Link to="/auth/logout">
-          <DropdownMenuItem>Logout</DropdownMenuItem>
+          <DropdownMenuItem variant="destructive">Logout</DropdownMenuItem>
         </Link>
       </DropdownMenuContent>
     </DropdownMenu>

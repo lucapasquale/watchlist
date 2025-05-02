@@ -22,6 +22,7 @@
     "test:watch": {
       "cache": false,
       "persistent": true
-    }
+    },
+    "schema:generate": {}
   }
 }

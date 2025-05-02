@@ -1,0 +1,14 @@
+query HomeHeroPlaylists {
+  playlists {
+    id
+    name
+    itemsCount
+
+    user {
+      id
+      name
+      initials
+      profilePictureUrl
+    }
+  }
+}

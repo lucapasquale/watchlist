@@ -39,7 +39,7 @@ export function Page() {
         <title>watchlist • {data.playlist.name}</title>
       </Helmet>
 
-      <main className="grid items-start grid-cols-1 lg:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
+      <main className="my-4 grid items-start grid-cols-1 lg:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
         <div className="flex flex-col gap-4">
           <PlaylistInfo playlist={data.playlist} isOwner={isOwner} />
 
