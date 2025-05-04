@@ -40,6 +40,15 @@ export function VideoPlayer({ playlistItem }: Props) {
     setFailedToLoad(false);
   }, [playlistItem.id]);
 
+  const onError = (error: Error, _data?: any, _hlsInstance?: any, _hlsGlobal?: any) => {
+    /** User denied autoplay or browser didn't allow it yet, ignore and wait for manual play */
+    if (error?.message?.includes("user denied permission")) {
+      return;
+    }
+
+    setFailedToLoad(true);
+  };
+
   const navigateToNextVideo = () => {
     if (!nextItemID) {
       return;
@@ -68,7 +77,7 @@ export function VideoPlayer({ playlistItem }: Props) {
           width="100%"
           height="100%"
           url={playlistItem.url}
-          onError={() => setFailedToLoad(true)}
+          onError={onError}
           onEnded={navigateToNextVideo}
           style={{ aspectRatio: "16 / 9", width: "100%", maxWidth: "912px", maxHeight: "619px" }}
         />
@@ -105,7 +114,7 @@ export function VideoPlayer({ playlistItem }: Props) {
 
 VideoPlayer.Skeleton = () => (
   <section className="flex flex-col gap-6">
-    <Skeleton className="aspect-video w-[912px] h-[619px]" />
-    <Skeleton className="h-[108px]" />
+    <Skeleton className="aspect-video h-[619px]" />
+    <Skeleton className="h-[110px]" />
   </section>
 );

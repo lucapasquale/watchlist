@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar.js";
-import { Button } from "@ui/components/ui/button.js";
+import { Button, buttonVariants } from "@ui/components/ui/button.js";
 import {
   Dialog,
   DialogContent,
@@ -18,6 +18,7 @@ import {
 
 import { useCurrentUser } from "~common/providers/current-user-provider.js";
 import { Google } from "../icons";
+import { cn } from "@ui/lib/utils";
 
 export function Profile() {
   const navigate = useNavigate();
@@ -72,15 +73,15 @@ export function Profile() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center gap-2">
-        <Button variant="ghost" className="h-12">
-          <h4>{user.name}</h4>
+      <DropdownMenuTrigger
+        className={cn("flex items-center gap-2", buttonVariants({ variant: "ghost", size: "lg" }))}
+      >
+        <h4>{user.name}</h4>
 
-          <Avatar>
-            <AvatarImage src={user.profilePictureUrl ?? undefined} />
-            <AvatarFallback>{user.initials}</AvatarFallback>
-          </Avatar>
-        </Button>
+        <Avatar>
+          <AvatarImage src={user.profilePictureUrl ?? undefined} />
+          <AvatarFallback>{user.initials}</AvatarFallback>
+        </Avatar>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent>

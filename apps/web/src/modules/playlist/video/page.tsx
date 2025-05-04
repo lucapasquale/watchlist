@@ -14,7 +14,9 @@ export function Page() {
     variables: { playlistItemID: videoID, shuffleSeed: search.shuffleSeed },
   });
 
-  if (!data) {
+  const t = false;
+
+  if (!data || t) {
     return (
       <main className="container mx-auto px-2 sm:px-0 my-4 flex flex-col xl:flex-row gap-6">
         <VideoPlayer.Skeleton />

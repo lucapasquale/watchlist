@@ -29,7 +29,7 @@ export class RedditService {
       rawUrl: url.toString(),
       url: post.media.reddit_video.hls_url.split("?")[0]!,
       title: post.title,
-      thumbnailUrl: post.thumbnail,
+      thumbnailUrl: post.thumbnail.replaceAll("&amp;", "&"),
       durationSeconds: post.media.reddit_video.duration,
     };
   }

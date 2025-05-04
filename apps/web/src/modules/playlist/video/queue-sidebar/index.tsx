@@ -15,6 +15,7 @@ import { PlaylistItemQueueSidebarDocument } from "~common/graphql-types.js";
 import { Route } from "~routes/p/$playlistID/$videoID.js";
 
 import { ItemsList } from "./items-list.js";
+import { Shuffle } from "lucide-react";
 
 export function QueueSidebar() {
   const search = Route.useSearch();
@@ -37,7 +38,7 @@ export function QueueSidebar() {
   }
 
   return (
-    <Card className="flex flex-col rounded-md bg-card w-full xl:min-w-[400px] xl:w-[400px] xl:max-h-[753px]">
+    <Card className="flex flex-col bg-card w-full xl:min-w-[400px] xl:w-[400px] xl:max-h-[753px]">
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <Link
@@ -49,8 +50,8 @@ export function QueueSidebar() {
           </Link>
 
           {search.shuffleSeed && (
-            <div className="text-base font-normal bg-white text-black rounded-lg px-2 py-0.5">
-              Shuffle
+            <div className="text-base font-normal bg-foreground text-black rounded-lg p-2">
+              <Shuffle className="size-4" />
             </div>
           )}
         </CardTitle>
@@ -74,4 +75,4 @@ export function QueueSidebar() {
   );
 }
 
-QueueSidebar.Skeleton = () => <Skeleton className="w-full" />;
+QueueSidebar.Skeleton = () => <Skeleton className="w-[400px] h-[753px]" />;

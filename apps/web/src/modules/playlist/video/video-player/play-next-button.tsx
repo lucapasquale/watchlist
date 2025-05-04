@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "@tanstack/react-router";
-import { Button } from "@ui/components/ui/button";
+import { Button, buttonVariants } from "@ui/components/ui/button";
 import { SkipForward } from "lucide-react";
+import { cn } from "@ui/lib/utils";
 
 type Props = {
   playlistID: string;
@@ -11,7 +12,7 @@ type Props = {
 
 export function PlayNextButton({ playlistID, nextItemID, failedToLoad }: Props) {
   const linkRef = React.useRef<HTMLAnchorElement>(null);
-  const insetButtonRef = React.useRef<HTMLButtonElement>(null);
+  const insetButtonRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     if (!linkRef.current || !insetButtonRef.current || !nextItemID) {
@@ -43,15 +44,17 @@ export function PlayNextButton({ playlistID, nextItemID, failedToLoad }: Props) 
         // https://emilkowal.ski/ui/building-a-hold-to-delete-component
         className="relative enabled:data-[skip=true]:bg-red-300 enabled:data-[skip=true]:*:aria-hidden:[transition:clip-path_2s_linear] enabled:data-[skip=true]:*:aria-hidden:[clip-path:inset(0px_0px_0px_0px)]"
       >
-        <Button
+        <div
           aria-hidden="true"
           ref={insetButtonRef}
-          disabled={!nextItemID}
-          className="absolute top-0 left-0 w-full h-full [transition:clip-path_0ms_ease-out] [clip-path:inset(0px_100%_0px_0px)]"
+          className={cn(
+            "absolute top-0 left-0 w-full h-full [transition:clip-path_0ms_ease-out] [clip-path:inset(0px_100%_0px_0px)]",
+            buttonVariants({ variant: "default", size: "default" }),
+          )}
         >
           <SkipForward className="size-4" />
           Next
-        </Button>
+        </div>
         <SkipForward className="size-4" />
         Next
       </Button>
