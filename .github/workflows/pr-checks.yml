@@ -3,7 +3,7 @@ on: pull_request
 
 env:
   NODE_VER: 23.11.0
-  PNPM_VERSION: 10.8.1
+  PNPM_VERSION: 10.10.0
 
 jobs:
   lint:
