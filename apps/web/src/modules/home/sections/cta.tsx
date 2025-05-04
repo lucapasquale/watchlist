@@ -16,7 +16,7 @@ export function CtaSection() {
           </div>
 
           <div className="flex flex-col gap-2 min-[400px]:flex-row">
-            <Link to="/" hash="/signup">
+            <Link to="." search={(prev) => ({ ...prev, signup: "true" })}>
               <Button size="lg" variant="secondary">
                 Get Started For Free
               </Button>

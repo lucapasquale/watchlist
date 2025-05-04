@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar.js";
 import { Button } from "@ui/components/ui/button.js";
 import {
@@ -20,7 +20,10 @@ import { useCurrentUser } from "~common/providers/current-user-provider.js";
 import { Google } from "../icons";
 
 export function Profile() {
+  const navigate = useNavigate();
   const location = useLocation();
+  const usp = new URLSearchParams(location.search);
+
   const { loading, user } = useCurrentUser();
 
   const [redirectUrl, setRedirectUrl] = React.useState(window.location.href);
@@ -29,9 +32,14 @@ export function Profile() {
     const url = new URL(window.location.href);
     url.pathname = location.pathname;
     url.search = location.searchStr;
+    url.searchParams.delete("signup");
 
     setRedirectUrl(url.toString());
   }, [location]);
+
+  const onOpenChange = (open: boolean) => {
+    navigate({ to: ".", search: (prev) => ({ ...prev, signup: open ? "true" : undefined }) });
+  };
 
   if (loading) {
     return null;
@@ -39,9 +47,11 @@ export function Profile() {
 
   if (!user) {
     return (
-      <Dialog>
+      <Dialog open={!!usp.get("signup")} onOpenChange={onOpenChange}>
         <DialogTrigger asChild>
-          <Button>Login</Button>
+          <Link to="." search={(prev) => ({ ...prev, signup: "true" })}>
+            <Button>Login</Button>
+          </Link>
         </DialogTrigger>
 
         <DialogContent className="max-w-[420px]">
@@ -63,12 +73,14 @@ export function Profile() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center gap-2">
-        <h4>{user.name}</h4>
+        <Button variant="ghost" className="h-12">
+          <h4>{user.name}</h4>
 
-        <Avatar>
-          <AvatarImage src={user.profilePictureUrl ?? undefined} />
-          <AvatarFallback>{user.initials}</AvatarFallback>
-        </Avatar>
+          <Avatar>
+            <AvatarImage src={user.profilePictureUrl ?? undefined} />
+            <AvatarFallback>{user.initials}</AvatarFallback>
+          </Avatar>
+        </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent>

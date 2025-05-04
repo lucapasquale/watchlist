@@ -19,17 +19,20 @@ export function HeroSection() {
             <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
               Create Video Playlists From Anywhere
             </h1>
+
             <p className="max-w-[600px] text-muted-foreground md:text-xl">
               Combine videos from YouTube, Reddit, and more into custom playlists. Share with
               friends or keep them private.
             </p>
           </div>
+
           <div className="flex flex-col gap-2 min-[400px]:flex-row">
-            <Link to="/">
+            <Link to="." search={(prev) => ({ ...prev, signup: "true" })}>
               <Button size="lg">
                 Get Started <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
+
             <Link to="." hash="how-it-works">
               <Button size="lg" variant="outline">
                 Learn More
