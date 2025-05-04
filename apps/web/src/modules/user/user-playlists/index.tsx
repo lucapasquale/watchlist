@@ -55,7 +55,7 @@ export function UserPlaylists({ user, isOwner }: Props) {
           {isOwner && (
             <AlertDialog open={open} onOpenChange={setOpen}>
               <AlertDialogTrigger asChild>
-                <Button variant="ghost" className="mr-4 hover:bg-destructive">
+                <Button variant="ghost" className="mr-4 hover:!bg-destructive/20">
                   <Trash className="size-4" />
                 </Button>
               </AlertDialogTrigger>
