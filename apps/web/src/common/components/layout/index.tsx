@@ -7,9 +7,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Header />
-
-      <div className="container mx-auto px-2 sm:px-0">{children}</div>
-
+      {children}
       <Footer />
     </>
   );

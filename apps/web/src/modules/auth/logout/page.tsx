@@ -11,5 +11,5 @@ export function Page() {
     window.location.pathname = "/";
   }, [client]);
 
-  return null;
+  return <main className="h-240" />;
 }
