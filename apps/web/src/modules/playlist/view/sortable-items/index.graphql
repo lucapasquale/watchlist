@@ -5,7 +5,10 @@ mutation MovePlaylistItem($input: MovePlaylistItemInput!) {
     playlist {
       id
 
-      items {
+      firstItem {
+        ...PlaylistItemFrag
+      }
+      items(shuffleSeed: null) {
         ...PlaylistItemFrag
       }
     }
@@ -19,7 +22,10 @@ mutation DeletePlaylistItem($id: ID!) {
     playlist {
       id
 
-      items {
+      firstItem {
+        ...PlaylistItemFrag
+      }
+      items(shuffleSeed: null) {
         ...PlaylistItemFrag
       }
     }

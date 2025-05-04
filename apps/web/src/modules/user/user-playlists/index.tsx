@@ -44,7 +44,7 @@ export function UserPlaylists({ user, isOwner }: Props) {
         <Card key={playlist.id} className="flex flex-row items-center justify-between">
           <div className="ml-4">
             <Link to="/p/$playlistID" params={{ playlistID: playlist.id }}>
-              <CardTitle className="hover:underline">{playlist.name}</CardTitle>
+              <CardTitle>{playlist.name}</CardTitle>
             </Link>
 
             <CardDescription>

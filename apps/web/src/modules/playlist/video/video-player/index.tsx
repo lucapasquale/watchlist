@@ -77,7 +77,7 @@ export function VideoPlayer({ playlistItem }: Props) {
           <div className="ml-6">
             <CardTitle>
               <Link target="_blank" rel="noopener noreferrer" to={playlistItem.rawUrl}>
-                <h1 className="text-lg md:text-2xl hover:underline">
+                <h1 className="text-lg md:text-2xl">
                   {playlistItem.title}
 
                   <LinkIcon className="inline size-4 ml-2" />

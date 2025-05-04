@@ -8,7 +8,7 @@ import { DialogClose, DialogFooter } from "@ui/components/ui/dialog.js";
 import { Form } from "@ui/components/ui/form.js";
 
 import { CreatePlaylistFromYoutubeDocument, UserViewDocument } from "~common/graphql-types.js";
-import { Route } from "~routes/index.lazy.js";
+import { Route } from "~routes/index.js";
 
 const schema = z.object({
   playlistURL: z.string().url(),

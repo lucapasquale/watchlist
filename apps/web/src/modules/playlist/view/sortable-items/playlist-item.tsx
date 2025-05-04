@@ -99,7 +99,7 @@ export function PlaylistItem({ item, isOwner, onDelete, provided, style, isDragg
           <Link
             to="/p/$playlistID/$videoID"
             params={{ playlistID, videoID: item.id }}
-            className="group flex items-start md:items-center gap-4 flex-1 basis-0"
+            className="group flex items-start md:items-center gap-4 flex-1 basis-0 hover:no-underline"
           >
             <img
               src={item.thumbnailUrl}

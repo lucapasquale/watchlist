@@ -8,209 +8,204 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from "@tanstack/react-router";
-
 // Import Routes
 
-import { Route as rootRoute } from "./routes/__root";
-import { Route as UUserIDImport } from "./routes/u/$userID";
-import { Route as AuthLogoutImport } from "./routes/auth/logout";
-import { Route as PPlaylistIDIndexImport } from "./routes/p/$playlistID/index";
-import { Route as PPlaylistIDVideoIDImport } from "./routes/p/$playlistID/$videoID";
-import { Route as AuthGoogleRedirectImport } from "./routes/auth/google/redirect";
-import { Route as AuthGoogleLoginImport } from "./routes/auth/google/login";
-
-// Create Virtual Routes
-
-const IndexLazyImport = createFileRoute("/")();
+import { Route as rootRoute } from './routes/__root'
+import { Route as IndexImport } from './routes/index'
+import { Route as UUserIDImport } from './routes/u/$userID'
+import { Route as AuthLogoutImport } from './routes/auth/logout'
+import { Route as PPlaylistIDIndexImport } from './routes/p/$playlistID/index'
+import { Route as PPlaylistIDVideoIDImport } from './routes/p/$playlistID/$videoID'
+import { Route as AuthGoogleRedirectImport } from './routes/auth/google/redirect'
+import { Route as AuthGoogleLoginImport } from './routes/auth/google/login'
 
 // Create/Update Routes
 
-const IndexLazyRoute = IndexLazyImport.update({
-  id: "/",
-  path: "/",
+const IndexRoute = IndexImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import("./routes/index.lazy").then((d) => d.Route));
+} as any)
 
 const UUserIDRoute = UUserIDImport.update({
-  id: "/u/$userID",
-  path: "/u/$userID",
+  id: '/u/$userID',
+  path: '/u/$userID',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const AuthLogoutRoute = AuthLogoutImport.update({
-  id: "/auth/logout",
-  path: "/auth/logout",
+  id: '/auth/logout',
+  path: '/auth/logout',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const PPlaylistIDIndexRoute = PPlaylistIDIndexImport.update({
-  id: "/p/$playlistID/",
-  path: "/p/$playlistID/",
+  id: '/p/$playlistID/',
+  path: '/p/$playlistID/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const PPlaylistIDVideoIDRoute = PPlaylistIDVideoIDImport.update({
-  id: "/p/$playlistID/$videoID",
-  path: "/p/$playlistID/$videoID",
+  id: '/p/$playlistID/$videoID',
+  path: '/p/$playlistID/$videoID',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const AuthGoogleRedirectRoute = AuthGoogleRedirectImport.update({
-  id: "/auth/google/redirect",
-  path: "/auth/google/redirect",
+  id: '/auth/google/redirect',
+  path: '/auth/google/redirect',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const AuthGoogleLoginRoute = AuthGoogleLoginImport.update({
-  id: "/auth/google/login",
-  path: "/auth/google/login",
+  id: '/auth/google/login',
+  path: '/auth/google/login',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 // Populate the FileRoutesByPath interface
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/": {
-      id: "/";
-      path: "/";
-      fullPath: "/";
-      preLoaderRoute: typeof IndexLazyImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/auth/logout": {
-      id: "/auth/logout";
-      path: "/auth/logout";
-      fullPath: "/auth/logout";
-      preLoaderRoute: typeof AuthLogoutImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/u/$userID": {
-      id: "/u/$userID";
-      path: "/u/$userID";
-      fullPath: "/u/$userID";
-      preLoaderRoute: typeof UUserIDImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/auth/google/login": {
-      id: "/auth/google/login";
-      path: "/auth/google/login";
-      fullPath: "/auth/google/login";
-      preLoaderRoute: typeof AuthGoogleLoginImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/auth/google/redirect": {
-      id: "/auth/google/redirect";
-      path: "/auth/google/redirect";
-      fullPath: "/auth/google/redirect";
-      preLoaderRoute: typeof AuthGoogleRedirectImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/p/$playlistID/$videoID": {
-      id: "/p/$playlistID/$videoID";
-      path: "/p/$playlistID/$videoID";
-      fullPath: "/p/$playlistID/$videoID";
-      preLoaderRoute: typeof PPlaylistIDVideoIDImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/p/$playlistID/": {
-      id: "/p/$playlistID/";
-      path: "/p/$playlistID";
-      fullPath: "/p/$playlistID";
-      preLoaderRoute: typeof PPlaylistIDIndexImport;
-      parentRoute: typeof rootRoute;
-    };
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/auth/logout': {
+      id: '/auth/logout'
+      path: '/auth/logout'
+      fullPath: '/auth/logout'
+      preLoaderRoute: typeof AuthLogoutImport
+      parentRoute: typeof rootRoute
+    }
+    '/u/$userID': {
+      id: '/u/$userID'
+      path: '/u/$userID'
+      fullPath: '/u/$userID'
+      preLoaderRoute: typeof UUserIDImport
+      parentRoute: typeof rootRoute
+    }
+    '/auth/google/login': {
+      id: '/auth/google/login'
+      path: '/auth/google/login'
+      fullPath: '/auth/google/login'
+      preLoaderRoute: typeof AuthGoogleLoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/auth/google/redirect': {
+      id: '/auth/google/redirect'
+      path: '/auth/google/redirect'
+      fullPath: '/auth/google/redirect'
+      preLoaderRoute: typeof AuthGoogleRedirectImport
+      parentRoute: typeof rootRoute
+    }
+    '/p/$playlistID/$videoID': {
+      id: '/p/$playlistID/$videoID'
+      path: '/p/$playlistID/$videoID'
+      fullPath: '/p/$playlistID/$videoID'
+      preLoaderRoute: typeof PPlaylistIDVideoIDImport
+      parentRoute: typeof rootRoute
+    }
+    '/p/$playlistID/': {
+      id: '/p/$playlistID/'
+      path: '/p/$playlistID'
+      fullPath: '/p/$playlistID'
+      preLoaderRoute: typeof PPlaylistIDIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexLazyRoute;
-  "/auth/logout": typeof AuthLogoutRoute;
-  "/u/$userID": typeof UUserIDRoute;
-  "/auth/google/login": typeof AuthGoogleLoginRoute;
-  "/auth/google/redirect": typeof AuthGoogleRedirectRoute;
-  "/p/$playlistID/$videoID": typeof PPlaylistIDVideoIDRoute;
-  "/p/$playlistID": typeof PPlaylistIDIndexRoute;
+  '/': typeof IndexRoute
+  '/auth/logout': typeof AuthLogoutRoute
+  '/u/$userID': typeof UUserIDRoute
+  '/auth/google/login': typeof AuthGoogleLoginRoute
+  '/auth/google/redirect': typeof AuthGoogleRedirectRoute
+  '/p/$playlistID/$videoID': typeof PPlaylistIDVideoIDRoute
+  '/p/$playlistID': typeof PPlaylistIDIndexRoute
 }
 
 export interface FileRoutesByTo {
-  "/": typeof IndexLazyRoute;
-  "/auth/logout": typeof AuthLogoutRoute;
-  "/u/$userID": typeof UUserIDRoute;
-  "/auth/google/login": typeof AuthGoogleLoginRoute;
-  "/auth/google/redirect": typeof AuthGoogleRedirectRoute;
-  "/p/$playlistID/$videoID": typeof PPlaylistIDVideoIDRoute;
-  "/p/$playlistID": typeof PPlaylistIDIndexRoute;
+  '/': typeof IndexRoute
+  '/auth/logout': typeof AuthLogoutRoute
+  '/u/$userID': typeof UUserIDRoute
+  '/auth/google/login': typeof AuthGoogleLoginRoute
+  '/auth/google/redirect': typeof AuthGoogleRedirectRoute
+  '/p/$playlistID/$videoID': typeof PPlaylistIDVideoIDRoute
+  '/p/$playlistID': typeof PPlaylistIDIndexRoute
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute;
-  "/": typeof IndexLazyRoute;
-  "/auth/logout": typeof AuthLogoutRoute;
-  "/u/$userID": typeof UUserIDRoute;
-  "/auth/google/login": typeof AuthGoogleLoginRoute;
-  "/auth/google/redirect": typeof AuthGoogleRedirectRoute;
-  "/p/$playlistID/$videoID": typeof PPlaylistIDVideoIDRoute;
-  "/p/$playlistID/": typeof PPlaylistIDIndexRoute;
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/auth/logout': typeof AuthLogoutRoute
+  '/u/$userID': typeof UUserIDRoute
+  '/auth/google/login': typeof AuthGoogleLoginRoute
+  '/auth/google/redirect': typeof AuthGoogleRedirectRoute
+  '/p/$playlistID/$videoID': typeof PPlaylistIDVideoIDRoute
+  '/p/$playlistID/': typeof PPlaylistIDIndexRoute
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
+  fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | "/"
-    | "/auth/logout"
-    | "/u/$userID"
-    | "/auth/google/login"
-    | "/auth/google/redirect"
-    | "/p/$playlistID/$videoID"
-    | "/p/$playlistID";
-  fileRoutesByTo: FileRoutesByTo;
+    | '/'
+    | '/auth/logout'
+    | '/u/$userID'
+    | '/auth/google/login'
+    | '/auth/google/redirect'
+    | '/p/$playlistID/$videoID'
+    | '/p/$playlistID'
+  fileRoutesByTo: FileRoutesByTo
   to:
-    | "/"
-    | "/auth/logout"
-    | "/u/$userID"
-    | "/auth/google/login"
-    | "/auth/google/redirect"
-    | "/p/$playlistID/$videoID"
-    | "/p/$playlistID";
+    | '/'
+    | '/auth/logout'
+    | '/u/$userID'
+    | '/auth/google/login'
+    | '/auth/google/redirect'
+    | '/p/$playlistID/$videoID'
+    | '/p/$playlistID'
   id:
-    | "__root__"
-    | "/"
-    | "/auth/logout"
-    | "/u/$userID"
-    | "/auth/google/login"
-    | "/auth/google/redirect"
-    | "/p/$playlistID/$videoID"
-    | "/p/$playlistID/";
-  fileRoutesById: FileRoutesById;
+    | '__root__'
+    | '/'
+    | '/auth/logout'
+    | '/u/$userID'
+    | '/auth/google/login'
+    | '/auth/google/redirect'
+    | '/p/$playlistID/$videoID'
+    | '/p/$playlistID/'
+  fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute;
-  AuthLogoutRoute: typeof AuthLogoutRoute;
-  UUserIDRoute: typeof UUserIDRoute;
-  AuthGoogleLoginRoute: typeof AuthGoogleLoginRoute;
-  AuthGoogleRedirectRoute: typeof AuthGoogleRedirectRoute;
-  PPlaylistIDVideoIDRoute: typeof PPlaylistIDVideoIDRoute;
-  PPlaylistIDIndexRoute: typeof PPlaylistIDIndexRoute;
+  IndexRoute: typeof IndexRoute
+  AuthLogoutRoute: typeof AuthLogoutRoute
+  UUserIDRoute: typeof UUserIDRoute
+  AuthGoogleLoginRoute: typeof AuthGoogleLoginRoute
+  AuthGoogleRedirectRoute: typeof AuthGoogleRedirectRoute
+  PPlaylistIDVideoIDRoute: typeof PPlaylistIDVideoIDRoute
+  PPlaylistIDIndexRoute: typeof PPlaylistIDIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
+  IndexRoute: IndexRoute,
   AuthLogoutRoute: AuthLogoutRoute,
   UUserIDRoute: UUserIDRoute,
   AuthGoogleLoginRoute: AuthGoogleLoginRoute,
   AuthGoogleRedirectRoute: AuthGoogleRedirectRoute,
   PPlaylistIDVideoIDRoute: PPlaylistIDVideoIDRoute,
   PPlaylistIDIndexRoute: PPlaylistIDIndexRoute,
-};
+}
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {
@@ -228,7 +223,7 @@ export const routeTree = rootRoute
       ]
     },
     "/": {
-      "filePath": "index.lazy.tsx"
+      "filePath": "index.tsx"
     },
     "/auth/logout": {
       "filePath": "auth/logout.tsx"

@@ -17,5 +17,5 @@ export function Page() {
     window.location.href = apiURL.toString();
   }, [redirectUrl]);
 
-  return null;
+  return <main className="h-240" />;
 }

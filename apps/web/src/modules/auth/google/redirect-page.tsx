@@ -19,5 +19,5 @@ export function Page() {
     window.location.pathname = "/";
   }, [search.accessToken]);
 
-  return null;
+  return <main className="h-240" />;
 }
