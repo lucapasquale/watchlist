@@ -63,12 +63,10 @@ export function HeroSection() {
                   <div className="flex items-center justify-between mb-2 group-hover:underline">
                     <h3 className="font-bold text-lg">{playlist.name}</h3>
 
-                    <Link to="/u/$userID" params={{ userID: playlist.user.id }}>
-                      <Avatar>
-                        <AvatarImage src={playlist.user.profilePictureUrl ?? undefined} />
-                        <AvatarFallback>{playlist.user.initials}</AvatarFallback>
-                      </Avatar>
-                    </Link>
+                    <Avatar>
+                      <AvatarImage src={playlist.user.profilePictureUrl ?? undefined} />
+                      <AvatarFallback>{playlist.user.initials}</AvatarFallback>
+                    </Avatar>
                   </div>
 
                   <div className="flex items-center justify-between">
