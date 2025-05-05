@@ -22,25 +22,24 @@ import { Google } from "../icons";
 export function Profile() {
   const navigate = useNavigate();
   const location = useLocation();
-  const usp = new URLSearchParams(window.location.search);
 
   const { loading, user } = useCurrentUser();
 
   const redirectUrl = React.useMemo(() => {
-    if (usp.has("redirect")) {
-      return usp.get("redirect")!;
+    if (location.search.redirectUrl) {
+      return location.search.redirectUrl;
     }
 
     const url = new URL(window.location.href);
     url.pathname = location.pathname;
     url.search = location.searchStr;
-    url.searchParams.delete("signup");
-    url.searchParams.delete("redirect");
+    url.searchParams.delete("signIn");
+    url.searchParams.delete("redirectUrl");
     return url.toString();
   }, [location]);
 
   const onOpenChange = (open: boolean) => {
-    navigate({ to: ".", search: (prev) => ({ ...prev, signup: open ? "true" : undefined }) });
+    navigate({ to: ".", search: (prev) => ({ ...prev, signIn: open ? "true" : undefined }) });
   };
 
   if (loading) {
@@ -49,9 +48,9 @@ export function Profile() {
 
   if (!user) {
     return (
-      <Dialog open={!!usp.get("signup")} onOpenChange={onOpenChange}>
+      <Dialog open={location.search.signIn === "true"} onOpenChange={onOpenChange}>
         <DialogTrigger asChild>
-          <Link to="." search={(prev) => ({ ...prev, signup: "true" })}>
+          <Link to="." search={(prev) => ({ ...prev, signIn: "true" })}>
             <Button>Login</Button>
           </Link>
         </DialogTrigger>

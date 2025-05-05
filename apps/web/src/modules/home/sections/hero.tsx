@@ -27,7 +27,7 @@ export function HeroSection() {
           </div>
 
           <div className="flex flex-col gap-2 min-[400px]:flex-row">
-            <Link to="." search={(prev) => ({ ...prev, signup: "true" })}>
+            <Link to="." search={(prev) => ({ ...prev, signIn: "true" })}>
               <Button size="lg">
                 Get Started <ArrowRight className="ml-2 h-4 w-4" />
               </Button>

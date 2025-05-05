@@ -7,11 +7,13 @@ import { CurrentUserProvider } from "~common/providers/current-user-provider.js"
 import { ThemeProvider } from "~common/providers/theme-provider.js";
 
 import { routeTree } from "./routeTree.gen.js";
+import { AUTH_TOKEN_KEY } from "~common/constants.js";
 
 const router = createRouter({
   routeTree,
   defaultPreload: "intent",
   defaultPendingComponent: () => <main className="h-240" />,
+  context: { hasToken: false },
 });
 
 declare module "@tanstack/react-router" {
@@ -27,7 +29,10 @@ export function App() {
         <ApolloProvider>
           <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <CurrentUserProvider>
-              <RouterProvider router={router} />
+              <RouterProvider
+                router={router}
+                context={{ hasToken: !!localStorage.getItem(AUTH_TOKEN_KEY) }}
+              />
             </CurrentUserProvider>
           </ThemeProvider>
         </ApolloProvider>

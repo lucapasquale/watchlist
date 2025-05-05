@@ -1,16 +1,18 @@
 import React from "react";
-import { useQuery } from "@apollo/client";
+import { ApolloError, useQuery } from "@apollo/client";
 
 import { UserProviderDocument, UserProviderQuery } from "~common/graphql-types.js";
 import { AUTH_TOKEN_KEY } from "~common/constants";
 
 type UserProviderState = {
   loading: boolean;
+  error: ApolloError | undefined;
   user: UserProviderQuery["me"] | null;
 };
 
 const UserProviderContext = React.createContext<UserProviderState>({
   loading: true,
+  error: undefined,
   user: null,
 });
 
@@ -19,12 +21,13 @@ type UserProviderProps = {
 };
 
 export function CurrentUserProvider({ children }: UserProviderProps) {
-  const { loading, data } = useQuery(UserProviderDocument, {
+  const { loading, error, data } = useQuery(UserProviderDocument, {
     skip: !localStorage.getItem(AUTH_TOKEN_KEY),
   });
 
   const value = {
     loading,
+    error,
     user: data?.me ?? null,
   };
 

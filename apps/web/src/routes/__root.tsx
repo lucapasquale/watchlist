@@ -1,9 +1,13 @@
 import { Helmet } from "react-helmet-async";
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 
 import { Layout } from "~common/components/layout/index.js";
 
-export const Route = createRootRoute({
+type Context = {
+  hasToken: boolean;
+};
+
+export const Route = createRootRouteWithContext<Context>()({
   component: () => (
     <>
       <Helmet>

@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import { useNavigate } from "@tanstack/react-router";
 
 import { useCurrentUser } from "~common/providers/current-user-provider.js";
 
@@ -6,7 +7,18 @@ import { UserInfo } from "../view/user-info";
 import { UserPlaylists } from "../view/user-playlists";
 
 export function Page() {
-  const { user } = useCurrentUser();
+  const navigate = useNavigate();
+  const { user, error } = useCurrentUser();
+
+  if (error) {
+    navigate({
+      to: "/",
+      reloadDocument: true,
+      search: { signIn: "true", redirect: window.location.href },
+    });
+    return null;
+  }
+
   if (!user) {
     return null;
   }

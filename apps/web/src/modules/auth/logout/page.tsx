@@ -1,18 +1,16 @@
 import React from "react";
 import { useApolloClient } from "@apollo/client";
+import { useNavigate } from "@tanstack/react-router";
 
 export function Page() {
+  const navigate = useNavigate();
   const client = useApolloClient();
 
   React.useEffect(() => {
     client.clearStore();
     localStorage.clear();
 
-    const url = new URL(window.location.href);
-    url.pathname = "/";
-    url.search = new URLSearchParams(window.location.search).toString();
-
-    window.location.href = url.toString();
+    navigate({ to: "/", search: {}, reloadDocument: true });
   }, [client]);
 
   return <main className="h-240" />;

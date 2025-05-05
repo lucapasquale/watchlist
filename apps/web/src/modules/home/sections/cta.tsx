@@ -16,7 +16,7 @@ export function CtaSection() {
           </div>
 
           <div className="flex flex-col gap-2 min-[400px]:flex-row">
-            <Link to="." search={(prev) => ({ ...prev, signup: "true" })}>
+            <Link to="." search={(prev) => ({ ...prev, signIn: "true" })}>
               <Button size="lg" variant="secondary">
                 Get Started For Free
               </Button>
