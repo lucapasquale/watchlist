@@ -22,19 +22,21 @@ import { Google } from "../icons";
 export function Profile() {
   const navigate = useNavigate();
   const location = useLocation();
-  const usp = new URLSearchParams(location.search);
+  const usp = new URLSearchParams(window.location.search);
 
   const { loading, user } = useCurrentUser();
 
-  const [redirectUrl, setRedirectUrl] = React.useState(window.location.href);
+  const redirectUrl = React.useMemo(() => {
+    if (usp.has("redirect")) {
+      return usp.get("redirect")!;
+    }
 
-  React.useEffect(() => {
     const url = new URL(window.location.href);
     url.pathname = location.pathname;
     url.search = location.searchStr;
     url.searchParams.delete("signup");
-
-    setRedirectUrl(url.toString());
+    url.searchParams.delete("redirect");
+    return url.toString();
   }, [location]);
 
   const onOpenChange = (open: boolean) => {
@@ -84,7 +86,7 @@ export function Profile() {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent>
-        <Link to="/u/$userID" className="hover:no-underline" params={{ userID: user.id }}>
+        <Link to="/me" className="hover:no-underline">
           <DropdownMenuItem>My playlists</DropdownMenuItem>
         </Link>
 

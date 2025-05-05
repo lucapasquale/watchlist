@@ -1,6 +1,6 @@
 import React from "react";
 import { Trash } from "lucide-react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
 import {
   AlertDialog,
@@ -17,15 +17,23 @@ import { Button } from "@ui/components/ui/button.js";
 import { Card, CardDescription, CardTitle } from "@ui/components/ui/card.js";
 import { Skeleton } from "@ui/components/ui/skeleton.js";
 
-import { DeletePlaylistDocument, UserViewDocument, UserViewQuery } from "~common/graphql-types.js";
+import {
+  DeletePlaylistDocument,
+  UserPlaylistsDocument,
+  UserViewDocument,
+} from "~common/graphql-types.js";
 
 type Props = {
-  user: UserViewQuery["user"];
+  userID: string;
   isOwner: boolean;
 };
 
-export function UserPlaylists({ user, isOwner }: Props) {
+export function UserPlaylists({ userID, isOwner }: Props) {
   const [open, setOpen] = React.useState(false);
+
+  const { loading, data } = useQuery(UserPlaylistsDocument, {
+    variables: { userID },
+  });
 
   const [deletePlaylist] = useMutation(DeletePlaylistDocument, {
     refetchQueries: [UserViewDocument],
@@ -38,9 +46,13 @@ export function UserPlaylists({ user, isOwner }: Props) {
     setOpen(false);
   };
 
+  if (loading || !data) {
+    return <UserPlaylists.Skeleton />;
+  }
+
   return (
     <ol className="space-y-4">
-      {user.playlists.map((playlist) => (
+      {data.user.playlists.map((playlist) => (
         <Card key={playlist.id} className="flex flex-row items-center justify-between">
           <div className="ml-4">
             <Link to="/p/$playlistID" params={{ playlistID: playlist.id }}>

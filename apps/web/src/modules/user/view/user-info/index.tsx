@@ -11,13 +11,13 @@ import {
 } from "@ui/components/ui/dialog.js";
 import { Skeleton } from "@ui/components/ui/skeleton.js";
 
-import { UserViewQuery } from "~common/graphql-types.js";
+import { UserProviderQuery } from "~common/graphql-types.js";
 
 import { CreateNew } from "./create-new.js";
 import { ImportFromYoutube } from "./import-from-youtube.js";
 
 type Props = {
-  user: UserViewQuery["user"];
+  user: Omit<UserProviderQuery["me"], "__typename">;
   isOwner: boolean;
 };
 

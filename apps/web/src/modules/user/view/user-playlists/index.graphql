@@ -1,0 +1,18 @@
+query UserPlaylists($userID: ID!) {
+  user(id: $userID) {
+    id
+
+    playlists {
+      id
+      name
+      itemsCount
+    }
+  }
+}
+
+
+mutation DeletePlaylist($id: ID!) {
+  deletePlaylist(id: $id) {
+    id
+  }
+}

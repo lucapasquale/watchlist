@@ -1,5 +1,0 @@
-mutation DeletePlaylist($id: ID!) {
-  deletePlaylist(id: $id) {
-    id
-  }
-}

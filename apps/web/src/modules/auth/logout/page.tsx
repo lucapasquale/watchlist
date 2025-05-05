@@ -8,7 +8,11 @@ export function Page() {
     client.clearStore();
     localStorage.clear();
 
-    window.location.pathname = "/";
+    const url = new URL(window.location.href);
+    url.pathname = "/";
+    url.search = new URLSearchParams(window.location.search).toString();
+
+    window.location.href = url.toString();
   }, [client]);
 
   return <main className="h-240" />;

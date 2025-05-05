@@ -37,7 +37,7 @@ export function Page() {
       <main className="container mx-auto px-2 sm:px-0 my-4 grid items-start grid-cols-1 lg:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
         <UserInfo user={data.user} isOwner={isOwner} />
 
-        <UserPlaylists user={data.user} isOwner={isOwner} />
+        <UserPlaylists userID={data.user.id} isOwner={isOwner} />
       </main>
     </>
   );

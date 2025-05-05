@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@apollo/client";
 
 import { UserProviderDocument, UserProviderQuery } from "~common/graphql-types.js";
+import { AUTH_TOKEN_KEY } from "~common/constants";
 
 type UserProviderState = {
   loading: boolean;
@@ -18,7 +19,9 @@ type UserProviderProps = {
 };
 
 export function CurrentUserProvider({ children }: UserProviderProps) {
-  const { loading, data } = useQuery(UserProviderDocument);
+  const { loading, data } = useQuery(UserProviderDocument, {
+    skip: !localStorage.getItem(AUTH_TOKEN_KEY),
+  });
 
   const value = {
     loading,

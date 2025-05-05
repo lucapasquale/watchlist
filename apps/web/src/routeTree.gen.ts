@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as MeImport } from './routes/me'
 import { Route as IndexImport } from './routes/index'
 import { Route as UUserIDImport } from './routes/u/$userID'
 import { Route as AuthLogoutImport } from './routes/auth/logout'
@@ -20,6 +21,12 @@ import { Route as AuthGoogleRedirectImport } from './routes/auth/google/redirect
 import { Route as AuthGoogleLoginImport } from './routes/auth/google/login'
 
 // Create/Update Routes
+
+const MeRoute = MeImport.update({
+  id: '/me',
+  path: '/me',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -74,6 +81,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/me': {
+      id: '/me'
+      path: '/me'
+      fullPath: '/me'
+      preLoaderRoute: typeof MeImport
+      parentRoute: typeof rootRoute
+    }
     '/auth/logout': {
       id: '/auth/logout'
       path: '/auth/logout'
@@ -123,6 +137,7 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/me': typeof MeRoute
   '/auth/logout': typeof AuthLogoutRoute
   '/u/$userID': typeof UUserIDRoute
   '/auth/google/login': typeof AuthGoogleLoginRoute
@@ -133,6 +148,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/me': typeof MeRoute
   '/auth/logout': typeof AuthLogoutRoute
   '/u/$userID': typeof UUserIDRoute
   '/auth/google/login': typeof AuthGoogleLoginRoute
@@ -144,6 +160,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/me': typeof MeRoute
   '/auth/logout': typeof AuthLogoutRoute
   '/u/$userID': typeof UUserIDRoute
   '/auth/google/login': typeof AuthGoogleLoginRoute
@@ -156,6 +173,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/me'
     | '/auth/logout'
     | '/u/$userID'
     | '/auth/google/login'
@@ -165,6 +183,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/me'
     | '/auth/logout'
     | '/u/$userID'
     | '/auth/google/login'
@@ -174,6 +193,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/me'
     | '/auth/logout'
     | '/u/$userID'
     | '/auth/google/login'
@@ -185,6 +205,7 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MeRoute: typeof MeRoute
   AuthLogoutRoute: typeof AuthLogoutRoute
   UUserIDRoute: typeof UUserIDRoute
   AuthGoogleLoginRoute: typeof AuthGoogleLoginRoute
@@ -195,6 +216,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MeRoute: MeRoute,
   AuthLogoutRoute: AuthLogoutRoute,
   UUserIDRoute: UUserIDRoute,
   AuthGoogleLoginRoute: AuthGoogleLoginRoute,
@@ -214,6 +236,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/me",
         "/auth/logout",
         "/u/$userID",
         "/auth/google/login",
@@ -224,6 +247,9 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/me": {
+      "filePath": "me.tsx"
     },
     "/auth/logout": {
       "filePath": "auth/logout.tsx"
