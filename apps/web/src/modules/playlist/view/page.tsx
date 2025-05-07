@@ -7,7 +7,7 @@ import { Route } from "~routes/p/$playlistID/index.js";
 
 import { AddItem } from "./add-item/index.js";
 import { PlaylistInfo } from "./playlist-info/index.js";
-import { SortableItems } from "./sortable-items/index.js";
+import { SortableItems } from "./sortable-items/index2.js";
 
 export function Page() {
   const { playlistID } = Route.useParams();

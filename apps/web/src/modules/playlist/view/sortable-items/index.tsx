@@ -6,7 +6,6 @@ import { Skeleton } from "@ui/components/ui/skeleton.js";
 
 import {
   MovePlaylistItemDocument,
-  PlaylistItemQueueSidebarDocument,
   PlaylistViewDocument,
   PlaylistViewQuery,
 } from "~common/graphql-types.js";
@@ -25,7 +24,7 @@ export function SortableItems({ playlist, isOwner }: Props) {
   const [items, setItems] = React.useState(playlist.items);
 
   const [moveVideo, { loading }] = useMutation(MovePlaylistItemDocument, {
-    refetchQueries: [PlaylistViewDocument, PlaylistItemQueueSidebarDocument],
+    refetchQueries: [PlaylistViewDocument],
     awaitRefetchQueries: true,
   });
 
