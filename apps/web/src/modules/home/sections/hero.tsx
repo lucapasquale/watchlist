@@ -7,8 +7,10 @@ import { Skeleton } from "@ui/components/ui/skeleton";
 import { ArrowRight } from "lucide-react";
 import { Reddit, Youtube } from "~common/components/icons";
 import { HomeHeroPlaylistsDocument, PlaylistItemKind } from "~common/graphql-types";
+import { useCurrentUser } from "~common/providers/current-user-provider";
 
 export function HeroSection() {
+  const { user } = useCurrentUser();
   const { data, loading } = useQuery(HomeHeroPlaylistsDocument);
 
   return (
@@ -27,7 +29,10 @@ export function HeroSection() {
           </div>
 
           <div className="flex flex-col gap-2 min-[400px]:flex-row">
-            <Link to="." search={(prev) => ({ ...prev, signIn: "true" })}>
+            <Link
+              to={user ? "/me" : "."}
+              search={(prev) => ({ ...prev, signIn: user ? undefined : "true" })}
+            >
               <Button size="lg">
                 Get Started <ArrowRight className="ml-2 h-4 w-4" />
               </Button>

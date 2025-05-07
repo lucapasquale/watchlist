@@ -19,7 +19,7 @@ import { UserService } from "./user/user.service.js";
     PassportModule,
     JwtModule.register({
       secret: config.auth.jwtSecret,
-      signOptions: { expiresIn: "3h" },
+      signOptions: { expiresIn: "7d" },
     }),
 
     forwardRef(() => WatchModule),

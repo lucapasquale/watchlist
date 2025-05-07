@@ -1,7 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { Button } from "@ui/components/ui/button";
+import { useCurrentUser } from "~common/providers/current-user-provider";
 
 export function CtaSection() {
+  const { user } = useCurrentUser();
+
   return (
     <section className="w-full flex justify-center py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground">
       <div className="container px-2 sm:mx-auto grid gap-6 lg:gap-12 items-center">
@@ -16,7 +19,10 @@ export function CtaSection() {
           </div>
 
           <div className="flex flex-col gap-2 min-[400px]:flex-row">
-            <Link to="." search={(prev) => ({ ...prev, signIn: "true" })}>
+            <Link
+              to={user ? "/me" : "."}
+              search={(prev) => ({ ...prev, signIn: user ? undefined : "true" })}
+            >
               <Button size="lg" variant="secondary">
                 Get Started For Free
               </Button>
