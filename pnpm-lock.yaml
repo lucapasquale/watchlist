@@ -147,6 +147,9 @@ importers:
       '@atlaskit/pragmatic-drag-and-drop':
         specifier: ^1.6.0
         version: 1.6.0
+      '@atlaskit/pragmatic-drag-and-drop-auto-scroll':
+        specifier: ^2.1.0
+        version: 2.1.0
       '@atlaskit/pragmatic-drag-and-drop-hitbox':
         specifier: ^1.0.3
         version: 1.0.3
@@ -514,6 +517,9 @@ packages:
 
   '@atlaskit/platform-feature-flags@1.1.1':
     resolution: {integrity: sha512-YKuy3RsqCEoNALiMHVma0GGHkzZMSIBsEgZlV/2TPw65QRzOWJvKA3ZIKucmXzr3m7AUqg1XHwXvVlUuNZhUgg==}
+
+  '@atlaskit/pragmatic-drag-and-drop-auto-scroll@2.1.0':
+    resolution: {integrity: sha512-E52y8/0BTTf4ai6BJyFYgdVHFgQ1AES33KvAVQpZ41jMkoukLIq6UoCudOXku7xs3qoPygQdpC+vitVUuEFJXw==}
 
   '@atlaskit/pragmatic-drag-and-drop-hitbox@1.0.3':
     resolution: {integrity: sha512-/Sbu/HqN2VGLYBhnsG7SbRNg98XKkbF6L7XDdBi+izRybfaK1FeMfodPpm/xnBHPJzwYMdkE0qtLyv6afhgMUA==}
@@ -6031,6 +6037,11 @@ snapshots:
       '@babel/runtime': 7.27.0
     transitivePeerDependencies:
       - react
+
+  '@atlaskit/pragmatic-drag-and-drop-auto-scroll@2.1.0':
+    dependencies:
+      '@atlaskit/pragmatic-drag-and-drop': 1.6.0
+      '@babel/runtime': 7.27.0
 
   '@atlaskit/pragmatic-drag-and-drop-hitbox@1.0.3':
     dependencies:

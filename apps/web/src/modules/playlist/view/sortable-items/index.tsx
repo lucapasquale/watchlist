@@ -85,13 +85,13 @@ export function SortableItems({ playlist, isOwner }: Props) {
       itemData={items}
       itemCount={items.length}
       itemSize={ITEM_HEIGHT_PX}
-      innerElementType={innerElementType}
-      height={ITEM_HEIGHT_PX * 7.5}
+      overscanCount={3}
+      height={800}
       width="100%"
+      innerElementType={innerElementType}
     >
       {({ index, style }) => {
         const item = items[index];
-        if (index === 0) console.log(style);
 
         return (
           <PlaylistItem
@@ -112,7 +112,7 @@ export function SortableItems({ playlist, isOwner }: Props) {
 }
 
 const innerElementType = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(
-  ({ ...props }, ref) => <div ref={ref} className="relative top-2" {...props} />,
+  ({ ...props }, ref) => <div ref={ref} className="relative md:top-2 px-2" {...props} />,
 );
 
 SortableItems.Skeleton = () => (

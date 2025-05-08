@@ -14,6 +14,7 @@
   "dependencies": {
     "@apollo/client": "^3.13.8",
     "@atlaskit/pragmatic-drag-and-drop": "^1.6.0",
+    "@atlaskit/pragmatic-drag-and-drop-auto-scroll": "^2.1.0",
     "@atlaskit/pragmatic-drag-and-drop-hitbox": "^1.0.3",
     "@atlaskit/pragmatic-drag-and-drop-react-drop-indicator": "^3.1.0",
     "@hello-pangea/dnd": "^18.0.1",

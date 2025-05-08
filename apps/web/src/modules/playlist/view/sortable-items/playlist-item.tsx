@@ -32,6 +32,7 @@ import { Route } from "~routes/p/$playlistID/index.js";
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
 import { attachClosestEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
 import { DropIndicator } from "@atlaskit/pragmatic-drag-and-drop-react-drop-indicator/box";
+import { autoScrollForElements } from "@atlaskit/pragmatic-drag-and-drop-auto-scroll/element";
 
 type TaskState =
   | { type: "idle" }
@@ -107,6 +108,11 @@ export function PlaylistItem({ index, item, isOwner, onDelete, style }: Props) {
           setState({ type: "idle" });
         },
       }),
+      autoScrollForElements({
+        element,
+        getAllowedAxis: () => "vertical",
+        getConfiguration: () => ({ maxScrollSpeed: "fast" }),
+      }),
     );
   }, [item.id]);
 
@@ -121,8 +127,10 @@ export function PlaylistItem({ index, item, isOwner, onDelete, style }: Props) {
     >
       <div className="flex items-center">
         {isOwner ? (
-          <div className="hidden md:cursor-grab md:flex flex-row items-center self-stretch px-4">
-            <GripVertical ref={handleRef} className="size-4" />
+          <div className="block px-1">
+            <div className="cursor-grab flex flex-row items-center p-2 rounded hover:bg-accent">
+              <GripVertical ref={handleRef} className="size-4" />
+            </div>
           </div>
         ) : (
           <div className="px-4 size-4" />
@@ -144,7 +152,7 @@ export function PlaylistItem({ index, item, isOwner, onDelete, style }: Props) {
                 title={item.title}
                 className="text-sm md:text-xl line-clamp-2 group-hover:underline"
               >
-                {item.id}
+                {item.title}
               </CardTitle>
 
               <CardDescription>{PLAYLIST_ITEM_KIND[item.kind]}</CardDescription>
