@@ -1,5 +1,6 @@
 import React from "react";
 import { useMutation } from "@apollo/client";
+import { FixedSizeList } from "react-window";
 import { Skeleton } from "@ui/components/ui/skeleton.js";
 import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { getReorderDestinationIndex } from "@atlaskit/pragmatic-drag-and-drop-hitbox/util/get-reorder-destination-index";
@@ -16,8 +17,9 @@ import {
   ElementDragType,
 } from "@atlaskit/pragmatic-drag-and-drop/dist/types/internal-types.js";
 import { extractClosestEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
-import { useVirtualizer } from "@tanstack/react-virtual";
 import { reorder } from "@atlaskit/pragmatic-drag-and-drop/reorder";
+
+const ITEM_HEIGHT_PX = 110;
 
 type Props = {
   playlist: PlaylistViewQuery["playlist"];
@@ -25,15 +27,7 @@ type Props = {
 };
 
 export function SortableItems({ playlist, isOwner }: Props) {
-  const parentRef = React.useRef(null);
   const [items, setItems] = React.useState(playlist.items);
-
-  const rowVirtualizer = useVirtualizer({
-    count: items.length,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => 110,
-    gap: 8,
-  });
 
   const [moveVideo] = useMutation(MovePlaylistItemDocument, {
     refetchQueries: [PlaylistViewDocument],
@@ -87,29 +81,39 @@ export function SortableItems({ playlist, isOwner }: Props) {
   }
 
   return (
-    <div ref={parentRef} className="min-h-200 overflow-auto">
-      <ol className={`relative flex flex-col gap-2 h-[${rowVirtualizer.getTotalSize()}px]`}>
-        {rowVirtualizer.getVirtualItems().map((virtualItem) => (
+    <FixedSizeList
+      itemData={items}
+      itemCount={items.length}
+      itemSize={ITEM_HEIGHT_PX}
+      innerElementType={innerElementType}
+      height={ITEM_HEIGHT_PX * 7.5}
+      width="100%"
+    >
+      {({ index, style }) => {
+        const item = items[index];
+        if (index === 0) console.log(style);
+
+        return (
           <PlaylistItem
-            key={virtualItem.key}
-            index={virtualItem.index}
-            item={items[virtualItem.index]}
+            key={item.id}
+            index={index}
+            item={item}
             isOwner={isOwner}
-            onDelete={() => onDelete(virtualItem.index)}
+            onDelete={() => onDelete(index)}
             style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: `${virtualItem.size}px`,
-              transform: `translateY(${virtualItem.start}px)`,
+              ...style,
+              top: parseFloat(style.top as string) + 8 * index,
             }}
           />
-        ))}
-      </ol>
-    </div>
+        );
+      }}
+    </FixedSizeList>
   );
 }
+
+const innerElementType = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(
+  ({ ...props }, ref) => <div ref={ref} className="relative top-2" {...props} />,
+);
 
 SortableItems.Skeleton = () => (
   <section className="w-full h-[975px] overflow-y-scroll flex flex-col gap-2">

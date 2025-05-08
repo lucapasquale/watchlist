@@ -115,7 +115,7 @@ export function PlaylistItem({ index, item, isOwner, onDelete, style }: Props) {
       ref={itemRef}
       style={style}
       className={cn(
-        "relative py-1 flex flex-row items-center justify-between mt-2 gap-1 rounded-xl bg-card list-none",
+        "relative py-1 flex flex-row items-center justify-between gap-1 rounded-xl bg-card list-none",
         state.type === "is-dragging" && "opacity-40",
       )}
     >
