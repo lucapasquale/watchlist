@@ -1,5 +1,5 @@
-import { Helmet } from "react-helmet-async";
 import { useNavigate } from "@tanstack/react-router";
+import { Helmet } from "react-helmet-async";
 
 import { useCurrentUser } from "~common/providers/current-user-provider.js";
 

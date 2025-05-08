@@ -1,6 +1,6 @@
-import React from "react";
 import { useApolloClient } from "@apollo/client";
 import { useNavigate } from "@tanstack/react-router";
+import React from "react";
 
 export function Page() {
   const navigate = useNavigate();

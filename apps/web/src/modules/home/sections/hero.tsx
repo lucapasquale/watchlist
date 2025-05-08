@@ -1,10 +1,12 @@
 import { useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar";
 import { Button } from "@ui/components/ui/button";
 import { Card } from "@ui/components/ui/card";
 import { Skeleton } from "@ui/components/ui/skeleton";
-import { ArrowRight } from "lucide-react";
+
 import { Reddit, Youtube } from "~common/components/icons";
 import { HomeHeroPlaylistsDocument, PlaylistItemKind } from "~common/graphql-types";
 import { useCurrentUser } from "~common/providers/current-user-provider";

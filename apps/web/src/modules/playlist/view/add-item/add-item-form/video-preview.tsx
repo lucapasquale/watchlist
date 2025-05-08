@@ -1,7 +1,8 @@
+import { debounce } from "lodash";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import ReactPlayer from "react-player";
-import { debounce } from "lodash";
+
 import { SliderFormItem } from "@ui/components/form/slider-form-item.js";
 import { Label } from "@ui/components/ui/label.js";
 import { Skeleton } from "@ui/components/ui/skeleton.js";

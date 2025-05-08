@@ -1,5 +1,7 @@
-import React from "react";
 import { Link } from "@tanstack/react-router";
+import { Shuffle } from "lucide-react";
+import React from "react";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar.js";
 import {
   Card,
@@ -14,7 +16,6 @@ import { PlaylistItemViewQuery } from "~common/graphql-types.js";
 import { Route } from "~routes/p/$playlistID/$videoID.js";
 
 import { ItemsList } from "./items-list.js";
-import { Shuffle } from "lucide-react";
 
 type Props = {
   playlist: PlaylistItemViewQuery["playlistItem"]["playlist"];

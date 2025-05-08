@@ -1,13 +1,13 @@
+import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import { HelmetProvider } from "react-helmet-async";
-import { createRouter, RouterProvider } from "@tanstack/react-router";
 
+import { AUTH_TOKEN_KEY } from "~common/constants.js";
 import { ApolloProvider } from "~common/providers/apollo-provider.js";
 import { CurrentUserProvider } from "~common/providers/current-user-provider.js";
 import { ThemeProvider } from "~common/providers/theme-provider.js";
 
 import { routeTree } from "./routeTree.gen.js";
-import { AUTH_TOKEN_KEY } from "~common/constants.js";
 
 const router = createRouter({
   routeTree,

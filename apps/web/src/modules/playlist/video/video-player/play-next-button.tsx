@@ -1,7 +1,8 @@
-import React from "react";
 import { Link } from "@tanstack/react-router";
-import { Button, buttonVariants } from "@ui/components/ui/button";
 import { SkipForward } from "lucide-react";
+import React from "react";
+
+import { Button, buttonVariants } from "@ui/components/ui/button";
 import { cn } from "@ui/lib/utils";
 
 type Props = {

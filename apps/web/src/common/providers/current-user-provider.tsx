@@ -1,8 +1,8 @@
-import React from "react";
 import { ApolloError, useQuery } from "@apollo/client";
+import React from "react";
 
-import { UserProviderDocument, UserProviderQuery } from "~common/graphql-types.js";
 import { AUTH_TOKEN_KEY } from "~common/constants";
+import { UserProviderDocument, UserProviderQuery } from "~common/graphql-types.js";
 
 type UserProviderState = {
   loading: boolean;

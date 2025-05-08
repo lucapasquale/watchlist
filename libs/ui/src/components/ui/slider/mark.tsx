@@ -1,5 +1,5 @@
-import * as React from "react";
 import { cn } from "@workspace/ui/lib/utils";
+import * as React from "react";
 
 const THUMB_SIZE = 20;
 

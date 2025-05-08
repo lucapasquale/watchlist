@@ -1,4 +1,4 @@
-import { ListPlus, Share2, CheckCircle2, Play } from "lucide-react";
+import { CheckCircle2, ListPlus, Play, Share2 } from "lucide-react";
 
 export function FeaturesSection() {
   return (

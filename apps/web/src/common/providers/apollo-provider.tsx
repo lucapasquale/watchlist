@@ -1,4 +1,4 @@
-import { ApolloClient, ApolloProvider as RootApolloProvider, InMemoryCache } from "@apollo/client";
+import { ApolloClient, InMemoryCache, ApolloProvider as RootApolloProvider } from "@apollo/client";
 
 import { API_URL, AUTH_TOKEN_KEY } from "~common/constants.js";
 

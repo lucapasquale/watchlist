@@ -1,9 +1,8 @@
-import * as React from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import { cn } from "@workspace/ui/lib/utils";
+import * as React from "react";
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../tooltip.js";
-
 import { Mark } from "./mark.js";
 
 type SliderProps = React.ComponentProps<typeof SliderPrimitive.Root> & {

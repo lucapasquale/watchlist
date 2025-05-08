@@ -1,9 +1,16 @@
-import React from "react";
 import { useMutation } from "@apollo/client";
-import { FixedSizeList } from "react-window";
-import { Skeleton } from "@ui/components/ui/skeleton.js";
-import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import { extractClosestEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
 import { getReorderDestinationIndex } from "@atlaskit/pragmatic-drag-and-drop-hitbox/util/get-reorder-destination-index";
+import {
+  BaseEventPayload,
+  ElementDragType,
+} from "@atlaskit/pragmatic-drag-and-drop/dist/types/internal-types.js";
+import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import { reorder } from "@atlaskit/pragmatic-drag-and-drop/reorder";
+import React from "react";
+import { FixedSizeList } from "react-window";
+
+import { Skeleton } from "@ui/components/ui/skeleton.js";
 
 import {
   MovePlaylistItemDocument,
@@ -12,12 +19,6 @@ import {
 } from "~common/graphql-types.js";
 
 import { PlaylistItem } from "./playlist-item.js";
-import {
-  BaseEventPayload,
-  ElementDragType,
-} from "@atlaskit/pragmatic-drag-and-drop/dist/types/internal-types.js";
-import { extractClosestEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
-import { reorder } from "@atlaskit/pragmatic-drag-and-drop/reorder";
 
 const ITEM_HEIGHT_PX = 110;
 

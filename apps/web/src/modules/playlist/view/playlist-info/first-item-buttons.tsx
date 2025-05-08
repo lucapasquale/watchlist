@@ -1,7 +1,8 @@
-import React from "react";
-import { Play, Shuffle } from "lucide-react";
 import { useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
+import { Play, Shuffle } from "lucide-react";
+import React from "react";
+
 import { Button } from "@ui/components/ui/button.js";
 import { CardFooter } from "@ui/components/ui/card.js";
 import { Skeleton } from "@ui/components/ui/skeleton.js";

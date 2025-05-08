@@ -1,14 +1,16 @@
+import { Link, useRouter } from "@tanstack/react-router";
+import { LinkIcon } from "lucide-react";
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import ReactPlayer from "react-player/lazy";
-import { LinkIcon } from "lucide-react";
-import { Link, useRouter } from "@tanstack/react-router";
+
 import { Card, CardDescription, CardFooter, CardTitle } from "@ui/components/ui/card.js";
 import { Skeleton } from "@ui/components/ui/skeleton.js";
 
 import { PlaylistItemViewQuery } from "~common/graphql-types.js";
 import { PLAYLIST_ITEM_KIND } from "~common/translations.js";
 import { Route } from "~routes/p/$playlistID/$videoID.js";
+
 import { PlayNextButton } from "./play-next-button";
 
 type Props = {

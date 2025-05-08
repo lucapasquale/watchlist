@@ -1,10 +1,10 @@
 import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 
-import { db } from "./database/index.js";
-import { migrateToLatest } from "./database/migrator.js";
 import { AppModule } from "./app.module.js";
 import { config } from "./config.js";
+import { db } from "./database/index.js";
+import { migrateToLatest } from "./database/migrator.js";
 
 async function bootstrap() {
   await migrateToLatest(db);

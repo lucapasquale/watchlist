@@ -1,7 +1,8 @@
-import React from "react";
-import { Trash } from "lucide-react";
 import { useMutation, useQuery } from "@apollo/client";
 import { Link } from "@tanstack/react-router";
+import { Trash } from "lucide-react";
+import React from "react";
+
 import {
   AlertDialog,
   AlertDialogAction,

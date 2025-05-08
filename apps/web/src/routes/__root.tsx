@@ -1,5 +1,5 @@
+import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { Helmet } from "react-helmet-async";
-import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 
 import { Layout } from "~common/components/layout/index.js";
 

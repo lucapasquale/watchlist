@@ -1,5 +1,6 @@
-import React from "react";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
+import React from "react";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar.js";
 import { Button } from "@ui/components/ui/button.js";
 import {
@@ -17,6 +18,7 @@ import {
 } from "@ui/components/ui/dropdown-menu.js";
 
 import { useCurrentUser } from "~common/providers/current-user-provider.js";
+
 import { Google } from "../icons";
 
 export function Profile() {

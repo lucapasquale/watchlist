@@ -1,5 +1,5 @@
-import { Helmet } from "react-helmet-async";
 import { useQuery } from "@apollo/client";
+import { Helmet } from "react-helmet-async";
 
 import { UserViewDocument } from "~common/graphql-types.js";
 import { useCurrentUser } from "~common/providers/current-user-provider.js";
