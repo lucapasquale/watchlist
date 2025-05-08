@@ -14,9 +14,7 @@ export function Page() {
     variables: { playlistItemID: videoID, shuffleSeed: search.shuffleSeed },
   });
 
-  const t = false;
-
-  if (!data || t) {
+  if (!data) {
     return (
       <main className="container mx-auto px-2 sm:px-0 my-4 flex flex-col xl:flex-row gap-6">
         <VideoPlayer.Skeleton />
@@ -31,7 +29,7 @@ export function Page() {
       <VideoPlayer playlistItem={data.playlistItem} />
 
       <aside>
-        <QueueSidebar />
+        <QueueSidebar playlist={data.playlistItem.playlist} />
       </aside>
     </main>
   );

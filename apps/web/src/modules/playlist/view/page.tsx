@@ -20,7 +20,7 @@ export function Page() {
 
   if (!data) {
     return (
-      <main className="container mx-auto px-2 sm:px-0 grid items-start grid-cols-1 lg:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
+      <main className="container mx-auto px-2 sm:px-0 my-2 grid items-start grid-cols-1 lg:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
         <section className="flex flex-col gap-4">
           <PlaylistInfo.Skeleton />
           <AddItem.Skeleton />
@@ -39,8 +39,8 @@ export function Page() {
         <title>watchlist • {data.playlist.name}</title>
       </Helmet>
 
-      <main className="container mx-auto px-2 sm:px-0 my-4 grid items-start grid-cols-1 lg:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
-        <div className="flex flex-col gap-4">
+      <main className="container mx-auto px-2 sm:px-0 my-2 grid items-start grid-cols-1 lg:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
+        <div className="mt-2 flex flex-col gap-4">
           <PlaylistInfo playlist={data.playlist} isOwner={isOwner} />
 
           {isOwner && <AddItem />}

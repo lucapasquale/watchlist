@@ -10,6 +10,21 @@
     playlist {
       id
       name
+      itemsCount
+
+      user {
+        id
+        name
+        initials
+        profilePictureUrl
+      }
+
+      items(shuffleSeed: $shuffleSeed) {
+        id
+        kind
+        title
+        thumbnailUrl
+      }
     }
 
     nextItem(shuffleSeed: $shuffleSeed) {

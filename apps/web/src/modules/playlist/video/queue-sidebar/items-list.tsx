@@ -3,13 +3,13 @@ import { FixedSizeList } from "react-window";
 import { Link } from "@tanstack/react-router";
 import { cn } from "@workspace/ui/lib/utils";
 
-import { type PlaylistItemQueueSidebarQuery } from "~common/graphql-types.js";
+import { PlaylistItemViewQuery } from "~common/graphql-types.js";
 import { Route } from "~routes/p/$playlistID/$videoID.js";
 
 const ITEM_HEIGHT_PX = 64;
 
 type Props = {
-  playlist: PlaylistItemQueueSidebarQuery["playlist"];
+  playlist: PlaylistItemViewQuery["playlistItem"]["playlist"];
   currentItemIndex: number;
 };
 
