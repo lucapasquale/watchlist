@@ -1,8 +1,8 @@
 import React from "react";
-import { FixedSizeList } from "react-window";
 import { useMutation } from "@apollo/client";
-import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea/dnd";
 import { Skeleton } from "@ui/components/ui/skeleton.js";
+import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import { getReorderDestinationIndex } from "@atlaskit/pragmatic-drag-and-drop-hitbox/util/get-reorder-destination-index";
 
 import {
   MovePlaylistItemDocument,
@@ -11,9 +11,13 @@ import {
 } from "~common/graphql-types.js";
 
 import { PlaylistItem } from "./playlist-item.js";
-import { getMoveInput, reorderList } from "./utils.js";
-
-const ITEM_HEIGHT_PX = 132;
+import {
+  BaseEventPayload,
+  ElementDragType,
+} from "@atlaskit/pragmatic-drag-and-drop/dist/types/internal-types.js";
+import { extractClosestEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
+import { useVirtualizer } from "@tanstack/react-virtual";
+import { reorder } from "@atlaskit/pragmatic-drag-and-drop/reorder";
 
 type Props = {
   playlist: PlaylistViewQuery["playlist"];
@@ -21,81 +25,89 @@ type Props = {
 };
 
 export function SortableItems({ playlist, isOwner }: Props) {
+  const parentRef = React.useRef(null);
   const [items, setItems] = React.useState(playlist.items);
 
-  const [moveVideo, { loading }] = useMutation(MovePlaylistItemDocument, {
+  const rowVirtualizer = useVirtualizer({
+    count: items.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 110,
+    gap: 8,
+  });
+
+  const [moveVideo] = useMutation(MovePlaylistItemDocument, {
     refetchQueries: [PlaylistViewDocument],
     awaitRefetchQueries: true,
   });
 
-  const onDragEnd = async (result: DropResult) => {
-    const moveInput = getMoveInput(items, result);
-    if (!result.destination || !moveInput) {
-      return;
-    }
+  const handleDrop = React.useCallback(
+    async ({ source, location }: BaseEventPayload<ElementDragType>) => {
+      const itemID = source.data.id as string;
+      const startIndex = items.findIndex((i) => i.id === itemID);
+      const indexOfTarget = items.findIndex(
+        (i) => i.id === location.current.dropTargets[0]?.data.id,
+      );
 
-    setItems(reorderList(items, result.source.index, result.destination.index));
-    await moveVideo({ variables: { input: moveInput } });
-  };
+      const closestEdgeOfTarget = extractClosestEdge(location.current.dropTargets[0]?.data);
+      const destinationIndex = getReorderDestinationIndex({
+        startIndex,
+        indexOfTarget,
+        closestEdgeOfTarget,
+        axis: "vertical",
+      });
+
+      if (startIndex === destinationIndex) {
+        return;
+      }
+
+      const sortedItems = reorder({ list: items, startIndex, finishIndex: destinationIndex });
+      setItems(sortedItems);
+
+      const beforeItem = destinationIndex === 0 ? null : sortedItems[destinationIndex - 1];
+      await moveVideo({
+        variables: { input: { id: itemID, beforeID: beforeItem?.id } },
+      });
+    },
+    [items, moveVideo],
+  );
 
   const onDelete = (index: number) => {
     const updatedList = items.filter((_v, idx) => idx !== index);
     setItems(updatedList);
   };
 
+  React.useEffect(() => {
+    return monitorForElements({
+      onDrop: handleDrop,
+    });
+  }, [handleDrop]);
+
   if (items.length === 0) {
     return <h4>No videos added to the playlist</h4>;
   }
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable
-        droppableId="droppable"
-        mode="virtual"
-        renderClone={(provided, snapshot, rubric) => (
+    <div ref={parentRef} className="min-h-200 overflow-auto">
+      <ol className={`relative flex flex-col gap-2 h-[${rowVirtualizer.getTotalSize()}px]`}>
+        {rowVirtualizer.getVirtualItems().map((virtualItem) => (
           <PlaylistItem
+            key={virtualItem.key}
+            index={virtualItem.index}
+            item={items[virtualItem.index]}
             isOwner={isOwner}
-            provided={provided}
-            isDragging={snapshot.isDragging}
-            item={items[rubric.source.index]!}
-          />
-        )}
-      >
-        {(provided) => (
-          <FixedSizeList
-            itemData={items}
-            itemCount={items.length}
-            itemSize={ITEM_HEIGHT_PX}
-            height={ITEM_HEIGHT_PX * 7.5}
-            width="100%"
-            outerRef={provided.innerRef}
-          >
-            {({ index, style }) => {
-              const item = items[index]!;
-
-              return (
-                <Draggable
-                  key={item.id}
-                  draggableId={item.id}
-                  index={index}
-                  isDragDisabled={!isOwner || loading}
-                >
-                  {(provided) => (
-                    <PlaylistItem
-                      provided={provided}
-                      item={item}
-                      style={style}
-                      isOwner={isOwner}
-                      onDelete={() => onDelete(index)}
-                    />
-                  )}
-                </Draggable>
-              );
+            onDelete={() => onDelete(virtualItem.index)}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: `${virtualItem.size}px`,
+              transform: `translateY(${virtualItem.start}px)`,
             }}
-          </FixedSizeList>
-        )}
-      </Droppable>
-    </DragDropContext>
+          />
+        ))}
+      </ol>
+    </div>
   );
 }
 

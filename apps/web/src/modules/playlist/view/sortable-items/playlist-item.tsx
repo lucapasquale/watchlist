@@ -20,7 +20,7 @@ import {
   draggable,
   dropTargetForElements,
 } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { Edge, extractClosestEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge"; // NEW
+import { Edge, extractClosestEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
 
 import {
   DeletePlaylistItemDocument,
@@ -44,12 +44,15 @@ type Props = {
   item: PlaylistViewQuery["playlist"]["items"][number];
   isOwner: boolean;
   onDelete?: () => void;
+  style?: React.CSSProperties;
 };
 
-export function PlaylistItem({ index, item, isOwner, onDelete }: Props) {
+export function PlaylistItem({ index, item, isOwner, onDelete, style }: Props) {
   const { playlistID } = Route.useParams();
 
   const itemRef = React.useRef(null);
+  const handleRef = React.useRef(null);
+
   const [open, setOpen] = React.useState(false);
   const [state, setState] = React.useState<TaskState>({ type: "idle" });
 
@@ -67,13 +70,15 @@ export function PlaylistItem({ index, item, isOwner, onDelete }: Props) {
 
   React.useEffect(() => {
     const element = itemRef.current;
-    if (!element) {
+    const dragHandle = handleRef.current;
+    if (!element || !dragHandle) {
       return;
     }
 
     return combine(
       draggable({
         element,
+        dragHandle,
         getInitialData: () => ({ id: item.id, index }),
         onDragStart: () => setState({ type: "is-dragging" }),
         onDrop: () => setState({ type: "idle" }),
@@ -108,15 +113,16 @@ export function PlaylistItem({ index, item, isOwner, onDelete }: Props) {
   return (
     <Card
       ref={itemRef}
+      style={style}
       className={cn(
-        "relative flex flex-row items-center justify-between gap-1 rounded-xl bg-card list-none",
+        "relative py-1 flex flex-row items-center justify-between mt-2 gap-1 rounded-xl bg-card list-none",
         state.type === "is-dragging" && "opacity-40",
       )}
     >
       <div className="flex items-center">
         {isOwner ? (
-          <div className="hidden md:flex flex-row items-center self-stretch px-4">
-            <GripVertical className="size-4" />
+          <div className="hidden md:cursor-grab md:flex flex-row items-center self-stretch px-4">
+            <GripVertical ref={handleRef} className="size-4" />
           </div>
         ) : (
           <div className="px-4 size-4" />

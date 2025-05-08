@@ -7,7 +7,7 @@ import { Route } from "~routes/p/$playlistID/index.js";
 
 import { AddItem } from "./add-item/index.js";
 import { PlaylistInfo } from "./playlist-info/index.js";
-import { SortableItems } from "./sortable-items/index2.js";
+import { SortableItems } from "./sortable-items/index.js";
 
 export function Page() {
   const { playlistID } = Route.useParams();
@@ -40,7 +40,7 @@ export function Page() {
       </Helmet>
 
       <main className="container mx-auto px-2 sm:px-0 my-4 grid items-start grid-cols-1 lg:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
-        <div className="flex flex-col gap-4">
+        <div className="mt-2 flex flex-col gap-4">
           <PlaylistInfo playlist={data.playlist} isOwner={isOwner} />
 
           {isOwner && <AddItem />}
