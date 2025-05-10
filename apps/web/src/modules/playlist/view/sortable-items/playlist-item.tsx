@@ -129,7 +129,7 @@ export function PlaylistItem({ index, item, isOwner, onDelete, style }: Props) {
       <div className="flex items-center">
         {isOwner ? (
           <div className="block px-1">
-            <div className="hover:bg-accent flex cursor-grab flex-row items-center rounded p-2">
+            <div className="hover:bg-accent hidden cursor-grab flex-row items-center rounded p-2 md:flex">
               <GripVertical ref={handleRef} className="size-4" />
             </div>
           </div>
