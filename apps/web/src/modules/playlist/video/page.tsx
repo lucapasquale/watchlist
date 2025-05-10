@@ -12,6 +12,7 @@ export function Page() {
 
   const { data } = useQuery(PlaylistItemViewDocument, {
     variables: { playlistItemID: videoID, shuffleSeed: search.shuffleSeed },
+    fetchPolicy: "cache-and-network",
   });
 
   if (!data) {

@@ -1,4 +1,5 @@
 import { useQuery } from "@apollo/client";
+import React from "react";
 import { Helmet } from "react-helmet-async";
 
 import { PlaylistViewDocument } from "~common/graphql-types.js";
@@ -11,10 +12,13 @@ import { SortableItems } from "./sortable-items/index.js";
 
 export function Page() {
   const { playlistID } = Route.useParams();
+  const shuffleSeed = React.useRef(Date.now().toString());
+  console.log({ shuffleSeed: shuffleSeed.current ?? "" });
+
   const { user } = useCurrentUser();
 
   const { data } = useQuery(PlaylistViewDocument, {
-    variables: { playlistID },
+    variables: { playlistID, shuffleSeed: shuffleSeed.current },
     notifyOnNetworkStatusChange: true,
   });
 
@@ -41,7 +45,11 @@ export function Page() {
 
       <main className="container mx-auto my-2 grid grid-cols-1 items-start gap-6 px-2 sm:px-0 lg:grid-cols-[minmax(min(350px,100%),_1fr)_3fr]">
         <div className="mt-2 flex flex-col gap-4">
-          <PlaylistInfo playlist={data.playlist} isOwner={isOwner} />
+          <PlaylistInfo
+            playlist={data.playlist}
+            shuffleSeed={shuffleSeed.current}
+            isOwner={isOwner}
+          />
 
           {isOwner && <AddItem />}
         </div>

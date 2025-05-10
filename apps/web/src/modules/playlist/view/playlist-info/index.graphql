@@ -1,13 +1,3 @@
-query PlaylistViewShuffleFirstItem($playlistID: ID!, $shuffleSeed: String!) {
-  playlist(id: $playlistID) {
-    id
-
-    shuffleFirstItem: firstItem(shuffleSeed: $shuffleSeed) {
-      id
-    }
-  }
-}
-
 mutation UpdatePlaylist($input: UpdatePlaylistInput!) {
   updatePlaylist(input: $input) {
     id

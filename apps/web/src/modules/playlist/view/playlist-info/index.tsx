@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { cn } from "@workspace/ui/lib/utils";
-import { Pencil } from "lucide-react";
+import { Pencil, Play, Shuffle } from "lucide-react";
 import React from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar.js";
@@ -9,6 +9,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@ui/components/ui/card.js";
@@ -17,14 +18,14 @@ import { Skeleton } from "@ui/components/ui/skeleton.js";
 import { PlaylistViewQuery } from "~common/graphql-types.js";
 
 import { EditPlaylistForm } from "./edit-playlist-form.js";
-import { FirstItemButtons } from "./first-item-buttons.js";
 
 type Props = {
   playlist: PlaylistViewQuery["playlist"];
+  shuffleSeed: string;
   isOwner: boolean;
 };
 
-export function PlaylistInfo({ playlist, isOwner }: Props) {
+export function PlaylistInfo({ playlist, shuffleSeed, isOwner }: Props) {
   const [isEditing, setIsEditing] = React.useState(false);
 
   if (isEditing) {
@@ -77,7 +78,35 @@ export function PlaylistInfo({ playlist, isOwner }: Props) {
         </span>
       </CardContent>
 
-      <FirstItemButtons playlist={playlist} />
+      <CardFooter className="flex items-center justify-between gap-4">
+        {playlist.shuffleFirstItem && (
+          <Link
+            to="/p/$playlistID/$videoID"
+            params={{
+              playlistID: playlist.id,
+              videoID: playlist.shuffleFirstItem.id,
+            }}
+            search={{ shuffleSeed }}
+            className="w-full"
+          >
+            <Button tabIndex={-1} variant="secondary" className="w-full">
+              Shuffle <Shuffle className="size-4" />
+            </Button>
+          </Link>
+        )}
+
+        {playlist.firstItem && (
+          <Link
+            to="/p/$playlistID/$videoID"
+            params={{ playlistID: playlist.id, videoID: playlist.firstItem.id }}
+            className="w-full"
+          >
+            <Button tabIndex={-1} className="w-full">
+              Play <Play className="size-4" />
+            </Button>
+          </Link>
+        )}
+      </CardFooter>
     </Card>
   );
 }
