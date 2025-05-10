@@ -31,7 +31,7 @@ export function ItemsList({ playlist, currentItemIndex }: Props) {
       ref={parentRef}
       itemCount={playlist.items.length}
       itemSize={ITEM_HEIGHT_PX}
-      height={640}
+      height={650}
       width="100%"
     >
       {({ index, style }) => {

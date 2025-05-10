@@ -14,10 +14,11 @@ import { Route } from "~routes/p/$playlistID/$videoID.js";
 import { PlayNextButton } from "./play-next-button";
 
 type Props = {
+  ref?: React.Ref<HTMLElement>;
   playlistItem: PlaylistItemViewQuery["playlistItem"];
 };
 
-export function VideoPlayer({ playlistItem }: Props) {
+export function VideoPlayer({ playlistItem, ref }: Props) {
   const router = useRouter();
   const navigate = Route.useNavigate();
 
@@ -71,18 +72,20 @@ export function VideoPlayer({ playlistItem }: Props) {
         </title>
       </Helmet>
 
-      <section className="flex w-full flex-col items-center gap-6">
-        <ReactPlayer
-          key={playlistItem.id}
-          playing
-          controls
-          width="100%"
-          height="100%"
-          url={playlistItem.url}
-          onError={onError}
-          onEnded={navigateToNextVideo}
-          style={{ aspectRatio: "16 / 9", width: "100%", maxWidth: "912px", maxHeight: "619px" }}
-        />
+      <section ref={ref} className="z-10 flex h-auto w-full flex-col items-center gap-4">
+        <div className="sticky top-[106px] flex max-h-[912px] w-full justify-center sm:static">
+          <ReactPlayer
+            key={playlistItem.id}
+            playing
+            controls
+            width="100%"
+            height="100%"
+            url={playlistItem.url}
+            onError={onError}
+            onEnded={navigateToNextVideo}
+            style={{ aspectRatio: "16 / 9", width: "100%" }}
+          />
+        </div>
 
         <Card className="bg-card flex w-full flex-row items-center justify-between gap-1 rounded-xl">
           <div className="ml-6">
