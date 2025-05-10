@@ -72,7 +72,7 @@ export function PlaylistInfo({ playlist, isOwner }: Props) {
           {playlist.itemsCount} video{playlist.itemsCount === 1 ? "" : "s"}
         </div>
 
-        <span className="text-xs text-muted-foreground">
+        <span className="text-muted-foreground text-xs">
           Created on {new Date(playlist.createdAt).toLocaleDateString("en-US")}
         </span>
       </CardContent>

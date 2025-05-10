@@ -29,7 +29,7 @@ export function Page() {
         <title>watchlist • {user.name}</title>
       </Helmet>
 
-      <main className="container mx-auto px-2 sm:px-0 my-4 grid items-start grid-cols-1 lg:grid-cols-[minmax(min(350px,100%),_1fr)_3fr] gap-6">
+      <main className="container mx-auto my-4 grid grid-cols-1 items-start gap-6 px-2 sm:px-0 lg:grid-cols-[minmax(min(350px,100%),_1fr)_3fr]">
         <UserInfo user={user} isOwner />
 
         <UserPlaylists userID={user.id} isOwner />

@@ -26,7 +26,7 @@ export function UserInfo({ user, isOwner }: Props) {
   const [createState, setCreateState] = React.useState<null | "new" | "youtube">(null);
 
   return (
-    <Card className="rounded-xl flex flex-col gap-4 bg-card">
+    <Card className="bg-card flex flex-col gap-4 rounded-xl">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Avatar className="size-6">

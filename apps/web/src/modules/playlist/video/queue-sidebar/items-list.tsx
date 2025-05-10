@@ -43,7 +43,7 @@ export function ItemsList({ playlist, currentItemIndex }: Props) {
             key={item.id}
             style={style}
             className={cn(
-              "absolute top-0 left-0 w-full px-2 py-1 hover:bg-primary/70 list-none",
+              "hover:bg-primary/70 absolute left-0 top-0 w-full list-none px-2 py-1",
               isActive && "bg-primary",
             )}
           >
@@ -56,9 +56,9 @@ export function ItemsList({ playlist, currentItemIndex }: Props) {
               }}
               className="flex items-center gap-3 hover:no-underline"
             >
-              <p className="text-xs text-center min-w-[26px]">{index + 1}</p>
+              <p className="min-w-[26px] text-center text-xs">{index + 1}</p>
 
-              <img src={item.thumbnailUrl} className="w-[100px] h-[56px] aspect-video rounded-md" />
+              <img src={item.thumbnailUrl} className="aspect-video h-[56px] w-[100px] rounded-md" />
 
               <h1 title={item.title} className={cn("line-clamp-2", isActive && "font-bold")}>
                 {item.title}

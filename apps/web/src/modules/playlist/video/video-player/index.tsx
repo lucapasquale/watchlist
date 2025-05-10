@@ -71,7 +71,7 @@ export function VideoPlayer({ playlistItem }: Props) {
         </title>
       </Helmet>
 
-      <section className="w-full flex flex-col items-center gap-6">
+      <section className="flex w-full flex-col items-center gap-6">
         <ReactPlayer
           key={playlistItem.id}
           playing
@@ -84,14 +84,14 @@ export function VideoPlayer({ playlistItem }: Props) {
           style={{ aspectRatio: "16 / 9", width: "100%", maxWidth: "912px", maxHeight: "619px" }}
         />
 
-        <Card className="w-full flex flex-row items-center justify-between gap-1 rounded-xl bg-card">
+        <Card className="bg-card flex w-full flex-row items-center justify-between gap-1 rounded-xl">
           <div className="ml-6">
             <CardTitle>
               <Link target="_blank" rel="noopener noreferrer" to={playlistItem.rawUrl}>
                 <h1 className="text-lg md:text-2xl">
                   {playlistItem.title}
 
-                  <LinkIcon className="inline size-4 ml-2" />
+                  <LinkIcon className="ml-2 inline size-4" />
                 </h1>
               </Link>
             </CardTitle>

@@ -122,36 +122,36 @@ export function PlaylistItem({ index, item, isOwner, onDelete, style }: Props) {
       ref={itemRef}
       style={style}
       className={cn(
-        "relative py-1 flex flex-row items-center justify-between gap-1 rounded-xl bg-card list-none",
+        "bg-card relative flex list-none flex-row items-center justify-between gap-1 rounded-xl py-1",
         state.type === "is-dragging" && "opacity-40",
       )}
     >
       <div className="flex items-center">
         {isOwner ? (
           <div className="block px-1">
-            <div className="cursor-grab flex flex-row items-center p-2 rounded hover:bg-accent">
+            <div className="hover:bg-accent flex cursor-grab flex-row items-center rounded p-2">
               <GripVertical ref={handleRef} className="size-4" />
             </div>
           </div>
         ) : (
-          <div className="px-4 size-4" />
+          <div className="size-4 px-4" />
         )}
 
         <div className="p-0">
           <Link
             to="/p/$playlistID/$videoID"
             params={{ playlistID, videoID: item.id }}
-            className="group flex items-start md:items-center gap-4 flex-1 basis-0 hover:no-underline"
+            className="group flex flex-1 basis-0 items-start gap-4 hover:no-underline md:items-center"
           >
             <img
               src={item.thumbnailUrl}
-              className="aspect-video min-w-[160px] min-h-[90px] basis-0 rounded-md"
+              className="aspect-video min-h-[90px] min-w-[160px] basis-0 rounded-md"
             />
 
             <div className="flex flex-col gap-0.5">
               <CardTitle
                 title={item.title}
-                className="text-sm md:text-xl line-clamp-2 group-hover:underline"
+                className="line-clamp-2 text-sm group-hover:underline md:text-xl"
               >
                 {item.title}
               </CardTitle>
@@ -167,7 +167,7 @@ export function PlaylistItem({ index, item, isOwner, onDelete, style }: Props) {
           <AlertDialogTrigger asChild>
             <Button
               variant="ghost"
-              className="mr-4 text-primary-foreground hover:!bg-destructive/20"
+              className="text-primary-foreground hover:!bg-destructive/20 mr-4"
             >
               <Trash className="size-4" />
             </Button>

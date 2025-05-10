@@ -46,7 +46,7 @@ export function ImportFromYoutube() {
         <form
           id="playlist-from-youtube"
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full flex flex-col items-center gap-4"
+          className="flex w-full flex-col items-center gap-4"
         >
           <InputFormItem
             control={form.control}

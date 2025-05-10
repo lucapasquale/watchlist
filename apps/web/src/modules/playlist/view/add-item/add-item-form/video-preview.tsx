@@ -41,7 +41,7 @@ export function VideoPreview({ loading }: Props) {
   }, 500);
 
   if (loading) {
-    return <Skeleton className="w-full h-[325px]" />;
+    return <Skeleton className="h-[325px] w-full" />;
   }
 
   if (!videoInfo || !previewUrl) {
@@ -50,10 +50,10 @@ export function VideoPreview({ loading }: Props) {
 
   return (
     <>
-      <div className="w-full flex flex-col">
+      <div className="flex w-full flex-col">
         <Label>Preview</Label>
 
-        <div className="aspect-video mt-2 max-h-[310px]">
+        <div className="mt-2 aspect-video max-h-[310px]">
           <ReactPlayer controls url={previewUrl} width="100%" height="100%" />
         </div>
       </div>

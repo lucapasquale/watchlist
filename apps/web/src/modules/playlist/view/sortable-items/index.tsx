@@ -113,18 +113,18 @@ export function SortableItems({ playlist, isOwner }: Props) {
 }
 
 const innerElementType = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(
-  ({ ...props }, ref) => <div ref={ref} className="relative md:top-2 px-2" {...props} />,
+  ({ ...props }, ref) => <div ref={ref} className="relative px-2 md:top-2" {...props} />,
 );
 
 SortableItems.Skeleton = () => (
-  <section className="w-full h-[975px] overflow-y-scroll flex flex-col gap-2">
-    <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
-    <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
-    <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
-    <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
-    <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
-    <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
-    <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
-    <Skeleton className="h-[122px] bg-card flex-none rounded-xl" />
+  <section className="flex h-[975px] w-full flex-col gap-2 overflow-y-scroll">
+    <Skeleton className="bg-card h-[122px] flex-none rounded-xl" />
+    <Skeleton className="bg-card h-[122px] flex-none rounded-xl" />
+    <Skeleton className="bg-card h-[122px] flex-none rounded-xl" />
+    <Skeleton className="bg-card h-[122px] flex-none rounded-xl" />
+    <Skeleton className="bg-card h-[122px] flex-none rounded-xl" />
+    <Skeleton className="bg-card h-[122px] flex-none rounded-xl" />
+    <Skeleton className="bg-card h-[122px] flex-none rounded-xl" />
+    <Skeleton className="bg-card h-[122px] flex-none rounded-xl" />
   </section>
 );

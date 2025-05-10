@@ -47,7 +47,7 @@ export function CreateNew() {
         <form
           id="create-playlist"
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full flex flex-col items-center gap-4"
+          className="flex w-full flex-col items-center gap-4"
         >
           <InputFormItem
             autoComplete="off"

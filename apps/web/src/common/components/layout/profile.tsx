@@ -64,7 +64,7 @@ export function Profile() {
 
           <Link to="/auth/google/login" search={{ redirectUrl }} className="py-12">
             <Button variant="outline" className="w-full">
-              <Google className="size-4 mr-2" />
+              <Google className="mr-2 size-4" />
               Sign in with Google
             </Button>
           </Link>

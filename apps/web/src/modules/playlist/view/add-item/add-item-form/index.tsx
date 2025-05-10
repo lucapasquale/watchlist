@@ -105,7 +105,7 @@ export function AddItemForm({ onAdd }: Props) {
         <form
           id="add-playlist-item"
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full flex flex-col items-center gap-4"
+          className="flex w-full flex-col items-center gap-4"
         >
           <InputFormItem
             disabled={urlLoading}

@@ -45,7 +45,7 @@ export function EditPlaylistForm({ playlist, onClose }: Props) {
       <form
         id="update-playlist"
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full flex flex-col items-center gap-4"
+        className="flex w-full flex-col items-center gap-4"
       >
         <InputFormItem
           autoFocus
@@ -71,7 +71,7 @@ export function EditPlaylistForm({ playlist, onClose }: Props) {
           </SelectContent>
         </SelectFormItem>
 
-        <div className="flex flex-row items-center self-end gap-2">
+        <div className="flex flex-row items-center gap-2 self-end">
           <Button variant="outline" onClick={onClose}>
             Cancel
           </Button>

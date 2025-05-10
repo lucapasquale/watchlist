@@ -30,7 +30,7 @@ export function SliderFormItem<FormValue extends FieldValues>({
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="grow w-full">
+        <FormItem className="w-full grow">
           <FormLabel htmlFor={name}>{label}</FormLabel>
 
           <FormControl>

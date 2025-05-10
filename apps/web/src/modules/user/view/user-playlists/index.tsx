@@ -68,7 +68,7 @@ export function UserPlaylists({ userID, isOwner }: Props) {
           {isOwner && (
             <AlertDialog open={open} onOpenChange={setOpen}>
               <AlertDialogTrigger asChild>
-                <Button variant="ghost" className="mr-4 hover:!bg-destructive/20">
+                <Button variant="ghost" className="hover:!bg-destructive/20 mr-4">
                   <Trash className="size-4" />
                 </Button>
               </AlertDialogTrigger>
@@ -95,9 +95,9 @@ export function UserPlaylists({ userID, isOwner }: Props) {
 }
 
 UserPlaylists.Skeleton = () => (
-  <section className="w-full h-[975px] overflow-y-scroll flex flex-col gap-2">
-    <Skeleton className="h-[98px] bg-card flex-none rounded-xl" />
-    <Skeleton className="h-[98px] bg-card flex-none rounded-xl" />
-    <Skeleton className="h-[98px] bg-card flex-none rounded-xl" />
+  <section className="flex h-[975px] w-full flex-col gap-2 overflow-y-scroll">
+    <Skeleton className="bg-card h-[98px] flex-none rounded-xl" />
+    <Skeleton className="bg-card h-[98px] flex-none rounded-xl" />
+    <Skeleton className="bg-card h-[98px] flex-none rounded-xl" />
   </section>
 );

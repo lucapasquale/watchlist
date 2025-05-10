@@ -43,13 +43,13 @@ export function PlayNextButton({ playlistID, nextItemID, failedToLoad }: Props) 
         disabled={!nextItemID}
         data-skip={failedToLoad}
         // https://emilkowal.ski/ui/building-a-hold-to-delete-component
-        className="relative enabled:data-[skip=true]:bg-red-300 enabled:data-[skip=true]:*:aria-hidden:[transition:clip-path_2s_linear] enabled:data-[skip=true]:*:aria-hidden:[clip-path:inset(0px_0px_0px_0px)]"
+        className="relative enabled:data-[skip=true]:bg-red-300 enabled:data-[skip=true]:*:aria-hidden:[clip-path:inset(0px_0px_0px_0px)] enabled:data-[skip=true]:*:aria-hidden:[transition:clip-path_2s_linear]"
       >
         <div
           aria-hidden="true"
           ref={insetButtonRef}
           className={cn(
-            "absolute top-0 left-0 w-full h-full [transition:clip-path_0ms_ease-out] [clip-path:inset(0px_100%_0px_0px)]",
+            "absolute left-0 top-0 h-full w-full [clip-path:inset(0px_100%_0px_0px)] [transition:clip-path_0ms_ease-out]",
             buttonVariants({ variant: "default", size: "default" }),
           )}
         >

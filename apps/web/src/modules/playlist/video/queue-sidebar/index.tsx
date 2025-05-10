@@ -30,7 +30,7 @@ export function QueueSidebar({ playlist }: Props) {
   }, [playlist, videoID]);
 
   return (
-    <Card className="flex flex-col bg-card w-full xl:min-w-[400px] xl:w-[400px] xl:max-h-[753px]">
+    <Card className="bg-card flex w-full flex-col xl:max-h-[753px] xl:w-[400px] xl:min-w-[400px]">
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <Link
@@ -42,7 +42,7 @@ export function QueueSidebar({ playlist }: Props) {
           </Link>
 
           {search.shuffleSeed && (
-            <div className="text-base font-normal bg-foreground text-black rounded-lg p-2">
+            <div className="bg-foreground rounded-lg p-2 text-base font-normal text-black">
               <Shuffle className="size-4" />
             </div>
           )}
@@ -67,4 +67,4 @@ export function QueueSidebar({ playlist }: Props) {
   );
 }
 
-QueueSidebar.Skeleton = () => <Skeleton className="w-[400px] h-[753px]" />;
+QueueSidebar.Skeleton = () => <Skeleton className="h-[753px] w-[400px]" />;

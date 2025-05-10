@@ -16,15 +16,15 @@ export function HeroSection() {
   const { data, loading } = useQuery(HomeHeroPlaylistsDocument);
 
   return (
-    <section className="w-full flex justify-center py-12 md:py-24 lg:py-32 bg-muted/50 ">
-      <div className="container px-2 sm:mx-auto grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
+    <section className="bg-muted/50 flex w-full justify-center py-12 md:py-24 lg:py-32">
+      <div className="container grid items-center gap-6 px-2 sm:mx-auto lg:grid-cols-2 lg:gap-12">
         <article className="flex flex-col justify-center space-y-4">
           <div className="space-y-2">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
               Create Video Playlists From Anywhere
             </h1>
 
-            <p className="max-w-[600px] text-muted-foreground md:text-xl">
+            <p className="text-muted-foreground max-w-[600px] md:text-xl">
               Combine videos from YouTube, Reddit, and more into custom playlists. Share with
               friends or keep them private.
             </p>
@@ -53,9 +53,9 @@ export function HeroSection() {
 
           {loading && (
             <>
-              <Skeleton className="h-24 w-full rounded-lg border bg-card shadow-sm" />
-              <Skeleton className="h-24 w-full rounded-lg border bg-card shadow-sm" />
-              <Skeleton className="h-24 w-full rounded-lg border bg-card shadow-sm" />
+              <Skeleton className="bg-card h-24 w-full rounded-lg border shadow-sm" />
+              <Skeleton className="bg-card h-24 w-full rounded-lg border shadow-sm" />
+              <Skeleton className="bg-card h-24 w-full rounded-lg border shadow-sm" />
             </>
           )}
 
@@ -67,8 +67,8 @@ export function HeroSection() {
                 className="group hover:no-underline"
               >
                 <div className="px-4">
-                  <div className="flex items-center justify-between mb-2 group-hover:underline">
-                    <h3 className="font-bold text-lg">{playlist.name}</h3>
+                  <div className="mb-2 flex items-center justify-between group-hover:underline">
+                    <h3 className="text-lg font-bold">{playlist.name}</h3>
 
                     <Avatar>
                       <AvatarImage src={playlist.user.profilePictureUrl ?? undefined} />
@@ -82,14 +82,14 @@ export function HeroSection() {
                         const Icon = kind === PlaylistItemKind.Youtube ? Youtube : Reddit;
 
                         return (
-                          <div key={kind} className="rounded-full bg-primary/10 p-1">
-                            {Icon && <Icon className="size-4 text-primary" />}
+                          <div key={kind} className="bg-primary/10 rounded-full p-1">
+                            {Icon && <Icon className="text-primary size-4" />}
                           </div>
                         );
                       })}
                     </div>
 
-                    <span className="text-sm text-muted-foreground">
+                    <span className="text-muted-foreground text-sm">
                       {playlist.itemsCount} videos
                     </span>
                   </div>

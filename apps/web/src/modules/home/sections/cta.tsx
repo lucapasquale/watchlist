@@ -8,8 +8,8 @@ export function CtaSection() {
   const { user } = useCurrentUser();
 
   return (
-    <section className="w-full flex justify-center py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground">
-      <div className="container px-2 sm:mx-auto grid gap-6 lg:gap-12 items-center">
+    <section className="bg-primary text-primary-foreground flex w-full justify-center py-12 md:py-24 lg:py-32">
+      <div className="container grid items-center gap-6 px-2 sm:mx-auto lg:gap-12">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
