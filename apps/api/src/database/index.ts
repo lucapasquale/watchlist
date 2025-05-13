@@ -3,7 +3,7 @@ import pg from "pg";
 
 import { config } from "../config.js";
 import { CredentialTable } from "../modules/auth/credential/credential.model.js";
-import { UserTable } from "../modules/auth/user/user.model.js";
+import { UserTable } from "../modules/user/user.model.js";
 import { PlaylistItemTable } from "../modules/watch/playlist-item/playlist-item.model.js";
 import { PlaylistTable } from "../modules/watch/playlist/playlist.model.js";
 

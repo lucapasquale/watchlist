@@ -1,8 +1,8 @@
-import type { Request as Req } from "express";
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+import type { Request as Req } from "express";
 
-import { User } from "../user/user.model.js";
+import { User } from "../../user/user.model.js";
 
 @Injectable()
 export class AuthenticationService {

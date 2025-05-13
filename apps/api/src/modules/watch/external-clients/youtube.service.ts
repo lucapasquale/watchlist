@@ -1,8 +1,7 @@
-import axios, { AxiosInstance } from "axios";
 import { Injectable } from "@nestjs/common";
+import axios, { AxiosInstance } from "axios";
 
 import { config } from "../../../config.js";
-
 import { UrlOptions } from "./external-clients.service.js";
 
 @Injectable()

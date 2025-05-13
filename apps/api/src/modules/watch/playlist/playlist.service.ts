@@ -1,8 +1,7 @@
-import DataLoader from "dataloader";
 import { Injectable } from "@nestjs/common";
+import DataLoader from "dataloader";
 
 import { db } from "../../../database/index.js";
-
 import type { Playlist, PlaylistInsert, PlaylistUpdate } from "./playlist.model.js";
 
 @Injectable()

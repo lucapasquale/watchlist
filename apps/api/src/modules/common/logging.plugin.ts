@@ -1,4 +1,3 @@
-import { inspect } from "node:util";
 import {
   ApolloServerPlugin,
   BaseContext,
@@ -7,6 +6,7 @@ import {
 } from "@apollo/server";
 import { Plugin } from "@nestjs/apollo";
 import { Logger } from "@nestjs/common";
+import { inspect } from "node:util";
 
 const ALLOWED_ERRORS = ["Unauthorized", "Invalid URL"];
 

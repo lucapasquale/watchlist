@@ -1,12 +1,12 @@
-import DataLoader from "dataloader";
 import { Injectable } from "@nestjs/common";
+import DataLoader from "dataloader";
 
-import { User } from "../auth/user/user.model.js";
-import { UserService } from "../auth/user/user.service.js";
-import { Playlist } from "../watch/playlist/playlist.model.js";
-import { PlaylistService } from "../watch/playlist/playlist.service.js";
+import { User } from "../user/user.model.js";
+import { UserService } from "../user/user.service.js";
 import { PlaylistItem } from "../watch/playlist-item/playlist-item.model.js";
 import { PlaylistItemService } from "../watch/playlist-item/playlist-item.service.js";
+import { Playlist } from "../watch/playlist/playlist.model.js";
+import { PlaylistService } from "../watch/playlist/playlist.service.js";
 
 export type Loaders = ReturnType<DataLoaderService["generateLoaders"]>;
 

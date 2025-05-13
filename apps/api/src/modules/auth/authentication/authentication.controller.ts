@@ -1,8 +1,7 @@
-import type { Request as Req } from "express";
 import { Controller, Get, Redirect, Request, UseGuards } from "@nestjs/common";
+import type { Request as Req } from "express";
 
 import { config } from "../../../config.js";
-
 import { AuthenticationService } from "./authentication.service.js";
 import { GoogleOAuthGuard } from "./google.guard.js";
 

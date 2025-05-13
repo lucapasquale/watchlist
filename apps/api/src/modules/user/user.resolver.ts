@@ -1,7 +1,6 @@
 import { Args, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 
-import { PlaylistService } from "../../watch/playlist/playlist.service.js";
-
+import { PlaylistService } from "../watch/playlist/playlist.service.js";
 import { type User } from "./user.model.js";
 import { UserService } from "./user.service.js";
 

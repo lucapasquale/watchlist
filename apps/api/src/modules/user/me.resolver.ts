@@ -1,9 +1,11 @@
 import { UseGuards } from "@nestjs/common";
 import { Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 
-import { GqlAuthGuard } from "../authentication/authentication.guard.js";
-
-import { CurrentUser, type CurrentUserType } from "./current-user.decorator.js";
+import { GqlAuthGuard } from "../auth/authentication/authentication.guard.js";
+import {
+  CurrentUser,
+  type CurrentUserType,
+} from "../auth/authentication/current-user.decorator.js";
 import { type User } from "./user.model.js";
 import { UserService } from "./user.service.js";
 

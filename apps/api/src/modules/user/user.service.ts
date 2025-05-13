@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 
-import { db } from "../../../database/index.js";
-
+import { db } from "../../database/index.js";
 import { UserInsert } from "./user.model.js";
 
 @Injectable()

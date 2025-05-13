@@ -1,13 +1,15 @@
-import { LexoRank } from "lexorank";
 import { UseGuards } from "@nestjs/common";
 import { Args, Context, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
+import { LexoRank } from "lexorank";
 
 import { GqlAuthGuard } from "../../auth/authentication/authentication.guard.js";
-import { CurrentUser, type CurrentUserType } from "../../auth/user/current-user.decorator.js";
+import {
+  CurrentUser,
+  type CurrentUserType,
+} from "../../auth/authentication/current-user.decorator.js";
 import type { Loaders } from "../../common/data-loader.service.js";
 import { YoutubeService } from "../external-clients/youtube.service.js";
 import { PlaylistItemService } from "../playlist-item/playlist-item.service.js";
-
 import type { Playlist } from "./playlist.model.js";
 import { PlaylistService } from "./playlist.service.js";
 

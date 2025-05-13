@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 
 import type { PlaylistItemInsert } from "../playlist-item/playlist-item.model.js";
-
 import { RedditService } from "./reddit.service.js";
 import { YoutubeService } from "./youtube.service.js";
 

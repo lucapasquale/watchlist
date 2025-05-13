@@ -1,9 +1,8 @@
+import { Injectable } from "@nestjs/common";
 import { sql } from "kysely";
 import crypto from "node:crypto";
-import { Injectable } from "@nestjs/common";
 
 import { db } from "../../../database/index.js";
-
 import type {
   PlaylistItem,
   PlaylistItemInsert,
