@@ -3,6 +3,7 @@ import { JwtService } from "@nestjs/jwt";
 import type { Request as Req } from "express";
 
 import { User } from "../../user/user.model.js";
+import { JwtPayload } from "./jwt.strategy.js";
 
 @Injectable()
 export class AuthenticationService {
@@ -17,10 +18,15 @@ export class AuthenticationService {
   }
 
   async generateTokens(user: User) {
-    const payload = { sub: user.id, email: user.email };
+    const payload: Omit<JwtPayload, "iat" | "exp"> = { sub: user.id, email: user.email };
 
     return {
-      accessToken: this.jwtService.sign(payload),
+      accessToken: this.jwtService.sign(payload, {
+        expiresIn: "3h",
+      }),
+      refreshToken: this.jwtService.sign(payload, {
+        expiresIn: "30d",
+      }),
     };
   }
 }

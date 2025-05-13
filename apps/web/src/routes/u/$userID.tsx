@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { UserViewDocument } from "~common/graphql-types.js";
-import { client } from "~common/providers/apollo-provider.js";
+import { client } from "~common/providers/apollo-provider/index.js";
 import { Page } from "~modules/user/view/page.js";
 
 export const Route = createFileRoute("/u/$userID")({

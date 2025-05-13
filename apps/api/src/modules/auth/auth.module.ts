@@ -13,10 +13,7 @@ import { CredentialService } from "./credential/credential.service.js";
 @Module({
   imports: [
     PassportModule,
-    JwtModule.register({
-      secret: config.auth.jwtSecret,
-      signOptions: { expiresIn: "7d" },
-    }),
+    JwtModule.register({ secret: config.auth.jwtSecret }),
 
     forwardRef(() => UserModule),
   ],

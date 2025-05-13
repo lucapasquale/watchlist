@@ -4,8 +4,8 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 
 import { config } from "../../../config.js";
 
-type JwtPayload = {
-  /** Subject */
+export type JwtPayload = {
+  /** Subject - User.id */
   sub: number;
   /** Issued at time */
   iat: number;

@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 
 import { PlaylistItemViewDocument } from "~common/graphql-types.js";
-import { client } from "~common/providers/apollo-provider.js";
+import { client } from "~common/providers/apollo-provider/index.js";
 import { Page } from "~modules/playlist/video/page.js";
 
 const searchSchema = z.object({

@@ -5,6 +5,7 @@ import { Page } from "~modules/auth/google/redirect-page.js";
 
 const searchSchema = z.object({
   accessToken: z.string().min(1),
+  refreshToken: z.string().min(1),
 });
 
 export const Route = createFileRoute("/auth/google/redirect")({

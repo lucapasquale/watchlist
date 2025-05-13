@@ -3,7 +3,7 @@ import { StrictMode } from "react";
 import { HelmetProvider } from "react-helmet-async";
 
 import { AUTH_TOKEN_KEY } from "~common/constants.js";
-import { ApolloProvider } from "~common/providers/apollo-provider.js";
+import { ApolloProvider } from "~common/providers/apollo-provider/index.js";
 import { CurrentUserProvider } from "~common/providers/current-user-provider.js";
 import { ThemeProvider } from "~common/providers/theme-provider.js";
 
