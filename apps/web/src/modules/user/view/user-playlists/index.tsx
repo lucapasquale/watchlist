@@ -30,7 +30,7 @@ type Props = {
 };
 
 export function UserPlaylists({ userID, isOwner }: Props) {
-  const [open, setOpen] = React.useState(false);
+  const [deletePlaylistId, setDeletePlaylistId] = React.useState<string | null>(null);
 
   const { loading, data } = useQuery(UserPlaylistsDocument, {
     variables: { userID },
@@ -41,10 +41,13 @@ export function UserPlaylists({ userID, isOwner }: Props) {
     awaitRefetchQueries: true,
   });
 
-  const onClickDelete = async (playlistId: string) => {
-    await deletePlaylist({ variables: { id: playlistId } });
+  const onClickDelete = async () => {
+    if (!deletePlaylistId) {
+      return;
+    }
 
-    setOpen(false);
+    await deletePlaylist({ variables: { id: deletePlaylistId } });
+    setDeletePlaylistId(null);
   };
 
   if (loading || !data) {
@@ -65,29 +68,30 @@ export function UserPlaylists({ userID, isOwner }: Props) {
             </CardDescription>
           </div>
 
-          {isOwner && (
-            <AlertDialog open={open} onOpenChange={setOpen}>
+          <AlertDialog
+            open={deletePlaylistId === playlist.id}
+            onOpenChange={(o) => setDeletePlaylistId(o ? playlist.id : null)}
+          >
+            {isOwner && (
               <AlertDialogTrigger asChild>
                 <Button variant="ghost" className="hover:!bg-destructive/20 mr-4">
                   <Trash className="size-4" />
                 </Button>
               </AlertDialogTrigger>
+            )}
 
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                  <AlertDialogDescription>This action cannot be undone</AlertDialogDescription>
-                </AlertDialogHeader>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                <AlertDialogDescription>This action cannot be undone</AlertDialogDescription>
+              </AlertDialogHeader>
 
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={() => onClickDelete(playlist.id)}>
-                    Delete
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          )}
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={onClickDelete}>Delete</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </Card>
       ))}
     </ol>
