@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import axios, { AxiosInstance } from "axios";
 
 import { config } from "../../../config.js";
-import { UrlOptions } from "./external-clients.service.js";
+import { PlaylistData, PlaylistItemData, UrlOptions } from "./external-clients.service.js";
 
 @Injectable()
 export class YoutubeService {
@@ -16,10 +16,55 @@ export class YoutubeService {
   }
 
   urlMatches(url: URL) {
-    return url.href.match(/youtube.com\/watch/gi);
+    return url.href.match(/youtube.com/gi);
   }
 
-  async playlistItemData(url: URL, options: UrlOptions = {}) {
+  async playlistDataFromUrl(url: URL): Promise<PlaylistData | null> {
+    const playlistID = new URLSearchParams(url.search).get("list");
+    if (!playlistID) {
+      throw new Error("Invalid YouTube playlist URL");
+    }
+
+    const ytPlaylist = await this.getPlaylist(playlistID);
+    if (!ytPlaylist) {
+      throw new Error("Invalid YouTube playlist URL");
+    }
+
+    let firstCall = true;
+    let nextPageToken: string | undefined = undefined;
+    const items: PlaylistItemData[] = [];
+
+    while (firstCall || !!nextPageToken) {
+      firstCall = false;
+
+      const ytPlaylistItems = await this.getPlaylistItems(playlistID, nextPageToken);
+      nextPageToken = ytPlaylistItems.nextPageToken;
+
+      const videos = await Promise.all(
+        ytPlaylistItems.items
+          // Videos without `publishedAt` have been removed
+          .filter((playlistItem) => !!playlistItem.contentDetails.videoPublishedAt)
+          .map((playlistItem) =>
+            this.playlistItemDataFromUrl(
+              new URL("https://www.youtube.com/watch?v=" + playlistItem.contentDetails.videoId),
+            ),
+          ),
+      );
+
+      const newItems = videos.filter(Boolean) as PlaylistItemData[];
+      items.push(...newItems);
+    }
+
+    return {
+      name: ytPlaylist.snippet.title,
+      items,
+    };
+  }
+
+  async playlistItemDataFromUrl(
+    url: URL,
+    options: UrlOptions = {},
+  ): Promise<PlaylistItemData | null> {
     const usp = new URLSearchParams(url.search);
     const videoID = usp.get("v");
     if (!videoID) {
@@ -40,7 +85,7 @@ export class YoutubeService {
     }
 
     return {
-      kind: "youtube" as const,
+      kind: "youtube",
       rawUrl: url.toString(),
       url: videoUrl.toString(),
       title: video.snippet.title,
@@ -49,15 +94,7 @@ export class YoutubeService {
     };
   }
 
-  async getVideo(videoID: string) {
-    const { data } = await this.client.get<ApiResponse<Video>>("/videos", {
-      params: { id: videoID, part: "snippet,contentDetails" },
-    });
-
-    return data.items[0];
-  }
-
-  async getPlaylist(playlistID: string) {
+  private async getPlaylist(playlistID: string) {
     const { data } = await this.client.get<ApiResponse<Playlist>>("/playlists", {
       params: { id: playlistID, part: "snippet" },
     });
@@ -65,7 +102,7 @@ export class YoutubeService {
     return data.items[0];
   }
 
-  async getPlaylistItems(playlistID: string, pageToken?: string) {
+  private async getPlaylistItems(playlistID: string, pageToken?: string) {
     const { data } = await this.client.get<ApiResponse<PlaylistItem>>("/playlistItems", {
       params: {
         playlistId: playlistID,
@@ -76,6 +113,14 @@ export class YoutubeService {
     });
 
     return data;
+  }
+
+  private async getVideo(videoID: string) {
+    const { data } = await this.client.get<ApiResponse<Video>>("/videos", {
+      params: { id: videoID, part: "snippet,contentDetails" },
+    });
+
+    return data.items[0];
   }
 
   private getVideoDuration(durationCode: string) {

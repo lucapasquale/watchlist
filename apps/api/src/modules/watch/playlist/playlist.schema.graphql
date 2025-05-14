@@ -23,6 +23,7 @@ type Query {
 input CreatePlaylistInput {
   name: String!
   newItemsPosition: PlaylistNewItemsPosition
+  url: String
 }
 
 input UpdatePlaylistInput {
@@ -33,9 +34,6 @@ input UpdatePlaylistInput {
 
 type Mutation {
   createPlaylist(input: CreatePlaylistInput!): Playlist!
-  createPlaylistFromYoutube(url: String!): Playlist!
-
   updatePlaylist(input: UpdatePlaylistInput!): Playlist!
-
   deletePlaylist(id: ID!): Playlist!
 }

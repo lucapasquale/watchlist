@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 
-import type { PlaylistItemInsert } from "../playlist-item/playlist-item.model.js";
+import type { PlaylistItem } from "../playlist-item/playlist-item.model.js";
 import { RedditService } from "./reddit.service.js";
 import { YoutubeService } from "./youtube.service.js";
 
@@ -9,6 +9,16 @@ export type UrlOptions = {
   endTimeSeconds?: number;
 };
 
+export type PlaylistData = {
+  name: string;
+  items: PlaylistItemData[];
+};
+
+export type PlaylistItemData = Pick<
+  PlaylistItem,
+  "kind" | "rawUrl" | "url" | "title" | "thumbnailUrl" | "durationSeconds"
+>;
+
 @Injectable()
 export class ExternalClientsService {
   constructor(
@@ -16,14 +26,27 @@ export class ExternalClientsService {
     private redditService: RedditService,
   ) {}
 
-  async getUrlVideoData(
-    rawUrl: string,
-    options: UrlOptions = {},
-  ): Promise<Omit<PlaylistItemInsert, "rank" | "playlistId"> | null> {
+  async getPlaylistFromUrl(rawUrl: string): Promise<PlaylistData | null> {
     const url = new URL(rawUrl);
 
     if (this.youtubeService.urlMatches(url)) {
-      return this.youtubeService.playlistItemData(url, options);
+      return this.youtubeService.playlistDataFromUrl(url);
+    }
+    if (this.redditService.urlMatches(url)) {
+      return this.redditService.playlistDataFromUrl(url);
+    }
+
+    return null;
+  }
+
+  async getVideoFromUrl(
+    rawUrl: string,
+    options: UrlOptions = {},
+  ): Promise<PlaylistItemData | null> {
+    const url = new URL(rawUrl);
+
+    if (this.youtubeService.urlMatches(url)) {
+      return this.youtubeService.playlistItemDataFromUrl(url, options);
     }
 
     if (this.redditService.urlMatches(url)) {

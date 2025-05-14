@@ -1,6 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import axios, { AxiosInstance } from "axios";
 
+import { PlaylistData, PlaylistItemData } from "./external-clients.service.js";
+
 @Injectable()
 export class RedditService {
   private client: AxiosInstance;
@@ -13,30 +15,44 @@ export class RedditService {
     return url.href.match(/.*reddit\.com.*/gi) || url.href.match(/.*v\.redd\.it.*/gi);
   }
 
-  async playlistItemDataFromUrl(url: URL) {
-    const postUrl = await this.getPostUrl(url.toString());
+  async playlistDataFromUrl(url: URL): Promise<PlaylistData | null> {
+    console.log(url.toString());
+    const postUrl = await this.getRootUrl(url.toString());
     if (!postUrl) {
       return null;
     }
 
-    const post = await this.getPost(postUrl);
-    if (!post) {
+    const posts = await this.getListingData(postUrl);
+    console.log(posts[1]);
+
+    const items = posts.map(this.postToPlaylistItemData).filter((post) => post !== null);
+    if (!items.length) {
       return null;
     }
 
     return {
-      kind: "reddit" as const,
-      rawUrl: url.toString(),
-      url: post.media.reddit_video.hls_url.split("?")[0]!,
-      title: post.title,
-      thumbnailUrl: post.thumbnail.replaceAll("&amp;", "&"),
-      durationSeconds: post.media.reddit_video.duration,
+      name: posts[0]!.subreddit_name_prefixed,
+      items,
     };
   }
 
-  private async getPostUrl(rawUrl: string) {
+  async playlistItemDataFromUrl(url: URL): Promise<PlaylistItemData | null> {
+    const postUrl = await this.getRootUrl(url.toString());
+    if (!postUrl) {
+      return null;
+    }
+
+    const post = await this.getPostData(postUrl);
+    if (!post) {
+      return null;
+    }
+
+    return this.postToPlaylistItemData(post);
+  }
+
+  private async getRootUrl(rawUrl: string) {
     if (rawUrl.includes("/r/")) {
-      return rawUrl;
+      return new URL(rawUrl);
     }
 
     let postUrl = null;
@@ -53,51 +69,84 @@ export class RedditService {
       return null;
     }
 
-    const url = new URL(postUrl);
-    url.search = "";
-
-    return url.toString();
+    return new URL(postUrl);
   }
 
-  async getPost(url: string) {
-    const { data } = await this.client.get<ApiResponse<Post>>(url + ".json");
-    return data?.[0]?.data?.children?.[0]?.data ?? null;
+  private async getPostData(url: URL) {
+    url.pathname = url.pathname.replace(".json", "") + ".json";
+
+    const { data } = await this.client.get<Array<ApiResponse<Post>>>(url.toString());
+    return data[0]?.data.children[0]?.data ?? null;
+  }
+
+  private async getListingData(url: URL) {
+    url.pathname = url.pathname.replace(".json", "") + ".json";
+
+    const { data } = await this.client.get<ApiResponse<Post>>(url.toString());
+    return data.data.children.map((child) => child.data);
+  }
+
+  private postToPlaylistItemData(post: Post): PlaylistItemData | null {
+    if (!post.media) {
+      return null;
+    }
+
+    const rawUrl = new URL("https://reddit.com");
+    rawUrl.pathname = post.permalink;
+
+    if ("type" in post.media) {
+      return {
+        kind: "reddit",
+        title: post.title,
+        url: post.url,
+        rawUrl: rawUrl.toString(),
+        thumbnailUrl: post.thumbnail.replaceAll("&amp;", "&"),
+        durationSeconds: -1,
+      };
+    }
+
+    return {
+      kind: "reddit",
+      title: post.title,
+      url: post.media.reddit_video.hls_url.split("?")[0]!,
+      rawUrl: rawUrl.toString(),
+      thumbnailUrl: post.thumbnail.replaceAll("&amp;", "&"),
+      durationSeconds: post.media.reddit_video.duration,
+    };
   }
 }
 
-type ApiResponse<T> = [
-  {
-    kind: string;
-    data: {
-      after: string | null;
-      dist: number;
-      modhash: string;
-      geo_filter: string;
-      children: Array<{
-        kind: string;
-        data: T;
-      }>;
-      before: string | null;
-    };
-  },
-];
+type ApiResponse<T> = {
+  data: {
+    children: Array<{
+      kind: string;
+      data: T;
+    }>;
+  };
+};
 
 type Post = {
   title: string;
   thumbnail: string;
-  media: {
-    reddit_video: {
-      bitrate_kbps: number;
-      fallback_url: string;
-      has_audio: boolean;
-      height: number;
-      width: number;
-      scrubber_media_url: string;
-      dash_url: string;
-      duration: number;
-      hls_url: string;
-      is_gif: string;
-      transcoding_status: string;
-    };
-  };
+  permalink: string;
+  subreddit_name_prefixed: string;
+  url: string;
+  media:
+    | {
+        reddit_video: {
+          bitrate_kbps: number;
+          fallback_url: string;
+          has_audio: boolean;
+          height: number;
+          width: number;
+          scrubber_media_url: string;
+          dash_url: string;
+          duration: number;
+          hls_url: string;
+          is_gif: string;
+          transcoding_status: string;
+        };
+      }
+    | { type: "youtube.com" }
+    | null;
 };

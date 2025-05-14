@@ -10,7 +10,7 @@ export class ExternalClientsResolver {
   async urlInformation(
     @Args("input") input: { rawUrl: string; startTimeSeconds?: number; endTimeSeconds?: number },
   ) {
-    return this.externalClientsService.getUrlVideoData(input.rawUrl, {
+    return this.externalClientsService.getVideoFromUrl(input.rawUrl, {
       startTimeSeconds: input.startTimeSeconds,
       endTimeSeconds: input.endTimeSeconds,
     });

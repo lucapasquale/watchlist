@@ -5,11 +5,3 @@ mutation CreatePlaylist($input: CreatePlaylistInput!) {
     newItemsPosition
   }
 }
-
-  mutation CreatePlaylistFromYoutube($url: String!) {
-  createPlaylistFromYoutube(url: $url) {
-    id
-    name
-    newItemsPosition
-  }
-}

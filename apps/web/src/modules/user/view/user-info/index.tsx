@@ -1,30 +1,14 @@
-import React from "react";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar.js";
-import { Button } from "@ui/components/ui/button.js";
-import { Card, CardFooter, CardHeader, CardTitle } from "@ui/components/ui/card.js";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@ui/components/ui/dialog.js";
+import { Card, CardHeader, CardTitle } from "@ui/components/ui/card.js";
 import { Skeleton } from "@ui/components/ui/skeleton.js";
 
 import { UserProviderQuery } from "~common/graphql-types.js";
 
-import { CreateNew } from "./create-new.js";
-import { ImportFromYoutube } from "./import-from-youtube.js";
-
 type Props = {
   user: Omit<UserProviderQuery["me"], "__typename">;
-  isOwner: boolean;
 };
 
-export function UserInfo({ user, isOwner }: Props) {
-  const [createState, setCreateState] = React.useState<null | "new" | "youtube">(null);
-
+export function UserInfo({ user }: Props) {
   return (
     <Card className="bg-card flex flex-col gap-4 rounded-xl">
       <CardHeader>
@@ -37,46 +21,6 @@ export function UserInfo({ user, isOwner }: Props) {
           {user.name}
         </CardTitle>
       </CardHeader>
-
-      {isOwner && (
-        <CardFooter className="grid grid-cols-2 items-center justify-between gap-2">
-          <Dialog
-            open={createState === "youtube"}
-            onOpenChange={(o) => setCreateState(o ? "youtube" : null)}
-          >
-            <DialogTrigger asChild>
-              <Button variant="secondary" className="w-full">
-                Import from Youtube
-              </Button>
-            </DialogTrigger>
-
-            <DialogContent className="max-w-[600px]">
-              <DialogHeader>
-                <DialogTitle>Create from YouTube playlist</DialogTitle>
-              </DialogHeader>
-
-              <ImportFromYoutube />
-            </DialogContent>
-          </Dialog>
-
-          <Dialog
-            open={createState === "new"}
-            onOpenChange={(o) => setCreateState(o ? "new" : null)}
-          >
-            <DialogTrigger asChild>
-              <Button className="w-full">Create</Button>
-            </DialogTrigger>
-
-            <DialogContent className="max-w-[600px]">
-              <DialogHeader>
-                <DialogTitle>Create playlist</DialogTitle>
-              </DialogHeader>
-
-              <CreateNew />
-            </DialogContent>
-          </Dialog>
-        </CardFooter>
-      )}
     </Card>
   );
 }

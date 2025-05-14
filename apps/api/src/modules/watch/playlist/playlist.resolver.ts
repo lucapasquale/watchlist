@@ -8,7 +8,7 @@ import {
   type CurrentUserType,
 } from "../../auth/authentication/current-user.decorator.js";
 import type { Loaders } from "../../common/data-loader.service.js";
-import { YoutubeService } from "../external-clients/youtube.service.js";
+import { ExternalClientsService } from "../external-clients/external-clients.service.js";
 import { PlaylistItemService } from "../playlist-item/playlist-item.service.js";
 import type { Playlist } from "./playlist.model.js";
 import { PlaylistService } from "./playlist.service.js";
@@ -18,7 +18,7 @@ export class PlaylistResolver {
   constructor(
     private playlistService: PlaylistService,
     private playlistItemService: PlaylistItemService,
-    private youtubeService: YoutubeService,
+    private externalClientsService: ExternalClientsService,
   ) {}
 
   @ResolveField()
@@ -62,75 +62,46 @@ export class PlaylistResolver {
   async createPlaylist(
     @CurrentUser() user: CurrentUserType,
     @Args("input")
-    input: { name: Playlist["name"]; newItemsPosition?: Playlist["newItemsPosition"] },
+    input: {
+      name: Playlist["name"];
+      newItemsPosition?: Playlist["newItemsPosition"];
+      url?: string;
+    },
   ) {
-    return this.playlistService.create({
-      ...input,
-      userId: user.userId,
-    });
-  }
-
-  @Mutation()
-  @UseGuards(GqlAuthGuard)
-  async createPlaylistFromYoutube(@CurrentUser() user: CurrentUserType, @Args("url") url: string) {
-    const usp = new URLSearchParams(new URL(url).search);
-    const playlistID = usp.get("list");
-    if (!playlistID) {
-      throw new Error("Invalid YouTube playlist URL");
+    if (!input.url) {
+      return this.playlistService.create({
+        name: input.name,
+        newItemsPosition: input.newItemsPosition,
+        userId: user.userId,
+      });
     }
 
-    const youtubePlaylist = await this.youtubeService.getPlaylist(playlistID);
-    if (!youtubePlaylist) {
-      throw new Error("Invalid YouTube playlist URL");
+    const data = await this.externalClientsService.getPlaylistFromUrl(input.url);
+    if (!data) {
+      throw new Error("Invalid playlist URL");
     }
 
     const playlist = await this.playlistService.create({
-      name: youtubePlaylist.snippet.title,
+      name: input.name || data.name,
+      newItemsPosition: input.newItemsPosition,
       userId: user.userId,
     });
 
-    let firstCall = true;
-    let nextPageToken: string | undefined = undefined;
     let curRank = LexoRank.middle();
+    const ranks = Array.from({ length: data.items.length })
+      .fill(null)
+      .map(() => {
+        curRank = curRank.genNext();
+        return curRank;
+      });
 
-    while (firstCall || !!nextPageToken) {
-      firstCall = false;
-
-      const playlistItems = await this.youtubeService.getPlaylistItems(playlistID, nextPageToken);
-      nextPageToken = playlistItems.nextPageToken;
-
-      const videos = await Promise.all(
-        playlistItems.items
-          // Videos without `publishedAt` have been removed
-          .filter((playlistItem) => !!playlistItem.contentDetails.videoPublishedAt)
-          .map((playlistItem) =>
-            this.youtubeService.playlistItemData(
-              new URL("https://www.youtube.com/watch?v=" + playlistItem.contentDetails.videoId),
-            ),
-          ),
-      );
-
-      const ranks = Array.from({ length: videos.length })
-        .fill(null)
-        .map(() => {
-          curRank = curRank.genNext();
-          return curRank;
-        });
-
-      await this.playlistItemService.create(
-        videos.flatMap((video, idx) => {
-          if (!video) {
-            return [];
-          }
-
-          return {
-            playlistId: playlist.id,
-            rank: ranks[idx]!.toString(),
-            ...video,
-          };
-        }),
-      );
-    }
+    await this.playlistItemService.create(
+      data.items.map((item, idx) => ({
+        playlistId: playlist.id,
+        rank: ranks[idx]!.toString(),
+        ...item,
+      })),
+    );
 
     return playlist;
   }
