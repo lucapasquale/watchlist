@@ -28,8 +28,8 @@ import { Route } from "~routes/index.js";
 
 const schema = z.object({
   name: z.string().min(1),
-  newItemsPosition: z.nativeEnum(PlaylistNewItemsPosition),
   url: z.string().optional(),
+  newItemsPosition: z.nativeEnum(PlaylistNewItemsPosition),
 });
 type FormValues = z.infer<typeof schema>;
 
@@ -45,8 +45,8 @@ export function CreatePlaylist() {
     resolver: zodResolver(schema),
     defaultValues: {
       name: "",
-      newItemsPosition: PlaylistNewItemsPosition.Bottom,
       url: "",
+      newItemsPosition: PlaylistNewItemsPosition.Bottom,
     },
   });
 
@@ -90,6 +90,15 @@ export function CreatePlaylist() {
               placeholder="My playlist"
             />
 
+            <InputFormItem
+              autoComplete="off"
+              control={form.control}
+              name="url"
+              label="URL"
+              description="Copy from a YouTube playlist or Subreddit"
+              placeholder="https://reddit.com/r/videos"
+            />
+
             <SelectFormItem
               control={form.control}
               name="newItemsPosition"
@@ -106,15 +115,6 @@ export function CreatePlaylist() {
                 <SelectItem value={PlaylistNewItemsPosition.Top}>Top</SelectItem>
               </SelectContent>
             </SelectFormItem>
-
-            <InputFormItem
-              autoComplete="off"
-              control={form.control}
-              name="url"
-              label="URL"
-              description="Copy from a YouTube playlist or Subreddit"
-              placeholder="https://reddit.com/r/videos"
-            />
           </form>
         </Form>
 
