@@ -62,19 +62,15 @@ export function PlaylistInfo({ playlist, shuffleSeed, isOwner }: Props) {
               <AvatarImage src={playlist.user.profilePictureUrl ?? undefined} />
               <AvatarFallback>{playlist.user.initials}</AvatarFallback>
             </Avatar>
-
-            {playlist.user.name}
+            by {playlist.user.name}
           </CardDescription>
         </Link>
       </CardHeader>
 
       <CardContent className="space-y-2">
-        <div>
-          {playlist.itemsCount} video{playlist.itemsCount === 1 ? "" : "s"}
-        </div>
-
         <span className="text-muted-foreground text-xs">
-          Created on {new Date(playlist.createdAt).toLocaleDateString("en-US")}
+          {playlist.itemsCount} video{playlist.itemsCount === 1 ? "" : "s"} • Created on{" "}
+          {new Date(playlist.createdAt).toLocaleDateString("en-US")}
         </span>
       </CardContent>
 

@@ -11,9 +11,10 @@ const ITEM_HEIGHT_PX = 64;
 type Props = {
   playlist: PlaylistItemViewQuery["playlistItem"]["playlist"];
   currentItemIndex: number;
+  listHeight: number;
 };
 
-export function ItemsList({ playlist, currentItemIndex }: Props) {
+export function ItemsList({ playlist, currentItemIndex, listHeight }: Props) {
   const { playlistID } = Route.useParams();
 
   const parentRef = React.useRef<FixedSizeList>(null);
@@ -31,7 +32,7 @@ export function ItemsList({ playlist, currentItemIndex }: Props) {
       ref={parentRef}
       itemCount={playlist.items.length}
       itemSize={ITEM_HEIGHT_PX}
-      height={650}
+      height={listHeight}
       width="100%"
     >
       {({ index, style }) => {
@@ -56,7 +57,7 @@ export function ItemsList({ playlist, currentItemIndex }: Props) {
               }}
               className="flex items-center gap-3 hover:no-underline"
             >
-              <p className="min-w-[26px] text-center text-xs">{index + 1}</p>
+              <p className="min-w-4 text-center text-xs">{index + 1}</p>
 
               <img src={item.thumbnailUrl} className="aspect-video h-[56px] w-[100px] rounded-md" />
 

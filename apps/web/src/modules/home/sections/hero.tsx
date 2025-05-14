@@ -7,8 +7,8 @@ import { Button } from "@ui/components/ui/button";
 import { Card } from "@ui/components/ui/card";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
-import { Reddit, Youtube } from "~common/components/icons";
-import { HomeHeroPlaylistsDocument, PlaylistItemKind } from "~common/graphql-types";
+import { PlaylistItemKindIcon } from "~common/components/playlist-item-kind-icon";
+import { HomeHeroPlaylistsDocument } from "~common/graphql-types";
 import { useCurrentUser } from "~common/providers/current-user-provider";
 
 export function HeroSection() {
@@ -78,15 +78,11 @@ export function HeroSection() {
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      {playlist.itemsKind.map((kind) => {
-                        const Icon = kind === PlaylistItemKind.Youtube ? Youtube : Reddit;
-
-                        return (
-                          <div key={kind} className="bg-primary/10 rounded-full p-1">
-                            {Icon && <Icon className="text-primary size-4" />}
-                          </div>
-                        );
-                      })}
+                      {playlist.itemsKind.map((kind) => (
+                        <div key={kind} className="bg-primary/10 rounded-full p-1">
+                          <PlaylistItemKindIcon kind={kind} className="text-primary" />
+                        </div>
+                      ))}
                     </div>
 
                     <span className="text-muted-foreground text-sm">

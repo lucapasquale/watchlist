@@ -14,11 +14,10 @@ import { Route } from "~routes/p/$playlistID/$videoID.js";
 import { PlayNextButton } from "./play-next-button";
 
 type Props = {
-  ref?: React.Ref<HTMLElement>;
   playlistItem: PlaylistItemViewQuery["playlistItem"];
 };
 
-export function VideoPlayer({ playlistItem, ref }: Props) {
+export function VideoPlayer({ playlistItem }: Props) {
   const router = useRouter();
   const navigate = Route.useNavigate();
 
@@ -72,7 +71,7 @@ export function VideoPlayer({ playlistItem, ref }: Props) {
         </title>
       </Helmet>
 
-      <section ref={ref} className="z-10 flex h-auto w-full flex-col items-center gap-4">
+      <section className="z-10 flex h-auto w-full flex-col items-center gap-4">
         <div className="sticky top-[106px] flex max-h-[912px] w-full justify-center sm:static">
           <ReactPlayer
             key={playlistItem.id}
@@ -90,18 +89,15 @@ export function VideoPlayer({ playlistItem, ref }: Props) {
         <Card className="bg-card flex w-full flex-row items-center justify-between gap-1 rounded-xl">
           <div className="ml-6">
             <CardTitle>
-              <Link target="_blank" rel="noopener noreferrer" to={playlistItem.rawUrl}>
-                <h1 className="line-clamp-1 text-lg md:text-2xl">
-                  {playlistItem.title}
-
-                  <LinkIcon className="ml-2 inline size-4" />
-                </h1>
-              </Link>
+              <h1 className="line-clamp-1 text-lg md:text-2xl">{playlistItem.title}</h1>
             </CardTitle>
 
-            <CardDescription className="mt-2">
-              {PLAYLIST_ITEM_KIND[playlistItem.kind]}
-            </CardDescription>
+            <Link target="_blank" rel="noopener noreferrer" to={playlistItem.rawUrl}>
+              <CardDescription className="mt-2 flex items-center gap-2">
+                {PLAYLIST_ITEM_KIND[playlistItem.kind]}
+                <LinkIcon className="size-3" />
+              </CardDescription>
+            </Link>
           </div>
 
           <CardFooter className="py-0">

@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "@ui/components/ui/card.js";
 import { Skeleton } from "@ui/components/ui/skeleton.js";
+import { useComponentSize } from "@ui/hooks/use-component-size.js";
 
 import { PlaylistItemViewQuery } from "~common/graphql-types.js";
 import { Route } from "~routes/p/$playlistID/$videoID.js";
@@ -25,12 +26,18 @@ export function QueueSidebar({ playlist }: Props) {
   const search = Route.useSearch();
   const { playlistID, videoID } = Route.useParams();
 
+  const cardRef = React.useRef<HTMLDivElement>(null);
+  const { height: cardHeight } = useComponentSize(cardRef);
+
   const currentItemIndex = React.useMemo(() => {
     return playlist.items.findIndex((i) => i.id === videoID);
   }, [playlist, videoID]);
 
   return (
-    <Card className="bg-card flex h-full w-full flex-col overflow-y-clip pb-0 xl:w-[400px] xl:min-w-[400px]">
+    <Card
+      ref={cardRef}
+      className="bg-card flex h-full w-full flex-col overflow-y-clip pb-0 xl:w-[400px] xl:min-w-[400px]"
+    >
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <Link
@@ -54,14 +61,17 @@ export function QueueSidebar({ playlist }: Props) {
               <AvatarImage src={playlist.user.profilePictureUrl ?? undefined} />
               <AvatarFallback>{playlist.user.initials}</AvatarFallback>
             </Avatar>
-
-            {playlist.user.name}
+            by {playlist.user.name}
           </CardDescription>
         </Link>
       </CardHeader>
 
       <CardContent className="p-0">
-        <ItemsList playlist={playlist} currentItemIndex={currentItemIndex} />
+        <ItemsList
+          playlist={playlist}
+          currentItemIndex={currentItemIndex}
+          listHeight={Math.min(cardHeight - 62 - 24 - 24, 640)} // 62 = header height, 24 = gap, 24 = margin-top
+        />
       </CardContent>
     </Card>
   );

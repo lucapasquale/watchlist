@@ -53,11 +53,11 @@ export function PlayNextButton({ playlistID, nextItemID, failedToLoad }: Props) 
             buttonVariants({ variant: "default", size: "default" }),
           )}
         >
-          <SkipForward className="size-4" />
           Next
+          <SkipForward className="size-4" />
         </div>
-        <SkipForward className="size-4" />
         Next
+        <SkipForward className="size-4" />
       </Button>
     </Link>
   );
