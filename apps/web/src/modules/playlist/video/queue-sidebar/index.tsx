@@ -12,6 +12,7 @@ import {
 } from "@ui/components/ui/card.js";
 import { Skeleton } from "@ui/components/ui/skeleton.js";
 import { useComponentSize } from "@ui/hooks/use-component-size.js";
+import { cn } from "@ui/lib/utils.js";
 
 import { PlaylistItemViewQuery } from "~common/graphql-types.js";
 import { Route } from "~routes/p/$playlistID/$videoID.js";
@@ -39,11 +40,17 @@ export function QueueSidebar({ playlist }: Props) {
       className="bg-card flex h-full w-full flex-col overflow-y-clip pb-0 xl:w-[400px] xl:min-w-[400px]"
     >
       <CardHeader>
-        <CardTitle className="flex items-center justify-between">
+        <CardTitle
+          title={playlist.name}
+          className={cn(
+            "grid grid-cols-1 items-center justify-between gap-2",
+            search.shuffleSeed && "grid-cols-[1fr_32px]",
+          )}
+        >
           <Link
             to="/p/$playlistID"
             params={{ playlistID: playlistID.toString() }}
-            className="text-2xl font-bold"
+            className="line-clamp-1 text-2xl font-bold"
           >
             {playlist.name}
           </Link>

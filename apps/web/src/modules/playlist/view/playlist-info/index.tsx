@@ -42,8 +42,15 @@ export function PlaylistInfo({ playlist, shuffleSeed, isOwner }: Props) {
     <Card>
       <CardHeader className="gap-2">
         <CardTitle>
-          <span className="flex items-center justify-between gap-2">
-            {playlist.name}
+          <span
+            className={cn(
+              "grid h-9 grid-cols-1 items-center justify-between gap-2",
+              isOwner && "grid-cols-[1fr_36px]",
+            )}
+          >
+            <div title={playlist.name} className="line-clamp-1">
+              {playlist.name}
+            </div>
 
             <Button
               variant="ghost"
