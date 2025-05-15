@@ -21,7 +21,7 @@ export class PlaylistController {
       throw new UnauthorizedException();
     }
 
-    console.log("Syncing all playlists...");
+    console.info("Syncing all playlists...");
     const playlists = await this.playlistService.getAll();
     await Promise.all(playlists.map((playlist) => this.syncPlaylist(playlist)));
 
@@ -31,7 +31,7 @@ export class PlaylistController {
   private async syncPlaylist(playlist: Playlist) {
     const items = await this.playlistItemService.getFromPlaylist(playlist.id);
 
-    console.log("Syncing playlist", playlist.id, "with", items.length, "items");
+    console.info("Syncing playlist", playlist.id, "with", items.length, "items");
 
     items
       .filter((i) => !i.durationSeconds)
