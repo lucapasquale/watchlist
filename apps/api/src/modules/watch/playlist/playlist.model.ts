@@ -4,6 +4,7 @@ export interface PlaylistTable {
   id: Generated<number>;
 
   name: string;
+  href: ColumnType<string | null, string | null, never>;
   newItemsPosition: Generated<"bottom" | "top">;
 
   userId: ColumnType<number, number, never>;

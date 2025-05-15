@@ -64,11 +64,11 @@ export class PlaylistResolver {
     @Args("input")
     input: {
       name: Playlist["name"];
+      href: Playlist["href"];
       newItemsPosition?: Playlist["newItemsPosition"];
-      url?: string;
     },
   ) {
-    if (!input.url) {
+    if (!input.href) {
       return this.playlistService.create({
         name: input.name,
         newItemsPosition: input.newItemsPosition,
@@ -76,13 +76,14 @@ export class PlaylistResolver {
       });
     }
 
-    const data = await this.externalClientsService.getPlaylistFromUrl(input.url);
+    const data = await this.externalClientsService.getPlaylistFromUrl(input.href);
     if (!data) {
       throw new Error("Invalid playlist URL");
     }
 
     const playlist = await this.playlistService.create({
       name: input.name || data.name,
+      href: input.href,
       newItemsPosition: input.newItemsPosition,
       userId: user.userId,
     });

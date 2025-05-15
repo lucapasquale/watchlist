@@ -72,7 +72,7 @@ export function EditPlaylistForm({ playlist, onClose }: Props) {
         </SelectFormItem>
 
         <div className="flex flex-row items-center gap-2 self-end">
-          <Button variant="outline" onClick={onClose}>
+          <Button type="reset" variant="outline" onClick={onClose}>
             Cancel
           </Button>
 

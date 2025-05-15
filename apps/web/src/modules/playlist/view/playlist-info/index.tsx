@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { cn } from "@workspace/ui/lib/utils";
-import { Pencil, Play, Shuffle } from "lucide-react";
+import { LinkIcon, Pencil, Play, Shuffle } from "lucide-react";
 import React from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar.js";
@@ -74,11 +74,27 @@ export function PlaylistInfo({ playlist, shuffleSeed, isOwner }: Props) {
         </Link>
       </CardHeader>
 
-      <CardContent className="space-y-2">
-        <span className="text-muted-foreground text-xs">
-          {playlist.itemsCount} video{playlist.itemsCount === 1 ? "" : "s"} • Created on{" "}
-          {new Date(playlist.createdAt).toLocaleDateString("en-US")}
+      <CardContent className="text-muted-foreground flex items-center gap-1 text-xs">
+        <span>
+          {playlist.itemsCount} video{playlist.itemsCount === 1 ? "" : "s"}
+        </span>{" "}
+        •{" "}
+        <span title={new Date(playlist.createdAt).toLocaleString("en-US")}>
+          Created on {new Date(playlist.createdAt).toLocaleDateString("en-US")}
         </span>
+        {playlist.href && (
+          <>
+            {" • "}
+            <Link
+              target="_blank"
+              rel="noreferrer noopener"
+              to={playlist.href}
+              className="flex items-center gap-1 hover:underline"
+            >
+              Source <LinkIcon className="size-3" />
+            </Link>
+          </>
+        )}
       </CardContent>
 
       <CardFooter className="flex items-center justify-between gap-4">

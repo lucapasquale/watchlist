@@ -6,6 +6,7 @@ enum PlaylistNewItemsPosition {
 type Playlist {
   id: ID!
   name: String!
+  href: String
   newItemsPosition: PlaylistNewItemsPosition!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -22,8 +23,8 @@ type Query {
 
 input CreatePlaylistInput {
   name: String!
+  href: String
   newItemsPosition: PlaylistNewItemsPosition
-  url: String
 }
 
 input UpdatePlaylistInput {

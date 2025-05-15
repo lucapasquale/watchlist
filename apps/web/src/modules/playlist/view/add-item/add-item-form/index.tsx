@@ -123,7 +123,9 @@ export function AddItemForm({ onAdd }: Props) {
 
       <DialogFooter>
         <DialogClose asChild>
-          <Button variant="outline">Cancel</Button>
+          <Button type="reset" variant="outline">
+            Cancel
+          </Button>
         </DialogClose>
 
         <Button
