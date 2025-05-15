@@ -3,7 +3,7 @@ query AddItemUrlInformation($input: UrlInformationInput!) {
     kind
     title
     thumbnailUrl
-    url
+    embedUrl
     durationSeconds
 	}
 }

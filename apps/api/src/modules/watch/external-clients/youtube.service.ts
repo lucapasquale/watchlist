@@ -71,18 +71,18 @@ export class YoutubeService {
       return null;
     }
 
-    const videoUrl = new URL(`https://www.youtube.com/embed/${video.id}`);
+    const embedUrl = new URL(`https://www.youtube.com/embed/${video.id}`);
     if (options.startTimeSeconds) {
-      videoUrl.searchParams.set("start", String(options.startTimeSeconds));
+      embedUrl.searchParams.set("start", String(options.startTimeSeconds));
     }
     if (options.endTimeSeconds) {
-      videoUrl.searchParams.set("end", String(options.endTimeSeconds));
+      embedUrl.searchParams.set("end", String(options.endTimeSeconds));
     }
 
     return {
       kind: "youtube",
-      rawUrl: url.toString(),
-      url: videoUrl.toString(),
+      href: url.toString(),
+      embedUrl: embedUrl.toString(),
       title: video.snippet.title,
       thumbnailUrl: video.snippet.thumbnails.medium.url,
       durationSeconds: parseDuration(video.contentDetails.duration.replace("PT", "")),

@@ -37,7 +37,7 @@ export class PlaylistController {
       .filter((i) => !i.durationSeconds)
       .forEach(async (item) => {
         try {
-          const data = await this.externalClientsService.getVideoFromUrl(item.rawUrl);
+          const data = await this.externalClientsService.getVideoFromUrl(item.href);
           if (!data) {
             return;
           }

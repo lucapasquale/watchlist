@@ -4,8 +4,8 @@ export interface PlaylistItemTable {
   id: Generated<number>;
 
   kind: "youtube" | "reddit" | "twitch_video";
-  rawUrl: string;
-  url: string;
+  href: string;
+  embedUrl: string;
   rank: string;
   title: string;
   thumbnailUrl: string;

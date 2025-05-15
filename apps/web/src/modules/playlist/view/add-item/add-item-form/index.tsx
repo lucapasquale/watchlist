@@ -20,11 +20,11 @@ import { Route } from "~routes/p/$playlistID/index.js";
 import { VideoPreview } from "./video-preview.js";
 
 const schema = z.object({
-  rawUrl: z.string().url(),
+  href: z.string().url(),
   timeRange: z.tuple([z.number().int().min(0), z.number().int().min(0)]),
   videoInfo: z.object({
     kind: z.nativeEnum(PlaylistItemKind),
-    url: z.string().url(),
+    embedUrl: z.string().url(),
     title: z.string().min(1),
     thumbnailUrl: z.string().url(),
     durationSeconds: z.number().int().positive(),
@@ -47,17 +47,17 @@ export function AddItemForm({ onAdd }: Props) {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { rawUrl: "", timeRange: [0, 0] },
+    defaultValues: { href: "", timeRange: [0, 0] },
   });
 
-  const onUrlChange = debounce(async (rawUrl: string) => {
-    if (!rawUrl) {
+  const onUrlChange = debounce(async (href: string) => {
+    if (!href) {
       return;
     }
 
     const [valid, response] = await Promise.all([
-      form.trigger("rawUrl"),
-      getUrlInfo({ variables: { input: { rawUrl } } }),
+      form.trigger("href"),
+      getUrlInfo({ variables: { input: { href } } }),
     ]);
 
     if (!valid) {
@@ -66,7 +66,7 @@ export function AddItemForm({ onAdd }: Props) {
       return;
     }
     if (!response.data?.urlInformation) {
-      form.setError("rawUrl", { type: "value", message: "No video found!" });
+      form.setError("href", { type: "value", message: "No video found!" });
       // @ts-expect-error zod resolver doesn't support resetting value back to `undefined`
       form.setValue("videoInfo", undefined, { shouldValidate: true });
       return;
@@ -85,7 +85,7 @@ export function AddItemForm({ onAdd }: Props) {
       variables: {
         input: {
           playlistID,
-          rawUrl: values.rawUrl,
+          href: values.href,
           startTimeSeconds: hasCustomTimeRange ? values.timeRange[0] : undefined,
           endTimeSeconds: hasCustomTimeRange ? values.timeRange[1] : undefined,
         },
@@ -110,7 +110,7 @@ export function AddItemForm({ onAdd }: Props) {
           <InputFormItem
             disabled={urlLoading}
             control={form.control}
-            name="rawUrl"
+            name="href"
             label="Video link"
             placeholder="URL"
             onChange={(e) => onUrlChange(e.target.value)}
