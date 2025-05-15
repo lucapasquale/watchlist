@@ -1,15 +1,14 @@
 import { Link, useRouter } from "@tanstack/react-router";
 import { LinkIcon } from "lucide-react";
 import React from "react";
-import { Helmet } from "react-helmet-async";
-import ReactPlayer from "react-player/lazy";
 
 import { Card, CardDescription, CardFooter, CardTitle } from "@ui/components/ui/card.js";
 import { Skeleton } from "@ui/components/ui/skeleton.js";
 
+import { Player } from "~common/components/player";
 import { PlaylistItemViewQuery } from "~common/graphql-types.js";
 import { PLAYLIST_ITEM_KIND } from "~common/translations.js";
-import { Route } from "~routes/p/$playlistID/$videoID.js";
+import { Route } from "~routes/p/$playlistID/$videoID";
 
 import { PlayNextButton } from "./play-next-button";
 
@@ -21,8 +20,32 @@ export function VideoPlayer({ playlistItem }: Props) {
   const router = useRouter();
   const navigate = Route.useNavigate();
 
-  const [failedToLoad, setFailedToLoad] = React.useState(false);
   const nextItemID = playlistItem.nextItem?.id;
+
+  const [playing, setPlaying] = React.useState(true);
+  const [failedToLoad, setFailedToLoad] = React.useState(false);
+
+  const onVideoEnded = React.useCallback(() => {
+    if (!nextItemID) {
+      setPlaying(false);
+      return;
+    }
+
+    navigate({
+      to: "/p/$playlistID/$videoID",
+      params: { playlistID: playlistItem.playlist.id, videoID: nextItemID },
+      search: true,
+    });
+  }, [nextItemID, playlistItem.playlist.id, navigate]);
+
+  const onVideoError = React.useCallback((error: Error) => {
+    /** User denied autoplay or browser didn't allow it yet, ignore and wait for manual play */
+    if (error?.message?.includes("user denied permission")) {
+      return;
+    }
+
+    setFailedToLoad?.(true);
+  }, []);
 
   React.useEffect(() => {
     if (!nextItemID) {
@@ -39,77 +62,44 @@ export function VideoPlayer({ playlistItem }: Props) {
   }, [router, playlistItem, nextItemID]);
 
   React.useEffect(() => {
+    setPlaying(true);
     setFailedToLoad(false);
   }, [playlistItem.id]);
 
-  const onError = (error: Error, _data?: any, _hlsInstance?: any, _hlsGlobal?: any) => {
-    /** User denied autoplay or browser didn't allow it yet, ignore and wait for manual play */
-    if (error?.message?.includes("user denied permission")) {
-      return;
-    }
-
-    setFailedToLoad(true);
-  };
-
-  const navigateToNextVideo = () => {
-    if (!nextItemID) {
-      return;
-    }
-
-    navigate({
-      to: "/p/$playlistID/$videoID",
-      params: { playlistID: playlistItem.playlist.id, videoID: nextItemID },
-      search: true,
-    });
-  };
-
   return (
-    <>
-      <Helmet>
-        <title>
-          {playlistItem.title} • {playlistItem.playlist.name}
-        </title>
-      </Helmet>
+    <section className="z-10 flex h-auto w-full flex-col items-center gap-4">
+      <div className="sticky top-[106px] flex max-h-[912px] w-full justify-center sm:static">
+        <Player
+          playing={playing}
+          video={playlistItem}
+          onVideoEnded={onVideoEnded}
+          onVideoError={onVideoError}
+        />
+      </div>
 
-      <section className="z-10 flex h-auto w-full flex-col items-center gap-4">
-        <div className="sticky top-[106px] flex max-h-[912px] w-full justify-center sm:static">
-          <ReactPlayer
-            key={playlistItem.id}
-            playing
-            controls
-            width="100%"
-            height="100%"
-            url={playlistItem.url}
-            onError={onError}
-            onEnded={navigateToNextVideo}
-            style={{ aspectRatio: "16 / 9", width: "100%" }}
-          />
+      <Card className="bg-card flex w-full flex-row items-center justify-between gap-1 rounded-xl">
+        <div className="ml-6">
+          <CardTitle>
+            <h1 className="line-clamp-1 text-lg md:text-2xl">{playlistItem.title}</h1>
+          </CardTitle>
+
+          <Link target="_blank" rel="noopener noreferrer" to={playlistItem.rawUrl}>
+            <CardDescription className="mt-2 flex items-center gap-2">
+              {PLAYLIST_ITEM_KIND[playlistItem.kind]}
+              <LinkIcon className="size-3" />
+            </CardDescription>
+          </Link>
         </div>
 
-        <Card className="bg-card flex w-full flex-row items-center justify-between gap-1 rounded-xl">
-          <div className="ml-6">
-            <CardTitle>
-              <h1 className="line-clamp-1 text-lg md:text-2xl">{playlistItem.title}</h1>
-            </CardTitle>
-
-            <Link target="_blank" rel="noopener noreferrer" to={playlistItem.rawUrl}>
-              <CardDescription className="mt-2 flex items-center gap-2">
-                {PLAYLIST_ITEM_KIND[playlistItem.kind]}
-                <LinkIcon className="size-3" />
-              </CardDescription>
-            </Link>
-          </div>
-
-          <CardFooter className="py-0">
-            <PlayNextButton
-              playlistID={playlistItem.playlist.id}
-              nextItemID={nextItemID}
-              failedToLoad={failedToLoad}
-            />
-          </CardFooter>
-        </Card>
-      </section>
-    </>
+        <CardFooter className="py-0">
+          <PlayNextButton
+            playlistID={playlistItem.playlist.id}
+            nextItemID={nextItemID}
+            failedToLoad={failedToLoad}
+          />
+        </CardFooter>
+      </Card>
+    </section>
   );
 }
 

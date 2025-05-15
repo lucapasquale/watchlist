@@ -23,6 +23,7 @@
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.20",
     "@willsoto/nestjs-prometheus": "^6.0.2",
+    "@workspace/helpers": "workspace:*",
     "axios": "^1.8.4",
     "dataloader": "^2.2.3",
     "dotenv": "^16.5.0",

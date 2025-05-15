@@ -30,6 +30,10 @@ function parseEnvVars() {
     youtube: z.object({
       apiKey: z.string().min(1),
     }),
+    twitch: z.object({
+      clientId: z.string().min(1),
+      clientSecret: z.string().min(1),
+    }),
   });
 
   const { error, data } = schema.safeParse({
@@ -56,6 +60,10 @@ function parseEnvVars() {
     },
     youtube: {
       apiKey: process.env.YOUTUBE_API_KEY,
+    },
+    twitch: {
+      clientId: process.env.TWITCH_CLIENT_ID,
+      clientSecret: process.env.TWITCH_CLIENT_SECRET,
     },
   });
 
