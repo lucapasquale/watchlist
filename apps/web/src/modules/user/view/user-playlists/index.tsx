@@ -18,11 +18,7 @@ import { Button } from "@ui/components/ui/button.js";
 import { Card, CardDescription, CardTitle } from "@ui/components/ui/card.js";
 import { Skeleton } from "@ui/components/ui/skeleton.js";
 
-import {
-  DeletePlaylistDocument,
-  UserPlaylistsDocument,
-  UserViewDocument,
-} from "~common/graphql-types.js";
+import { DeletePlaylistDocument, UserPlaylistsDocument } from "~common/graphql-types.js";
 
 type Props = {
   userID: string;
@@ -37,7 +33,7 @@ export function UserPlaylists({ userID, isOwner }: Props) {
   });
 
   const [deletePlaylist] = useMutation(DeletePlaylistDocument, {
-    refetchQueries: [UserViewDocument],
+    refetchQueries: [UserPlaylistsDocument],
     awaitRefetchQueries: true,
   });
 
@@ -59,7 +55,12 @@ export function UserPlaylists({ userID, isOwner }: Props) {
       {data.user.playlists.map((playlist) => (
         <Card key={playlist.id} className="flex flex-row items-center justify-between">
           <div className="ml-4">
-            <Link to="/p/$playlistID" params={{ playlistID: playlist.id }}>
+            <Link
+              title={playlist.name}
+              to="/p/$playlistID"
+              params={{ playlistID: playlist.id }}
+              className="line-clamp-2"
+            >
               <CardTitle>{playlist.name}</CardTitle>
             </Link>
 

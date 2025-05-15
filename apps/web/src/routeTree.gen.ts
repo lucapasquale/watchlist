@@ -16,6 +16,7 @@ import { Route as IndexImport } from './routes/index'
 import { Route as UUserIDImport } from './routes/u/$userID'
 import { Route as AuthLogoutImport } from './routes/auth/logout'
 import { Route as PPlaylistIDIndexImport } from './routes/p/$playlistID/index'
+import { Route as PPlaylistIDPlayImport } from './routes/p/$playlistID/play'
 import { Route as PPlaylistIDVideoIDImport } from './routes/p/$playlistID/$videoID'
 import { Route as AuthGoogleRedirectImport } from './routes/auth/google/redirect'
 import { Route as AuthGoogleLoginImport } from './routes/auth/google/login'
@@ -49,6 +50,12 @@ const AuthLogoutRoute = AuthLogoutImport.update({
 const PPlaylistIDIndexRoute = PPlaylistIDIndexImport.update({
   id: '/p/$playlistID/',
   path: '/p/$playlistID/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PPlaylistIDPlayRoute = PPlaylistIDPlayImport.update({
+  id: '/p/$playlistID/play',
+  path: '/p/$playlistID/play',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -123,6 +130,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PPlaylistIDVideoIDImport
       parentRoute: typeof rootRoute
     }
+    '/p/$playlistID/play': {
+      id: '/p/$playlistID/play'
+      path: '/p/$playlistID/play'
+      fullPath: '/p/$playlistID/play'
+      preLoaderRoute: typeof PPlaylistIDPlayImport
+      parentRoute: typeof rootRoute
+    }
     '/p/$playlistID/': {
       id: '/p/$playlistID/'
       path: '/p/$playlistID'
@@ -143,6 +157,7 @@ export interface FileRoutesByFullPath {
   '/auth/google/login': typeof AuthGoogleLoginRoute
   '/auth/google/redirect': typeof AuthGoogleRedirectRoute
   '/p/$playlistID/$videoID': typeof PPlaylistIDVideoIDRoute
+  '/p/$playlistID/play': typeof PPlaylistIDPlayRoute
   '/p/$playlistID': typeof PPlaylistIDIndexRoute
 }
 
@@ -154,6 +169,7 @@ export interface FileRoutesByTo {
   '/auth/google/login': typeof AuthGoogleLoginRoute
   '/auth/google/redirect': typeof AuthGoogleRedirectRoute
   '/p/$playlistID/$videoID': typeof PPlaylistIDVideoIDRoute
+  '/p/$playlistID/play': typeof PPlaylistIDPlayRoute
   '/p/$playlistID': typeof PPlaylistIDIndexRoute
 }
 
@@ -166,6 +182,7 @@ export interface FileRoutesById {
   '/auth/google/login': typeof AuthGoogleLoginRoute
   '/auth/google/redirect': typeof AuthGoogleRedirectRoute
   '/p/$playlistID/$videoID': typeof PPlaylistIDVideoIDRoute
+  '/p/$playlistID/play': typeof PPlaylistIDPlayRoute
   '/p/$playlistID/': typeof PPlaylistIDIndexRoute
 }
 
@@ -179,6 +196,7 @@ export interface FileRouteTypes {
     | '/auth/google/login'
     | '/auth/google/redirect'
     | '/p/$playlistID/$videoID'
+    | '/p/$playlistID/play'
     | '/p/$playlistID'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -189,6 +207,7 @@ export interface FileRouteTypes {
     | '/auth/google/login'
     | '/auth/google/redirect'
     | '/p/$playlistID/$videoID'
+    | '/p/$playlistID/play'
     | '/p/$playlistID'
   id:
     | '__root__'
@@ -199,6 +218,7 @@ export interface FileRouteTypes {
     | '/auth/google/login'
     | '/auth/google/redirect'
     | '/p/$playlistID/$videoID'
+    | '/p/$playlistID/play'
     | '/p/$playlistID/'
   fileRoutesById: FileRoutesById
 }
@@ -211,6 +231,7 @@ export interface RootRouteChildren {
   AuthGoogleLoginRoute: typeof AuthGoogleLoginRoute
   AuthGoogleRedirectRoute: typeof AuthGoogleRedirectRoute
   PPlaylistIDVideoIDRoute: typeof PPlaylistIDVideoIDRoute
+  PPlaylistIDPlayRoute: typeof PPlaylistIDPlayRoute
   PPlaylistIDIndexRoute: typeof PPlaylistIDIndexRoute
 }
 
@@ -222,6 +243,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthGoogleLoginRoute: AuthGoogleLoginRoute,
   AuthGoogleRedirectRoute: AuthGoogleRedirectRoute,
   PPlaylistIDVideoIDRoute: PPlaylistIDVideoIDRoute,
+  PPlaylistIDPlayRoute: PPlaylistIDPlayRoute,
   PPlaylistIDIndexRoute: PPlaylistIDIndexRoute,
 }
 
@@ -242,6 +264,7 @@ export const routeTree = rootRoute
         "/auth/google/login",
         "/auth/google/redirect",
         "/p/$playlistID/$videoID",
+        "/p/$playlistID/play",
         "/p/$playlistID/"
       ]
     },
@@ -265,6 +288,9 @@ export const routeTree = rootRoute
     },
     "/p/$playlistID/$videoID": {
       "filePath": "p/$playlistID/$videoID.tsx"
+    },
+    "/p/$playlistID/play": {
+      "filePath": "p/$playlistID/play.tsx"
     },
     "/p/$playlistID/": {
       "filePath": "p/$playlistID/index.tsx"

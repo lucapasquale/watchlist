@@ -62,13 +62,13 @@ export function HeroSection() {
           {data?.playlists.slice(0, 3).map((playlist) => (
             <Card key={playlist.id}>
               <Link
-                to="/p/$playlistID/$videoID"
-                params={{ playlistID: playlist.id, videoID: playlist.firstItem?.id ?? "" }}
+                to="/p/$playlistID/play"
+                params={{ playlistID: playlist.id }}
                 className="group hover:no-underline"
               >
                 <div className="px-4">
                   <div className="mb-2 flex items-center justify-between group-hover:underline">
-                    <h3 className="text-lg font-bold">{playlist.name}</h3>
+                    <h3 className="line-clamp-2 text-lg font-bold">{playlist.name}</h3>
 
                     <Avatar>
                       <AvatarImage src={playlist.user.profilePictureUrl ?? undefined} />

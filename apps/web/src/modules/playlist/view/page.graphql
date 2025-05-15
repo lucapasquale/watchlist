@@ -30,3 +30,16 @@ query PlaylistView($playlistID: ID!, $shuffleSeed: String) {
     }
   }
 }
+
+query PlaylistPlayPage($playlistID: ID!, $shuffleSeed: String) {
+  playlist(id: $playlistID) {
+    id
+
+    firstItem(shuffleSeed: null) {
+      id
+    }
+    shuffleFirstItem: firstItem(shuffleSeed: $shuffleSeed) {
+      id
+    }
+  }
+}

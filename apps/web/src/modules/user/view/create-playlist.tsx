@@ -22,7 +22,7 @@ import { SelectContent, SelectItem, SelectTrigger, SelectValue } from "@ui/compo
 import {
   CreatePlaylistDocument,
   PlaylistNewItemsPosition,
-  UserViewDocument,
+  UserPlaylistsDocument,
 } from "~common/graphql-types.js";
 import { Route } from "~routes/index.js";
 
@@ -38,7 +38,8 @@ export function CreatePlaylist() {
   const [open, setOpen] = React.useState(false);
 
   const [createPlaylist, { loading }] = useMutation(CreatePlaylistDocument, {
-    refetchQueries: [UserViewDocument],
+    refetchQueries: [UserPlaylistsDocument],
+    awaitRefetchQueries: true,
   });
 
   const form = useForm<FormValues>({
