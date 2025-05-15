@@ -4,13 +4,17 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "build": "tsc",
     "test": "vitest",
     "test:watch": "vitest --watch",
     "lint": "oxlint --config ./.oxlintrc.json",
     "check-types": "tsc --noEmit"
   },
   "exports": {
-    "./*": "./src/*.ts"
+    "./*": {
+      "types": "./src/*.ts",
+      "default": "./dist/src/*.js"
+    }
   },
   "dependencies": {
   },
