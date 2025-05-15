@@ -84,14 +84,14 @@ export class RedditService {
     return data;
   }
 
-  private async getRootUrl(rawUrl: string) {
-    if (rawUrl.includes("/r/")) {
-      return new URL(rawUrl);
+  private async getRootUrl(href: string) {
+    if (href.includes("/r/")) {
+      return new URL(href);
     }
 
     let postUrl = null;
 
-    await axios.get(rawUrl, {
+    await axios.get(href, {
       beforeRedirect: (config) => {
         if (config.host === "www.reddit.com") {
           postUrl = config.href;
@@ -121,15 +121,15 @@ export class RedditService {
   }
 
   private async postToPlaylistItemData(post: Post): Promise<PlaylistItemData | null> {
-    const rawUrl = new URL("https://reddit.com");
-    rawUrl.pathname = post.permalink;
+    const href = new URL("https://reddit.com");
+    href.pathname = post.permalink;
 
     if (post.media && "reddit_video" in post.media) {
       return {
         kind: "reddit",
         title: post.title,
-        url: post.media.reddit_video.hls_url.split("?")[0]!,
-        rawUrl: rawUrl.toString(),
+        embedUrl: post.media.reddit_video.hls_url.split("?")[0]!,
+        href: href.toString(),
         thumbnailUrl: post.thumbnail.replaceAll("&amp;", "&"),
         durationSeconds: post.media.reddit_video.duration,
       };
@@ -144,7 +144,7 @@ export class RedditService {
       return {
         ...youtubeItem,
         title: post.title,
-        rawUrl: rawUrl.toString(),
+        href: href.toString(),
       };
     }
 
@@ -157,7 +157,7 @@ export class RedditService {
       return {
         ...twitchItem,
         title: post.title,
-        rawUrl: rawUrl.toString(),
+        href: href.toString(),
       };
     }
 

@@ -19,15 +19,15 @@ type PlaylistItem {
   title: String!
   thumbnailUrl: String!
   durationSeconds: Int!
-  url: String!
-  rawUrl: String!
+  embedUrl: String!
+  href: String!
 
   playlist: Playlist!
   nextItem(shuffleSeed: String): PlaylistItem
 }
 
 input UrlInformationInput {
-  rawUrl: String!
+  href: String!
   startTimeSeconds: Int
   endTimeSeconds: Int
 }
@@ -35,7 +35,7 @@ type UrlInformation {
   kind: PlaylistItemKind!
   title: String!
   thumbnailUrl: String!
-  url: String!
+  embedUrl: String!
   durationSeconds: Int!
 }
 
@@ -47,7 +47,7 @@ type Query {
 
 input CreatePlaylistItemInput {
   playlistID: ID!
-  rawUrl: String!
+  href: String!
   startTimeSeconds: Int
   endTimeSeconds: Int
 }

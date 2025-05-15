@@ -17,7 +17,7 @@ export type PlaylistData = {
 
 export type PlaylistItemData = Pick<
   PlaylistItem,
-  "kind" | "rawUrl" | "url" | "title" | "thumbnailUrl" | "durationSeconds"
+  "kind" | "href" | "embedUrl" | "title" | "thumbnailUrl" | "durationSeconds"
 >;
 
 @Injectable()
@@ -28,8 +28,8 @@ export class ExternalClientsService {
     private twitchService: TwitchService,
   ) {}
 
-  async getPlaylistFromUrl(rawUrl: string): Promise<PlaylistData | null> {
-    const url = new URL(rawUrl);
+  async getPlaylistFromUrl(href: string): Promise<PlaylistData | null> {
+    const url = new URL(href);
 
     if (this.youtubeService.urlMatches(url)) {
       return this.youtubeService.playlistDataFromUrl(url);
@@ -41,11 +41,8 @@ export class ExternalClientsService {
     return null;
   }
 
-  async getVideoFromUrl(
-    rawUrl: string,
-    options: UrlOptions = {},
-  ): Promise<PlaylistItemData | null> {
-    const url = new URL(rawUrl);
+  async getVideoFromUrl(href: string, options: UrlOptions = {}): Promise<PlaylistItemData | null> {
+    const url = new URL(href);
 
     if (this.youtubeService.urlMatches(url)) {
       return this.youtubeService.playlistItemDataFromUrl(url, options);

@@ -81,8 +81,8 @@ export class TwitchService {
     return {
       kind: "twitch_video",
       title: clip.title,
-      rawUrl: clip.url,
-      url: videoUrl.toString(),
+      href: clip.url,
+      embedUrl: videoUrl.toString(),
       thumbnailUrl: clip.thumbnail_url,
       durationSeconds: Math.floor(clip.duration),
     };

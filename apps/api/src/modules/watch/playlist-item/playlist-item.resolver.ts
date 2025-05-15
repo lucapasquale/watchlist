@@ -43,16 +43,16 @@ export class PlaylistItemResolver {
     @Args("input")
     input: {
       playlistID: number;
-      rawUrl: string;
+      href: string;
       startTimeSeconds?: number;
       endTimeSeconds?: number;
     },
   ) {
-    const [playlist, firstItem, lastItem, urlInformation] = await Promise.all([
+    const [playlist, firstItem, lastItem, itemData] = await Promise.all([
       this.playlistService.getById(input.playlistID),
       this.playlistItemService.getFirstFromPlaylist(input.playlistID),
       this.playlistItemService.getLastFromPlaylist(input.playlistID),
-      this.externalClientsService.getVideoFromUrl(input.rawUrl, {
+      this.externalClientsService.getVideoFromUrl(input.href, {
         startTimeSeconds: input.startTimeSeconds,
         endTimeSeconds: input.endTimeSeconds,
       }),
@@ -61,7 +61,7 @@ export class PlaylistItemResolver {
     if (playlist.userId !== user.userId) {
       throw new Error("Playlist not found");
     }
-    if (!urlInformation) {
+    if (!itemData) {
       throw new Error("Invalid URL");
     }
 
@@ -71,12 +71,12 @@ export class PlaylistItemResolver {
         playlist.newItemsPosition === "bottom" ? [lastItem, undefined] : [undefined, firstItem],
       ).toString(),
 
-      kind: urlInformation.kind,
-      rawUrl: input.rawUrl,
-      url: urlInformation.url,
-      title: urlInformation.title,
-      thumbnailUrl: urlInformation.thumbnailUrl,
-      durationSeconds: urlInformation.durationSeconds,
+      kind: itemData.kind,
+      href: input.href,
+      embedUrl: itemData.embedUrl,
+      title: itemData.title,
+      thumbnailUrl: itemData.thumbnailUrl,
+      durationSeconds: itemData.durationSeconds,
     });
   }
 

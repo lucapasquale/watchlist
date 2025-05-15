@@ -8,9 +8,9 @@ export class ExternalClientsResolver {
 
   @Query()
   async urlInformation(
-    @Args("input") input: { rawUrl: string; startTimeSeconds?: number; endTimeSeconds?: number },
+    @Args("input") input: { href: string; startTimeSeconds?: number; endTimeSeconds?: number },
   ) {
-    return this.externalClientsService.getVideoFromUrl(input.rawUrl, {
+    return this.externalClientsService.getVideoFromUrl(input.href, {
       startTimeSeconds: input.startTimeSeconds,
       endTimeSeconds: input.endTimeSeconds,
     });
