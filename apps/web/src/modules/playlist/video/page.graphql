@@ -4,8 +4,8 @@
     kind
     title
     thumbnailUrl
-    url
-    rawUrl
+    embedUrl
+    href
     durationSeconds
 
     playlist {

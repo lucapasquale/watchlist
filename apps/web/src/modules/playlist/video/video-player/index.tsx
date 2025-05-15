@@ -83,7 +83,7 @@ export function VideoPlayer({ playlistItem }: Props) {
             <h1 className="line-clamp-1 text-lg md:text-2xl">{playlistItem.title}</h1>
           </CardTitle>
 
-          <Link target="_blank" rel="noopener noreferrer" to={playlistItem.rawUrl}>
+          <Link target="_blank" rel="noopener noreferrer" to={playlistItem.href}>
             <CardDescription className="mt-2 flex items-center gap-2">
               {PLAYLIST_ITEM_KIND[playlistItem.kind]}
               <LinkIcon className="size-3" />

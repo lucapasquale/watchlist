@@ -5,7 +5,7 @@ import { parseDuration } from "@helpers/duration.js";
 
 import { PlaylistItem, PlaylistItemKind } from "~common/graphql-types.js";
 
-type Video = Pick<PlaylistItem, "kind" | "title" | "thumbnailUrl" | "url" | "durationSeconds">;
+type Video = Pick<PlaylistItem, "kind" | "title" | "thumbnailUrl" | "embedUrl" | "durationSeconds">;
 
 type Props = {
   playing?: boolean;
@@ -28,7 +28,7 @@ export function Player({ video, onVideoEnded, onVideoError, playing = false }: P
         return;
       }
 
-      const vodStart = new URL(video.url).searchParams.get("t");
+      const vodStart = new URL(video.embedUrl).searchParams.get("t");
       if (!vodStart) {
         return;
       }
@@ -54,7 +54,7 @@ export function Player({ video, onVideoEnded, onVideoError, playing = false }: P
       controls
       width="100%"
       height="100%"
-      url={video.url}
+      url={video.embedUrl}
       onError={onVideoError}
       onEnded={onVideoEnded}
       style={{ aspectRatio: "16 / 9", width: "100%" }}

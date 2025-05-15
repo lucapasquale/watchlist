@@ -19,17 +19,17 @@ type Props = {
 export function VideoPreview({ loading }: Props) {
   const form = useFormContext<FormValues>();
 
-  const [previewUrl, _setPreviewUrl] = React.useState<string | null>(null);
+  const [embedUrl, _setEmbedUrl] = React.useState<string | null>(null);
 
   const videoInfo = form.watch("videoInfo");
 
   React.useEffect(() => {
-    _setPreviewUrl(videoInfo?.url ?? null);
+    _setEmbedUrl(videoInfo?.embedUrl ?? null);
   }, [videoInfo]);
 
   const onTimeRangeChange = debounce((value: [number, number]) => {
     if (!videoInfo) {
-      _setPreviewUrl(null);
+      _setEmbedUrl(null);
       return;
     }
 
@@ -37,18 +37,18 @@ export function VideoPreview({ loading }: Props) {
       return;
     }
 
-    const url = new URL(videoInfo.url);
+    const url = new URL(videoInfo.embedUrl);
     url.searchParams.set("start", String(value[0]));
     url.searchParams.set("end", String(value[1]));
 
-    _setPreviewUrl(url.toString());
+    _setEmbedUrl(url.toString());
   }, 500);
 
   if (loading) {
     return <Skeleton className="h-[325px] w-full" />;
   }
 
-  if (!videoInfo || !previewUrl) {
+  if (!videoInfo || !embedUrl) {
     return null;
   }
 
@@ -58,7 +58,7 @@ export function VideoPreview({ loading }: Props) {
         <Label>Preview</Label>
 
         <div className="mt-2 aspect-video max-h-[310px]">
-          <Player video={{ ...videoInfo, url: previewUrl }} />
+          <Player video={{ ...videoInfo, embedUrl }} />
         </div>
       </div>
 

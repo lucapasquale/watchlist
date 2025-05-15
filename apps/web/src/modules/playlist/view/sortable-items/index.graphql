@@ -38,7 +38,7 @@ fragment PlaylistItemFrag on PlaylistItem {
   kind
   title
   thumbnailUrl
-  rawUrl
+  href
 
   nextItem(shuffleSeed: null) {
     id
