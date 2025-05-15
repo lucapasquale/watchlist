@@ -29,5 +29,10 @@
 
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@helpers/*": ["../../libs/helpers/src/*"],
+    }
   }
 }
