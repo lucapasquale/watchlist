@@ -21,6 +21,7 @@
     "@hookform/resolvers": "^5.0.1",
     "@tanstack/react-query": "^5.74.4",
     "@tanstack/react-router": "^1.116.0",
+    "@workspace/helpers": "workspace:*",
     "@workspace/ui": "workspace:*",
     "graphql": "^16.10.0",
     "lodash": "^4.17.21",

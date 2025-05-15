@@ -6,6 +6,7 @@
     thumbnailUrl
     url
     rawUrl
+    durationSeconds
 
     playlist {
       id

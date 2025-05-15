@@ -1,12 +1,12 @@
 import { debounce } from "lodash";
 import React from "react";
 import { useFormContext } from "react-hook-form";
-import ReactPlayer from "react-player";
 
 import { SliderFormItem } from "@ui/components/form/slider-form-item.js";
 import { Label } from "@ui/components/ui/label.js";
 import { Skeleton } from "@ui/components/ui/skeleton.js";
 
+import { Player } from "~common/components/player/index.js";
 import { PlaylistItemKind } from "~common/graphql-types.js";
 import { formatDuration } from "~common/utils/time.js";
 
@@ -33,6 +33,10 @@ export function VideoPreview({ loading }: Props) {
       return;
     }
 
+    if (videoInfo.kind !== PlaylistItemKind.Youtube) {
+      return;
+    }
+
     const url = new URL(videoInfo.url);
     url.searchParams.set("start", String(value[0]));
     url.searchParams.set("end", String(value[1]));
@@ -54,7 +58,7 @@ export function VideoPreview({ loading }: Props) {
         <Label>Preview</Label>
 
         <div className="mt-2 aspect-video max-h-[310px]">
-          <ReactPlayer controls url={previewUrl} width="100%" height="100%" />
+          <Player video={{ ...videoInfo, url: previewUrl }} />
         </div>
       </div>
 

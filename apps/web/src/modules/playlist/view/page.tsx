@@ -13,7 +13,6 @@ import { SortableItems } from "./sortable-items/index.js";
 export function Page() {
   const { playlistID } = Route.useParams();
   const shuffleSeed = React.useRef(Date.now().toString());
-  console.log({ shuffleSeed: shuffleSeed.current ?? "" });
 
   const { user } = useCurrentUser();
 

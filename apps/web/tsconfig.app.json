@@ -8,6 +8,7 @@
     "baseUrl": ".",
     "paths": {
       "@api/*": ["../api/src/*"],
+      "@helpers/*": ["../../libs/helpers/src/*"],
       "@ui/*": ["../../libs/ui/src/*"],
 
       "~common/*": ["./src/common/*"],

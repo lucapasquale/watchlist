@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { parseDuration } from "@workspace/helpers/duration";
 import axios, { AxiosInstance } from "axios";
 
 import { config } from "../../../config.js";
@@ -16,7 +17,7 @@ export class YoutubeService {
   }
 
   urlMatches(url: URL) {
-    return url.href.match(/youtube.com/gi);
+    return url.href.match(/youtube.com/gi) || url.href.match(/youtu.be/gi);
   }
 
   async playlistDataFromUrl(url: URL): Promise<PlaylistData | null> {
@@ -65,18 +66,12 @@ export class YoutubeService {
     url: URL,
     options: UrlOptions = {},
   ): Promise<PlaylistItemData | null> {
-    const usp = new URLSearchParams(url.search);
-    const videoID = usp.get("v");
-    if (!videoID) {
-      return null;
-    }
-
-    const video = await this.getVideo(videoID);
+    const video = await this.loadUrlVideo(url);
     if (!video) {
       return null;
     }
 
-    const videoUrl = new URL(`https://www.youtube.com/embed/${videoID}`);
+    const videoUrl = new URL(`https://www.youtube.com/embed/${video.id}`);
     if (options.startTimeSeconds) {
       videoUrl.searchParams.set("start", String(options.startTimeSeconds));
     }
@@ -90,8 +85,24 @@ export class YoutubeService {
       url: videoUrl.toString(),
       title: video.snippet.title,
       thumbnailUrl: video.snippet.thumbnails.medium.url,
-      durationSeconds: this.getVideoDuration(video.contentDetails.duration),
+      durationSeconds: parseDuration(video.contentDetails.duration.replace("PT", "")),
     };
+  }
+
+  private async loadUrlVideo(url: URL) {
+    if (url.host === "youtu.be") {
+      const videoID = url.pathname.replace("/", "");
+      return this.getVideo(videoID);
+    }
+
+    if (url.host.replace("www.", "") === "youtube.com") {
+      const videoID = new URLSearchParams(url.search).get("v");
+      if (videoID) {
+        return this.getVideo(videoID);
+      }
+    }
+
+    return null;
   }
 
   private async getPlaylist(playlistID: string) {
@@ -121,20 +132,6 @@ export class YoutubeService {
     });
 
     return data.items[0];
-  }
-
-  private getVideoDuration(durationCode: string) {
-    const matches = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/.exec(durationCode);
-    if (!matches) {
-      console.error("Invalid duration code", durationCode);
-      throw new Error("Invalid duration code");
-    }
-
-    const hours = parseInt(matches[1] || "0");
-    const minutes = parseInt(matches[2] || "0");
-    const seconds = parseInt(matches[3] || "0");
-
-    return hours * 3600 + minutes * 60 + seconds;
   }
 }
 

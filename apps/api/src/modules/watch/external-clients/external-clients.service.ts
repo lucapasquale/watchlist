@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 
 import type { PlaylistItem } from "../playlist-item/playlist-item.model.js";
 import { RedditService } from "./reddit.service.js";
+import { TwitchService } from "./twitch.service.js";
 import { YoutubeService } from "./youtube.service.js";
 
 export type UrlOptions = {
@@ -24,6 +25,7 @@ export class ExternalClientsService {
   constructor(
     private youtubeService: YoutubeService,
     private redditService: RedditService,
+    private twitchService: TwitchService,
   ) {}
 
   async getPlaylistFromUrl(rawUrl: string): Promise<PlaylistData | null> {
@@ -48,9 +50,11 @@ export class ExternalClientsService {
     if (this.youtubeService.urlMatches(url)) {
       return this.youtubeService.playlistItemDataFromUrl(url, options);
     }
-
     if (this.redditService.urlMatches(url)) {
       return this.redditService.playlistItemDataFromUrl(url);
+    }
+    if (this.twitchService.urlMatches(url)) {
+      return this.twitchService.playlistItemDataFromUrl(url);
     }
 
     return null;
