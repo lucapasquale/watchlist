@@ -68,8 +68,9 @@ export function VideoPlayer({ playlistItem }: Props) {
 
   return (
     <section className="z-10 flex h-auto w-full flex-col items-center gap-4">
-      <div className="sticky top-[106px] flex max-h-[912px] w-full justify-center sm:static">
+      <div className="sticky top-[106px] flex w-full justify-center sm:static md:h-[481.5px] 2xl:h-[625.5px]">
         <Player
+          key={playlistItem.id}
           playing={playing}
           video={playlistItem}
           onVideoEnded={onVideoEnded}

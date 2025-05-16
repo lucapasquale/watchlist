@@ -1,5 +1,4 @@
 import { Injectable } from "@nestjs/common";
-import { timeToDuration } from "@workspace/helpers/duration";
 import axios, { AxiosInstance } from "axios";
 
 import { config } from "../../../config.js";
@@ -68,21 +67,11 @@ export class TwitchService {
   }
 
   private clipToPlaylistItemData(clip: Clip): PlaylistItemData | null {
-    if (!clip.video_id) {
-      return null;
-    }
-
-    const videoUrl = new URL("https://www.twitch.tv/videos/" + clip.video_id);
-
-    // Twitch offset is in the future for whatever reason, start 5 seconds earlier
-    const vodOffset = Math.max(clip.vod_offset - 5, 0);
-    videoUrl.searchParams.set("t", timeToDuration(vodOffset).toLowerCase());
-
     return {
-      kind: "twitch_video",
+      kind: "twitch_clip",
       title: clip.title,
       href: clip.url,
-      embedUrl: videoUrl.toString(),
+      embedUrl: clip.embed_url,
       thumbnailUrl: clip.thumbnail_url,
       durationSeconds: Math.floor(clip.duration),
     };

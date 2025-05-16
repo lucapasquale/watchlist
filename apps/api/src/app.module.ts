@@ -31,7 +31,7 @@ import { WatchModule } from "./modules/watch/watch.module.js";
             PlaylistItemKind: {
               YOUTUBE: "youtube",
               REDDIT: "reddit",
-              TWITCH_VIDEO: "twitch_video",
+              TWITCH_CLIP: "twitch_clip",
             },
           },
         };

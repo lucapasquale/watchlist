@@ -46,7 +46,7 @@ export function PlayNextButton({ playlistID, nextItemID, failedToLoad }: Props) 
         className="relative enabled:data-[skip=true]:bg-red-300 enabled:data-[skip=true]:*:aria-hidden:[clip-path:inset(0px_0px_0px_0px)] enabled:data-[skip=true]:*:aria-hidden:[transition:clip-path_2s_linear]"
       >
         <div
-          aria-hidden="true"
+          aria-hidden
           ref={insetButtonRef}
           className={cn(
             "absolute left-0 top-0 h-full w-full [clip-path:inset(0px_100%_0px_0px)] [transition:clip-path_0ms_ease-out]",

@@ -129,7 +129,7 @@ export type PlaylistItemNextItemArgs = {
 
 export enum PlaylistItemKind {
   Reddit = 'REDDIT',
-  TwitchVideo = 'TWITCH_VIDEO',
+  TwitchClip = 'TWITCH_CLIP',
   Youtube = 'YOUTUBE'
 }
 
