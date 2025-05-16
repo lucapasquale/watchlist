@@ -9,7 +9,7 @@ type Playlist {
 enum PlaylistItemKind {
   YOUTUBE
   REDDIT
-  TWITCH_VIDEO
+  TWITCH_CLIP
 }
 
 type PlaylistItem {

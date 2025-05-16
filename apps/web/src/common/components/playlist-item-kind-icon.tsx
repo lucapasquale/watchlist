@@ -20,7 +20,7 @@ export function PlaylistItemKindIcon({ kind, className }: Props) {
     case PlaylistItemKind.Reddit:
       return <Reddit className={cn("size-4", className)} />;
 
-    case PlaylistItemKind.TwitchVideo:
+    case PlaylistItemKind.TwitchClip:
       return <Twitch className={cn("size-4", className)} />;
 
     default:

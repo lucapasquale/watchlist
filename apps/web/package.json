@@ -23,6 +23,7 @@
     "@tanstack/react-router": "^1.116.0",
     "@workspace/helpers": "workspace:*",
     "@workspace/ui": "workspace:*",
+    "axios": "^1.8.4",
     "graphql": "^16.10.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.488.0",
@@ -33,6 +34,7 @@
     "react-hook-form": "^7.55.0",
     "react-player": "^2.16.0",
     "react-window": "^1.8.11",
+    "video.js": "^8.22.0",
     "zod": "^3.24.3"
   },
   "devDependencies": {
