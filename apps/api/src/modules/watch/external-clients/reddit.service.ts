@@ -136,29 +136,11 @@ export class RedditService {
     }
 
     if (this.youtubeService.urlMatches(new URL(post.url))) {
-      const youtubeItem = await this.youtubeService.playlistItemDataFromUrl(new URL(post.url));
-      if (!youtubeItem) {
-        return null;
-      }
-
-      return {
-        ...youtubeItem,
-        title: post.title,
-        href: href.toString(),
-      };
+      return this.youtubeService.playlistItemDataFromUrl(new URL(post.url));
     }
 
     if (this.twitchService.urlMatches(new URL(post.url))) {
-      const twitchItem = await this.twitchService.playlistItemDataFromUrl(new URL(post.url));
-      if (!twitchItem) {
-        return null;
-      }
-
-      return {
-        ...twitchItem,
-        title: post.title,
-        href: href.toString(),
-      };
+      return this.twitchService.playlistItemDataFromUrl(new URL(post.url));
     }
 
     return null;
