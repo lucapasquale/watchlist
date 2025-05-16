@@ -37,7 +37,7 @@ export function QueueSidebar({ playlist }: Props) {
   return (
     <Card
       ref={cardRef}
-      className="bg-card flex h-full w-full flex-col overflow-y-clip pb-0 xl:w-[400px] xl:min-w-[400px]"
+      className="bg-card flex h-[calc(100vh_-500px)] w-full flex-col overflow-y-clip pb-0 sm:h-full xl:w-[400px] xl:min-w-[400px]"
     >
       <CardHeader>
         <CardTitle
