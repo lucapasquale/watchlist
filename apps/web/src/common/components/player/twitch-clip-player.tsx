@@ -1,15 +1,9 @@
 import React from "react";
-import videojs from "video.js";
-import VideoJSPlayer from "video.js/dist/types/player";
-import "video.js/dist/video-js.css";
-
-import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { Props } from ".";
 
 export function TwitchClipPlayer({ video, onVideoEnded, onVideoError }: Props) {
-  const videoRef = React.useRef<HTMLVideoElement | null>(null);
-  const playerRef = React.useRef<VideoJSPlayer | null>(null);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
 
   const [clipSrc, setClipSrc] = React.useState<string | null>(null);
 
@@ -38,67 +32,31 @@ export function TwitchClipPlayer({ video, onVideoEnded, onVideoError }: Props) {
   }, [video]);
 
   React.useEffect(() => {
-    if (!videoRef.current || !clipSrc) {
+    if (!videoRef.current) {
       return;
     }
 
-    playerRef.current = videojs(videoRef.current, {
-      controls: true,
-      autoplay: true,
-      fluid: true,
-      responsive: true,
-      aspectRatio: "16:9",
-      bigPlayButton: false,
-      preload: "auto",
-      sources: [{ src: clipSrc, type: "video/mp4" }],
-      techOrder: ["html5"],
+    videoRef.current.addEventListener("ended", () => {
+      onVideoEnded?.();
     });
-
-    const player = playerRef.current;
-    if (!player) {
-      return;
-    }
-
-    player.on("loadedmetadata", () => {
-      if (!player.paused()) {
-        return;
-      }
-
-      player.play()?.catch((err) => {
-        console.warn("Play failed:", err);
-      });
-    });
-
-    player.on("error", (e: any) => {
+    videoRef.current.addEventListener("error", (e: any) => {
       onVideoError?.(e);
     });
 
-    player.on("ended", () => {
-      onVideoEnded?.();
-    });
-
     return () => {
-      if (!playerRef.current || playerRef.current.isDisposed()) {
-        return;
-      }
-
-      try {
-        playerRef.current.dispose();
-      } catch (e) {
-        console.warn("Error during Video.js dispose:", e);
-      }
-      playerRef.current = null;
+      videoRef.current?.removeEventListener("ended", () => {
+        onVideoEnded?.();
+      });
+      videoRef.current?.removeEventListener("error", (e: any) => {
+        onVideoError?.(e);
+      });
     };
-  }, [clipSrc, onVideoEnded, onVideoError]);
-
-  if (!clipSrc) {
-    return <Skeleton />;
-  }
+  }, [onVideoEnded, onVideoError]);
 
   return (
-    <div data-vjs-player>
-      <video ref={videoRef} className="video-js vjs-default-skin" />
-    </div>
+    <video autoPlay controls ref={videoRef} width="100%" height="100%">
+      {clipSrc && <source src={clipSrc} type="video/mp4" />}
+    </video>
   );
 }
 
