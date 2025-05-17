@@ -54,14 +54,14 @@ export function TwitchClipPlayer({ video, onVideoEnded, onVideoError }: Props) {
   }, [onVideoEnded, onVideoError]);
 
   return (
-    <video autoPlay controls ref={videoRef} width="100%" height="100%">
+    <video autoPlay controls ref={videoRef} width="100%" height="100%" className="min-h-[210px]">
       {clipSrc && <source src={clipSrc} type="video/mp4" />}
     </video>
   );
 }
 
 /**
- * Fetch the direct download URL for a Twitch clip.
+ * Gets the download URL for a Twitch clip
  * @url https://github.com/jakemiki/twitch-clip-queue/blob/main/src/common/apis/twitchApi.ts#L26
  */
 async function getClipDownloadUrl(clipId: string, signal?: AbortSignal) {

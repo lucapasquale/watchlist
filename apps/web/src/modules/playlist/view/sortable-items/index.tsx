@@ -11,6 +11,7 @@ import React from "react";
 import { FixedSizeList } from "react-window";
 
 import { Skeleton } from "@ui/components/ui/skeleton.js";
+import { useComponentSize } from "@ui/hooks/use-component-size.js";
 
 import {
   MovePlaylistItemDocument,
@@ -28,6 +29,9 @@ type Props = {
 };
 
 export function SortableItems({ playlist, isOwner }: Props) {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const { height: cardHeight } = useComponentSize(containerRef);
+
   const [items, setItems] = React.useState(playlist.items);
 
   const [moveVideo] = useMutation(MovePlaylistItemDocument, {
@@ -82,33 +86,34 @@ export function SortableItems({ playlist, isOwner }: Props) {
   }
 
   return (
-    <FixedSizeList
-      itemData={items}
-      itemCount={items.length}
-      itemSize={ITEM_HEIGHT_PX}
-      overscanCount={3}
-      height={800}
-      width="100%"
-      innerElementType={innerElementType}
-    >
-      {({ index, style }) => {
-        const item = items[index];
+    <div ref={containerRef} className="h-[calc(100dvh_-_402px)]">
+      <FixedSizeList
+        itemData={items}
+        itemCount={items.length}
+        itemSize={ITEM_HEIGHT_PX}
+        height={cardHeight}
+        width="100%"
+        innerElementType={innerElementType}
+      >
+        {({ index, style }) => {
+          const item = items[index];
 
-        return (
-          <PlaylistItem
-            key={item.id}
-            index={index}
-            item={item}
-            isOwner={isOwner}
-            onDelete={() => onDelete(index)}
-            style={{
-              ...style,
-              top: parseFloat(style.top as string) + 8 * index,
-            }}
-          />
-        );
-      }}
-    </FixedSizeList>
+          return (
+            <PlaylistItem
+              key={item.id}
+              index={index}
+              item={item}
+              isOwner={isOwner}
+              onDelete={() => onDelete(index)}
+              style={{
+                ...style,
+                top: parseFloat(style.top as string) + 8 * index,
+              }}
+            />
+          );
+        }}
+      </FixedSizeList>
+    </div>
   );
 }
 

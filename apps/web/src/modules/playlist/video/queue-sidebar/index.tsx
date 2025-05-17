@@ -43,7 +43,7 @@ export function QueueSidebar({ playlist }: Props) {
   return (
     <Card
       ref={cardRef}
-      className="bg-card flex h-[calc(100dvh_-462px)] w-full flex-col gap-2 overflow-y-clip py-4 pb-0 sm:h-full sm:gap-4 sm:py-6 xl:w-[400px] xl:min-w-[400px]"
+      className="bg-card flex h-[calc(100dvh_-_462px)] w-full flex-col gap-2 overflow-y-clip py-4 pb-0 sm:h-full sm:gap-4 sm:py-6 xl:w-[400px] xl:min-w-[400px]"
     >
       <CardHeader>
         <CardTitle className="grid grid-cols-[1fr_32px] items-center justify-between gap-2">
