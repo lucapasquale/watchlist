@@ -18,7 +18,7 @@ export function Page() {
 
   if (!data) {
     return (
-      <main className="container mx-auto my-4 flex flex-col gap-2 px-2 sm:gap-6 sm:px-0 xl:flex-row">
+      <main className="container mx-auto my-2 flex flex-col gap-2 px-2 sm:my-4 sm:gap-6 sm:px-0 xl:flex-row">
         <VideoPlayer.Skeleton />
 
         <QueueSidebar.Skeleton />
@@ -34,7 +34,7 @@ export function Page() {
         </title>
       </Helmet>
 
-      <main className="container mx-auto my-4 flex flex-col gap-2 px-2 sm:gap-6 sm:px-0 xl:flex-row">
+      <main className="container mx-auto my-2 flex flex-col gap-2 px-2 sm:my-4 sm:gap-6 sm:px-0 xl:flex-row">
         <VideoPlayer playlistItem={data.playlistItem} />
 
         <aside className="h-150px md:h-[607.5px] 2xl:h-[751.5px]">

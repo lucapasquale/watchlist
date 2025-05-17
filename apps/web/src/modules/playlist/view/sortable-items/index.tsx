@@ -86,7 +86,7 @@ export function SortableItems({ playlist, isOwner }: Props) {
   }
 
   return (
-    <div ref={containerRef} className="h-[calc(100dvh_-_402px)]">
+    <div ref={containerRef} className="h-[calc(100dvh_-_390px)]">
       <FixedSizeList
         itemData={items}
         itemCount={items.length}

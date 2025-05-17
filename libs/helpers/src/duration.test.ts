@@ -23,20 +23,20 @@ describe("parseDuration", () => {
 
 describe("timeToDuration", () => {
   test("can convert time to duration", () => {
-    expect(timeToDuration(12445)).toBe("3h27m25s");
-    expect(timeToDuration(5445)).toBe("1h30m45s");
-    expect(timeToDuration(5400)).toBe("1h30m");
-    expect(timeToDuration(3600)).toBe("1h");
-    expect(timeToDuration(1800)).toBe("30m");
-    expect(timeToDuration(45)).toBe("45s");
+    expect(timeToDuration(12445)).toBe("3:27:25");
+    expect(timeToDuration(5445)).toBe("1:30:45");
+    expect(timeToDuration(5400)).toBe("1:30:00");
+    expect(timeToDuration(3600)).toBe("1:00:00");
+    expect(timeToDuration(1800)).toBe("30:00");
+    expect(timeToDuration(45)).toBe("0:45");
   });
-});
 
-test("can go back and forth between duration and time", () => {
-  const cases = ["1h30m45s", "1h30m", "1h", "30m", "45s"];
-
-  for (const duration of cases) {
-    const time = parseDuration(duration);
-    expect(timeToDuration(time)).toBe(duration);
-  }
+  test("adds correct padding", () => {
+    expect(timeToDuration(3600)).toBe("1:00:00");
+    expect(timeToDuration(650)).toBe("10:50");
+    expect(timeToDuration(65)).toBe("1:05");
+    expect(timeToDuration(27)).toBe("0:27");
+    expect(timeToDuration(2)).toBe("0:02");
+    expect(timeToDuration(0)).toBe("0:00");
+  });
 });

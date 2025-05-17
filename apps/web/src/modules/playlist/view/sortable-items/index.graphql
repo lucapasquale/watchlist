@@ -38,6 +38,7 @@ fragment PlaylistItemFrag on PlaylistItem {
   kind
   title
   thumbnailUrl
+  durationSeconds
   href
 
   nextItem(shuffleSeed: null) {

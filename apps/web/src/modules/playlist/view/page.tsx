@@ -23,7 +23,7 @@ export function Page() {
 
   if (!data) {
     return (
-      <main className="container mx-auto my-2 grid grid-cols-1 items-start gap-4 px-2 sm:gap-6 sm:px-0 lg:grid-cols-[minmax(min(350px,100%),_1fr)_3fr]">
+      <main className="container mx-auto mb-2 grid grid-cols-1 items-start gap-4 px-2 sm:my-2 sm:gap-6 sm:px-0 lg:grid-cols-[minmax(min(350px,100%),_1fr)_3fr]">
         <section className="flex flex-col gap-4">
           <PlaylistInfo.Skeleton />
           <AddItem.Skeleton />
@@ -42,7 +42,7 @@ export function Page() {
         <title>watchlist • {data.playlist.name}</title>
       </Helmet>
 
-      <main className="container mx-auto my-2 grid grid-cols-1 items-start gap-4 px-2 sm:gap-6 sm:px-0 lg:grid-cols-[minmax(min(350px,100%),_1fr)_3fr]">
+      <main className="container mx-auto mb-2 grid grid-cols-1 items-start gap-4 px-2 sm:my-2 sm:gap-6 sm:px-0 lg:grid-cols-[minmax(min(350px,100%),_1fr)_3fr]">
         <div className="mt-2 flex flex-col gap-4">
           <PlaylistInfo
             playlist={data.playlist}

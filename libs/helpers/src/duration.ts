@@ -21,14 +21,13 @@ export function timeToDuration(time: number): string {
   let duration = "";
 
   if (hours > 0) {
-    duration += `${hours}h`;
+    duration += `${hours}:`;
   }
-  if (minutes > 0) {
-    duration += `${minutes}m`;
-  }
-  if (seconds > 0) {
-    duration += `${seconds}s`;
-  }
+
+  const minutePaddingLength = hours > 0 ? 2 : 1;
+  duration += `${minutes.toString().padStart(minutePaddingLength, "0")}:`;
+
+  duration += `${seconds.toString().padStart(2, "0")}`;
 
   return duration;
 }

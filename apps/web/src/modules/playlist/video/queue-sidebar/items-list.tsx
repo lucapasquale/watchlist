@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { timeToDuration } from "@workspace/helpers/duration";
 import { cn } from "@workspace/ui/lib/utils";
 import React from "react";
 import { FixedSizeList } from "react-window";
@@ -59,7 +60,13 @@ export function ItemsList({ playlist, currentItemIndex, listHeight }: Props) {
             >
               <p className="min-w-4 text-center text-xs">{index + 1}</p>
 
-              <img src={item.thumbnailUrl} className="aspect-video h-[56px] w-[100px] rounded-md" />
+              <div className="relative aspect-video h-[56px] w-[100px] overflow-clip rounded-md bg-black">
+                <img src={item.thumbnailUrl} alt={item.title} className="w-full object-center" />
+
+                <div className="absolute bottom-1 right-1 z-10 rounded-md bg-black/50 px-1 py-[1px] text-xs">
+                  {timeToDuration(item.durationSeconds)}
+                </div>
+              </div>
 
               <h1 title={item.title} className={cn("line-clamp-2", isActive && "font-bold")}>
                 {item.title}

@@ -13,6 +13,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { GripVertical, Trash } from "lucide-react";
 import React from "react";
 
+import { timeToDuration } from "@helpers/duration";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -143,10 +144,13 @@ export function PlaylistItem({ index, item, isOwner, onDelete, style }: Props) {
             params={{ playlistID, videoID: item.id }}
             className="group flex flex-1 basis-0 items-start gap-4 hover:no-underline md:items-center"
           >
-            <img
-              src={item.thumbnailUrl}
-              className="aspect-video min-h-[90px] min-w-[160px] basis-0 rounded-md"
-            />
+            <div className="relative aspect-video min-h-[90px] min-w-[160px] basis-0 overflow-clip rounded-md bg-black">
+              <img src={item.thumbnailUrl} alt={item.title} className="w-full object-center" />
+
+              <div className="absolute bottom-1 right-1 z-10 rounded-md bg-black/50 px-1 py-[1px] text-xs">
+                {timeToDuration(item.durationSeconds)}
+              </div>
+            </div>
 
             <div className="flex flex-col gap-0.5">
               <CardTitle
