@@ -53,9 +53,9 @@ export function HeroSection() {
 
           {loading && (
             <>
-              <Skeleton className="bg-card h-24 w-full rounded-lg border shadow-sm" />
-              <Skeleton className="bg-card h-24 w-full rounded-lg border shadow-sm" />
-              <Skeleton className="bg-card h-24 w-full rounded-lg border shadow-sm" />
+              <Skeleton className="bg-card h-[114px] w-full rounded-lg border shadow-sm" />
+              <Skeleton className="bg-card h-[114px] w-full rounded-lg border shadow-sm" />
+              <Skeleton className="bg-card h-[114px] w-full rounded-lg border shadow-sm" />
             </>
           )}
 

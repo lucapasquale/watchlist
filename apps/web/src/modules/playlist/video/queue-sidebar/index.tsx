@@ -11,8 +11,14 @@ import {
   CardTitle,
 } from "@ui/components/ui/card.js";
 import { Skeleton } from "@ui/components/ui/skeleton.js";
+import { Toggle } from "@ui/components/ui/toggle.js";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@ui/components/ui/tooltip.js";
 import { useComponentSize } from "@ui/hooks/use-component-size.js";
-import { cn } from "@ui/lib/utils.js";
 
 import { PlaylistItemViewQuery } from "~common/graphql-types.js";
 import { Route } from "~routes/p/$playlistID/$videoID.js";
@@ -37,17 +43,12 @@ export function QueueSidebar({ playlist }: Props) {
   return (
     <Card
       ref={cardRef}
-      className="bg-card flex h-[calc(100vh_-500px)] w-full flex-col overflow-y-clip pb-0 sm:h-full xl:w-[400px] xl:min-w-[400px]"
+      className="bg-card flex h-[calc(100dvh_-462px)] w-full flex-col gap-2 overflow-y-clip py-4 pb-0 sm:h-full sm:gap-4 sm:py-6 xl:w-[400px] xl:min-w-[400px]"
     >
       <CardHeader>
-        <CardTitle
-          title={playlist.name}
-          className={cn(
-            "grid grid-cols-1 items-center justify-between gap-2",
-            search.shuffleSeed && "grid-cols-[1fr_32px]",
-          )}
-        >
+        <CardTitle className="grid grid-cols-[1fr_32px] items-center justify-between gap-2">
           <Link
+            title={playlist.name}
             to="/p/$playlistID"
             params={{ playlistID: playlistID.toString() }}
             className="line-clamp-1 text-2xl font-bold"
@@ -55,11 +56,27 @@ export function QueueSidebar({ playlist }: Props) {
             {playlist.name}
           </Link>
 
-          {search.shuffleSeed && (
-            <div className="bg-foreground rounded-lg p-2 text-base font-normal text-black">
-              <Shuffle className="size-4" />
-            </div>
-          )}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  to="."
+                  search={(prev) => ({
+                    ...prev,
+                    shuffleSeed: search.shuffleSeed ? undefined : Date.now().toString(),
+                  })}
+                >
+                  <Toggle size="sm" aria-label="shuffle" pressed={!!search.shuffleSeed}>
+                    <Shuffle className="size-4" />
+                  </Toggle>
+                </Link>
+              </TooltipTrigger>
+
+              <TooltipContent>
+                <p>Shuffle playlist</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </CardTitle>
 
         <Link to="/u/$userID" params={{ userID: playlist.user.id }}>

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { z } from "zod";
 
 import { PlaylistItemViewDocument } from "~common/graphql-types.js";
@@ -13,13 +13,21 @@ export const Route = createFileRoute("/p/$playlistID/$videoID")({
   validateSearch: searchSchema,
   loaderDeps: ({ search: { shuffleSeed } }) => ({ shuffleSeed }),
   loader: async ({ params, deps }) => {
-    await client.query({
-      query: PlaylistItemViewDocument,
-      variables: {
-        playlistItemID: params.videoID,
-        shuffleSeed: deps.shuffleSeed,
-      },
-    });
+    try {
+      await client.query({
+        query: PlaylistItemViewDocument,
+        variables: {
+          playlistItemID: params.videoID,
+          shuffleSeed: deps.shuffleSeed,
+        },
+      });
+    } catch {
+      throw redirect({
+        to: "/p/$playlistID/play",
+        params: { playlistID: params.playlistID },
+        replace: true,
+      });
+    }
   },
   component: Page,
 });

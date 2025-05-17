@@ -1,4 +1,4 @@
-import { Reddit, Youtube } from "~common/components/icons";
+import { Reddit, Twitch, Youtube } from "~common/components/icons";
 
 export function VideoSourcesSection() {
   return (
@@ -15,7 +15,7 @@ export function VideoSourcesSection() {
           </div>
         </div>
 
-        <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2">
+        <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3">
           <div className="flex flex-col items-center space-y-4 rounded-lg border p-6 shadow-sm">
             <div className="bg-primary/10 rounded-full p-4">
               <Youtube className="text-primary size-10" />
@@ -34,7 +34,18 @@ export function VideoSourcesSection() {
 
             <h3 className="text-xl font-bold">Reddit</h3>
             <p className="text-muted-foreground text-center">
-              Collect videos from Reddit posts and comments
+              Create playlists directly from a subreddit
+            </p>
+          </div>
+
+          <div className="flex flex-col items-center space-y-4 rounded-lg border p-6 shadow-sm">
+            <div className="bg-primary/10 rounded-full p-4">
+              <Twitch className="text-primary size-10" />
+            </div>
+
+            <h3 className="text-xl font-bold">Twitch</h3>
+            <p className="text-muted-foreground text-center">
+              Add the best Twitch clips to your playlist
             </p>
           </div>
         </div>

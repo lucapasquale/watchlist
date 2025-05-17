@@ -26,7 +26,7 @@ export function CtaSection() {
               search={(prev) => ({ ...prev, signIn: user ? undefined : "true" })}
             >
               <Button size="lg" variant="secondary">
-                Get Started For Free
+                Get Started
               </Button>
             </Link>
           </div>

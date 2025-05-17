@@ -59,7 +59,7 @@ export function UserPlaylists({ userID, isOwner }: Props) {
               title={playlist.name}
               to="/p/$playlistID"
               params={{ playlistID: playlist.id }}
-              className="line-clamp-2"
+              className="line-clamp-2 min-h-6"
             >
               <CardTitle>{playlist.name}</CardTitle>
             </Link>
@@ -101,8 +101,8 @@ export function UserPlaylists({ userID, isOwner }: Props) {
 
 UserPlaylists.Skeleton = () => (
   <section className="flex h-[975px] w-full flex-col gap-2 overflow-y-scroll">
-    <Skeleton className="bg-card h-[98px] flex-none rounded-xl" />
-    <Skeleton className="bg-card h-[98px] flex-none rounded-xl" />
-    <Skeleton className="bg-card h-[98px] flex-none rounded-xl" />
+    <Skeleton className="bg-card h-[94px] flex-none rounded-xl" />
+    <Skeleton className="bg-card h-[94px] flex-none rounded-xl" />
+    <Skeleton className="bg-card h-[94px] flex-none rounded-xl" />
   </section>
 );
