@@ -4,8 +4,8 @@ services:
   api:
     container_name: watchlist-api
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../..   # point to repo root from apps/api folder
+      dockerfile: apps/api/Dockerfile
     ports:
       - "3000:3000"
     labels:
