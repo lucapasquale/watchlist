@@ -1,5 +1,5 @@
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
-import { Module } from "@nestjs/common";
+import { Logger, Module } from "@nestjs/common";
 import { GraphQLModule } from "@nestjs/graphql";
 import { PrometheusModule } from "@willsoto/nestjs-prometheus";
 
@@ -43,6 +43,6 @@ import { WatchModule } from "./modules/watch/watch.module.js";
     WatchModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [Logger],
 })
 export class AppModule {}

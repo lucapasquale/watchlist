@@ -12,6 +12,10 @@ function parseEnvVars() {
     clientUrl: z.string().url().default("http://localhost:5173"),
     serverUrl: z.string().url().default("http://localhost:3000"),
 
+    telemetry: z.object({
+      traceExporterUrl: z.string().url().default("http://localhost:4318/v1/traces"),
+    }),
+
     postgres: z.object({
       host: z.string().min(1),
       database: z.string().min(1),
@@ -47,6 +51,10 @@ function parseEnvVars() {
     adminToken: process.env.ADMIN_TOKEN,
     clientUrl: process.env.CLIENT_URL,
     serverUrl: process.env.SERVER_URL,
+
+    telemetry: {
+      traceExporterUrl: process.env.TELEMETRY_TRACE_EXPORTER_URL,
+    },
 
     postgres: {
       host: process.env.PG_HOST,

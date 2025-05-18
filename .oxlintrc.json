@@ -5,6 +5,5 @@
     "builtin": true
   },
   "rules": {
-    "eslint/no-console": "error"
   }
 }
