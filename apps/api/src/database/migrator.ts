@@ -1,3 +1,4 @@
+import { Logger } from "@nestjs/common";
 import { FileMigrationProvider, Kysely, Migrator } from "kysely";
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
@@ -18,22 +19,24 @@ export async function migrateToLatest(db: Kysely<Database>) {
     }),
   });
 
-  console.info("Migrating database...");
+  const logger = new Logger("NestApplication");
+
+  logger.log("Migrating database...");
   const { error, results } = await migrator.migrateToLatest();
 
   results?.forEach((it) => {
     if (it.status === "Success") {
-      console.info(`migration "${it.migrationName}" was executed successfully`);
+      logger.log(`migration "${it.migrationName}" was executed successfully`);
     } else if (it.status === "Error") {
-      console.error(`failed to execute migration "${it.migrationName}"`);
+      logger.error(`failed to execute migration "${it.migrationName}"`);
     }
   });
 
   if (error) {
-    console.error("failed to migrate");
-    console.error(error);
+    logger.error("failed to migrate");
+    logger.error(error);
     process.exit(1);
   }
 
-  console.info("Migration complete");
+  logger.log("Migration complete");
 }

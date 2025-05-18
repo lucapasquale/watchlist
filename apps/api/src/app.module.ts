@@ -14,24 +14,26 @@ import { WatchModule } from "./modules/watch/watch.module.js";
 
       imports: [CommonModule],
       inject: [DataLoaderService],
-      useFactory: (dataloaderService: DataLoaderService) => ({
-        playground: true,
-        typePaths: ["./**/*.graphql"],
-        context: () => ({
-          loaders: dataloaderService.generateLoaders(),
-        }),
-        resolvers: {
-          PlaylistNewItemsPosition: {
-            BOTTOM: "bottom",
-            TOP: "top",
+      useFactory: (dataloaderService: DataLoaderService) => {
+        return {
+          playground: true,
+          typePaths: ["./**/*.graphql"],
+          context: () => ({
+            loaders: dataloaderService.generateLoaders(),
+          }),
+          resolvers: {
+            PlaylistNewItemsPosition: {
+              BOTTOM: "bottom",
+              TOP: "top",
+            },
+            PlaylistItemKind: {
+              YOUTUBE: "youtube",
+              REDDIT: "reddit",
+              TWITCH_CLIP: "twitch_clip",
+            },
           },
-          PlaylistItemKind: {
-            YOUTUBE: "youtube",
-            REDDIT: "reddit",
-            TWITCH_CLIP: "twitch_clip",
-          },
-        },
-      }),
+        };
+      },
     }),
 
     AuthModule,

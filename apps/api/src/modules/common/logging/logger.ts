@@ -9,7 +9,7 @@ export function generateLogger() {
   if (!config.telemetry.logtail.token || !config.telemetry.logtail.endpoint) {
     return WinstonModule.createLogger({
       levels: winston.config.npm.levels,
-      format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+      format: winston.format.combine(winston.format.colorize(), winston.format.simple()),
       transports: [new winston.transports.Console()],
     });
   }

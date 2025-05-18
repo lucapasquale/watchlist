@@ -9,9 +9,9 @@ import { generateLogger } from "./modules/common/logging/logger.js";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
+    cors: { origin: config.clientUrl },
     logger: generateLogger(),
   });
-  app.enableCors();
 
   await migrateToLatest(db);
   await app.listen(config.port, config.host);
