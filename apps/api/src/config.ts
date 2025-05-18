@@ -5,6 +5,7 @@ export const config = parseEnvVars();
 
 function parseEnvVars() {
   const schema = z.object({
+    environment: z.enum(["development", "production"]).default("development"),
     host: z.string().min(1).default("0.0.0.0"),
     port: z.coerce.number().positive().default(3000),
 
@@ -13,7 +14,10 @@ function parseEnvVars() {
     serverUrl: z.string().url().default("http://localhost:3000"),
 
     telemetry: z.object({
-      traceExporterUrl: z.string().url().default("http://localhost:4318/v1/traces"),
+      logtail: z.object({
+        token: z.string().min(1).optional(),
+        endpoint: z.string().url().optional(),
+      }),
     }),
 
     postgres: z.object({
@@ -45,6 +49,7 @@ function parseEnvVars() {
   });
 
   const { error, data } = schema.safeParse({
+    environment: process.env.ENVIRONMENT,
     host: process.env.HOST,
     port: process.env.PORT,
 
@@ -53,7 +58,10 @@ function parseEnvVars() {
     serverUrl: process.env.SERVER_URL,
 
     telemetry: {
-      traceExporterUrl: process.env.TELEMETRY_TRACE_EXPORTER_URL,
+      logtail: {
+        token: process.env.LOGTAIL_TOKEN,
+        endpoint: process.env.LOGTAIL_URL,
+      },
     },
 
     postgres: {
@@ -84,7 +92,7 @@ function parseEnvVars() {
   });
 
   if (error || !data) {
-    throw new Error("Invalid ENV var config " + error.toString());
+    throw new Error("Invalid environment config " + error.toString());
   }
 
   return data;

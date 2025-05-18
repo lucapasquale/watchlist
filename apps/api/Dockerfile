@@ -14,7 +14,7 @@ RUN pnpm config set store-dir ~/.pnpm-store
 FROM base AS pruner
 
 WORKDIR /app
-COPY . .
+COPY ../../ .
 
 RUN turbo prune --scope=api --docker
 
