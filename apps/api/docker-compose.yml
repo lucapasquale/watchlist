@@ -17,6 +17,7 @@ services:
   promtail:
     container_name: promtail
     image: grafana/promtail:latest
+    command: -config.file=/etc/promtail/promtail-config.yml
     volumes:
-      - ./promtail-config.yml:/etc/promtail/promtail-config.yaml
+      - ./config:/etc/promtail
       - /var/log:/var/log:ro
