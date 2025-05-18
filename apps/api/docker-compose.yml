@@ -11,6 +11,8 @@ services:
     labels:
       logging: "promtail"
       job: "watchlist-api"
+    depends_on:
+      - promtail
 
   promtail:
     image: grafana/promtail:latest
@@ -19,4 +21,4 @@ services:
     volumes:
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock
-      - apps/api/promtail-config.yml:/etc/promtail/config.yml
+      - ./promtail-config.yml:/etc/promtail/config.yml:ro
