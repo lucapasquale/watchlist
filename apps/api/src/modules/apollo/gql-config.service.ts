@@ -10,7 +10,7 @@ import { DataLoaderService, Loaders } from "./data-loader.service.js";
 
 export type GraphQLContext = {
   requestID: string;
-  userID: number | null;
+  userID: number | undefined;
   loaders: Loaders;
 };
 
@@ -49,7 +49,7 @@ export class GqlConfigService implements GqlOptionsFactory {
     } catch {}
 
     return {
-      userID: jwtPayload?.sub ?? null,
+      userID: jwtPayload?.sub,
       requestID: randomUUID(),
       loaders: this.dataloaderService.generateLoaders(),
     };
