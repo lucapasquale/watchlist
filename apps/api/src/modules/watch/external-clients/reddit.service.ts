@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import axios, { AxiosInstance } from "axios";
 
-import { config } from "../../common/config.js";
+import { config } from "../../../config.js";
 import { PlaylistData, PlaylistItemData } from "./external-clients.service.js";
 import { TwitchService } from "./twitch.service.js";
 import { YoutubeService } from "./youtube.service.js";

@@ -2,9 +2,9 @@ import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 
 import { AppModule } from "./app.module.js";
+import { config } from "./config.js";
 import { db } from "./database/index.js";
 import { migrateToLatest } from "./database/migrator.js";
-import { config } from "./modules/common/config.js";
 import { generateLogger } from "./modules/common/logger.js";
 
 async function bootstrap() {

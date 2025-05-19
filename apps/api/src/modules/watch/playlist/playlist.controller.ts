@@ -1,7 +1,7 @@
 import { Controller, Post, Req, UnauthorizedException } from "@nestjs/common";
 import type { Request } from "express";
 
-import { config } from "../../common/config.js";
+import { config } from "../../../config.js";
 import { ExternalClientsService } from "../external-clients/external-clients.service.js";
 import { PlaylistItemService } from "../playlist-item/playlist-item.service.js";
 import { Playlist } from "./playlist.model.js";

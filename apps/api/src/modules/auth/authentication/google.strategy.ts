@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { Strategy, VerifyCallback } from "passport-google-oauth20";
 
-import { config } from "../../common/config.js";
+import { config } from "../../../config.js";
 import { UserService } from "../../user/user.service.js";
 import { CredentialService } from "../credential/credential.service.js";
 

@@ -2,7 +2,7 @@ import { Module, forwardRef } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 
-import { config } from "../common/config.js";
+import { config } from "../../config.js";
 import { UserModule } from "../user/user.module.js";
 import { AuthenticationController } from "./authentication/authentication.controller.js";
 import { AuthenticationService } from "./authentication/authentication.service.js";

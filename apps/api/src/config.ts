@@ -14,9 +14,9 @@ function parseEnvVars() {
     serverUrl: z.string().url().default("http://localhost:3000"),
 
     telemetry: z.object({
-      logtail: z.object({
+      grafana: z.object({
+        baseUrl: z.string().url().optional(),
         token: z.string().min(1).optional(),
-        endpoint: z.string().url().optional(),
       }),
     }),
 
@@ -58,9 +58,9 @@ function parseEnvVars() {
     serverUrl: process.env.SERVER_URL,
 
     telemetry: {
-      logtail: {
-        token: process.env.LOGTAIL_TOKEN,
-        endpoint: process.env.LOGTAIL_URL,
+      grafana: {
+        baseUrl: process.env.GRAFANA_BASE_URL,
+        token: process.env.GRAFANA_TOKEN,
       },
     },
 

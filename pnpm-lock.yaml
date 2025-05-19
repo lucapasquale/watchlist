@@ -71,9 +71,45 @@ importers:
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.0
+      '@opentelemetry/api-logs':
+        specifier: ^0.201.1
+        version: 0.201.1
       '@opentelemetry/auto-instrumentations-node':
         specifier: ^0.59.0
         version: 0.59.0(@opentelemetry/api@1.9.0)(@opentelemetry/core@2.0.1(@opentelemetry/api@1.9.0))
+      '@opentelemetry/exporter-logs-otlp-http':
+        specifier: ^0.201.1
+        version: 0.201.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/exporter-logs-otlp-proto':
+        specifier: ^0.201.1
+        version: 0.201.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/exporter-metrics-otlp-http':
+        specifier: ^0.201.1
+        version: 0.201.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/exporter-trace-otlp-http':
+        specifier: ^0.201.1
+        version: 0.201.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources':
+        specifier: ^2.0.1
+        version: 2.0.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-logs':
+        specifier: ^0.201.1
+        version: 0.201.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-metrics':
+        specifier: ^2.0.1
+        version: 2.0.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-node':
+        specifier: ^0.201.1
+        version: 0.201.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-node':
+        specifier: ^2.0.1
+        version: 2.0.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions':
+        specifier: ^1.33.0
+        version: 1.33.0
+      '@opentelemetry/winston-transport':
+        specifier: ^0.12.0
+        version: 0.12.0
       '@workspace/helpers':
         specifier: workspace:*
         version: link:../../libs/helpers
@@ -2163,6 +2199,10 @@ packages:
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.1.0
+
+  '@opentelemetry/winston-transport@0.12.0':
+    resolution: {integrity: sha512-9+yhG5nl+vU2O12VrKctJk8tULWUKSoeIOZ3OpUCsxWcHjPNJ3H7RnqRrJjixYnZ9usrkgIby+yowO8KItn+8Q==}
+    engines: {node: ^18.19.0 || >=20.6.0}
 
   '@oxlint/darwin-arm64@0.16.7':
     resolution: {integrity: sha512-VeWa9qDieR8TsjCLlQ9t0IkFQru3VSv5fwiNzqA14OKosTunFbAp0qaN4kw7bbwdtaVojwg7p0kKKX7TToyHrA==}
@@ -8965,6 +9005,11 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.1(@opentelemetry/api@1.9.0)
+
+  '@opentelemetry/winston-transport@0.12.0':
+    dependencies:
+      '@opentelemetry/api-logs': 0.201.1
+      winston-transport: 4.9.0
 
   '@oxlint/darwin-arm64@0.16.7':
     optional: true

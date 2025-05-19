@@ -1,8 +1,8 @@
 import { CamelCasePlugin, Kysely, PostgresDialect } from "kysely";
 import pg from "pg";
 
+import { config } from "../config.js";
 import { CredentialTable } from "../modules/auth/credential/credential.model.js";
-import { config } from "../modules/common/config.js";
 import { UserTable } from "../modules/user/user.model.js";
 import { PlaylistItemTable } from "../modules/watch/playlist-item/playlist-item.model.js";
 import { PlaylistTable } from "../modules/watch/playlist/playlist.model.js";
