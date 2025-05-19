@@ -2,12 +2,12 @@ import { UseGuards } from "@nestjs/common";
 import { Args, Context, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 import { LexoRank } from "lexorank";
 
+import type { Loaders } from "../../apollo/data-loader.service.js";
 import { GqlAuthGuard } from "../../auth/authentication/authentication.guard.js";
 import {
   CurrentUser,
   type CurrentUserType,
 } from "../../auth/authentication/current-user.decorator.js";
-import type { Loaders } from "../../common/data-loader.service.js";
 import { ExternalClientsService } from "../external-clients/external-clients.service.js";
 import { PlaylistItemService } from "../playlist-item/playlist-item.service.js";
 import type { Playlist } from "./playlist.model.js";

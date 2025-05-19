@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { parseDuration } from "@workspace/helpers/duration";
 import axios, { AxiosInstance } from "axios";
 
-import { config } from "../../../config.js";
+import { config } from "../../common/config.js";
 import { PlaylistData, PlaylistItemData, UrlOptions } from "./external-clients.service.js";
 
 @Injectable()

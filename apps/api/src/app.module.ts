@@ -1,46 +1,30 @@
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
-import { Logger, Module } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { GraphQLModule } from "@nestjs/graphql";
+import { JwtService } from "@nestjs/jwt";
 
+import { ApolloModule } from "./modules/apollo/apollo.module.js";
+import { DataLoaderService } from "./modules/apollo/data-loader.service.js";
+import { GqlConfigService } from "./modules/apollo/gql-config.service.js";
 import { AuthModule } from "./modules/auth/auth.module.js";
 import { CommonModule } from "./modules/common/common.module.js";
-import { DataLoaderService } from "./modules/common/data-loader.service.js";
 import { WatchModule } from "./modules/watch/watch.module.js";
 
 @Module({
   imports: [
-    GraphQLModule.forRootAsync<ApolloDriverConfig>({
-      driver: ApolloDriver,
-
-      imports: [CommonModule],
-      inject: [DataLoaderService],
-      useFactory: (dataloaderService: DataLoaderService) => {
-        return {
-          playground: true,
-          typePaths: ["./**/*.graphql"],
-          context: () => ({
-            loaders: dataloaderService.generateLoaders(),
-          }),
-          resolvers: {
-            PlaylistNewItemsPosition: {
-              BOTTOM: "bottom",
-              TOP: "top",
-            },
-            PlaylistItemKind: {
-              YOUTUBE: "youtube",
-              REDDIT: "reddit",
-              TWITCH_CLIP: "twitch_clip",
-            },
-          },
-        };
-      },
-    }),
-
+    ApolloModule,
     AuthModule,
     CommonModule,
     WatchModule,
+
+    GraphQLModule.forRootAsync<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      imports: [ApolloModule, AuthModule],
+      inject: [DataLoaderService, JwtService],
+      useClass: GqlConfigService,
+    }),
   ],
   controllers: [],
-  providers: [Logger],
+  providers: [],
 })
 export class AppModule {}

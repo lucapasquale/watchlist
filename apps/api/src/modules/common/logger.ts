@@ -3,7 +3,7 @@ import { LogtailTransport } from "@logtail/winston";
 import { WinstonModule } from "nest-winston";
 import winston from "winston";
 
-import { config } from "../../../config.js";
+import { config } from "./config.js";
 
 export function generateLogger() {
   if (!config.telemetry.logtail.token || !config.telemetry.logtail.endpoint) {

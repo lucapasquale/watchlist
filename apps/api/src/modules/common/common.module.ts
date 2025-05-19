@@ -1,15 +1,13 @@
-import { Module } from "@nestjs/common";
+import { Logger, Module } from "@nestjs/common";
 
 import { UserModule } from "../user/user.module.js";
 import { WatchModule } from "../watch/watch.module.js";
-import { DataLoaderService } from "./data-loader.service.js";
 import { HealthController } from "./health.controller.js";
-import { LoggingPlugin } from "./logging/logging.plugin.js";
 
 @Module({
   imports: [UserModule, WatchModule],
   controllers: [HealthController],
-  providers: [DataLoaderService, LoggingPlugin],
-  exports: [DataLoaderService],
+  providers: [Logger],
+  exports: [],
 })
 export class CommonModule {}
