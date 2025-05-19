@@ -54,4 +54,4 @@ ENV PORT=${PORT}
 ENV NODE_ENV=production
 EXPOSE ${PORT}
 
-CMD npm run start
+CMD NODE_OPTIONS="--require @opentelemetry/auto-instrumentations-node/register" npm run start
