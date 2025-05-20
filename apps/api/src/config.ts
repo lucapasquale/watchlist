@@ -13,11 +13,8 @@ function parseEnvVars() {
     clientUrl: z.string().url().default("http://localhost:5173"),
     serverUrl: z.string().url().default("http://localhost:3000"),
 
-    telemetry: z.object({
-      grafana: z.object({
-        baseUrl: z.string().url().optional(),
-        token: z.string().min(1).optional(),
-      }),
+    grafana: z.object({
+      alloyUrl: z.string().url().optional(),
     }),
 
     postgres: z.object({
@@ -57,11 +54,8 @@ function parseEnvVars() {
     clientUrl: process.env.CLIENT_URL,
     serverUrl: process.env.SERVER_URL,
 
-    telemetry: {
-      grafana: {
-        baseUrl: process.env.GRAFANA_BASE_URL,
-        token: process.env.GRAFANA_TOKEN,
-      },
+    grafana: {
+      alloyUrl: process.env.GRAFANA_ALLOY_URL,
     },
 
     postgres: {
