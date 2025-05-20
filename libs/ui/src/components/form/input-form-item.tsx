@@ -13,6 +13,7 @@ import { Input } from "../ui/input.js";
 type Props<FormValue extends FieldValues> = React.ComponentProps<typeof Input> & {
   control: Control<FormValue>;
   name: Path<FormValue>;
+  required?: boolean;
   label?: React.ReactNode;
   description?: React.ReactNode;
 };
@@ -22,6 +23,7 @@ export function InputFormItem<FormValue extends FieldValues>({
   name,
   label,
   description,
+  required,
   ...inputProps
 }: Props<FormValue>) {
   return (
@@ -31,7 +33,9 @@ export function InputFormItem<FormValue extends FieldValues>({
       name={name}
       render={({ field }) => (
         <FormItem className="w-full grow">
-          <FormLabel htmlFor={name}>{label}</FormLabel>
+          <FormLabel htmlFor={name} required={required}>
+            {label}
+          </FormLabel>
 
           <FormControl>
             <Input

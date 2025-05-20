@@ -84,6 +84,7 @@ export function CreatePlaylist() {
             className="flex w-full flex-col items-center gap-4"
           >
             <InputFormItem
+              required
               autoComplete="off"
               control={form.control}
               name="name"
@@ -127,7 +128,8 @@ export function CreatePlaylist() {
           <Button
             type="submit"
             form="create-playlist"
-            disabled={!form.formState.isValid || loading}
+            disabled={!form.formState.isValid}
+            loading={loading}
           >
             Add
           </Button>

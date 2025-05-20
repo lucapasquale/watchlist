@@ -108,6 +108,7 @@ export function AddItemForm({ onAdd }: Props) {
           className="flex w-full flex-col items-center gap-4"
         >
           <InputFormItem
+            required
             disabled={urlLoading}
             control={form.control}
             name="href"
