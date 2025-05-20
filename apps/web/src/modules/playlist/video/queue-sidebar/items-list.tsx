@@ -5,7 +5,7 @@ import React from "react";
 import { FixedSizeList } from "react-window";
 
 import { PlaylistItemViewQuery } from "~common/graphql-types.js";
-import { Route } from "~routes/p/$playlistID/$videoID.js";
+import { Route } from "~routes/playlist/$playlistID/$videoID.js";
 
 const ITEM_HEIGHT_PX = 64;
 
@@ -51,7 +51,7 @@ export function ItemsList({ playlist, currentItemIndex, listHeight }: Props) {
           >
             <Link
               search
-              to="/p/$playlistID/$videoID"
+              to="/playlist/$playlistID/$videoID"
               params={{
                 playlistID: playlistID.toString(),
                 videoID: item.id.toString(),

@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 
 import { UserViewDocument } from "~common/graphql-types.js";
 import { useCurrentUser } from "~common/providers/current-user-provider.js";
-import { Route } from "~routes/u/$userID.js";
+import { Route } from "~routes/user/$userID.js";
 
 import { CreatePlaylist } from "./create-playlist.js";
 import { UserInfo } from "./user-info/index.js";

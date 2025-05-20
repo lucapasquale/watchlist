@@ -63,7 +63,7 @@ export function PlaylistInfo({ playlist, shuffleSeed, isOwner }: Props) {
           </span>
         </CardTitle>
 
-        <Link to="/u/$userID" params={{ userID: playlist.user.id }}>
+        <Link to="/user/$userID" params={{ userID: playlist.user.id }}>
           <CardDescription className="flex items-center gap-2">
             <Avatar className="size-6">
               <AvatarImage src={playlist.user.profilePictureUrl ?? undefined} />
@@ -100,7 +100,7 @@ export function PlaylistInfo({ playlist, shuffleSeed, isOwner }: Props) {
       <CardFooter className="flex items-center justify-between gap-4">
         {playlist.shuffleFirstItem && (
           <Link
-            to="/p/$playlistID/$videoID"
+            to="/playlist/$playlistID/$videoID"
             params={{
               playlistID: playlist.id,
               videoID: playlist.shuffleFirstItem.id,
@@ -116,7 +116,7 @@ export function PlaylistInfo({ playlist, shuffleSeed, isOwner }: Props) {
 
         {playlist.firstItem && (
           <Link
-            to="/p/$playlistID/$videoID"
+            to="/playlist/$playlistID/$videoID"
             params={{ playlistID: playlist.id, videoID: playlist.firstItem.id }}
             className="w-full"
           >

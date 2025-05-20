@@ -62,7 +62,7 @@ export function HeroSection() {
           {data?.playlists.slice(0, 3).map((playlist) => (
             <Card key={playlist.id}>
               <Link
-                to="/p/$playlistID/play"
+                to="/playlist/$playlistID/play"
                 params={{ playlistID: playlist.id }}
                 className="group hover:no-underline"
               >

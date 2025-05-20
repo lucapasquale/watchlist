@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet-async";
 
 import { PlaylistViewDocument } from "~common/graphql-types.js";
 import { useCurrentUser } from "~common/providers/current-user-provider.js";
-import { Route } from "~routes/p/$playlistID/index.js";
+import { Route } from "~routes/playlist/$playlistID/index.js";
 
 import { AddItem } from "./add-item/index.js";
 import { PlaylistInfo } from "./playlist-info/index.js";

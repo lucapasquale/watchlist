@@ -61,7 +61,7 @@ export function CreatePlaylist() {
     }
 
     form.reset();
-    navigate({ to: "/p/$playlistID", params: { playlistID: data.createPlaylist.id } });
+    navigate({ to: "/playlist/$playlistID", params: { playlistID: data.createPlaylist.id } });
   };
 
   return (

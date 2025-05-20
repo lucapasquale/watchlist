@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client";
 import { Helmet } from "react-helmet-async";
 
 import { PlaylistItemViewDocument } from "~common/graphql-types.js";
-import { Route } from "~routes/p/$playlistID/$videoID.js";
+import { Route } from "~routes/playlist/$playlistID/$videoID.js";
 
 import { QueueSidebar } from "./queue-sidebar/index.js";
 import { VideoPlayer } from "./video-player/index.js";

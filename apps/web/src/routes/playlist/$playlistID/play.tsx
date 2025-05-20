@@ -9,7 +9,7 @@ const searchSchema = z.object({
   shuffleSeed: z.string().min(1).optional(),
 });
 
-export const Route = createFileRoute("/p/$playlistID/play")({
+export const Route = createFileRoute("/playlist/$playlistID/play")({
   validateSearch: searchSchema,
   loaderDeps: ({ search: { shuffleSeed } }) => ({ shuffleSeed }),
   loader: async ({ params, deps }) => {
@@ -32,14 +32,14 @@ export const Route = createFileRoute("/p/$playlistID/play")({
 
     if (!videoID) {
       throw redirect({
-        to: "/p/$playlistID",
+        to: "/playlist/$playlistID",
         params: { playlistID: params.playlistID },
         replace: true,
       });
     }
 
     throw redirect({
-      to: "/p/$playlistID/$videoID",
+      to: "/playlist/$playlistID/$videoID",
       params: { playlistID: params.playlistID, videoID },
       search: { shuffleSeed: deps.shuffleSeed },
       replace: true,

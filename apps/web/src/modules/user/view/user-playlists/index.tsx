@@ -57,7 +57,7 @@ export function UserPlaylists({ userID, isOwner }: Props) {
           <div className="ml-4">
             <Link
               title={playlist.name}
-              to="/p/$playlistID"
+              to="/playlist/$playlistID"
               params={{ playlistID: playlist.id }}
               className="line-clamp-2 min-h-6"
             >

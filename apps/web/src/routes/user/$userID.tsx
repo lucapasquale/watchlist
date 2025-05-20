@@ -1,15 +1,15 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
-import { PlaylistViewDocument } from "~common/graphql-types.js";
+import { UserViewDocument } from "~common/graphql-types.js";
 import { client } from "~common/providers/apollo-provider/index.js";
-import { Page } from "~modules/playlist/view/page.js";
+import { Page } from "~modules/user/view/page.js";
 
-export const Route = createFileRoute("/p/$playlistID/")({
+export const Route = createFileRoute("/user/$userID")({
   loader: async ({ params }) => {
     try {
       await client.query({
-        query: PlaylistViewDocument,
-        variables: { playlistID: params.playlistID },
+        query: UserViewDocument,
+        variables: { userID: params.userID },
       });
     } catch {
       throw redirect({

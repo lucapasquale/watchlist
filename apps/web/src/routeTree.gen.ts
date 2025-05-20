@@ -13,11 +13,11 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as MeImport } from './routes/me'
 import { Route as IndexImport } from './routes/index'
-import { Route as UUserIDImport } from './routes/u/$userID'
+import { Route as UserUserIDImport } from './routes/user/$userID'
 import { Route as AuthLogoutImport } from './routes/auth/logout'
-import { Route as PPlaylistIDIndexImport } from './routes/p/$playlistID/index'
-import { Route as PPlaylistIDPlayImport } from './routes/p/$playlistID/play'
-import { Route as PPlaylistIDVideoIDImport } from './routes/p/$playlistID/$videoID'
+import { Route as PlaylistPlaylistIDIndexImport } from './routes/playlist/$playlistID/index'
+import { Route as PlaylistPlaylistIDPlayImport } from './routes/playlist/$playlistID/play'
+import { Route as PlaylistPlaylistIDVideoIDImport } from './routes/playlist/$playlistID/$videoID'
 import { Route as AuthGoogleRedirectImport } from './routes/auth/google/redirect'
 import { Route as AuthGoogleLoginImport } from './routes/auth/google/login'
 
@@ -35,9 +35,9 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const UUserIDRoute = UUserIDImport.update({
-  id: '/u/$userID',
-  path: '/u/$userID',
+const UserUserIDRoute = UserUserIDImport.update({
+  id: '/user/$userID',
+  path: '/user/$userID',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -47,21 +47,21 @@ const AuthLogoutRoute = AuthLogoutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const PPlaylistIDIndexRoute = PPlaylistIDIndexImport.update({
-  id: '/p/$playlistID/',
-  path: '/p/$playlistID/',
+const PlaylistPlaylistIDIndexRoute = PlaylistPlaylistIDIndexImport.update({
+  id: '/playlist/$playlistID/',
+  path: '/playlist/$playlistID/',
   getParentRoute: () => rootRoute,
 } as any)
 
-const PPlaylistIDPlayRoute = PPlaylistIDPlayImport.update({
-  id: '/p/$playlistID/play',
-  path: '/p/$playlistID/play',
+const PlaylistPlaylistIDPlayRoute = PlaylistPlaylistIDPlayImport.update({
+  id: '/playlist/$playlistID/play',
+  path: '/playlist/$playlistID/play',
   getParentRoute: () => rootRoute,
 } as any)
 
-const PPlaylistIDVideoIDRoute = PPlaylistIDVideoIDImport.update({
-  id: '/p/$playlistID/$videoID',
-  path: '/p/$playlistID/$videoID',
+const PlaylistPlaylistIDVideoIDRoute = PlaylistPlaylistIDVideoIDImport.update({
+  id: '/playlist/$playlistID/$videoID',
+  path: '/playlist/$playlistID/$videoID',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -102,11 +102,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLogoutImport
       parentRoute: typeof rootRoute
     }
-    '/u/$userID': {
-      id: '/u/$userID'
-      path: '/u/$userID'
-      fullPath: '/u/$userID'
-      preLoaderRoute: typeof UUserIDImport
+    '/user/$userID': {
+      id: '/user/$userID'
+      path: '/user/$userID'
+      fullPath: '/user/$userID'
+      preLoaderRoute: typeof UserUserIDImport
       parentRoute: typeof rootRoute
     }
     '/auth/google/login': {
@@ -123,25 +123,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthGoogleRedirectImport
       parentRoute: typeof rootRoute
     }
-    '/p/$playlistID/$videoID': {
-      id: '/p/$playlistID/$videoID'
-      path: '/p/$playlistID/$videoID'
-      fullPath: '/p/$playlistID/$videoID'
-      preLoaderRoute: typeof PPlaylistIDVideoIDImport
+    '/playlist/$playlistID/$videoID': {
+      id: '/playlist/$playlistID/$videoID'
+      path: '/playlist/$playlistID/$videoID'
+      fullPath: '/playlist/$playlistID/$videoID'
+      preLoaderRoute: typeof PlaylistPlaylistIDVideoIDImport
       parentRoute: typeof rootRoute
     }
-    '/p/$playlistID/play': {
-      id: '/p/$playlistID/play'
-      path: '/p/$playlistID/play'
-      fullPath: '/p/$playlistID/play'
-      preLoaderRoute: typeof PPlaylistIDPlayImport
+    '/playlist/$playlistID/play': {
+      id: '/playlist/$playlistID/play'
+      path: '/playlist/$playlistID/play'
+      fullPath: '/playlist/$playlistID/play'
+      preLoaderRoute: typeof PlaylistPlaylistIDPlayImport
       parentRoute: typeof rootRoute
     }
-    '/p/$playlistID/': {
-      id: '/p/$playlistID/'
-      path: '/p/$playlistID'
-      fullPath: '/p/$playlistID'
-      preLoaderRoute: typeof PPlaylistIDIndexImport
+    '/playlist/$playlistID/': {
+      id: '/playlist/$playlistID/'
+      path: '/playlist/$playlistID'
+      fullPath: '/playlist/$playlistID'
+      preLoaderRoute: typeof PlaylistPlaylistIDIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -153,24 +153,24 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/me': typeof MeRoute
   '/auth/logout': typeof AuthLogoutRoute
-  '/u/$userID': typeof UUserIDRoute
+  '/user/$userID': typeof UserUserIDRoute
   '/auth/google/login': typeof AuthGoogleLoginRoute
   '/auth/google/redirect': typeof AuthGoogleRedirectRoute
-  '/p/$playlistID/$videoID': typeof PPlaylistIDVideoIDRoute
-  '/p/$playlistID/play': typeof PPlaylistIDPlayRoute
-  '/p/$playlistID': typeof PPlaylistIDIndexRoute
+  '/playlist/$playlistID/$videoID': typeof PlaylistPlaylistIDVideoIDRoute
+  '/playlist/$playlistID/play': typeof PlaylistPlaylistIDPlayRoute
+  '/playlist/$playlistID': typeof PlaylistPlaylistIDIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/me': typeof MeRoute
   '/auth/logout': typeof AuthLogoutRoute
-  '/u/$userID': typeof UUserIDRoute
+  '/user/$userID': typeof UserUserIDRoute
   '/auth/google/login': typeof AuthGoogleLoginRoute
   '/auth/google/redirect': typeof AuthGoogleRedirectRoute
-  '/p/$playlistID/$videoID': typeof PPlaylistIDVideoIDRoute
-  '/p/$playlistID/play': typeof PPlaylistIDPlayRoute
-  '/p/$playlistID': typeof PPlaylistIDIndexRoute
+  '/playlist/$playlistID/$videoID': typeof PlaylistPlaylistIDVideoIDRoute
+  '/playlist/$playlistID/play': typeof PlaylistPlaylistIDPlayRoute
+  '/playlist/$playlistID': typeof PlaylistPlaylistIDIndexRoute
 }
 
 export interface FileRoutesById {
@@ -178,12 +178,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/me': typeof MeRoute
   '/auth/logout': typeof AuthLogoutRoute
-  '/u/$userID': typeof UUserIDRoute
+  '/user/$userID': typeof UserUserIDRoute
   '/auth/google/login': typeof AuthGoogleLoginRoute
   '/auth/google/redirect': typeof AuthGoogleRedirectRoute
-  '/p/$playlistID/$videoID': typeof PPlaylistIDVideoIDRoute
-  '/p/$playlistID/play': typeof PPlaylistIDPlayRoute
-  '/p/$playlistID/': typeof PPlaylistIDIndexRoute
+  '/playlist/$playlistID/$videoID': typeof PlaylistPlaylistIDVideoIDRoute
+  '/playlist/$playlistID/play': typeof PlaylistPlaylistIDPlayRoute
+  '/playlist/$playlistID/': typeof PlaylistPlaylistIDIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -192,34 +192,34 @@ export interface FileRouteTypes {
     | '/'
     | '/me'
     | '/auth/logout'
-    | '/u/$userID'
+    | '/user/$userID'
     | '/auth/google/login'
     | '/auth/google/redirect'
-    | '/p/$playlistID/$videoID'
-    | '/p/$playlistID/play'
-    | '/p/$playlistID'
+    | '/playlist/$playlistID/$videoID'
+    | '/playlist/$playlistID/play'
+    | '/playlist/$playlistID'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/me'
     | '/auth/logout'
-    | '/u/$userID'
+    | '/user/$userID'
     | '/auth/google/login'
     | '/auth/google/redirect'
-    | '/p/$playlistID/$videoID'
-    | '/p/$playlistID/play'
-    | '/p/$playlistID'
+    | '/playlist/$playlistID/$videoID'
+    | '/playlist/$playlistID/play'
+    | '/playlist/$playlistID'
   id:
     | '__root__'
     | '/'
     | '/me'
     | '/auth/logout'
-    | '/u/$userID'
+    | '/user/$userID'
     | '/auth/google/login'
     | '/auth/google/redirect'
-    | '/p/$playlistID/$videoID'
-    | '/p/$playlistID/play'
-    | '/p/$playlistID/'
+    | '/playlist/$playlistID/$videoID'
+    | '/playlist/$playlistID/play'
+    | '/playlist/$playlistID/'
   fileRoutesById: FileRoutesById
 }
 
@@ -227,24 +227,24 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MeRoute: typeof MeRoute
   AuthLogoutRoute: typeof AuthLogoutRoute
-  UUserIDRoute: typeof UUserIDRoute
+  UserUserIDRoute: typeof UserUserIDRoute
   AuthGoogleLoginRoute: typeof AuthGoogleLoginRoute
   AuthGoogleRedirectRoute: typeof AuthGoogleRedirectRoute
-  PPlaylistIDVideoIDRoute: typeof PPlaylistIDVideoIDRoute
-  PPlaylistIDPlayRoute: typeof PPlaylistIDPlayRoute
-  PPlaylistIDIndexRoute: typeof PPlaylistIDIndexRoute
+  PlaylistPlaylistIDVideoIDRoute: typeof PlaylistPlaylistIDVideoIDRoute
+  PlaylistPlaylistIDPlayRoute: typeof PlaylistPlaylistIDPlayRoute
+  PlaylistPlaylistIDIndexRoute: typeof PlaylistPlaylistIDIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MeRoute: MeRoute,
   AuthLogoutRoute: AuthLogoutRoute,
-  UUserIDRoute: UUserIDRoute,
+  UserUserIDRoute: UserUserIDRoute,
   AuthGoogleLoginRoute: AuthGoogleLoginRoute,
   AuthGoogleRedirectRoute: AuthGoogleRedirectRoute,
-  PPlaylistIDVideoIDRoute: PPlaylistIDVideoIDRoute,
-  PPlaylistIDPlayRoute: PPlaylistIDPlayRoute,
-  PPlaylistIDIndexRoute: PPlaylistIDIndexRoute,
+  PlaylistPlaylistIDVideoIDRoute: PlaylistPlaylistIDVideoIDRoute,
+  PlaylistPlaylistIDPlayRoute: PlaylistPlaylistIDPlayRoute,
+  PlaylistPlaylistIDIndexRoute: PlaylistPlaylistIDIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -260,12 +260,12 @@ export const routeTree = rootRoute
         "/",
         "/me",
         "/auth/logout",
-        "/u/$userID",
+        "/user/$userID",
         "/auth/google/login",
         "/auth/google/redirect",
-        "/p/$playlistID/$videoID",
-        "/p/$playlistID/play",
-        "/p/$playlistID/"
+        "/playlist/$playlistID/$videoID",
+        "/playlist/$playlistID/play",
+        "/playlist/$playlistID/"
       ]
     },
     "/": {
@@ -277,8 +277,8 @@ export const routeTree = rootRoute
     "/auth/logout": {
       "filePath": "auth/logout.tsx"
     },
-    "/u/$userID": {
-      "filePath": "u/$userID.tsx"
+    "/user/$userID": {
+      "filePath": "user/$userID.tsx"
     },
     "/auth/google/login": {
       "filePath": "auth/google/login.tsx"
@@ -286,14 +286,14 @@ export const routeTree = rootRoute
     "/auth/google/redirect": {
       "filePath": "auth/google/redirect.tsx"
     },
-    "/p/$playlistID/$videoID": {
-      "filePath": "p/$playlistID/$videoID.tsx"
+    "/playlist/$playlistID/$videoID": {
+      "filePath": "playlist/$playlistID/$videoID.tsx"
     },
-    "/p/$playlistID/play": {
-      "filePath": "p/$playlistID/play.tsx"
+    "/playlist/$playlistID/play": {
+      "filePath": "playlist/$playlistID/play.tsx"
     },
-    "/p/$playlistID/": {
-      "filePath": "p/$playlistID/index.tsx"
+    "/playlist/$playlistID/": {
+      "filePath": "playlist/$playlistID/index.tsx"
     }
   }
 }

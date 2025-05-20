@@ -35,7 +35,7 @@ export function PlayNextButton({ playlistID, nextItemID, failedToLoad }: Props) 
     <Link
       search
       ref={linkRef}
-      to="/p/$playlistID/$videoID"
+      to="/playlist/$playlistID/$videoID"
       params={{ playlistID, videoID: nextItemID ?? "" }}
       disabled={!nextItemID}
     >

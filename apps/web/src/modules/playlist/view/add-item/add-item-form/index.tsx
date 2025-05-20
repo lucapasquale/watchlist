@@ -15,7 +15,7 @@ import {
   PlaylistItemKind,
   PlaylistViewDocument,
 } from "~common/graphql-types.js";
-import { Route } from "~routes/p/$playlistID/index.js";
+import { Route } from "~routes/playlist/$playlistID/index.js";
 
 import { VideoPreview } from "./video-preview.js";
 

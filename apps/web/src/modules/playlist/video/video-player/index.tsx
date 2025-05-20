@@ -8,7 +8,7 @@ import { Skeleton } from "@ui/components/ui/skeleton.js";
 import { Player } from "~common/components/player";
 import { PlaylistItemViewQuery } from "~common/graphql-types.js";
 import { PLAYLIST_ITEM_KIND } from "~common/translations.js";
-import { Route } from "~routes/p/$playlistID/$videoID";
+import { Route } from "~routes/playlist/$playlistID/$videoID";
 
 import { PlayNextButton } from "./play-next-button";
 
@@ -32,7 +32,7 @@ export function VideoPlayer({ playlistItem }: Props) {
     }
 
     navigate({
-      to: "/p/$playlistID/$videoID",
+      to: "/playlist/$playlistID/$videoID",
       params: { playlistID: playlistItem.playlist.id, videoID: nextItemID },
       search: true,
     });
@@ -54,7 +54,7 @@ export function VideoPlayer({ playlistItem }: Props) {
 
     router
       .preloadRoute({
-        to: "/p/$playlistID/$videoID",
+        to: "/playlist/$playlistID/$videoID",
         params: { playlistID: playlistItem.playlist.id, videoID: nextItemID },
         search: true,
       })

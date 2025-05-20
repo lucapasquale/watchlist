@@ -34,7 +34,7 @@ import {
   type PlaylistViewQuery,
 } from "~common/graphql-types.js";
 import { PLAYLIST_ITEM_KIND } from "~common/translations.js";
-import { Route } from "~routes/p/$playlistID/index.js";
+import { Route } from "~routes/playlist/$playlistID/index.js";
 
 type TaskState =
   | { type: "idle" }
@@ -140,7 +140,7 @@ export function PlaylistItem({ index, item, isOwner, onDelete, style }: Props) {
 
         <div className="p-0">
           <Link
-            to="/p/$playlistID/$videoID"
+            to="/playlist/$playlistID/$videoID"
             params={{ playlistID, videoID: item.id }}
             className="group flex flex-1 basis-0 items-start gap-4 hover:no-underline md:items-center"
           >

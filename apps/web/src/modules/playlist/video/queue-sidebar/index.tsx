@@ -21,7 +21,7 @@ import {
 import { useComponentSize } from "@ui/hooks/use-component-size.js";
 
 import { PlaylistItemViewQuery } from "~common/graphql-types.js";
-import { Route } from "~routes/p/$playlistID/$videoID.js";
+import { Route } from "~routes/playlist/$playlistID/$videoID.js";
 
 import { ItemsList } from "./items-list.js";
 
@@ -49,7 +49,7 @@ export function QueueSidebar({ playlist }: Props) {
         <CardTitle className="grid grid-cols-[1fr_32px] items-center justify-between gap-2">
           <Link
             title={playlist.name}
-            to="/p/$playlistID"
+            to="/playlist/$playlistID"
             params={{ playlistID: playlistID.toString() }}
             className="line-clamp-1 text-2xl font-bold"
           >
@@ -79,7 +79,7 @@ export function QueueSidebar({ playlist }: Props) {
           </TooltipProvider>
         </CardTitle>
 
-        <Link to="/u/$userID" params={{ userID: playlist.user.id }}>
+        <Link to="/user/$userID" params={{ userID: playlist.user.id }}>
           <CardDescription className="flex items-center gap-2">
             <Avatar className="size-6">
               <AvatarImage src={playlist.user.profilePictureUrl ?? undefined} />
