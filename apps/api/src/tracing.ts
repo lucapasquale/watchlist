@@ -1,10 +1,10 @@
 import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentations-node";
 import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http";
-// import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
+import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { SimpleLogRecordProcessor } from "@opentelemetry/sdk-logs";
-// import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import { NodeSDK } from "@opentelemetry/sdk-node";
 import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
 
@@ -26,18 +26,13 @@ const tracer = new NodeSDK({
     }),
   ],
 
+  traceExporter: new OTLPTraceExporter({ url: config.oltp.url + "/v1/traces" }),
+  metricReader: new PeriodicExportingMetricReader({
+    exporter: new OTLPMetricExporter({ url: config.oltp.url + "/v1/metrics" }),
+  }),
   logRecordProcessors: [
-    new SimpleLogRecordProcessor(
-      new OTLPLogExporter({ url: config.grafana.alloyUrl + "/v1/logs" }),
-    ),
+    new SimpleLogRecordProcessor(new OTLPLogExporter({ url: config.oltp.url + "/v1/logs" })),
   ],
-  traceExporter: new OTLPTraceExporter({ url: config.grafana.alloyUrl + "/v1/traces" }),
-  // metricReader: new PeriodicExportingMetricReader({
-  //   exporter: new OTLPMetricExporter({
-  //     url: config.telemetry.grafana.baseUrl + "/otlp/v1/metrics",
-  //     headers: { Authorization: `Basic ${config.telemetry.grafana.token}` },
-  //   }),
-  // }),
 });
 
 tracer.start();
