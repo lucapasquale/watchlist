@@ -44,17 +44,11 @@ export class RedditService {
     }
 
     const posts = await this.getListingData(postUrl);
-    const items = await Promise.all(posts.map((p) => this.postToPlaylistItemData(p)));
+    const items = (await Promise.all(posts.map((p) => this.postToPlaylistItemData(p)))).filter(
+      (item): item is PlaylistItemData => item !== null,
+    );
 
-    const validItems = items.filter((item) => item !== null);
-    if (!validItems.length) {
-      return null;
-    }
-
-    return {
-      name: posts[0]!.subreddit_name_prefixed,
-      items: validItems,
-    };
+    return { name: posts[0]!.subreddit_name_prefixed, items };
   }
 
   async playlistItemDataFromUrl(url: URL): Promise<PlaylistItemData | null> {

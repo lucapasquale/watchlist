@@ -37,6 +37,9 @@ export class ExternalClientsService {
     if (this.redditService.urlMatches(url)) {
       return this.redditService.playlistDataFromUrl(url);
     }
+    if (this.twitchService.urlMatches(url)) {
+      return this.twitchService.playlistDataFromUrl(url);
+    }
 
     return null;
   }

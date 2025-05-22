@@ -77,7 +77,7 @@ export class PlaylistResolver {
     }
 
     const data = await this.externalClientsService.getPlaylistFromUrl(input.href);
-    if (!data) {
+    if (!data || !data.items.length) {
       throw new Error("Invalid playlist URL");
     }
 
