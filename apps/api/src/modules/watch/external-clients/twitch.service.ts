@@ -114,6 +114,7 @@ export class TwitchService {
       kind: "twitch_clip",
       title: clip.title,
       href: clip.url,
+      originalPosterName: clip.broadcaster_name,
       embedUrl: clip.embed_url,
       thumbnailUrl: clip.thumbnail_url,
       durationSeconds: Math.floor(clip.duration),

@@ -160,7 +160,9 @@ export function PlaylistItem({ index, item, isOwner, onDelete, style }: Props) {
                 {item.title}
               </CardTitle>
 
-              <CardDescription>{PLAYLIST_ITEM_KIND[item.kind]}</CardDescription>
+              <CardDescription>
+                {item.originalPosterName} • {PLAYLIST_ITEM_KIND[item.kind]}
+              </CardDescription>
             </div>
           </Link>
         </div>

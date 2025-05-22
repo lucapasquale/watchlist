@@ -10,6 +10,7 @@ export interface PlaylistItemTable {
   title: string;
   thumbnailUrl: string;
   durationSeconds: number;
+  originalPosterName: string;
 
   createdAt: ColumnType<Date, string | undefined, never>;
   updatedAt: ColumnType<Date, string | undefined, string | undefined>;

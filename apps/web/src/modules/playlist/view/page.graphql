@@ -29,6 +29,7 @@ query PlaylistView($playlistID: ID!, $shuffleSeed: String) {
       thumbnailUrl
       durationSeconds
       href
+      originalPosterName
     }
   }
 }

@@ -21,6 +21,7 @@ type PlaylistItem {
   durationSeconds: Int!
   embedUrl: String!
   href: String!
+  originalPosterName: String!
 
   playlist: Playlist!
   nextItem(shuffleSeed: String): PlaylistItem

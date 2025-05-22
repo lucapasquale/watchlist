@@ -71,12 +71,8 @@ export class PlaylistItemResolver {
         playlist.newItemsPosition === "bottom" ? [lastItem, undefined] : [undefined, firstItem],
       ).toString(),
 
-      kind: itemData.kind,
+      ...itemData,
       href: input.href,
-      embedUrl: itemData.embedUrl,
-      title: itemData.title,
-      thumbnailUrl: itemData.thumbnailUrl,
-      durationSeconds: itemData.durationSeconds,
     });
   }
 

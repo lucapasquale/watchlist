@@ -83,6 +83,7 @@ export class YoutubeService {
       kind: "youtube",
       href: url.toString(),
       embedUrl: embedUrl.toString(),
+      originalPosterName: video.snippet.channelTitle,
       title: video.snippet.title,
       thumbnailUrl: video.snippet.thumbnails.medium.url,
       durationSeconds: parseDuration(video.contentDetails.duration.replace("PT", "")),

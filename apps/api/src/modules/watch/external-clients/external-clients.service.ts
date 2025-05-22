@@ -17,7 +17,7 @@ export type PlaylistData = {
 
 export type PlaylistItemData = Pick<
   PlaylistItem,
-  "kind" | "href" | "embedUrl" | "title" | "thumbnailUrl" | "durationSeconds"
+  "kind" | "href" | "embedUrl" | "title" | "thumbnailUrl" | "durationSeconds" | "originalPosterName"
 >;
 
 @Injectable()

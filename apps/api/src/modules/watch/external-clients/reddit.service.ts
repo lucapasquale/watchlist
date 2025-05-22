@@ -124,6 +124,7 @@ export class RedditService {
         title: post.title,
         embedUrl: post.media.reddit_video.hls_url.split("?")[0]!,
         href: href.toString(),
+        originalPosterName: post.author,
         thumbnailUrl: post.thumbnail.replaceAll("&amp;", "&"),
         durationSeconds: post.media.reddit_video.duration,
       };
@@ -161,5 +162,6 @@ type Post = {
   permalink: string;
   subreddit_name_prefixed: string;
   url: string;
+  author: string;
   media: { reddit_video: { duration: number; hls_url: string } } | null;
 };
