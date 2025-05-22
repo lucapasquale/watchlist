@@ -26,12 +26,12 @@ const tracer = new NodeSDK({
     }),
   ],
 
-  traceExporter: new OTLPTraceExporter({ url: config.oltp.url + "/v1/traces" }),
+  traceExporter: new OTLPTraceExporter({ url: config.otlp.url + "/v1/traces" }),
   metricReader: new PeriodicExportingMetricReader({
-    exporter: new OTLPMetricExporter({ url: config.oltp.url + "/v1/metrics" }),
+    exporter: new OTLPMetricExporter({ url: config.otlp.url + "/v1/metrics" }),
   }),
   logRecordProcessors: [
-    new SimpleLogRecordProcessor(new OTLPLogExporter({ url: config.oltp.url + "/v1/logs" })),
+    new SimpleLogRecordProcessor(new OTLPLogExporter({ url: config.otlp.url + "/v1/logs" })),
   ],
 });
 

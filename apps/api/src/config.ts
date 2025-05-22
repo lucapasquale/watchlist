@@ -13,7 +13,7 @@ function parseEnvVars() {
     clientUrl: z.string().url().default("http://localhost:5173"),
     serverUrl: z.string().url().default("http://localhost:3000"),
 
-    oltp: z.object({
+    otlp: z.object({
       url: z.string().url().optional(),
     }),
 
@@ -54,7 +54,7 @@ function parseEnvVars() {
     clientUrl: process.env.CLIENT_URL,
     serverUrl: process.env.SERVER_URL,
 
-    oltp: {
+    otlp: {
       url: process.env.OTLP_URL,
     },
 
