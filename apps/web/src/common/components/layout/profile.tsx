@@ -76,7 +76,7 @@ export function Profile() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="lg">
+        <Button variant="ghost" size="default">
           <h4>{user.name}</h4>
 
           <Avatar>

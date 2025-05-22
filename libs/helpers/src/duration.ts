@@ -26,7 +26,6 @@ export function timeToDuration(time: number): string {
 
   const minutePaddingLength = hours > 0 ? 2 : 1;
   duration += `${minutes.toString().padStart(minutePaddingLength, "0")}:`;
-
   duration += `${seconds.toString().padStart(2, "0")}`;
 
   return duration;

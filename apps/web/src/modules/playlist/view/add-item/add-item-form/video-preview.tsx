@@ -2,13 +2,13 @@ import { debounce } from "lodash";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 
+import { timeToDuration } from "@helpers/duration.js";
 import { SliderFormItem } from "@ui/components/form/slider-form-item.js";
 import { Label } from "@ui/components/ui/label.js";
 import { Skeleton } from "@ui/components/ui/skeleton.js";
 
 import { Player } from "~common/components/player/index.js";
 import { PlaylistItemKind } from "~common/graphql-types.js";
-import { formatDuration } from "~common/utils/time.js";
 
 import { type FormValues } from "./index.js";
 
@@ -70,7 +70,7 @@ export function VideoPreview({ loading }: Props) {
           max={videoInfo.durationSeconds}
           marks={getMarks(videoInfo.durationSeconds)}
           label="Time Range"
-          formatValue={formatDuration}
+          formatValue={(value) => timeToDuration(value)}
           onValueChange={onTimeRangeChange}
         />
       )}

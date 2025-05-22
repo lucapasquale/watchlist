@@ -1,6 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { Play } from "lucide-react";
 
+import { Button } from "@ui/components/ui/button.js";
+
+import { Github } from "../icons/index.js";
 import { Profile } from "./profile.js";
 
 export function Header() {
@@ -14,7 +17,19 @@ export function Header() {
           </div>
         </Link>
 
-        <Profile />
+        <div className="flex items-center gap-2">
+          <Button variant="ghost" size="icon">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://github.com/lucapasquale/watchlist"
+            >
+              <Github className="h-4 w-4" />
+            </a>
+          </Button>
+
+          <Profile />
+        </div>
       </nav>
     </header>
   );
