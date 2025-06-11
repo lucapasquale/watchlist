@@ -2,8 +2,8 @@ name: PR Checks
 on: pull_request
 
 env:
-  NODE_VER: 23.11.0
-  PNPM_VERSION: 10.10.0
+  NODE_VER: 22.14.0
+  PNPM_VERSION: 10.12.1
 
 jobs:
   lint:
