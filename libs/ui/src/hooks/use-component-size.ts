@@ -5,7 +5,7 @@ type Size = {
   height: number;
 };
 
-export function useComponentSize(ref: React.RefObject<HTMLElement | null>, deps: any[] = []): Size {
+export function useComponentSize(ref: React.RefObject<HTMLElement | null>): Size {
   const [size, setSize] = React.useState<Size>({ width: 0, height: 0 });
 
   React.useLayoutEffect(() => {
@@ -32,7 +32,7 @@ export function useComponentSize(ref: React.RefObject<HTMLElement | null>, deps:
     return () => {
       resizeObserver.disconnect();
     };
-  }, [ref, ...deps]);
+  }, [ref]);
 
   return size;
 }

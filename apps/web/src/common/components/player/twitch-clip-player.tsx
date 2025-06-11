@@ -29,25 +29,26 @@ export function TwitchClipPlayer({ video, onVideoEnded, onVideoError }: Props) {
     return () => {
       abortController.abort();
     };
-  }, [video]);
+  }, [video, onVideoError]);
 
   React.useEffect(() => {
-    if (!videoRef.current) {
+    const videoCurrent = videoRef.current;
+    if (!videoCurrent) {
       return;
     }
 
-    videoRef.current.addEventListener("ended", () => {
+    videoCurrent.addEventListener("ended", () => {
       onVideoEnded?.();
     });
-    videoRef.current.addEventListener("error", (e: any) => {
+    videoCurrent.addEventListener("error", (e: any) => {
       onVideoError?.(e);
     });
 
     return () => {
-      videoRef.current?.removeEventListener("ended", () => {
+      videoCurrent?.removeEventListener("ended", () => {
         onVideoEnded?.();
       });
-      videoRef.current?.removeEventListener("error", (e: any) => {
+      videoCurrent?.removeEventListener("error", (e: any) => {
         onVideoError?.(e);
       });
     };

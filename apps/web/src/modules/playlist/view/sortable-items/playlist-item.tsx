@@ -116,7 +116,7 @@ export function PlaylistItem({ index, item, isOwner, onDelete, style }: Props) {
         getConfiguration: () => ({ maxScrollSpeed: "fast" }),
       }),
     );
-  }, [item.id]);
+  }, [item.id, index]);
 
   return (
     <Card

@@ -16,18 +16,21 @@ export function PlayNextButton({ playlistID, nextItemID, failedToLoad }: Props) 
   const insetButtonRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    if (!linkRef.current || !insetButtonRef.current || !nextItemID) {
+    const linkCurrent = linkRef.current;
+    const buttonCurrent = insetButtonRef.current;
+
+    if (!linkCurrent || !buttonCurrent || !nextItemID) {
       return;
     }
 
     const handleTransitionEnd = () => {
-      linkRef.current?.click();
+      linkCurrent?.click();
     };
 
-    insetButtonRef.current.addEventListener("transitionend", handleTransitionEnd);
+    buttonCurrent.addEventListener("transitionend", handleTransitionEnd);
 
     return () => {
-      insetButtonRef.current?.removeEventListener("transitionend", handleTransitionEnd);
+      buttonCurrent?.removeEventListener("transitionend", handleTransitionEnd);
     };
   }, [playlistID, nextItemID]);
 

@@ -11,7 +11,7 @@ export function Page() {
     localStorage.clear();
 
     navigate({ to: "/", search: {}, reloadDocument: true });
-  }, [client]);
+  }, [client, navigate]);
 
   return <main className="h-240" />;
 }

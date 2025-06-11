@@ -8,146 +8,63 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-// Import Routes
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as MeRouteImport } from './routes/me'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as UserUserIDRouteImport } from './routes/user/$userID'
+import { Route as AuthLogoutRouteImport } from './routes/auth/logout'
+import { Route as PlaylistPlaylistIDIndexRouteImport } from './routes/playlist/$playlistID/index'
+import { Route as PlaylistPlaylistIDPlayRouteImport } from './routes/playlist/$playlistID/play'
+import { Route as PlaylistPlaylistIDVideoIDRouteImport } from './routes/playlist/$playlistID/$videoID'
+import { Route as AuthGoogleRedirectRouteImport } from './routes/auth/google/redirect'
+import { Route as AuthGoogleLoginRouteImport } from './routes/auth/google/login'
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as MeImport } from './routes/me'
-import { Route as IndexImport } from './routes/index'
-import { Route as UserUserIDImport } from './routes/user/$userID'
-import { Route as AuthLogoutImport } from './routes/auth/logout'
-import { Route as PlaylistPlaylistIDIndexImport } from './routes/playlist/$playlistID/index'
-import { Route as PlaylistPlaylistIDPlayImport } from './routes/playlist/$playlistID/play'
-import { Route as PlaylistPlaylistIDVideoIDImport } from './routes/playlist/$playlistID/$videoID'
-import { Route as AuthGoogleRedirectImport } from './routes/auth/google/redirect'
-import { Route as AuthGoogleLoginImport } from './routes/auth/google/login'
-
-// Create/Update Routes
-
-const MeRoute = MeImport.update({
+const MeRoute = MeRouteImport.update({
   id: '/me',
   path: '/me',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const IndexRoute = IndexImport.update({
+const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const UserUserIDRoute = UserUserIDImport.update({
+const UserUserIDRoute = UserUserIDRouteImport.update({
   id: '/user/$userID',
   path: '/user/$userID',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const AuthLogoutRoute = AuthLogoutImport.update({
+const AuthLogoutRoute = AuthLogoutRouteImport.update({
   id: '/auth/logout',
   path: '/auth/logout',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const PlaylistPlaylistIDIndexRoute = PlaylistPlaylistIDIndexImport.update({
+const PlaylistPlaylistIDIndexRoute = PlaylistPlaylistIDIndexRouteImport.update({
   id: '/playlist/$playlistID/',
   path: '/playlist/$playlistID/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const PlaylistPlaylistIDPlayRoute = PlaylistPlaylistIDPlayImport.update({
+const PlaylistPlaylistIDPlayRoute = PlaylistPlaylistIDPlayRouteImport.update({
   id: '/playlist/$playlistID/play',
   path: '/playlist/$playlistID/play',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const PlaylistPlaylistIDVideoIDRoute = PlaylistPlaylistIDVideoIDImport.update({
-  id: '/playlist/$playlistID/$videoID',
-  path: '/playlist/$playlistID/$videoID',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AuthGoogleRedirectRoute = AuthGoogleRedirectImport.update({
+const PlaylistPlaylistIDVideoIDRoute =
+  PlaylistPlaylistIDVideoIDRouteImport.update({
+    id: '/playlist/$playlistID/$videoID',
+    path: '/playlist/$playlistID/$videoID',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AuthGoogleRedirectRoute = AuthGoogleRedirectRouteImport.update({
   id: '/auth/google/redirect',
   path: '/auth/google/redirect',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const AuthGoogleLoginRoute = AuthGoogleLoginImport.update({
+const AuthGoogleLoginRoute = AuthGoogleLoginRouteImport.update({
   id: '/auth/google/login',
   path: '/auth/google/login',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-// Populate the FileRoutesByPath interface
-
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/me': {
-      id: '/me'
-      path: '/me'
-      fullPath: '/me'
-      preLoaderRoute: typeof MeImport
-      parentRoute: typeof rootRoute
-    }
-    '/auth/logout': {
-      id: '/auth/logout'
-      path: '/auth/logout'
-      fullPath: '/auth/logout'
-      preLoaderRoute: typeof AuthLogoutImport
-      parentRoute: typeof rootRoute
-    }
-    '/user/$userID': {
-      id: '/user/$userID'
-      path: '/user/$userID'
-      fullPath: '/user/$userID'
-      preLoaderRoute: typeof UserUserIDImport
-      parentRoute: typeof rootRoute
-    }
-    '/auth/google/login': {
-      id: '/auth/google/login'
-      path: '/auth/google/login'
-      fullPath: '/auth/google/login'
-      preLoaderRoute: typeof AuthGoogleLoginImport
-      parentRoute: typeof rootRoute
-    }
-    '/auth/google/redirect': {
-      id: '/auth/google/redirect'
-      path: '/auth/google/redirect'
-      fullPath: '/auth/google/redirect'
-      preLoaderRoute: typeof AuthGoogleRedirectImport
-      parentRoute: typeof rootRoute
-    }
-    '/playlist/$playlistID/$videoID': {
-      id: '/playlist/$playlistID/$videoID'
-      path: '/playlist/$playlistID/$videoID'
-      fullPath: '/playlist/$playlistID/$videoID'
-      preLoaderRoute: typeof PlaylistPlaylistIDVideoIDImport
-      parentRoute: typeof rootRoute
-    }
-    '/playlist/$playlistID/play': {
-      id: '/playlist/$playlistID/play'
-      path: '/playlist/$playlistID/play'
-      fullPath: '/playlist/$playlistID/play'
-      preLoaderRoute: typeof PlaylistPlaylistIDPlayImport
-      parentRoute: typeof rootRoute
-    }
-    '/playlist/$playlistID/': {
-      id: '/playlist/$playlistID/'
-      path: '/playlist/$playlistID'
-      fullPath: '/playlist/$playlistID'
-      preLoaderRoute: typeof PlaylistPlaylistIDIndexImport
-      parentRoute: typeof rootRoute
-    }
-  }
-}
-
-// Create and export the route tree
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -160,7 +77,6 @@ export interface FileRoutesByFullPath {
   '/playlist/$playlistID/play': typeof PlaylistPlaylistIDPlayRoute
   '/playlist/$playlistID': typeof PlaylistPlaylistIDIndexRoute
 }
-
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/me': typeof MeRoute
@@ -172,9 +88,8 @@ export interface FileRoutesByTo {
   '/playlist/$playlistID/play': typeof PlaylistPlaylistIDPlayRoute
   '/playlist/$playlistID': typeof PlaylistPlaylistIDIndexRoute
 }
-
 export interface FileRoutesById {
-  __root__: typeof rootRoute
+  __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/me': typeof MeRoute
   '/auth/logout': typeof AuthLogoutRoute
@@ -185,7 +100,6 @@ export interface FileRoutesById {
   '/playlist/$playlistID/play': typeof PlaylistPlaylistIDPlayRoute
   '/playlist/$playlistID/': typeof PlaylistPlaylistIDIndexRoute
 }
-
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
@@ -222,7 +136,6 @@ export interface FileRouteTypes {
     | '/playlist/$playlistID/'
   fileRoutesById: FileRoutesById
 }
-
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MeRoute: typeof MeRoute
@@ -233,6 +146,74 @@ export interface RootRouteChildren {
   PlaylistPlaylistIDVideoIDRoute: typeof PlaylistPlaylistIDVideoIDRoute
   PlaylistPlaylistIDPlayRoute: typeof PlaylistPlaylistIDPlayRoute
   PlaylistPlaylistIDIndexRoute: typeof PlaylistPlaylistIDIndexRoute
+}
+
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/me': {
+      id: '/me'
+      path: '/me'
+      fullPath: '/me'
+      preLoaderRoute: typeof MeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/logout': {
+      id: '/auth/logout'
+      path: '/auth/logout'
+      fullPath: '/auth/logout'
+      preLoaderRoute: typeof AuthLogoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/user/$userID': {
+      id: '/user/$userID'
+      path: '/user/$userID'
+      fullPath: '/user/$userID'
+      preLoaderRoute: typeof UserUserIDRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/google/login': {
+      id: '/auth/google/login'
+      path: '/auth/google/login'
+      fullPath: '/auth/google/login'
+      preLoaderRoute: typeof AuthGoogleLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/google/redirect': {
+      id: '/auth/google/redirect'
+      path: '/auth/google/redirect'
+      fullPath: '/auth/google/redirect'
+      preLoaderRoute: typeof AuthGoogleRedirectRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/playlist/$playlistID/$videoID': {
+      id: '/playlist/$playlistID/$videoID'
+      path: '/playlist/$playlistID/$videoID'
+      fullPath: '/playlist/$playlistID/$videoID'
+      preLoaderRoute: typeof PlaylistPlaylistIDVideoIDRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/playlist/$playlistID/play': {
+      id: '/playlist/$playlistID/play'
+      path: '/playlist/$playlistID/play'
+      fullPath: '/playlist/$playlistID/play'
+      preLoaderRoute: typeof PlaylistPlaylistIDPlayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/playlist/$playlistID/': {
+      id: '/playlist/$playlistID/'
+      path: '/playlist/$playlistID'
+      fullPath: '/playlist/$playlistID'
+      preLoaderRoute: typeof PlaylistPlaylistIDIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+  }
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -246,55 +227,6 @@ const rootRouteChildren: RootRouteChildren = {
   PlaylistPlaylistIDPlayRoute: PlaylistPlaylistIDPlayRoute,
   PlaylistPlaylistIDIndexRoute: PlaylistPlaylistIDIndexRoute,
 }
-
-export const routeTree = rootRoute
+export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-/* ROUTE_MANIFEST_START
-{
-  "routes": {
-    "__root__": {
-      "filePath": "__root.tsx",
-      "children": [
-        "/",
-        "/me",
-        "/auth/logout",
-        "/user/$userID",
-        "/auth/google/login",
-        "/auth/google/redirect",
-        "/playlist/$playlistID/$videoID",
-        "/playlist/$playlistID/play",
-        "/playlist/$playlistID/"
-      ]
-    },
-    "/": {
-      "filePath": "index.tsx"
-    },
-    "/me": {
-      "filePath": "me.tsx"
-    },
-    "/auth/logout": {
-      "filePath": "auth/logout.tsx"
-    },
-    "/user/$userID": {
-      "filePath": "user/$userID.tsx"
-    },
-    "/auth/google/login": {
-      "filePath": "auth/google/login.tsx"
-    },
-    "/auth/google/redirect": {
-      "filePath": "auth/google/redirect.tsx"
-    },
-    "/playlist/$playlistID/$videoID": {
-      "filePath": "playlist/$playlistID/$videoID.tsx"
-    },
-    "/playlist/$playlistID/play": {
-      "filePath": "playlist/$playlistID/play.tsx"
-    },
-    "/playlist/$playlistID/": {
-      "filePath": "playlist/$playlistID/index.tsx"
-    }
-  }
-}
-ROUTE_MANIFEST_END */
