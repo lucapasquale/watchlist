@@ -82,7 +82,7 @@ export function SortableItems({ playlist, isOwner }: Props) {
   }, [handleDrop]);
 
   if (items.length === 0) {
-    return <h4>No videos added to the playlist</h4>;
+    return <h4 className="mt-2">No videos added to the playlist</h4>;
   }
 
   return (

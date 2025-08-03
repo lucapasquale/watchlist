@@ -1,5 +1,3 @@
-import { Link } from "@tanstack/react-router";
-
 export function Footer() {
   return (
     <footer className="flex justify-center border-t py-6 md:py-0">
@@ -10,17 +8,7 @@ export function Footer() {
           </p>
         </div>
 
-        <nav className="flex items-center gap-4 text-sm">
-          <Link to="/" hash="" className="text-muted-foreground hover:text-foreground">
-            Terms
-          </Link>
-          <Link to="/" hash="" className="text-muted-foreground hover:text-foreground">
-            Privacy
-          </Link>
-          <Link to="/" hash="" className="text-muted-foreground hover:text-foreground">
-            Contact
-          </Link>
-        </nav>
+        <div/>
       </div>
     </footer>
   );

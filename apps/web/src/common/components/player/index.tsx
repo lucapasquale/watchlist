@@ -11,11 +11,11 @@ export type Props = {
   playing?: boolean;
   video: Video;
   onVideoEnded?: () => void;
-  onVideoError?: (error: Error) => void;
+  onVideoError?: (error: MediaError | null) => void;
 };
 
 export function Player({ video, onVideoEnded, onVideoError, playing = false }: Props) {
-  const playerRef = React.useRef<ReactPlayer>(null);
+  const playerRef = React.useRef<HTMLVideoElement>(null);
 
   if (video.kind === PlaylistItemKind.TwitchClip) {
     return (
@@ -30,8 +30,8 @@ export function Player({ video, onVideoEnded, onVideoError, playing = false }: P
       controls
       width="100%"
       height="100%"
-      url={video.embedUrl}
-      onError={onVideoError}
+      src={video.embedUrl}
+      onError={e => onVideoError?.(e.currentTarget.error)}
       onEnded={onVideoEnded}
       style={{ aspectRatio: "16 / 9", width: "100%" }}
     />

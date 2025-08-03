@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { InputFormItem } from "@ui/components/form/input-form-item.js";
-import { SelectFormItem } from "@ui/components/form/select-form-item";
 import { Button } from "@ui/components/ui/button.js";
 import {
   Dialog,
@@ -16,8 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@ui/components/ui/dialog.js";
-import { Form, FormControl } from "@ui/components/ui/form.js";
-import { SelectContent, SelectItem, SelectTrigger, SelectValue } from "@ui/components/ui/select";
+import { Form } from "@ui/components/ui/form.js";
 
 import {
   CreatePlaylistDocument,
@@ -100,23 +98,6 @@ export function CreatePlaylist() {
               description="Copy from a YouTube playlist or Subreddit"
               placeholder="https://reddit.com/r/videos"
             />
-
-            <SelectFormItem
-              control={form.control}
-              name="newItemsPosition"
-              label="New items position"
-            >
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a sort order" />
-                </SelectTrigger>
-              </FormControl>
-
-              <SelectContent>
-                <SelectItem value={PlaylistNewItemsPosition.Bottom}>Bottom</SelectItem>
-                <SelectItem value={PlaylistNewItemsPosition.Top}>Top</SelectItem>
-              </SelectContent>
-            </SelectFormItem>
           </form>
         </Form>
 

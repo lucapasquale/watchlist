@@ -12,18 +12,18 @@ export function TwitchClipPlayer({ video, onVideoEnded, onVideoError }: Props) {
 
     const clipId = new URL(video.embedUrl).searchParams.get("clip");
     if (!clipId) {
-      onVideoError?.(new Error("Invalid clip ID"));
+      onVideoError?.(new MediaError());
       return;
     }
 
     getClipDownloadUrl(clipId, abortController.signal)
       .then(setClipSrc)
-      .catch((err) => {
+      .catch(() => {
         if (abortController.signal.aborted) {
           return;
         }
 
-        onVideoError?.(err);
+        onVideoError?.(new MediaError());
       });
 
     return () => {
@@ -37,20 +37,15 @@ export function TwitchClipPlayer({ video, onVideoEnded, onVideoError }: Props) {
       return;
     }
 
-    videoCurrent.addEventListener("ended", () => {
-      onVideoEnded?.();
-    });
-    videoCurrent.addEventListener("error", (e: any) => {
-      onVideoError?.(e);
-    });
+    const videoEndedCb = () =>  onVideoEnded?.();
+    videoCurrent.addEventListener("ended", videoEndedCb);
+
+    const videoErrorCb = () => onVideoError?.(new MediaError());
+    videoCurrent.addEventListener("error", videoErrorCb);
 
     return () => {
-      videoCurrent?.removeEventListener("ended", () => {
-        onVideoEnded?.();
-      });
-      videoCurrent?.removeEventListener("error", (e: any) => {
-        onVideoError?.(e);
-      });
+      videoCurrent?.removeEventListener("ended", videoEndedCb);
+      videoCurrent?.removeEventListener("error", videoErrorCb);
     };
   }, [onVideoEnded, onVideoError]);
 

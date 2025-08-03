@@ -48,7 +48,7 @@ export function PlaylistInfo({ playlist, shuffleSeed, isOwner }: Props) {
               isOwner && "grid-cols-[1fr_36px]",
             )}
           >
-            <div title={playlist.name} className="line-clamp-1">
+            <div title={playlist.name} className="leading-relaxed line-clamp-1">
               {playlist.name}
             </div>
 

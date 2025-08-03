@@ -38,7 +38,7 @@ export function VideoPlayer({ playlistItem }: Props) {
     });
   }, [nextItemID, playlistItem.playlist.id, navigate]);
 
-  const onVideoError = React.useCallback((error: Error) => {
+  const onVideoError = React.useCallback((error: MediaError | null) => {
     /** User denied autoplay or browser didn't allow it yet, ignore and wait for manual play */
     if (error?.message?.includes("user denied permission")) {
       return;
@@ -81,7 +81,7 @@ export function VideoPlayer({ playlistItem }: Props) {
       <Card className="bg-card flex w-full flex-row items-center justify-between gap-1 rounded-xl">
         <div className="ml-6">
           <CardTitle>
-            <h1 className="line-clamp-1 text-lg md:text-2xl">{playlistItem.title}</h1>
+            <h1 className="leading-relaxed line-clamp-1 text-lg md:text-2xl">{playlistItem.title}</h1>
           </CardTitle>
 
           <Link target="_blank" rel="noopener noreferrer" to={playlistItem.href}>
