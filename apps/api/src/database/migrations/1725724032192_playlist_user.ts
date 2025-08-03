@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Kysely } from "kysely";
 
-export async function up(db: Kysely<unknown>): Promise<void> {
-  await db.deleteFrom<any>("playlist_item").execute();
-  await db.deleteFrom<any>("playlist").execute();
+export async function up(db: Kysely<any>): Promise<void> {
+  await db.deleteFrom("playlist_item").execute();
+  await db.deleteFrom("playlist").execute();
 
   await db.schema
     .alterTable("playlist")
@@ -13,6 +13,6 @@ export async function up(db: Kysely<unknown>): Promise<void> {
     .execute();
 }
 
-export async function down(db: Kysely<unknown>): Promise<void> {
+export async function down(db: Kysely<any>): Promise<void> {
   await db.schema.alterTable("playlist").dropColumn("user_id").execute();
 }

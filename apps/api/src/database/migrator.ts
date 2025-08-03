@@ -19,7 +19,7 @@ export async function migrateToLatest(db: Kysely<Database>) {
     }),
   });
 
-  const logger = new Logger("NestApplication");
+  const logger = new Logger("DatabaseMigrator");
 
   logger.log("Migrating database...");
   const { error, results } = await migrator.migrateToLatest();

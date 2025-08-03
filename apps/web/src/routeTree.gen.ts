@@ -150,13 +150,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/me': {
       id: '/me'
       path: '/me'
@@ -164,11 +157,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth/logout': {
-      id: '/auth/logout'
-      path: '/auth/logout'
-      fullPath: '/auth/logout'
-      preLoaderRoute: typeof AuthLogoutRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/user/$userID': {
@@ -178,25 +171,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserUserIDRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth/google/login': {
-      id: '/auth/google/login'
-      path: '/auth/google/login'
-      fullPath: '/auth/google/login'
-      preLoaderRoute: typeof AuthGoogleLoginRouteImport
+    '/auth/logout': {
+      id: '/auth/logout'
+      path: '/auth/logout'
+      fullPath: '/auth/logout'
+      preLoaderRoute: typeof AuthLogoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth/google/redirect': {
-      id: '/auth/google/redirect'
-      path: '/auth/google/redirect'
-      fullPath: '/auth/google/redirect'
-      preLoaderRoute: typeof AuthGoogleRedirectRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/playlist/$playlistID/$videoID': {
-      id: '/playlist/$playlistID/$videoID'
-      path: '/playlist/$playlistID/$videoID'
-      fullPath: '/playlist/$playlistID/$videoID'
-      preLoaderRoute: typeof PlaylistPlaylistIDVideoIDRouteImport
+    '/playlist/$playlistID/': {
+      id: '/playlist/$playlistID/'
+      path: '/playlist/$playlistID'
+      fullPath: '/playlist/$playlistID'
+      preLoaderRoute: typeof PlaylistPlaylistIDIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/playlist/$playlistID/play': {
@@ -206,11 +192,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlaylistPlaylistIDPlayRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/playlist/$playlistID/': {
-      id: '/playlist/$playlistID/'
-      path: '/playlist/$playlistID'
-      fullPath: '/playlist/$playlistID'
-      preLoaderRoute: typeof PlaylistPlaylistIDIndexRouteImport
+    '/playlist/$playlistID/$videoID': {
+      id: '/playlist/$playlistID/$videoID'
+      path: '/playlist/$playlistID/$videoID'
+      fullPath: '/playlist/$playlistID/$videoID'
+      preLoaderRoute: typeof PlaylistPlaylistIDVideoIDRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/google/redirect': {
+      id: '/auth/google/redirect'
+      path: '/auth/google/redirect'
+      fullPath: '/auth/google/redirect'
+      preLoaderRoute: typeof AuthGoogleRedirectRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/google/login': {
+      id: '/auth/google/login'
+      path: '/auth/google/login'
+      fullPath: '/auth/google/login'
+      preLoaderRoute: typeof AuthGoogleLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
   }

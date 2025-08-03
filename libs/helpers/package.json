@@ -16,10 +16,8 @@
       "default": "./dist/src/*.js"
     }
   },
-  "dependencies": {
-  },
   "devDependencies": {
     "@workspace/typescript-config": "workspace:*",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   }
 }
