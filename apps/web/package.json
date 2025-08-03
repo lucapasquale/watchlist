@@ -51,7 +51,7 @@
     "@workspace/typescript-config": "workspace:*",
     "tailwindcss": "^4.1.11",
     "typescript": "^5.9.2",
-    "vite": "^7.0.6",
+    "vite": "npm:rolldown-vite@latest",
     "vite-plugin-svgr": "^4.3.0",
     "vite-tsconfig-paths": "^5.1.4"
   }

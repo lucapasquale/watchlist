@@ -24,3 +24,4 @@ dist-ssr
 .turbo
 out/
 apps/api/.env
+**/*.tsbuildinfo
