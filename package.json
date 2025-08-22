@@ -17,10 +17,10 @@
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@workspace/typescript-config": "workspace:*",
-    "oxlint": "^1.9.0",
+    "oxlint": "^1.12.0",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.14",
-    "turbo": "^2.5.5",
+    "turbo": "^2.5.6",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
   }
