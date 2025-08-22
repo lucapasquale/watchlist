@@ -31,7 +31,7 @@ export function Player({ video, onVideoEnded, onVideoError, playing = false }: P
       width="100%"
       height="100%"
       src={video.embedUrl}
-      onError={e => onVideoError?.(e.currentTarget.error)}
+      onError={(e) => onVideoError?.(e.currentTarget.error)}
       onEnded={onVideoEnded}
       style={{ aspectRatio: "16 / 9", width: "100%" }}
     />

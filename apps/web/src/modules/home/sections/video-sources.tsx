@@ -1,4 +1,4 @@
-import { Reddit, Twitch, Youtube } from "~common/components/icons";
+import { Kick, Reddit, Twitch, Youtube } from "~common/components/icons";
 
 export function VideoSourcesSection() {
   return (
@@ -15,41 +15,28 @@ export function VideoSourcesSection() {
           </div>
         </div>
 
-        <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3">
-          <div className="flex flex-col items-center space-y-4 rounded-lg border p-6 shadow-sm">
-            <div className="bg-primary/10 rounded-full p-4">
-              <Youtube className="text-primary size-10" />
-            </div>
+        <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-4">
+          <VideoSource icon={Youtube} title="YouTube" />
 
-            <h3 className="text-xl font-bold">YouTube</h3>
-            <p className="text-muted-foreground text-center">
-              Add any YouTube video to your playlists with just a URL
-            </p>
-          </div>
+          <VideoSource icon={Reddit} title="Reddit" />
 
-          <div className="flex flex-col items-center space-y-4 rounded-lg border p-6 shadow-sm">
-            <div className="bg-primary/10 rounded-full p-4">
-              <Reddit className="text-primary size-10" />
-            </div>
+          <VideoSource icon={Twitch} title="Twitch" />
 
-            <h3 className="text-xl font-bold">Reddit</h3>
-            <p className="text-muted-foreground text-center">
-              Create playlists directly from a subreddit
-            </p>
-          </div>
-
-          <div className="flex flex-col items-center space-y-4 rounded-lg border p-6 shadow-sm">
-            <div className="bg-primary/10 rounded-full p-4">
-              <Twitch className="text-primary size-10" />
-            </div>
-
-            <h3 className="text-xl font-bold">Twitch</h3>
-            <p className="text-muted-foreground text-center">
-              Add the best Twitch clips to your playlist
-            </p>
-          </div>
+          <VideoSource icon={Kick} title="Kick" />
         </div>
       </div>
     </section>
+  );
+}
+
+function VideoSource({ icon: Icon, title }: { icon: React.ElementType; title: string }) {
+  return (
+    <div className="flex flex-col items-center space-y-4 rounded-lg border p-6 shadow-sm transition-transform hover:scale-105 hover:transform">
+      <div className="bg-primary/10 rounded-full p-4">
+        <Icon className="text-primary size-10" />
+      </div>
+
+      <h3 className="text-xl font-bold">{title}</h3>
+    </div>
   );
 }

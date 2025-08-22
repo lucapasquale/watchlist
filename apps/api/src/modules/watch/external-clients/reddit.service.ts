@@ -3,6 +3,7 @@ import axios, { AxiosInstance } from "axios";
 
 import { config } from "../../../config.js";
 import { PlaylistData, PlaylistItemData } from "./external-clients.service.js";
+import { KickService } from "./kick.service.js";
 import { TwitchService } from "./twitch.service.js";
 import { YoutubeService } from "./youtube.service.js";
 
@@ -16,6 +17,7 @@ export class RedditService {
   constructor(
     private youtubeService: YoutubeService,
     private twitchService: TwitchService,
+    private kickService: KickService,
   ) {
     this.client = axios.create({ baseURL: "https://oauth.reddit.com" });
 
@@ -133,9 +135,11 @@ export class RedditService {
     if (this.youtubeService.urlMatches(new URL(post.url))) {
       return this.youtubeService.playlistItemDataFromUrl(new URL(post.url));
     }
-
     if (this.twitchService.urlMatches(new URL(post.url))) {
       return this.twitchService.playlistItemDataFromUrl(new URL(post.url));
+    }
+    if (this.kickService.urlMatches(new URL(post.url))) {
+      return this.kickService.playlistItemDataFromUrl(new URL(post.url));
     }
 
     return null;

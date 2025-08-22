@@ -2,7 +2,7 @@ import { cn } from "@ui/lib/utils";
 
 import { PlaylistItemKind } from "~common/graphql-types";
 
-import { Reddit, Twitch, Youtube } from "./icons";
+import { Kick, Reddit, Twitch, Youtube } from "./icons";
 
 type Props = {
   kind: PlaylistItemKind;
@@ -22,6 +22,9 @@ export function PlaylistItemKindIcon({ kind, className }: Props) {
 
     case PlaylistItemKind.TwitchClip:
       return <Twitch className={cn("size-4", className)} />;
+
+    case PlaylistItemKind.KickClip:
+      return <Kick className={cn("size-4", className)} />;
 
     default:
       return null;

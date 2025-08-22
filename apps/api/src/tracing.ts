@@ -35,7 +35,9 @@ const tracer = new NodeSDK({
   ],
 });
 
-tracer.start();
+if (config.environment === 'production') {
+  tracer.start();
+}
 
 process.on("SIGTERM", () => {
   tracer

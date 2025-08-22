@@ -60,7 +60,10 @@ export function HeroSection() {
           )}
 
           {data?.playlists.slice(0, 3).map((playlist) => (
-            <Card key={playlist.id}>
+            <Card
+              key={playlist.id}
+              className="hover:scale-101 transition-transform hover:transform"
+            >
               <Link
                 to="/playlist/$playlistID/play"
                 params={{ playlistID: playlist.id }}

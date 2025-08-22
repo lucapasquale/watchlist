@@ -34,6 +34,7 @@ export class GqlConfigService implements GqlOptionsFactory {
           YOUTUBE: "youtube",
           REDDIT: "reddit",
           TWITCH_CLIP: "twitch_clip",
+          KICK_CLIP: "kick_clip",
         },
       },
     };
