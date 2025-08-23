@@ -16,7 +16,7 @@ export class YtDlpService {
   private logger = new Logger("YtDlpService");
 
   urlMatches(url: URL) {
-    return url.host.match(/.*x\.com\/.*/gi) || url.href.match(/.*kick\.com\/.*\/clips\/.*/gi);
+    return url.host.match(/.*x\.com.*/gi) || url.href.match(/.*kick\.com\/.*\/clips\/.*/gi);
   }
 
   async playlistItemDataFromUrl(url: URL): Promise<PlaylistItemData | null> {
