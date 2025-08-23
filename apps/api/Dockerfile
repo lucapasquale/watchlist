@@ -48,7 +48,8 @@ RUN apk add --no-cache \
   ffmpeg \
   curl \
   bash \
-  && pip3 install --no-cache-dir \"yt-dlp[default,curl-cffi]\"
+  && pip install yt-dlp \
+  && pip3 install curl_cffi
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nodejs
