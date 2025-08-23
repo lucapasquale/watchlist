@@ -6,7 +6,7 @@ RUN apk update
 RUN apk add --no-cache libc6-compat
 
 # Setup pnpm and turbo on the alpine base
-FROM alpine as base
+FROM alpine AS base
 RUN npm install pnpm turbo --global
 RUN pnpm config set store-dir ~/.pnpm-store
 
@@ -48,7 +48,7 @@ RUN apk add --no-cache \
   ffmpeg \
   curl \
   bash \
-  && pip3 install --no-cache-dir "yt-dlp[default,curl-cffi]"
+  && pip3 install --no-cache-dir \"yt-dlp[default,curl-cffi]\"
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nodejs
