@@ -48,7 +48,7 @@ RUN apk add --no-cache \
   ffmpeg \
   curl \
   bash \
-  && pip install yt-dlp \
+  && pip3 install yt-dlp \
   && pip3 install curl_cffi
 
 RUN addgroup --system --gid 1001 nodejs
