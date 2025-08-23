@@ -3,9 +3,9 @@ import axios, { AxiosInstance } from "axios";
 
 import { config } from "../../../config.js";
 import { PlaylistData, PlaylistItemData } from "./external-clients.service.js";
-import { KickService } from "./kick.service.js";
 import { TwitchService } from "./twitch.service.js";
 import { YoutubeService } from "./youtube.service.js";
+import { YtDlpService } from "./yt-dlp.service.js";
 
 @Injectable()
 export class RedditService {
@@ -17,7 +17,7 @@ export class RedditService {
   constructor(
     private youtubeService: YoutubeService,
     private twitchService: TwitchService,
-    private kickService: KickService,
+    private ytDlpService: YtDlpService,
   ) {
     this.client = axios.create({ baseURL: "https://oauth.reddit.com" });
 
@@ -36,7 +36,7 @@ export class RedditService {
   }
 
   urlMatches(url: URL) {
-    return url.href.match(/.*reddit\.com.*/gi) || url.href.match(/.*v\.redd\.it.*/gi);
+    return url.host.match(/.*reddit\.com.*/gi) || url.host.match(/.*v\.redd\.it.*/gi);
   }
 
   async playlistDataFromUrl(url: URL): Promise<PlaylistData | null> {
@@ -138,8 +138,8 @@ export class RedditService {
     if (this.twitchService.urlMatches(new URL(post.url))) {
       return this.twitchService.playlistItemDataFromUrl(new URL(post.url));
     }
-    if (this.kickService.urlMatches(new URL(post.url))) {
-      return this.kickService.playlistItemDataFromUrl(new URL(post.url));
+    if (this.ytDlpService.urlMatches(new URL(post.url))) {
+      return this.ytDlpService.playlistItemDataFromUrl(new URL(post.url));
     }
 
     return null;

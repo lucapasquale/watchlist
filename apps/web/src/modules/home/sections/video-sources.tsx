@@ -1,4 +1,14 @@
-import { Kick, Reddit, Twitch, Youtube } from "~common/components/icons";
+import { PlaylistItemKindIcon } from "~common/components/playlist-item-kind-icon";
+import { PlaylistItemKind } from "~common/graphql-types";
+import { PLAYLIST_ITEM_KIND } from "~common/translations";
+
+const sources: PlaylistItemKind[] = [
+  PlaylistItemKind.Youtube,
+  PlaylistItemKind.Reddit,
+  PlaylistItemKind.TwitchClip,
+  PlaylistItemKind.KickClip,
+  PlaylistItemKind.X,
+];
 
 export function VideoSourcesSection() {
   return (
@@ -16,25 +26,23 @@ export function VideoSourcesSection() {
         </div>
 
         <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-4">
-          <VideoSource icon={Youtube} title="YouTube" />
-
-          <VideoSource icon={Reddit} title="Reddit" />
-
-          <VideoSource icon={Twitch} title="Twitch" />
-
-          <VideoSource icon={Kick} title="Kick" />
+          {sources.map((kind) => (
+            <VideoSource
+              key={kind}
+              icon={<PlaylistItemKindIcon kind={kind} className="text-primary size-10" />}
+              title={PLAYLIST_ITEM_KIND[kind]}
+            />
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-function VideoSource({ icon: Icon, title }: { icon: React.ElementType; title: string }) {
+function VideoSource({ icon, title }: { icon: React.ReactNode; title: string }) {
   return (
     <div className="flex flex-col items-center space-y-4 rounded-lg border p-6 shadow-sm transition-transform hover:scale-105 hover:transform">
-      <div className="bg-primary/10 rounded-full p-4">
-        <Icon className="text-primary size-10" />
-      </div>
+      <div className="bg-primary/10 rounded-full p-4">{icon}</div>
 
       <h3 className="text-xl font-bold">{title}</h3>
     </div>

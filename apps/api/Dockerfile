@@ -41,6 +41,15 @@ RUN rm -rf ./**/*/src
 # Final image
 FROM alpine AS runner
 
+# Install yt-dlp and its dependencies
+RUN apk add --no-cache \
+  python3 \
+  py3-pip \
+  ffmpeg \
+  curl \
+  bash \
+  && pip3 install --no-cache-dir "yt-dlp[default,curl-cffi]""
+
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nodejs
 USER nodejs

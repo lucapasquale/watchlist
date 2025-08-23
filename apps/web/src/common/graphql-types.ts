@@ -140,6 +140,7 @@ export enum PlaylistItemKind {
   KickClip = 'KICK_CLIP',
   Reddit = 'REDDIT',
   TwitchClip = 'TWITCH_CLIP',
+  X = 'X',
   Youtube = 'YOUTUBE'
 }
 

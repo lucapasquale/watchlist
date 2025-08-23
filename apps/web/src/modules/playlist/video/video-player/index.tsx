@@ -81,7 +81,12 @@ export function VideoPlayer({ playlistItem }: Props) {
       <Card className="bg-card flex w-full flex-row items-center justify-between gap-1 rounded-xl">
         <div className="ml-6">
           <CardTitle>
-            <h1 className="leading-relaxed line-clamp-1 text-lg md:text-2xl">{playlistItem.title}</h1>
+            <h1
+              title={playlistItem.title}
+              className="line-clamp-1 text-lg leading-relaxed md:text-2xl"
+            >
+              {playlistItem.title}
+            </h1>
           </CardTitle>
 
           <Link target="_blank" rel="noopener noreferrer" to={playlistItem.href}>

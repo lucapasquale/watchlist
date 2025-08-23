@@ -63,7 +63,7 @@ export class PlaylistItemService {
     if (shuffleSeed) {
       query = query.orderBy(sql`md5(id::text || ${shuffleSeed}) asc`);
     } else {
-      query = query.orderBy("rank asc");
+      query = query.orderBy("rank", "asc");
     }
 
     if (limit) {
@@ -89,7 +89,7 @@ export class PlaylistItemService {
         .where(sql`md5(id::text || ${shuffleSeed})`, ">", itemHash)
         .orderBy(sql`md5(id::text || ${shuffleSeed}) asc`);
     } else {
-      query = query.where("rank", ">", item.rank).orderBy("rank asc");
+      query = query.where("rank", ">", item.rank).orderBy("rank", "asc");
     }
 
     return query.executeTakeFirst();
@@ -99,7 +99,7 @@ export class PlaylistItemService {
     return db
       .selectFrom("playlist_item")
       .where("playlistId", "=", playlistId)
-      .orderBy("rank asc")
+      .orderBy("rank", "asc")
       .selectAll()
       .executeTakeFirst();
   }
@@ -108,7 +108,7 @@ export class PlaylistItemService {
     return db
       .selectFrom("playlist_item")
       .where("playlistId", "=", playlistId)
-      .orderBy("rank desc")
+      .orderBy("rank", "desc")
       .selectAll()
       .executeTakeFirst();
   }

@@ -17,7 +17,7 @@ export class YoutubeService {
   }
 
   urlMatches(url: URL) {
-    return url.href.match(/youtube.com/gi) || url.href.match(/youtu.be/gi);
+    return url.host.match(/youtube.com/gi) || url.host.match(/youtu.be/gi);
   }
 
   async playlistDataFromUrl(url: URL): Promise<PlaylistData | null> {

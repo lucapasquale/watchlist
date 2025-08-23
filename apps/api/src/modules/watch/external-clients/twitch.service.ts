@@ -30,7 +30,7 @@ export class TwitchService {
   }
 
   urlMatches(url: URL) {
-    return url.href.match(/.*twitch\.tv.*/gi);
+    return url.host.match(/.*twitch\.tv.*/gi);
   }
 
   async playlistDataFromUrl(url: URL): Promise<PlaylistData | null> {

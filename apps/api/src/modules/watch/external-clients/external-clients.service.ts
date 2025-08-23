@@ -4,6 +4,7 @@ import type { PlaylistItem } from "../playlist-item/playlist-item.model.js";
 import { RedditService } from "./reddit.service.js";
 import { TwitchService } from "./twitch.service.js";
 import { YoutubeService } from "./youtube.service.js";
+import { YtDlpService } from "./yt-dlp.service.js";
 
 export type UrlOptions = {
   startTimeSeconds?: number;
@@ -26,6 +27,7 @@ export class ExternalClientsService {
     private youtubeService: YoutubeService,
     private redditService: RedditService,
     private twitchService: TwitchService,
+    private ytDlpService: YtDlpService,
   ) {}
 
   async getPlaylistFromUrl(href: string): Promise<PlaylistData | null> {
@@ -60,6 +62,9 @@ export class ExternalClientsService {
     // if (this.kickService.urlMatches(url)) {
     //   return this.kickService.playlistItemDataFromUrl(url);
     // }
+    if (this.ytDlpService.urlMatches(url)) {
+      return this.ytDlpService.playlistItemDataFromUrl(url);
+    }
 
     return null;
   }

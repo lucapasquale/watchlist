@@ -11,6 +11,7 @@ enum PlaylistItemKind {
   REDDIT
   TWITCH_CLIP
   KICK_CLIP
+  X
 }
 
 type PlaylistItem {

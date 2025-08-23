@@ -3,10 +3,10 @@ import { Module, forwardRef } from "@nestjs/common";
 import { UserModule } from "../user/user.module.js";
 import { ExternalClientsResolver } from "./external-clients/external-clients.resolver.js";
 import { ExternalClientsService } from "./external-clients/external-clients.service.js";
-import { KickService } from "./external-clients/kick.service.js";
 import { RedditService } from "./external-clients/reddit.service.js";
 import { TwitchService } from "./external-clients/twitch.service.js";
 import { YoutubeService } from "./external-clients/youtube.service.js";
+import { YtDlpService } from "./external-clients/yt-dlp.service.js";
 import { PlaylistItemResolver } from "./playlist-item/playlist-item.resolver.js";
 import { PlaylistItemService } from "./playlist-item/playlist-item.service.js";
 import { PlaylistController } from "./playlist/playlist.controller.js";
@@ -19,10 +19,10 @@ import { PlaylistService } from "./playlist/playlist.service.js";
   providers: [
     ExternalClientsResolver,
     ExternalClientsService,
-    KickService,
     RedditService,
     TwitchService,
     YoutubeService,
+    YtDlpService,
     PlaylistResolver,
     PlaylistService,
     PlaylistItemResolver,
