@@ -51,7 +51,7 @@ export function UserPlaylists({ userID, isOwner }: Props) {
   }
 
   return (
-    <ol className="space-y-4">
+    <ol className="min-h-[400px] space-y-4">
       {data.user.playlists.map((playlist) => (
         <Card key={playlist.id} className="flex flex-row items-center justify-between">
           <div className="ml-4">

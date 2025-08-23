@@ -62,29 +62,29 @@ export class PlaylistResolver {
   async createPlaylist(
     @CurrentUser() user: CurrentUserType,
     @Args("input")
-    input: {
-      name: Playlist["name"];
-      href: Playlist["href"];
-      newItemsPosition?: Playlist["newItemsPosition"];
-    },
+    input: { name: string },
   ) {
-    if (!input.href) {
-      return this.playlistService.create({
-        name: input.name,
-        newItemsPosition: input.newItemsPosition,
-        userId: user.userId,
-      });
-    }
+    return this.playlistService.create({
+      name: input.name,
+      userId: user.userId,
+    });
+  }
 
+  @Mutation()
+  @UseGuards(GqlAuthGuard)
+  async importPlaylist(
+    @CurrentUser() user: CurrentUserType,
+    @Args("input")
+    input: { href: string },
+  ) {
     const data = await this.externalClientsService.getPlaylistFromUrl(input.href);
     if (!data || !data.items.length) {
       throw new Error("Invalid playlist URL");
     }
 
     const playlist = await this.playlistService.create({
-      name: input.name || data.name,
+      name: data.name,
       href: input.href,
-      newItemsPosition: input.newItemsPosition,
       userId: user.userId,
     });
 

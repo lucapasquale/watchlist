@@ -17,40 +17,30 @@ import {
 } from "@ui/components/ui/dialog.js";
 import { Form } from "@ui/components/ui/form.js";
 
-import {
-  CreatePlaylistDocument,
-  PlaylistNewItemsPosition,
-  UserPlaylistsDocument,
-} from "~common/graphql-types.js";
+import { ImportPlaylistDocument, UserPlaylistsDocument } from "~common/graphql-types.js";
 import { Route } from "~routes/index.js";
 
 const schema = z.object({
-  name: z.string().min(1),
-  href: z.string().optional(),
-  newItemsPosition: z.nativeEnum(PlaylistNewItemsPosition),
+  href: z.url(),
 });
 type FormValues = z.infer<typeof schema>;
 
-export function CreatePlaylist() {
+export function ImportPlaylist() {
   const navigate = Route.useNavigate();
   const [open, setOpen] = React.useState(false);
 
-  const [createPlaylist, { loading }] = useMutation(CreatePlaylistDocument, {
+  const [importPlaylist, { loading }] = useMutation(ImportPlaylistDocument, {
     refetchQueries: [UserPlaylistsDocument],
     awaitRefetchQueries: true,
   });
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: {
-      name: "",
-      href: "",
-      newItemsPosition: PlaylistNewItemsPosition.Bottom,
-    },
+    defaultValues: { href: "" },
   });
 
   const onSubmit = async (values: FormValues) => {
-    const { data } = await createPlaylist({
+    const { data } = await importPlaylist({
       variables: { input: values },
     });
 
@@ -59,25 +49,25 @@ export function CreatePlaylist() {
     }
 
     form.reset();
-    navigate({ to: "/playlist/$playlistID", params: { playlistID: data.createPlaylist.id } });
+    navigate({ to: "/playlist/$playlistID", params: { playlistID: data.importPlaylist.id } });
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="default" className="self-end">
-          Create playlist
+        <Button variant="outline" className="self-end">
+          Import
         </Button>
       </DialogTrigger>
 
       <DialogContent className="max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Create playlist</DialogTitle>
+          <DialogTitle>Import playlist</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
           <form
-            id="create-playlist"
+            id="import-playlist"
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex w-full flex-col items-center gap-4"
           >
@@ -85,18 +75,10 @@ export function CreatePlaylist() {
               required
               autoComplete="off"
               control={form.control}
-              name="name"
-              label="Name"
-              placeholder="My playlist"
-            />
-
-            <InputFormItem
-              autoComplete="off"
-              control={form.control}
               name="href"
               label="URL"
-              description="Copy from a YouTube playlist or Subreddit"
               placeholder="https://reddit.com/r/videos"
+              description="Import a playlist from YouTube, a subreddit, or from Twitch clips"
             />
           </form>
         </Form>
@@ -108,11 +90,11 @@ export function CreatePlaylist() {
 
           <Button
             type="submit"
-            form="create-playlist"
+            form="import-playlist"
             disabled={!form.formState.isValid}
             loading={loading}
           >
-            Add
+            Import
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -3,7 +3,8 @@ import { Helmet } from "react-helmet-async";
 
 import { useCurrentUser } from "~common/providers/current-user-provider.js";
 
-import { CreatePlaylist } from "../view/create-playlist";
+import { CreateCustomPlaylist } from "../view/create-playlist/create-custom-playlist";
+import { ImportPlaylist } from "../view/create-playlist/import-playlist";
 import { UserInfo } from "../view/user-info";
 import { UserPlaylists } from "../view/user-playlists";
 
@@ -31,10 +32,14 @@ export function Page() {
       </Helmet>
 
       <main className="container mx-auto my-4 grid grid-cols-1 items-start gap-6 px-2 sm:px-0 lg:grid-cols-[minmax(min(350px,100%),_1fr)_3fr]">
-        <aside className="mt-2 flex flex-col gap-4">
+        <aside className="flex flex-col gap-4">
           <UserInfo user={user} />
 
-          <CreatePlaylist />
+          <div className="flex items-center gap-4">
+            <ImportPlaylist />
+
+            <CreateCustomPlaylist />
+          </div>
         </aside>
 
         <UserPlaylists userID={user.id} isOwner />

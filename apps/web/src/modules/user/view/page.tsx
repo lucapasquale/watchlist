@@ -5,7 +5,8 @@ import { UserViewDocument } from "~common/graphql-types.js";
 import { useCurrentUser } from "~common/providers/current-user-provider.js";
 import { Route } from "~routes/user/$userID.js";
 
-import { CreatePlaylist } from "./create-playlist.js";
+import { CreateCustomPlaylist } from "./create-playlist/create-custom-playlist.js";
+import { ImportPlaylist } from "./create-playlist/import-playlist.js";
 import { UserInfo } from "./user-info/index.js";
 import { UserPlaylists } from "./user-playlists/index.js";
 
@@ -36,10 +37,16 @@ export function Page() {
       </Helmet>
 
       <main className="container mx-auto my-4 grid grid-cols-1 items-start gap-6 px-2 sm:px-0 lg:grid-cols-[minmax(min(350px,100%),_1fr)_3fr]">
-        <aside className="mt-2 flex flex-col gap-4">
+        <aside className="flex flex-col gap-4">
           <UserInfo user={data.user} />
 
-          {isOwner && <CreatePlaylist />}
+          {isOwner && (
+            <div className="flex items-center justify-end gap-4">
+              <ImportPlaylist />
+
+              <CreateCustomPlaylist />
+            </div>
+          )}
         </aside>
 
         <UserPlaylists userID={data.user.id} isOwner={isOwner} />

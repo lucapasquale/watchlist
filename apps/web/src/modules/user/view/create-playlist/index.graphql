@@ -1,0 +1,15 @@
+mutation CreatePlaylist($input: CreatePlaylistInput!) {
+  createPlaylist(input: $input) {
+    id
+    name
+    newItemsPosition
+  }
+}
+
+mutation ImportPlaylist($input: ImportPlaylistInput!) {
+  importPlaylist(input: $input) {
+    id
+    name
+    newItemsPosition
+  }
+}

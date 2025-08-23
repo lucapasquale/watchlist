@@ -23,8 +23,10 @@ type Query {
 
 input CreatePlaylistInput {
   name: String!
-  href: String
-  newItemsPosition: PlaylistNewItemsPosition
+}
+
+input ImportPlaylistInput {
+  href: String!
 }
 
 input UpdatePlaylistInput {
@@ -35,6 +37,7 @@ input UpdatePlaylistInput {
 
 type Mutation {
   createPlaylist(input: CreatePlaylistInput!): Playlist!
+  importPlaylist(input: ImportPlaylistInput!): Playlist!
   updatePlaylist(input: UpdatePlaylistInput!): Playlist!
   deletePlaylist(id: ID!): Playlist!
 }
