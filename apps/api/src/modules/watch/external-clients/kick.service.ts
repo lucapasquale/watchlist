@@ -9,8 +9,7 @@ export class KickService {
   private client: AxiosInstance;
 
   private authToken: string | null = null;
-  // TODO: Change to `MIN_SAFE_INTEGER` to start using it after clip API is ready
-  private expiresAt = Number.MAX_SAFE_INTEGER;
+  private expiresAt = Number.MIN_SAFE_INTEGER;
 
   constructor() {
     this.client = axios.create({ baseURL: "https://kick.com/api" });
@@ -56,18 +55,9 @@ export class KickService {
     return data;
   }
 
+  // TODO: Wait for Kick to have proper API support for clips, this current call does not work
   private async getClip(clipID: string) {
-    const { data } = await this.client.get<{ clip: Clip }>(`/v2/clips/${clipID}`, {
-      headers: {
-        /**
-         * Fake User-Agent to prevent getting 403 error from Kick. I've asked for
-         * a proper API endpoint with authentication here:
-         * @url https://github.com/KickEngineering/KickDevDocs/issues/237
-         */
-        "User-Agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
-      },
-    });
+    const { data } = await this.client.get<{ clip: Clip }>(`/v2/clips/${clipID}`);
     return data?.clip ?? null;
   }
 
