@@ -35,7 +35,7 @@ export function Page() {
         <aside className="flex flex-col gap-4">
           <UserInfo user={user} />
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center justify-end gap-4">
             <ImportPlaylist />
 
             <CreateCustomPlaylist />
