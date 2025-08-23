@@ -42,14 +42,9 @@ RUN rm -rf ./**/*/src
 FROM alpine AS runner
 
 # Install yt-dlp and its dependencies
-RUN apk add --no-cache \
-  python3 \
-  py3-pip \
-  ffmpeg \
-  curl \
-  bash \
-  && pip3 install yt-dlp \
-  && pip3 install curl_cffi
+RUN apk add --no-cache ffmpeg curl bash \
+  && curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_linux -o /usr/local/bin/yt-dlp \
+  && chmod a+rx /usr/local/bin/yt-dlp
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nodejs
