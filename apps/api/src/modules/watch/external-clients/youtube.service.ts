@@ -103,6 +103,11 @@ export class YoutubeService {
       }
     }
 
+    if (url.pathname.startsWith("/shorts/")) {
+      const videoID = url.pathname.replace("/shorts/", "");
+      return this.getVideo(videoID);
+    }
+
     return null;
   }
 
