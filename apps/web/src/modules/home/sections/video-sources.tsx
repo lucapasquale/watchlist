@@ -25,7 +25,7 @@ export function VideoSourcesSection() {
           </div>
         </div>
 
-        <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-4">
+        <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3">
           {sources.map((kind) => (
             <VideoSource
               key={kind}

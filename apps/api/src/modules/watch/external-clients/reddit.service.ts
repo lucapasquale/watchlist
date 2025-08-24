@@ -50,6 +50,8 @@ export class RedditService {
       (item): item is PlaylistItemData => item !== null,
     );
 
+    console.log(items);
+
     return { name: posts[0]!.subreddit_name_prefixed, items };
   }
 
@@ -132,14 +134,15 @@ export class RedditService {
       };
     }
 
-    if (this.youtubeService.urlMatches(new URL(post.url))) {
-      return this.youtubeService.playlistItemDataFromUrl(new URL(post.url));
+    const url = new URL(post.url);
+    if (this.youtubeService.urlMatches(url)) {
+      return this.youtubeService.playlistItemDataFromUrl(url);
     }
-    if (this.twitchService.urlMatches(new URL(post.url))) {
-      return this.twitchService.playlistItemDataFromUrl(new URL(post.url));
+    if (this.twitchService.urlMatches(url)) {
+      return this.twitchService.playlistItemDataFromUrl(url);
     }
-    if (this.ytDlpService.urlMatches(new URL(post.url))) {
-      return this.ytDlpService.playlistItemDataFromUrl(new URL(post.url));
+    if (this.ytDlpService.urlMatches(url)) {
+      return this.ytDlpService.playlistItemDataFromUrl(url);
     }
 
     return null;
