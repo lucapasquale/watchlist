@@ -12,6 +12,7 @@ enum PlaylistItemKind {
   TWITCH_CLIP
   KICK_CLIP
   X
+  TIKTOK
 }
 
 type PlaylistItem {

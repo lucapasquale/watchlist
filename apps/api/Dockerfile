@@ -46,6 +46,9 @@ RUN apk add --no-cache ffmpeg curl bash \
   && curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_linux -o /usr/local/bin/yt-dlp \
   && chmod a+rx /usr/local/bin/yt-dlp
 
+# Install chromium
+RUN npx playwright install chromium
+
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nodejs
 USER nodejs

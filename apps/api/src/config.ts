@@ -43,9 +43,10 @@ function parseEnvVars() {
       clientId: z.string().min(1),
       clientSecret: z.string().min(1),
     }),
-    kick: z.object({
-      clientId: z.string().min(1),
-      clientSecret: z.string().min(1),
+
+    tiktok: z.object({
+      username: z.string().min(1),
+      password: z.string().min(1),
     }),
   });
 
@@ -87,9 +88,9 @@ function parseEnvVars() {
       clientId: process.env.REDDIT_CLIENT_ID,
       clientSecret: process.env.REDDIT_CLIENT_SECRET,
     },
-    kick: {
-      clientId: process.env.KICK_CLIENT_ID,
-      clientSecret: process.env.KICK_CLIENT_SECRET,
+    tiktok: {
+      username: process.env.TIKTOK_USERNAME,
+      password: process.env.TIKTOK_PASSWORD,
     },
   });
 

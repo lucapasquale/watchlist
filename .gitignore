@@ -24,4 +24,5 @@ dist-ssr
 .turbo
 out/
 apps/api/.env
+apps/api/cookies.txt
 **/*.tsbuildinfo
