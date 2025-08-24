@@ -43,10 +43,6 @@ function parseEnvVars() {
       clientId: z.string().min(1),
       clientSecret: z.string().min(1),
     }),
-    kick: z.object({
-      clientId: z.string().min(1),
-      clientSecret: z.string().min(1),
-    }),
   });
 
   const { error, data } = schema.safeParse({
@@ -86,10 +82,6 @@ function parseEnvVars() {
     reddit: {
       clientId: process.env.REDDIT_CLIENT_ID,
       clientSecret: process.env.REDDIT_CLIENT_SECRET,
-    },
-    kick: {
-      clientId: process.env.KICK_CLIENT_ID,
-      clientSecret: process.env.KICK_CLIENT_SECRET,
     },
   });
 
