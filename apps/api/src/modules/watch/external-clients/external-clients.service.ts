@@ -1,4 +1,5 @@
-import { Injectable } from "@nestjs/common";
+import { CACHE_MANAGER, Cache } from "@nestjs/cache-manager";
+import { Inject, Injectable } from "@nestjs/common";
 
 import type { PlaylistItem } from "../playlist-item/playlist-item.model.js";
 import { RedditService } from "./reddit.service.js";
@@ -28,9 +29,24 @@ export class ExternalClientsService {
     private redditService: RedditService,
     private twitchService: TwitchService,
     private ytDlpService: YtDlpService,
+    @Inject(CACHE_MANAGER)
+    private cacheManager: Cache,
   ) {}
 
-  async getPlaylistFromUrl(href: string): Promise<PlaylistData | null> {
+  async getPlaylistFromUrlCached(href: string): Promise<PlaylistData | null> {
+    const cacheKey = `playlist:${href}`;
+    return this.useCachedMethod(cacheKey, () => this.getPlaylistFromUrl(href));
+  }
+
+  async getVideoFromUrlCached(
+    href: string,
+    options: UrlOptions = {},
+  ): Promise<PlaylistItemData | null> {
+    const cacheKey = `video:${href}:${JSON.stringify(options)}`;
+    return this.useCachedMethod(cacheKey, () => this.getVideoFromUrl(href, options));
+  }
+
+  private async getPlaylistFromUrl(href: string): Promise<PlaylistData | null> {
     const url = new URL(href);
 
     if (this.youtubeService.urlMatches(url)) {
@@ -46,7 +62,10 @@ export class ExternalClientsService {
     return null;
   }
 
-  async getVideoFromUrl(href: string, options: UrlOptions = {}): Promise<PlaylistItemData | null> {
+  private async getVideoFromUrl(
+    href: string,
+    options: UrlOptions = {},
+  ): Promise<PlaylistItemData | null> {
     const url = new URL(href);
 
     if (this.youtubeService.urlMatches(url)) {
@@ -58,14 +77,26 @@ export class ExternalClientsService {
     if (this.twitchService.urlMatches(url)) {
       return this.twitchService.playlistItemDataFromUrl(url);
     }
-    // TODO: Enable Kick when clips are working
-    // if (this.kickService.urlMatches(url)) {
-    //   return this.kickService.playlistItemDataFromUrl(url);
-    // }
     if (this.ytDlpService.urlMatches(url)) {
       return this.ytDlpService.playlistItemDataFromUrl(url);
     }
 
     return null;
+  }
+
+  private async useCachedMethod<T>(
+    cacheKey: string,
+    method: () => Promise<T>,
+    ttl = 3_600,
+  ): Promise<T | null> {
+    const cached = await this.cacheManager.get<T>(cacheKey);
+    if (cached !== undefined) {
+      return cached;
+    }
+
+    const result = await method();
+    await this.cacheManager.set(cacheKey, result, ttl);
+
+    return result;
   }
 }

@@ -1,4 +1,5 @@
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
+import { CacheModule } from "@nestjs/cache-manager";
 import { Module } from "@nestjs/common";
 import { GraphQLModule } from "@nestjs/graphql";
 import { JwtService } from "@nestjs/jwt";
@@ -17,6 +18,9 @@ import { WatchModule } from "./modules/watch/watch.module.js";
     CommonModule,
     WatchModule,
 
+    CacheModule.register({
+      isGlobal: true,
+    }),
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
       imports: [ApolloModule, AuthModule],

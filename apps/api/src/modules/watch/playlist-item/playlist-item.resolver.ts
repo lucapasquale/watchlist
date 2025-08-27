@@ -52,7 +52,7 @@ export class PlaylistItemResolver {
       this.playlistService.getById(input.playlistID),
       this.playlistItemService.getFirstFromPlaylist(input.playlistID),
       this.playlistItemService.getLastFromPlaylist(input.playlistID),
-      this.externalClientsService.getVideoFromUrl(input.href, {
+      this.externalClientsService.getVideoFromUrlCached(input.href, {
         startTimeSeconds: input.startTimeSeconds,
         endTimeSeconds: input.endTimeSeconds,
       }),
