@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 

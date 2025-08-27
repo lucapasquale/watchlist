@@ -1,8 +1,7 @@
-import { ApolloQueryResult } from "@apollo/client";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { z } from "zod";
 
-import { PlaylistPlayPageDocument, PlaylistPlayPageQuery } from "~common/graphql-types.js";
+import { PlaylistPlayPageDocument } from "~common/graphql-types.js";
 import { client } from "~common/providers/apollo-provider/index.js";
 
 const searchSchema = z.object({
@@ -13,13 +12,12 @@ export const Route = createFileRoute("/playlist/$playlistID/play")({
   validateSearch: searchSchema,
   loaderDeps: ({ search: { shuffleSeed } }) => ({ shuffleSeed }),
   loader: async ({ params, deps }) => {
-    let response: ApolloQueryResult<PlaylistPlayPageQuery>;
-    try {
-      response = await client.query({
-        query: PlaylistPlayPageDocument,
-        variables: { playlistID: params.playlistID, shuffleSeed: deps.shuffleSeed },
-      });
-    } catch {
+    const { data, error } = await client.query({
+      query: PlaylistPlayPageDocument,
+      variables: { playlistID: params.playlistID, shuffleSeed: deps.shuffleSeed },
+    });
+
+    if (error) {
       throw redirect({
         to: "/",
         replace: true,
@@ -27,8 +25,8 @@ export const Route = createFileRoute("/playlist/$playlistID/play")({
     }
 
     const videoID = deps.shuffleSeed
-      ? response.data.playlist.shuffleFirstItem?.id
-      : response.data.playlist.firstItem?.id;
+      ? data?.playlist.shuffleFirstItem?.id
+      : data?.playlist.firstItem?.id;
 
     if (!videoID) {
       throw redirect({

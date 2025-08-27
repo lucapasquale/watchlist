@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import React from "react";
 import { Helmet } from "react-helmet-async";
 

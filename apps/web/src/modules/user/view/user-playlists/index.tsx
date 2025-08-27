@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client/react";
 import { Link } from "@tanstack/react-router";
 import { Trash } from "lucide-react";
 import React from "react";

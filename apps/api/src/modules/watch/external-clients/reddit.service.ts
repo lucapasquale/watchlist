@@ -50,8 +50,6 @@ export class RedditService {
       (item): item is PlaylistItemData => item !== null,
     );
 
-    console.log(items);
-
     return { name: posts[0]!.subreddit_name_prefixed, items };
   }
 
