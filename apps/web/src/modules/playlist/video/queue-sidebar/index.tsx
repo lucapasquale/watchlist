@@ -51,13 +51,13 @@ export function QueueSidebar({ playlist }: Props) {
             title={playlist.name}
             to="/playlist/$playlistID"
             params={{ playlistID: playlistID.toString() }}
-            className="leading-relaxed line-clamp-1 text-2xl font-bold"
+            className="line-clamp-1 text-2xl font-bold leading-relaxed"
           >
             {playlist.name}
           </Link>
 
           <TooltipProvider>
-            <Tooltip>
+            <Tooltip delayDuration={250}>
               <TooltipTrigger asChild>
                 <Link
                   to="."

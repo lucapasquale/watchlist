@@ -5,9 +5,9 @@ import { PLAYLIST_ITEM_KIND } from "~common/translations";
 const sources: PlaylistItemKind[] = [
   PlaylistItemKind.Youtube,
   PlaylistItemKind.Reddit,
+  PlaylistItemKind.X,
   PlaylistItemKind.TwitchClip,
   PlaylistItemKind.KickClip,
-  PlaylistItemKind.X,
 ];
 
 export function VideoSourcesSection() {
@@ -25,7 +25,7 @@ export function VideoSourcesSection() {
           </div>
         </div>
 
-        <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3">
+        <div className="mx-auto grid max-w-5xl grid-cols-2 items-center gap-6 py-12 md:grid-cols-3">
           {sources.map((kind) => (
             <VideoSource
               key={kind}
