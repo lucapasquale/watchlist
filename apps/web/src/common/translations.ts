@@ -6,4 +6,5 @@ export const PLAYLIST_ITEM_KIND: Record<PlaylistItemKind, string> = {
   [PlaylistItemKind.TwitchClip]: "Twitch",
   [PlaylistItemKind.KickClip]: "Kick",
   [PlaylistItemKind.X]: "X",
+  [PlaylistItemKind.Tiktok]: "TikTok",
 };

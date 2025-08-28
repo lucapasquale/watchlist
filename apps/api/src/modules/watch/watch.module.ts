@@ -4,6 +4,7 @@ import { UserModule } from "../user/user.module.js";
 import { ExternalClientsResolver } from "./external-clients/external-clients.resolver.js";
 import { ExternalClientsService } from "./external-clients/external-clients.service.js";
 import { RedditService } from "./external-clients/reddit.service.js";
+import { TiktokService } from "./external-clients/tiktok.service.js";
 import { TwitchService } from "./external-clients/twitch.service.js";
 import { YoutubeService } from "./external-clients/youtube.service.js";
 import { YtDlpService } from "./external-clients/yt-dlp.service.js";
@@ -20,6 +21,7 @@ import { PlaylistService } from "./playlist/playlist.service.js";
     ExternalClientsResolver,
     ExternalClientsService,
     RedditService,
+    TiktokService,
     TwitchService,
     YoutubeService,
     YtDlpService,

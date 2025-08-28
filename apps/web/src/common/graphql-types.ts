@@ -118,7 +118,7 @@ export type PlaylistItemsArgs = {
 
 export type PlaylistItem = {
   __typename?: 'PlaylistItem';
-  durationSeconds: Scalars['Int']['output'];
+  durationSeconds?: Maybe<Scalars['Int']['output']>;
   embedUrl: Scalars['String']['output'];
   href: Scalars['String']['output'];
   id: Scalars['ID']['output'];
@@ -139,6 +139,7 @@ export type PlaylistItemNextItemArgs = {
 export enum PlaylistItemKind {
   KickClip = 'KICK_CLIP',
   Reddit = 'REDDIT',
+  Tiktok = 'TIKTOK',
   TwitchClip = 'TWITCH_CLIP',
   X = 'X',
   Youtube = 'YOUTUBE'
@@ -225,7 +226,7 @@ export type PlaylistItemViewQueryVariables = Exact<{
 }>;
 
 
-export type PlaylistItemViewQuery = { __typename?: 'Query', playlistItem: { __typename?: 'PlaylistItem', id: string, kind: PlaylistItemKind, title: string, thumbnailUrl: string, embedUrl: string, href: string, originalPosterName: string, durationSeconds: number, playlist: { __typename?: 'Playlist', id: string, name: string, itemsCount: number, user: { __typename?: 'User', id: string, name: string, initials: string, profilePictureUrl?: string | null }, items: Array<{ __typename?: 'PlaylistItem', id: string, kind: PlaylistItemKind, title: string, thumbnailUrl: string, durationSeconds: number }> }, nextItem?: { __typename?: 'PlaylistItem', id: string } | null } };
+export type PlaylistItemViewQuery = { __typename?: 'Query', playlistItem: { __typename?: 'PlaylistItem', id: string, kind: PlaylistItemKind, title: string, thumbnailUrl: string, embedUrl: string, href: string, originalPosterName: string, durationSeconds?: number | null, playlist: { __typename?: 'Playlist', id: string, name: string, itemsCount: number, user: { __typename?: 'User', id: string, name: string, initials: string, profilePictureUrl?: string | null }, items: Array<{ __typename?: 'PlaylistItem', id: string, kind: PlaylistItemKind, title: string, thumbnailUrl: string, durationSeconds?: number | null }> }, nextItem?: { __typename?: 'PlaylistItem', id: string } | null } };
 
 export type AddItemUrlInformationQueryVariables = Exact<{
   input: UrlInformationInput;
@@ -247,7 +248,7 @@ export type PlaylistViewQueryVariables = Exact<{
 }>;
 
 
-export type PlaylistViewQuery = { __typename?: 'Query', playlist: { __typename?: 'Playlist', id: string, name: string, href?: string | null, newItemsPosition: PlaylistNewItemsPosition, itemsCount: number, createdAt: any, user: { __typename?: 'User', id: string, name: string, initials: string, profilePictureUrl?: string | null }, firstItem?: { __typename?: 'PlaylistItem', id: string } | null, shuffleFirstItem?: { __typename?: 'PlaylistItem', id: string } | null, items: Array<{ __typename?: 'PlaylistItem', id: string, rank: string, kind: PlaylistItemKind, title: string, thumbnailUrl: string, durationSeconds: number, href: string, originalPosterName: string }> } };
+export type PlaylistViewQuery = { __typename?: 'Query', playlist: { __typename?: 'Playlist', id: string, name: string, href?: string | null, newItemsPosition: PlaylistNewItemsPosition, itemsCount: number, createdAt: any, user: { __typename?: 'User', id: string, name: string, initials: string, profilePictureUrl?: string | null }, firstItem?: { __typename?: 'PlaylistItem', id: string } | null, shuffleFirstItem?: { __typename?: 'PlaylistItem', id: string } | null, items: Array<{ __typename?: 'PlaylistItem', id: string, rank: string, kind: PlaylistItemKind, title: string, thumbnailUrl: string, durationSeconds?: number | null, href: string, originalPosterName: string }> } };
 
 export type PlaylistPlayPageQueryVariables = Exact<{
   playlistID: Scalars['ID']['input'];
@@ -269,16 +270,16 @@ export type MovePlaylistItemMutationVariables = Exact<{
 }>;
 
 
-export type MovePlaylistItemMutation = { __typename?: 'Mutation', movePlaylistItem: { __typename?: 'PlaylistItem', id: string, rank: string, kind: PlaylistItemKind, title: string, thumbnailUrl: string, durationSeconds: number, href: string, originalPosterName: string, playlist: { __typename?: 'Playlist', id: string, firstItem?: { __typename?: 'PlaylistItem', id: string, rank: string, kind: PlaylistItemKind, title: string, thumbnailUrl: string, durationSeconds: number, href: string, originalPosterName: string, nextItem?: { __typename?: 'PlaylistItem', id: string } | null } | null, items: Array<{ __typename?: 'PlaylistItem', id: string, rank: string, kind: PlaylistItemKind, title: string, thumbnailUrl: string, durationSeconds: number, href: string, originalPosterName: string, nextItem?: { __typename?: 'PlaylistItem', id: string } | null }> }, nextItem?: { __typename?: 'PlaylistItem', id: string } | null } };
+export type MovePlaylistItemMutation = { __typename?: 'Mutation', movePlaylistItem: { __typename?: 'PlaylistItem', id: string, rank: string, kind: PlaylistItemKind, title: string, thumbnailUrl: string, durationSeconds?: number | null, href: string, originalPosterName: string, playlist: { __typename?: 'Playlist', id: string, firstItem?: { __typename?: 'PlaylistItem', id: string, rank: string, kind: PlaylistItemKind, title: string, thumbnailUrl: string, durationSeconds?: number | null, href: string, originalPosterName: string, nextItem?: { __typename?: 'PlaylistItem', id: string } | null } | null, items: Array<{ __typename?: 'PlaylistItem', id: string, rank: string, kind: PlaylistItemKind, title: string, thumbnailUrl: string, durationSeconds?: number | null, href: string, originalPosterName: string, nextItem?: { __typename?: 'PlaylistItem', id: string } | null }> }, nextItem?: { __typename?: 'PlaylistItem', id: string } | null } };
 
 export type DeletePlaylistItemMutationVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type DeletePlaylistItemMutation = { __typename?: 'Mutation', deletePlaylistItem: { __typename?: 'PlaylistItem', id: string, rank: string, kind: PlaylistItemKind, title: string, thumbnailUrl: string, durationSeconds: number, href: string, originalPosterName: string, playlist: { __typename?: 'Playlist', id: string, firstItem?: { __typename?: 'PlaylistItem', id: string, rank: string, kind: PlaylistItemKind, title: string, thumbnailUrl: string, durationSeconds: number, href: string, originalPosterName: string, nextItem?: { __typename?: 'PlaylistItem', id: string } | null } | null, items: Array<{ __typename?: 'PlaylistItem', id: string, rank: string, kind: PlaylistItemKind, title: string, thumbnailUrl: string, durationSeconds: number, href: string, originalPosterName: string, nextItem?: { __typename?: 'PlaylistItem', id: string } | null }> }, nextItem?: { __typename?: 'PlaylistItem', id: string } | null } };
+export type DeletePlaylistItemMutation = { __typename?: 'Mutation', deletePlaylistItem: { __typename?: 'PlaylistItem', id: string, rank: string, kind: PlaylistItemKind, title: string, thumbnailUrl: string, durationSeconds?: number | null, href: string, originalPosterName: string, playlist: { __typename?: 'Playlist', id: string, firstItem?: { __typename?: 'PlaylistItem', id: string, rank: string, kind: PlaylistItemKind, title: string, thumbnailUrl: string, durationSeconds?: number | null, href: string, originalPosterName: string, nextItem?: { __typename?: 'PlaylistItem', id: string } | null } | null, items: Array<{ __typename?: 'PlaylistItem', id: string, rank: string, kind: PlaylistItemKind, title: string, thumbnailUrl: string, durationSeconds?: number | null, href: string, originalPosterName: string, nextItem?: { __typename?: 'PlaylistItem', id: string } | null }> }, nextItem?: { __typename?: 'PlaylistItem', id: string } | null } };
 
-export type PlaylistItemFragFragment = { __typename?: 'PlaylistItem', id: string, rank: string, kind: PlaylistItemKind, title: string, thumbnailUrl: string, durationSeconds: number, href: string, originalPosterName: string, nextItem?: { __typename?: 'PlaylistItem', id: string } | null };
+export type PlaylistItemFragFragment = { __typename?: 'PlaylistItem', id: string, rank: string, kind: PlaylistItemKind, title: string, thumbnailUrl: string, durationSeconds?: number | null, href: string, originalPosterName: string, nextItem?: { __typename?: 'PlaylistItem', id: string } | null };
 
 export type CreatePlaylistMutationVariables = Exact<{
   input: CreatePlaylistInput;

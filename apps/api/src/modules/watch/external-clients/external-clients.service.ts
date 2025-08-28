@@ -3,6 +3,7 @@ import { Inject, Injectable } from "@nestjs/common";
 
 import type { PlaylistItem } from "../playlist-item/playlist-item.model.js";
 import { RedditService } from "./reddit.service.js";
+import { TiktokService } from "./tiktok.service.js";
 import { TwitchService } from "./twitch.service.js";
 import { YoutubeService } from "./youtube.service.js";
 import { YtDlpService } from "./yt-dlp.service.js";
@@ -29,6 +30,7 @@ export class ExternalClientsService {
     private redditService: RedditService,
     private twitchService: TwitchService,
     private ytDlpService: YtDlpService,
+    private tiktokService: TiktokService,
     @Inject(CACHE_MANAGER)
     private cacheManager: Cache,
   ) {}
@@ -76,6 +78,9 @@ export class ExternalClientsService {
     }
     if (this.twitchService.urlMatches(url)) {
       return this.twitchService.playlistItemDataFromUrl(url);
+    }
+    if (this.tiktokService.urlMatches(url)) {
+      return this.tiktokService.playlistItemDataFromUrl(url);
     }
     if (this.ytDlpService.urlMatches(url)) {
       return this.ytDlpService.playlistItemDataFromUrl(url);

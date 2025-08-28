@@ -36,6 +36,7 @@ export class GqlConfigService implements GqlOptionsFactory {
           TWITCH_CLIP: "twitch_clip",
           KICK_CLIP: "kick_clip",
           X: "x",
+          TIKTOK: "tiktok",
         },
       },
     };

@@ -4,8 +4,9 @@ import { PLAYLIST_ITEM_KIND } from "~common/translations";
 
 const sources: PlaylistItemKind[] = [
   PlaylistItemKind.Youtube,
-  PlaylistItemKind.Reddit,
+  PlaylistItemKind.Tiktok,
   PlaylistItemKind.X,
+  PlaylistItemKind.Reddit,
   PlaylistItemKind.TwitchClip,
   PlaylistItemKind.KickClip,
 ];

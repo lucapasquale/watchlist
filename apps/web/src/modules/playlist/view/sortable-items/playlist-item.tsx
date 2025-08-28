@@ -147,9 +147,11 @@ export function PlaylistItem({ index, item, isOwner, onDelete, style }: Props) {
             <div className="relative aspect-video min-h-[90px] min-w-[160px] basis-0 overflow-clip rounded-md bg-black">
               <img src={item.thumbnailUrl} alt={item.title} className="w-full object-center" />
 
-              <div className="absolute bottom-1 right-1 z-10 rounded-md bg-black/50 px-1 py-[1px] text-xs">
-                {timeToDuration(item.durationSeconds)}
-              </div>
+              {item.durationSeconds && (
+                <div className="absolute bottom-1 right-1 z-10 rounded-md bg-black/50 px-1 py-[1px] text-xs">
+                  {timeToDuration(item.durationSeconds)}
+                </div>
+              )}
             </div>
 
             <div className="flex flex-col gap-0.5">

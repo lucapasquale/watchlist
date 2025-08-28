@@ -62,7 +62,7 @@ export function VideoPreview({ loading }: Props) {
         </div>
       </div>
 
-      {videoInfo.kind === PlaylistItemKind.Youtube && (
+      {videoInfo.kind === PlaylistItemKind.Youtube && videoInfo.durationSeconds && (
         <SliderFormItem
           control={form.control}
           name="timeRange"

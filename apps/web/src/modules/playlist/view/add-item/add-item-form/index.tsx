@@ -20,14 +20,14 @@ import { Route } from "~routes/playlist/$playlistID/index.js";
 import { VideoPreview } from "./video-preview.js";
 
 const schema = z.object({
-  href: z.string().url(),
-  timeRange: z.tuple([z.number().int().min(0), z.number().int().min(0)]),
+  href: z.url(),
+  timeRange: z.tuple([z.number().int().min(0), z.number().int().min(0)]).nullable(),
   videoInfo: z.object({
-    kind: z.nativeEnum(PlaylistItemKind),
-    embedUrl: z.string().url(),
+    kind: z.enum(PlaylistItemKind),
+    embedUrl: z.url(),
     title: z.string().min(1),
-    thumbnailUrl: z.string().url(),
-    durationSeconds: z.number().int().positive(),
+    thumbnailUrl: z.url(),
+    durationSeconds: z.number().int().nullable(),
   }),
 });
 export type FormValues = z.infer<typeof schema>;
@@ -73,21 +73,28 @@ export function AddItemForm({ onAdd }: Props) {
     }
 
     form.clearErrors();
-    form.setValue("timeRange", [0, response.data.urlInformation.durationSeconds]);
     form.setValue("videoInfo", response.data.urlInformation, { shouldValidate: true });
+
+    if (response.data.urlInformation.durationSeconds) {
+      form.setValue("timeRange", [0, response.data.urlInformation.durationSeconds]);
+    } else {
+      form.setValue("timeRange", null);
+    }
   }, 250);
 
   const onSubmit = async (values: FormValues) => {
     const hasCustomTimeRange =
-      values.timeRange[0] !== 0 || values.timeRange[1] !== values.videoInfo.durationSeconds;
+      values.timeRange &&
+      (values.timeRange[0] !== 0 || values.timeRange[1] !== values.videoInfo.durationSeconds);
 
     const { data } = await createVideo({
       variables: {
         input: {
           playlistID,
           href: values.href,
-          startTimeSeconds: hasCustomTimeRange ? values.timeRange[0] : undefined,
-          endTimeSeconds: hasCustomTimeRange ? values.timeRange[1] : undefined,
+          startTimeSeconds:
+            hasCustomTimeRange && values.timeRange ? values.timeRange[0] : undefined,
+          endTimeSeconds: hasCustomTimeRange && values.timeRange ? values.timeRange[1] : undefined,
         },
       },
     });

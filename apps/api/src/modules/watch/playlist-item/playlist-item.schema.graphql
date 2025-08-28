@@ -12,6 +12,7 @@ enum PlaylistItemKind {
   TWITCH_CLIP
   KICK_CLIP
   X
+  TIKTOK
 }
 
 type PlaylistItem {
@@ -20,7 +21,7 @@ type PlaylistItem {
   kind: PlaylistItemKind!
   title: String!
   thumbnailUrl: String!
-  durationSeconds: Int!
+  durationSeconds: Int
   embedUrl: String!
   href: String!
   originalPosterName: String!
@@ -39,7 +40,7 @@ type UrlInformation {
   title: String!
   thumbnailUrl: String!
   embedUrl: String!
-  durationSeconds: Int!
+  durationSeconds: Int
 }
 
 type Query {
