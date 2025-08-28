@@ -1,11 +1,9 @@
 import { CACHE_MANAGER, Cache } from "@nestjs/cache-manager";
 import { Inject, Injectable } from "@nestjs/common";
-import fs from "node:fs";
-import { Browser, Cookie, chromium } from "playwright";
 
-import { config } from "../../../config.js";
 import type { PlaylistItem } from "../playlist-item/playlist-item.model.js";
 import { RedditService } from "./reddit.service.js";
+import { TiktokService } from "./tiktok.service.js";
 import { TwitchService } from "./twitch.service.js";
 import { YoutubeService } from "./youtube.service.js";
 import { YtDlpService } from "./yt-dlp.service.js";
@@ -32,19 +30,11 @@ export class ExternalClientsService {
     private redditService: RedditService,
     private twitchService: TwitchService,
     private ytDlpService: YtDlpService,
+    private tiktokService: TiktokService,
+    // TODO: Move to a service, use Redis to keep data across app reloads
     @Inject(CACHE_MANAGER)
     private cacheManager: Cache,
   ) {}
-
-  // TODO: Move this to a worker in a queue
-  static async loadCookies() {
-    const browser = await chromium.launch();
-    const cookies = await this.getTikTokCookies(browser);
-
-    await this.storeCookies(cookies);
-
-    await browser.close();
-  }
 
   async getPlaylistFromUrlCached(href: string): Promise<PlaylistData | null> {
     const cacheKey = `playlist:${href}`;
@@ -90,44 +80,15 @@ export class ExternalClientsService {
     if (this.twitchService.urlMatches(url)) {
       return this.twitchService.playlistItemDataFromUrl(url);
     }
+    if (this.tiktokService.urlMatches(url)) {
+      console.log(url);
+      return this.tiktokService.playlistItemDataFromUrl(url);
+    }
     if (this.ytDlpService.urlMatches(url)) {
       return this.ytDlpService.playlistItemDataFromUrl(url);
     }
 
     return null;
-  }
-
-  private static async getTikTokCookies(browser: Browser) {
-    const page = await browser.newPage();
-
-    await page.goto("https://www.tiktok.com/login/phone-or-email/email");
-
-    await page.locator('input[name="username"]').fill(config.tiktok.username);
-    await page.locator('input[type="password"]').fill(config.tiktok.password);
-    await page.locator('button[type="submit"]').click();
-
-    return await page.context().cookies();
-  }
-
-  private static async storeCookies(cookies: Cookie[]) {
-    const rows = cookies.map(({ domain, expires, path, secure, name, value }) => {
-      const includeSubDomain = !!domain?.startsWith(".");
-      const expiry = expires > 0 ? expires.toFixed() : "0";
-      const arr = [domain, includeSubDomain, path, secure, expiry, name, value];
-
-      return arr.map((v) => (typeof v === "boolean" ? v.toString().toUpperCase() : v)).join("\t");
-    });
-
-    const fileData = [
-      "# Netscape HTTP Cookie File",
-      "# http://curl.haxx.se/rfc/cookie_spec.html",
-      "# This is a generated file!  Do not edit.",
-      "",
-      ...rows,
-      "", // Add a new line at the end
-    ].join("\n");
-
-    fs.writeFileSync("cookies.txt", fileData);
   }
 
   private async useCachedMethod<T>(

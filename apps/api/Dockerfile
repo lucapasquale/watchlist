@@ -62,4 +62,4 @@ ENV PORT=${PORT}
 ENV NODE_ENV=production
 EXPOSE ${PORT}
 
-CMD NODE_OPTIONS="--import ./dist/src/tracing.js" npm run start
+CMD ["sh", "-c", "NODE_OPTIONS=\"--import ./dist/src/tracing.js\" npm run start"]

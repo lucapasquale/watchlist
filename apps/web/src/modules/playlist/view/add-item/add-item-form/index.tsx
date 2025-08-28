@@ -23,7 +23,7 @@ const schema = z.object({
   href: z.string().url(),
   timeRange: z.tuple([z.number().int().min(0), z.number().int().min(0)]),
   videoInfo: z.object({
-    kind: z.nativeEnum(PlaylistItemKind),
+    kind: z.enum(PlaylistItemKind),
     embedUrl: z.string().url(),
     title: z.string().min(1),
     thumbnailUrl: z.string().url(),
@@ -39,7 +39,9 @@ type Props = {
 export function AddItemForm({ onAdd }: Props) {
   const { playlistID } = Route.useParams();
 
-  const [getUrlInfo, { loading: urlLoading }] = useLazyQuery(AddItemUrlInformationDocument);
+  const [getUrlInfo, { loading: urlLoading }] = useLazyQuery(AddItemUrlInformationDocument, {
+    fetchPolicy: "network-only",
+  });
   const [createVideo, { loading }] = useMutation(CreatePlaylistItemDocument, {
     refetchQueries: [PlaylistViewDocument],
     awaitRefetchQueries: true,
