@@ -26,7 +26,11 @@ export class YtDlpService {
   }
 
   async playlistItemDataFromUrl(url: URL): Promise<PlaylistItemData | null> {
-    return this.loadDataFromUrl(url);
+    try {
+      return await this.loadDataFromUrl(url);
+    } catch {
+      return null;
+    }
   }
 
   private async loadDataFromUrl(url: URL): Promise<PlaylistItemData | null> {

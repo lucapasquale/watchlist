@@ -1,4 +1,4 @@
-import { useApolloClient } from "@apollo/client";
+import { useApolloClient } from "@apollo/client/react";
 import { useNavigate } from "@tanstack/react-router";
 import React from "react";
 

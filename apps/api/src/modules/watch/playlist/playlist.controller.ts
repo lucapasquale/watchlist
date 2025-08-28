@@ -1,4 +1,4 @@
-import { Controller, Post, Req, UnauthorizedException } from "@nestjs/common";
+import { Controller, Logger, Post, Req, UnauthorizedException } from "@nestjs/common";
 import type { Request } from "express";
 
 import { config } from "../../../config.js";
@@ -9,6 +9,8 @@ import { PlaylistService } from "./playlist.service.js";
 
 @Controller("playlists")
 export class PlaylistController {
+  private readonly logger = new Logger(PlaylistController.name);
+
   constructor(
     private playlistService: PlaylistService,
     private playlistItemService: PlaylistItemService,
@@ -21,7 +23,7 @@ export class PlaylistController {
       throw new UnauthorizedException();
     }
 
-    console.info("Syncing all playlists...");
+    this.logger.log("Syncing all playlists...");
     const playlists = await this.playlistService.getAll();
     await Promise.all(playlists.map((playlist) => this.syncPlaylist(playlist)));
 
@@ -31,13 +33,13 @@ export class PlaylistController {
   private async syncPlaylist(playlist: Playlist) {
     const items = await this.playlistItemService.getFromPlaylist(playlist.id);
 
-    console.info("Syncing playlist", playlist.id, "with", items.length, "items");
+    this.logger.log("Syncing playlist", playlist.id, "with", items.length, "items");
 
     items
       .filter((i) => !i.durationSeconds)
       .forEach(async (item) => {
         try {
-          const data = await this.externalClientsService.getVideoFromUrl(item.href);
+          const data = await this.externalClientsService.getVideoFromUrlCached(item.href);
           if (!data) {
             return;
           }
@@ -49,7 +51,7 @@ export class PlaylistController {
             durationSeconds: data.durationSeconds ?? undefined,
           });
         } catch (err) {
-          console.error(
+          this.logger.error(
             "Error syncing playlist item",
             item.id,
             err instanceof Error ? err.message : err,

@@ -1,48 +1,37 @@
-import { Observable } from "@apollo/client";
-import { onError } from "@apollo/client/link/error";
+import { CombinedGraphQLErrors } from "@apollo/client";
+import { ErrorLink } from "@apollo/client/link/error";
 
 import { API_URL, AUTH_TOKEN_KEY, REFRESH_TOKEN_KEY } from "~common/constants";
 
-export const errorLink = onError(({ operation, forward, graphQLErrors }) => {
-  if (!graphQLErrors) {
+export const errorLink = new ErrorLink(({ operation, forward, error }) => {
+  if (!CombinedGraphQLErrors.is(error)) {
     return;
   }
 
-  for (const { extensions } of graphQLErrors) {
-    if (extensions?.code === "UNAUTHENTICATED") {
-      const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
-      if (!refreshToken) {
-        return;
-      }
-
-      return new Observable((observer) => {
-        refreshTokens(refreshToken)
-          .then((data) => {
-            operation.setContext(({ headers = {} }) => ({
-              headers: { ...headers, authorization: `Bearer ${data.accessToken}` },
-            }));
-
-            localStorage.setItem(AUTH_TOKEN_KEY, data.accessToken);
-            localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken);
-          })
-          .then(() => {
-            const subscriber = {
-              next: observer.next.bind(observer),
-              error: observer.error.bind(observer),
-              complete: observer.complete.bind(observer),
-            };
-
-            // Retry last failed request
-            forward(operation).subscribe(subscriber);
-          })
-          .catch((error) => {
-            localStorage.removeItem(AUTH_TOKEN_KEY);
-            localStorage.removeItem(REFRESH_TOKEN_KEY);
-
-            observer.error(error);
-          });
-      });
+  for (const { extensions } of error.errors) {
+    if (extensions?.code !== "UNAUTHENTICATED") {
+      return;
     }
+
+    const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
+    if (!refreshToken) {
+      return;
+    }
+
+    refreshTokens(refreshToken).then((data) => {
+      const oldHeaders = operation.getContext().headers;
+      operation.setContext({
+        headers: {
+          ...oldHeaders,
+          authorization: `Bearer ${data.accessToken}`,
+        },
+      });
+
+      localStorage.setItem(AUTH_TOKEN_KEY, data.accessToken);
+      localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken);
+
+      return forward(operation);
+    });
   }
 });
 

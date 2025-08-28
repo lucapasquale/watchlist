@@ -16,6 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@ui/components/ui/dropdown-menu.js";
+import { Skeleton } from "@ui/components/ui/skeleton";
 
 import { useCurrentUser } from "~common/providers/current-user-provider.js";
 
@@ -45,7 +46,7 @@ export function Profile() {
   };
 
   if (loading) {
-    return null;
+    return <Skeleton className="h-9 w-[150px]" />;
   }
 
   if (!user) {

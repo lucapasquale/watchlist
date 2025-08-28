@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@apollo/client": "^3.13.9",
+    "@apollo/client": "^4.0.1",
     "@atlaskit/pragmatic-drag-and-drop": "^1.7.4",
     "@atlaskit/pragmatic-drag-and-drop-auto-scroll": "^2.1.1",
     "@atlaskit/pragmatic-drag-and-drop-hitbox": "^1.1.0",
@@ -20,20 +20,21 @@
     "@hello-pangea/dnd": "^18.0.1",
     "@hookform/resolvers": "^5.2.1",
     "@tanstack/react-query": "^5.85.5",
-    "@tanstack/react-router": "^1.131.27",
+    "@tanstack/react-router": "^1.131.28",
     "@workspace/helpers": "workspace:*",
     "@workspace/ui": "workspace:*",
     "graphql": "^16.11.0",
     "lodash": "^4.17.21",
-    "lucide-react": "^0.541.0",
+    "lucide-react": "^0.542.0",
     "postcss": "^8.5.6",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-helmet-async": "^2.0.5",
     "react-hook-form": "^7.62.0",
-    "react-player": "^3.3.1",
+    "react-player": "^3.3.2",
     "react-window": "^1.8.11",
-    "zod": "^4.0.17"
+    "rxjs": "^7.8.2",
+    "zod": "^4.1.3"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "5.0.7",
@@ -42,17 +43,17 @@
     "@graphql-typed-document-node/core": "^3.2.0",
     "@tailwindcss/postcss": "^4.1.12",
     "@tailwindcss/vite": "^4.1.12",
-    "@tanstack/router-vite-plugin": "^1.131.27",
+    "@tanstack/router-vite-plugin": "^1.131.28",
     "@types/lodash": "^4.17.20",
     "@types/react": "^19.1.11",
-    "@types/react-dom": "^19.1.7",
+    "@types/react-dom": "^19.1.8",
     "@types/react-window": "^1.8.8",
     "@vitejs/plugin-react-swc": "^4.0.1",
     "@workspace/typescript-config": "workspace:*",
     "tailwindcss": "^4.1.12",
     "typescript": "^5.9.2",
     "vite": "^7.1.3",
-    "vite-plugin-svgr": "^4.3.0",
+    "vite-plugin-svgr": "^4.5.0",
     "vite-tsconfig-paths": "^5.1.4"
   }
 }

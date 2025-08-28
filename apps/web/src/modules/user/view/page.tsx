@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { Helmet } from "react-helmet-async";
 
 import { UserViewDocument } from "~common/graphql-types.js";

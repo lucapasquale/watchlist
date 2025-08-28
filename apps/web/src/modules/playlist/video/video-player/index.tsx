@@ -83,7 +83,7 @@ export function VideoPlayer({ playlistItem }: Props) {
           <CardTitle>
             <h1
               title={playlistItem.title}
-              className="line-clamp-1 text-lg leading-relaxed md:text-2xl"
+              className="line-clamp-2 text-lg leading-relaxed md:text-2xl"
             >
               {playlistItem.title}
             </h1>

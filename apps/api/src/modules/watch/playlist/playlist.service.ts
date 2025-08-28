@@ -21,7 +21,7 @@ export class PlaylistService {
   }
 
   async getAll() {
-    return db.selectFrom("playlist").selectAll().execute();
+    return db.selectFrom("playlist").selectAll().orderBy("id", "asc").execute();
   }
 
   async getById(id: number) {
@@ -33,7 +33,12 @@ export class PlaylistService {
   }
 
   async getAllByUser(userId: number) {
-    return db.selectFrom("playlist").where("userId", "=", userId).selectAll().execute();
+    return db
+      .selectFrom("playlist")
+      .where("userId", "=", userId)
+      .selectAll()
+      .orderBy("id", "asc")
+      .execute();
   }
 
   async create(input: PlaylistInsert) {

@@ -1,4 +1,5 @@
-import { ApolloError, useQuery } from "@apollo/client";
+import { ErrorLike } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import React from "react";
 
 import { AUTH_TOKEN_KEY } from "~common/constants";
@@ -6,7 +7,7 @@ import { UserProviderDocument, UserProviderQuery } from "~common/graphql-types.j
 
 type UserProviderState = {
   loading: boolean;
-  error: ApolloError | undefined;
+  error: ErrorLike | undefined;
   user: UserProviderQuery["me"] | null;
 };
 

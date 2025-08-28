@@ -1,4 +1,4 @@
-import { CheckCircle2, ListPlus, Play, Share2 } from "lucide-react";
+import { ListPlus, Play } from "lucide-react";
 
 export function FeaturesSection() {
   return (
@@ -23,26 +23,6 @@ export function FeaturesSection() {
             </div>
             <p className="text-muted-foreground">
               Organize videos from different sources into themed collections
-            </p>
-          </div>
-
-          <div className="flex flex-col space-y-2">
-            <div className="flex items-center gap-2">
-              <Share2 className="text-primary h-5 w-5" />
-              <h3 className="text-xl font-bold">Easy Sharing</h3>
-            </div>
-            <p className="text-muted-foreground">
-              Share your playlists with friends or keep them private
-            </p>
-          </div>
-
-          <div className="flex flex-col space-y-2">
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="text-primary h-5 w-5" />
-              <h3 className="text-xl font-bold">Track Watched Videos</h3>
-            </div>
-            <p className="text-muted-foreground">
-              Keep track of what you've watched and where you left off
             </p>
           </div>
 

@@ -1,4 +1,4 @@
-import { debounce } from "lodash";
+import debounce from "lodash/debounce.js";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 

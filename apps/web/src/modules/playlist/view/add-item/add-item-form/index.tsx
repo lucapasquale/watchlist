@@ -1,6 +1,6 @@
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { debounce } from "lodash";
+import debounce from "lodash/debounce.js";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
