@@ -16,9 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@ui/components/ui/dropdown-menu.js";
-import { Skeleton } from "@ui/components/ui/skeleton";
 
-import { AUTH_TOKEN_KEY } from "~common/constants";
 import { useCurrentUser } from "~common/providers/current-user-provider.js";
 
 import { Google } from "../icons";
@@ -27,7 +25,7 @@ export function Profile() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { loading, user } = useCurrentUser();
+  const { user } = useCurrentUser();
 
   const redirectUrl = React.useMemo(() => {
     if (location.search.redirectUrl) {
@@ -45,10 +43,6 @@ export function Profile() {
   const onOpenChange = (open: boolean) => {
     navigate({ to: ".", search: (prev) => ({ ...prev, signIn: open ? "true" : undefined }) });
   };
-
-  if (localStorage.getItem(AUTH_TOKEN_KEY) && loading) {
-    return <Skeleton className="h-9 w-[150px]" />;
-  }
 
   if (!user) {
     return (
