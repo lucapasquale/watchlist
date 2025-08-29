@@ -57,7 +57,7 @@ export function QueueSidebar({ playlist }: Props) {
   return (
     <Card
       className={cn(
-        "bg-card flex w-full flex-col gap-2 overflow-y-clip py-4 pb-0 sm:gap-4 sm:py-6 xl:w-[400px] xl:min-w-[400px]",
+        "bg-card flex w-full flex-col gap-2 overflow-hidden py-4 pb-0 sm:gap-4 sm:pt-6 xl:w-[400px] xl:min-w-[400px]",
         "h-[calc(100dvh_-72px_-8px_var(--player-section-height)_-8px)]",
       )}
     >
@@ -109,7 +109,7 @@ export function QueueSidebar({ playlist }: Props) {
       <CardContent
         className={cn(
           "p-0",
-          "h-[calc(100dvh_-72px_-8px_-var(--player-section-height)_-8px_-16px_-69px)] p-0 sm:h-[calc(var(--player-section-height)_-48px_-69px_-16px)]",
+          "h-[calc(100dvh_-72px_-8px_-var(--player-section-height)_-8px_-16px_-69px)] p-0 sm:h-[calc(var(--player-section-height)_-24px_-69px_-16px)]",
         )}
       >
         <List
