@@ -16,8 +16,8 @@ export function HeroSection() {
   const { data, loading } = useQuery(HomeHeroPlaylistsDocument);
 
   return (
-    <section className="bg-muted/50 flex w-full justify-center py-12 md:py-24 lg:py-32">
-      <div className="container grid items-center gap-6 px-2 sm:mx-auto lg:grid-cols-2 lg:gap-12">
+    <section className="bg-muted/50 flex w-full justify-center px-2 py-12 md:py-24 lg:py-32">
+      <div className="container grid items-center gap-12 px-2 sm:mx-auto lg:grid-cols-2">
         <article className="flex flex-col justify-center space-y-4">
           <div className="space-y-2">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">

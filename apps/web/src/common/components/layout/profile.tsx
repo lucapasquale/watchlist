@@ -18,6 +18,7 @@ import {
 } from "@ui/components/ui/dropdown-menu.js";
 import { Skeleton } from "@ui/components/ui/skeleton";
 
+import { AUTH_TOKEN_KEY } from "~common/constants";
 import { useCurrentUser } from "~common/providers/current-user-provider.js";
 
 import { Google } from "../icons";
@@ -45,7 +46,7 @@ export function Profile() {
     navigate({ to: ".", search: (prev) => ({ ...prev, signIn: open ? "true" : undefined }) });
   };
 
-  if (loading) {
+  if (localStorage.getItem(AUTH_TOKEN_KEY) && loading) {
     return <Skeleton className="h-9 w-[150px]" />;
   }
 

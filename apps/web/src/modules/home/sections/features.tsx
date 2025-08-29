@@ -2,7 +2,10 @@ import { ListPlus, Play } from "lucide-react";
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="bg-muted flex w-full justify-center py-12 md:py-24 lg:py-32">
+    <section
+      id="features"
+      className="bg-muted flex w-full justify-center px-2 py-12 md:py-24 lg:py-32"
+    >
       <div className="container grid items-center gap-6 px-2 sm:mx-auto lg:gap-12">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
