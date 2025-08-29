@@ -11,5 +11,8 @@ query HomeHeroPlaylists {
       initials
       profilePictureUrl
     }
+    firstItem(shuffleSeed: null) {
+      id
+    }
   }
 }

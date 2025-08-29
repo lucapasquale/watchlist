@@ -65,8 +65,8 @@ export function HeroSection() {
               className="hover:scale-101 transition-transform hover:transform"
             >
               <Link
-                to="/playlist/$playlistID/play"
-                params={{ playlistID: playlist.id }}
+                to="/playlist/$playlistID/$videoID"
+                params={{ playlistID: playlist.id, videoID: playlist.firstItem?.id ?? "" }}
                 className="group hover:no-underline"
               >
                 <div className="px-4">
