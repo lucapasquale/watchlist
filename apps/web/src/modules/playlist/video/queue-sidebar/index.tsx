@@ -19,6 +19,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@ui/components/ui/tooltip.js";
+import { cn } from "@ui/lib/utils";
 
 import { PlaylistItemViewQuery } from "~common/graphql-types.js";
 import { Route } from "~routes/playlist/$playlistID/$videoID.js";
@@ -46,11 +47,20 @@ export function QueueSidebar({ playlist }: Props) {
       return;
     }
 
-    listRef.current.scrollToRow({ index: currentItemIndex, align: "smart" });
+    listRef.current.scrollToRow({
+      index: currentItemIndex,
+      align: "start",
+      behavior: "smooth",
+    });
   }, [listRef, currentItemIndex]);
 
   return (
-    <Card className="bg-card flex h-[calc(100dvh_-_446px)] w-full flex-col gap-2 overflow-y-clip py-4 pb-0 sm:h-full sm:gap-4 sm:py-6 xl:w-[400px] xl:min-w-[400px]">
+    <Card
+      className={cn(
+        "bg-card flex w-full flex-col gap-2 overflow-y-clip py-4 pb-0 sm:gap-4 sm:py-6 xl:w-[400px] xl:min-w-[400px]",
+        "h-[calc(100dvh_-72px_-8px_var(--player-section-height)_-8px)]",
+      )}
+    >
       <CardHeader>
         <CardTitle className="grid grid-cols-[1fr_32px] items-center justify-between gap-2">
           <Link
@@ -97,10 +107,13 @@ export function QueueSidebar({ playlist }: Props) {
       </CardHeader>
 
       <CardContent
-        style={{ height: "min(calc(100vh - 62px - 24px - 24px), 640px)" }}
-        className="p-0"
+        className={cn(
+          "p-0",
+          "h-[calc(100dvh_-72px_-8px_-var(--player-section-height)_-8px_-16px_-69px)] p-0 sm:h-[calc(var(--player-section-height)_-48px_-69px_-16px)]",
+        )}
       >
         <List
+          listRef={listRef}
           overscanCount={10}
           rowCount={playlist.items.length}
           rowHeight={ITEM_HEIGHT_PX}

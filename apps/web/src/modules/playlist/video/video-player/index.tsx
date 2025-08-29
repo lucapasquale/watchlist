@@ -4,6 +4,7 @@ import React from "react";
 
 import { Card, CardDescription, CardFooter, CardTitle } from "@ui/components/ui/card.js";
 import { Skeleton } from "@ui/components/ui/skeleton.js";
+import { useComponentSize } from "@ui/hooks/use-component-size";
 
 import { Player } from "~common/components/player";
 import { PlaylistItemViewQuery } from "~common/graphql-types.js";
@@ -24,6 +25,9 @@ export function VideoPlayer({ playlistItem }: Props) {
 
   const [playing, setPlaying] = React.useState(true);
   const [failedToLoad, setFailedToLoad] = React.useState(false);
+
+  const ref = React.useRef<HTMLDivElement>(null);
+  const { height: playerSectionHeight } = useComponentSize(ref);
 
   const onVideoEnded = React.useCallback(() => {
     if (!nextItemID) {
@@ -66,8 +70,15 @@ export function VideoPlayer({ playlistItem }: Props) {
     setFailedToLoad(false);
   }, [playlistItem.id]);
 
+  React.useEffect(() => {
+    document.documentElement.style.setProperty(
+      "--player-section-height",
+      `${playerSectionHeight}px`,
+    );
+  }, [playerSectionHeight]);
+
   return (
-    <section className="z-10 flex h-auto w-full flex-col items-center gap-4">
+    <section ref={ref} className="z-10 flex h-fit w-full flex-col items-center gap-4">
       <div className="sticky top-[106px] flex w-full justify-center sm:static md:h-[481.5px] 2xl:h-[625.5px]">
         <Player
           key={playlistItem.id}
