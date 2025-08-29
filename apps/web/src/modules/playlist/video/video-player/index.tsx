@@ -79,7 +79,7 @@ export function VideoPlayer({ playlistItem }: Props) {
 
   return (
     <section ref={ref} className="z-10 flex h-fit w-full flex-col items-center gap-4">
-      <div className="sticky top-[106px] flex h-[231.75px] w-full justify-center sm:static md:h-[481.5px] 2xl:h-[625.5px]">
+      <div className="sticky top-[88px] flex h-[231.75px] w-full justify-center sm:static md:h-[481.5px] 2xl:h-[625.5px]">
         <Player
           key={playlistItem.id}
           playing={playing}
@@ -89,7 +89,7 @@ export function VideoPlayer({ playlistItem }: Props) {
         />
       </div>
 
-      <Card className="bg-card flex w-full flex-row items-center justify-between gap-1 rounded-xl">
+      <Card className="bg-card z-10 flex w-full flex-row items-center justify-between gap-1 rounded-xl">
         <div className="ml-6">
           <CardTitle>
             <h1
