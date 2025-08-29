@@ -8,10 +8,9 @@ import {
 import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { reorder } from "@atlaskit/pragmatic-drag-and-drop/reorder";
 import React from "react";
-import { FixedSizeList } from "react-window";
+import { List } from "react-window";
 
 import { Skeleton } from "@ui/components/ui/skeleton.js";
-import { useComponentSize } from "@ui/hooks/use-component-size.js";
 
 import {
   MovePlaylistItemDocument,
@@ -21,7 +20,7 @@ import {
 
 import { PlaylistItem } from "./playlist-item.js";
 
-const ITEM_HEIGHT_PX = 110;
+const ITEM_HEIGHT_PX = 110 + 8;
 
 type Props = {
   playlist: PlaylistViewQuery["playlist"];
@@ -30,7 +29,6 @@ type Props = {
 
 export function SortableItems({ playlist, isOwner }: Props) {
   const containerRef = React.useRef<HTMLDivElement>(null);
-  const { height: cardHeight } = useComponentSize(containerRef);
 
   const [items, setItems] = React.useState(playlist.items);
 
@@ -70,8 +68,8 @@ export function SortableItems({ playlist, isOwner }: Props) {
     [items, moveVideo],
   );
 
-  const onDelete = (index: number) => {
-    const updatedList = items.filter((_v, idx) => idx !== index);
+  const onDelete = (item: PlaylistViewQuery["playlist"]["items"][number]) => {
+    const updatedList = items.filter((i) => i.id !== item.id);
     setItems(updatedList);
   };
 
@@ -87,49 +85,25 @@ export function SortableItems({ playlist, isOwner }: Props) {
 
   return (
     <div ref={containerRef} className="h-[calc(100dvh_-_390px)]">
-      <FixedSizeList
-        itemData={items}
-        itemCount={items.length}
-        itemSize={ITEM_HEIGHT_PX}
-        height={cardHeight}
-        width="100%"
-        innerElementType={innerElementType}
-      >
-        {({ index, style }) => {
-          const item = items[index];
-
-          return (
-            <PlaylistItem
-              key={item.id}
-              index={index}
-              item={item}
-              isOwner={isOwner}
-              onDelete={() => onDelete(index)}
-              style={{
-                ...style,
-                top: parseFloat(style.top as string) + 8 * index,
-              }}
-            />
-          );
-        }}
-      </FixedSizeList>
+      <List
+        rowCount={items.length}
+        rowHeight={ITEM_HEIGHT_PX}
+        rowComponent={PlaylistItem}
+        rowProps={{ items, isOwner, onDelete }}
+      />
     </div>
   );
 }
 
-const innerElementType = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(
-  ({ ...props }, ref) => <div ref={ref} className="relative px-2 md:top-2" {...props} />,
-);
-
 SortableItems.Skeleton = () => (
   <section className="flex h-[975px] w-full flex-col gap-2 overflow-y-scroll">
-    <Skeleton className="bg-card h-[122px] flex-none rounded-xl" />
-    <Skeleton className="bg-card h-[122px] flex-none rounded-xl" />
-    <Skeleton className="bg-card h-[122px] flex-none rounded-xl" />
-    <Skeleton className="bg-card h-[122px] flex-none rounded-xl" />
-    <Skeleton className="bg-card h-[122px] flex-none rounded-xl" />
-    <Skeleton className="bg-card h-[122px] flex-none rounded-xl" />
-    <Skeleton className="bg-card h-[122px] flex-none rounded-xl" />
-    <Skeleton className="bg-card h-[122px] flex-none rounded-xl" />
+    <Skeleton className="bg-card h-[110px] flex-none rounded-xl" />
+    <Skeleton className="bg-card h-[110px] flex-none rounded-xl" />
+    <Skeleton className="bg-card h-[110px] flex-none rounded-xl" />
+    <Skeleton className="bg-card h-[110px] flex-none rounded-xl" />
+    <Skeleton className="bg-card h-[110px] flex-none rounded-xl" />
+    <Skeleton className="bg-card h-[110px] flex-none rounded-xl" />
+    <Skeleton className="bg-card h-[110px] flex-none rounded-xl" />
+    <Skeleton className="bg-card h-[110px] flex-none rounded-xl" />
   </section>
 );

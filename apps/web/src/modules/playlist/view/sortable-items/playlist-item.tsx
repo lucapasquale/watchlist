@@ -12,6 +12,7 @@ import { Link } from "@tanstack/react-router";
 import { cn } from "@workspace/ui/lib/utils";
 import { GripVertical, Trash } from "lucide-react";
 import React from "react";
+import { RowComponentProps } from "react-window";
 
 import { timeToDuration } from "@helpers/duration";
 import {
@@ -43,16 +44,15 @@ type TaskState =
   | { type: "is-dragging-over"; closestEdge: Edge | null };
 
 type Props = {
-  index: number;
-  item: PlaylistViewQuery["playlist"]["items"][number];
+  items: PlaylistViewQuery["playlist"]["items"];
   isOwner: boolean;
-  onDelete?: () => void;
-  style?: React.CSSProperties;
+  onDelete?: (item: PlaylistViewQuery["playlist"]["items"][number]) => void;
 };
 
-export function PlaylistItem({ index, item, isOwner, onDelete, style }: Props) {
+export function PlaylistItem({ index, items, isOwner, onDelete, style }: RowComponentProps<Props>) {
   const { playlistID } = Route.useParams();
 
+  const item = items[index];
   const itemRef = React.useRef(null);
   const handleRef = React.useRef(null);
 
@@ -68,7 +68,7 @@ export function PlaylistItem({ index, item, isOwner, onDelete, style }: Props) {
     await deletePlaylistItem({ variables: { id: item.id } });
 
     setOpen(false);
-    onDelete?.();
+    onDelete?.(item);
   };
 
   React.useEffect(() => {
@@ -123,7 +123,7 @@ export function PlaylistItem({ index, item, isOwner, onDelete, style }: Props) {
       ref={itemRef}
       style={style}
       className={cn(
-        "bg-card relative flex list-none flex-row items-center justify-between gap-1 rounded-xl py-1",
+        "bg-card relative top-2 flex max-h-[110px] list-none flex-row items-center justify-between gap-1 rounded-xl py-1",
         state.type === "is-dragging" && "opacity-40",
       )}
     >

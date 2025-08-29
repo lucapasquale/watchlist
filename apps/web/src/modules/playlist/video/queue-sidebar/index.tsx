@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Shuffle } from "lucide-react";
 import React from "react";
+import { List, useListRef } from "react-window";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@ui/components/ui/avatar.js";
 import {
@@ -18,12 +19,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@ui/components/ui/tooltip.js";
-import { useComponentSize } from "@ui/hooks/use-component-size.js";
 
 import { PlaylistItemViewQuery } from "~common/graphql-types.js";
 import { Route } from "~routes/playlist/$playlistID/$videoID.js";
 
-import { ItemsList } from "./items-list.js";
+import { PlaylistItem } from "./playlist-item";
+
+const ITEM_HEIGHT_PX = 64;
 
 type Props = {
   playlist: PlaylistItemViewQuery["playlistItem"]["playlist"];
@@ -33,18 +35,22 @@ export function QueueSidebar({ playlist }: Props) {
   const search = Route.useSearch();
   const { playlistID, videoID } = Route.useParams();
 
-  const cardRef = React.useRef<HTMLDivElement>(null);
-  const { height: cardHeight } = useComponentSize(cardRef);
+  const listRef = useListRef(null);
 
   const currentItemIndex = React.useMemo(() => {
     return playlist.items.findIndex((i) => i.id === videoID);
   }, [playlist, videoID]);
 
+  React.useEffect(() => {
+    if (currentItemIndex <= -1 || !listRef.current) {
+      return;
+    }
+
+    listRef.current.scrollToRow({ index: currentItemIndex, align: "smart" });
+  }, [listRef, currentItemIndex]);
+
   return (
-    <Card
-      ref={cardRef}
-      className="bg-card flex h-[calc(100dvh_-_446px)] w-full flex-col gap-2 overflow-y-clip py-4 pb-0 sm:h-full sm:gap-4 sm:py-6 xl:w-[400px] xl:min-w-[400px]"
-    >
+    <Card className="bg-card flex h-[calc(100dvh_-_446px)] w-full flex-col gap-2 overflow-y-clip py-4 pb-0 sm:h-full sm:gap-4 sm:py-6 xl:w-[400px] xl:min-w-[400px]">
       <CardHeader>
         <CardTitle className="grid grid-cols-[1fr_32px] items-center justify-between gap-2">
           <Link
@@ -90,11 +96,16 @@ export function QueueSidebar({ playlist }: Props) {
         </Link>
       </CardHeader>
 
-      <CardContent className="p-0">
-        <ItemsList
-          playlist={playlist}
-          currentItemIndex={currentItemIndex}
-          listHeight={Math.min(cardHeight - 62 - 24 - 24, 640)} // 62 = header height, 24 = gap, 24 = margin-top
+      <CardContent
+        style={{ height: "min(calc(100vh - 62px - 24px - 24px), 640px)" }}
+        className="p-0"
+      >
+        <List
+          overscanCount={10}
+          rowCount={playlist.items.length}
+          rowHeight={ITEM_HEIGHT_PX}
+          rowComponent={PlaylistItem}
+          rowProps={{ items: playlist.items, currentItemIndex, playlistID }}
         />
       </CardContent>
     </Card>
