@@ -27,7 +27,7 @@ const schema = z.object({
     embedUrl: z.url(),
     title: z.string().min(1),
     thumbnailUrl: z.url(),
-    durationSeconds: z.number().int().nullable(),
+    durationSeconds: z.number().int().nullish(),
   }),
 });
 export type FormValues = z.infer<typeof schema>;
