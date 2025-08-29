@@ -13,35 +13,17 @@ const EXTRACTOR_MAPS: Record<string, PlaylistItemData["kind"]> = {
 
 @Injectable()
 export class YtDlpService {
-  private logger = new Logger("YtDlpService");
+  private logger = new Logger(YtDlpService.name);
 
   urlMatches(url: URL) {
     return url.host.match(/.*x\.com.*/gi) || url.href.match(/.*kick\.com\/.*\/clips\/.*/gi);
   }
 
   async playlistItemDataFromUrl(url: URL): Promise<PlaylistItemData | null> {
-    try {
-      return await this.loadDataFromUrl(url);
-    } catch {
+    const videoInfo = await this.extractVideoInfo(url);
+    if (!videoInfo) {
       return null;
     }
-  }
-
-  private async loadDataFromUrl(url: URL): Promise<PlaylistItemData | null> {
-    const { stderr, stdout } = await execPromise(
-      `yt-dlp -f "best[ext=mp4]" -j "${url.toString()}"`,
-    );
-
-    if (stderr && !stderr.includes("attempting impersonation")) {
-      this.logger.warn("Failed to load video info", {
-        url: url.toString(),
-        stderr,
-      });
-
-      return null;
-    }
-
-    const videoInfo = JSON.parse(stdout) as VideoInfo;
 
     const kind = EXTRACTOR_MAPS[videoInfo.extractor];
     if (!kind) {
@@ -57,6 +39,27 @@ export class YtDlpService {
       thumbnailUrl: videoInfo.thumbnail,
       durationSeconds: Math.floor(videoInfo.duration),
     };
+  }
+
+  private async extractVideoInfo(url: URL): Promise<VideoInfo | null> {
+    try {
+      const { stderr, stdout } = await execPromise(
+        `yt-dlp -f "best[ext=mp4]" -j "${url.toString()}"`,
+      );
+
+      if (stderr && !stderr.includes("attempting impersonation")) {
+        this.logger.warn("Failed to load video info", {
+          url: url.toString(),
+          stderr,
+        });
+
+        return null;
+      }
+
+      return JSON.parse(stdout) as VideoInfo;
+    } catch {
+      return null;
+    }
   }
 }
 

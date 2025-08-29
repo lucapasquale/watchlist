@@ -1,4 +1,4 @@
-import { CombinedGraphQLErrors } from "@apollo/client";
+import { CombinedGraphQLErrors, Observable } from "@apollo/client";
 import { ErrorLink } from "@apollo/client/link/error";
 
 import { API_URL, AUTH_TOKEN_KEY, REFRESH_TOKEN_KEY } from "~common/constants";
@@ -18,19 +18,20 @@ export const errorLink = new ErrorLink(({ operation, forward, error }) => {
       return;
     }
 
-    refreshTokens(refreshToken).then((data) => {
-      const oldHeaders = operation.getContext().headers;
-      operation.setContext({
-        headers: {
-          ...oldHeaders,
-          authorization: `Bearer ${data.accessToken}`,
-        },
+    return new Observable((observer) => {
+      refreshTokens(refreshToken).then((data) => {
+        operation.setContext({
+          headers: {
+            ...operation.getContext().headers,
+            authorization: `Bearer ${data.accessToken}`,
+          },
+        });
+
+        localStorage.setItem(AUTH_TOKEN_KEY, data.accessToken);
+        localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken);
+
+        return forward(operation).subscribe(observer);
       });
-
-      localStorage.setItem(AUTH_TOKEN_KEY, data.accessToken);
-      localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken);
-
-      return forward(operation);
     });
   }
 });
@@ -46,5 +47,6 @@ async function refreshTokens(refreshToken: string) {
     throw new Error("Failed to refresh tokens");
   }
 
-  return response.json() as Promise<{ accessToken: string; refreshToken: string }>;
+  const data: { accessToken: string; refreshToken: string } = await response.json();
+  return data;
 }

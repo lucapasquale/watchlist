@@ -7,4 +7,5 @@ export const httpLink = new HttpLink({
   headers: {
     Authorization: `Bearer ${localStorage.getItem(AUTH_TOKEN_KEY)}`,
   },
+  clientAwareness: { name: "watchlist-web" },
 });
