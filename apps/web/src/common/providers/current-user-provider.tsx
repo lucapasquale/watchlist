@@ -1,4 +1,4 @@
-import { ErrorLike } from "@apollo/client";
+import { ErrorLike, NetworkStatus } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import React from "react";
 
@@ -22,12 +22,12 @@ type UserProviderProps = {
 };
 
 export function CurrentUserProvider({ children }: UserProviderProps) {
-  const { loading, error, data } = useQuery(UserProviderDocument, {
+  const { error, data, networkStatus } = useQuery(UserProviderDocument, {
     skip: !localStorage.getItem(AUTH_TOKEN_KEY),
   });
 
   const value = {
-    loading,
+    loading: networkStatus === NetworkStatus.loading,
     error,
     user: data?.me ?? null,
   };
