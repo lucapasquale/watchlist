@@ -29,6 +29,10 @@ export class PlaylistService {
   }
 
   async getByIds(ids: number[]) {
+    if (!ids.length) {
+      return [];
+    }
+
     return db.selectFrom("playlist").where("id", "in", ids).selectAll().execute();
   }
 

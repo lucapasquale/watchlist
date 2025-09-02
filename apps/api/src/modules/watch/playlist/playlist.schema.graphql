@@ -17,7 +17,7 @@ type User {
 }
 
 type Query {
-  playlists: [Playlist!]!
+  featuredPlaylists: [Playlist!]!
   playlist(id: ID!): Playlist!
 }
 

@@ -2,6 +2,7 @@ import { UseGuards } from "@nestjs/common";
 import { Args, Context, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 import { LexoRank } from "lexorank";
 
+import { config } from "../../../config.js";
 import type { Loaders } from "../../apollo/data-loader.service.js";
 import { GqlAuthGuard } from "../../auth/authentication/authentication.guard.js";
 import {
@@ -48,8 +49,8 @@ export class PlaylistResolver {
   }
 
   @Query()
-  async playlists() {
-    return this.playlistService.getAll();
+  async featuredPlaylists() {
+    return this.playlistService.getByIds(config.featuredPlaylistIds);
   }
 
   @Query()

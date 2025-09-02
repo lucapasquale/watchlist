@@ -13,6 +13,7 @@ import { useCurrentUser } from "~common/providers/current-user-provider";
 
 export function HeroSection() {
   const { user } = useCurrentUser();
+
   const { data, loading } = useQuery(HomeHeroPlaylistsDocument);
 
   return (
@@ -25,8 +26,8 @@ export function HeroSection() {
             </h1>
 
             <p className="text-muted-foreground max-w-[600px] md:text-xl">
-              Combine videos from YouTube, Reddit, and more into custom playlists. Share with
-              friends or keep them private.
+              Combine videos from YouTube, Reddit, TikTok and more into custom playlists. Share with
+              friends
             </p>
           </div>
 
@@ -59,7 +60,7 @@ export function HeroSection() {
             </>
           )}
 
-          {data?.playlists.slice(0, 3).map((playlist) => (
+          {data?.featuredPlaylists.map((playlist) => (
             <Card
               key={playlist.id}
               className="hover:scale-101 transition-transform hover:transform"

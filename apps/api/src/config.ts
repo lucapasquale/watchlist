@@ -10,11 +10,12 @@ function parseEnvVars() {
     port: z.coerce.number().positive().default(3000),
 
     adminToken: z.string().min(1),
-    clientUrl: z.string().url().default("http://localhost:5173"),
-    serverUrl: z.string().url().default("http://localhost:3000"),
+    featuredPlaylistIds: z.array(z.coerce.number()).default([]),
+    clientUrl: z.url().default("http://localhost:5173"),
+    serverUrl: z.url().default("http://localhost:3000"),
 
     otlp: z.object({
-      url: z.string().url().optional(),
+      url: z.url().optional(),
     }),
 
     postgres: z.object({
@@ -51,6 +52,7 @@ function parseEnvVars() {
     port: process.env.PORT,
 
     adminToken: process.env.ADMIN_TOKEN,
+    featuredPlaylistIds: process.env.FEATURED_PLAYLIST_IDS?.split(","),
     clientUrl: process.env.CLIENT_URL,
     serverUrl: process.env.SERVER_URL,
 

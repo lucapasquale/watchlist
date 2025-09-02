@@ -1,5 +1,5 @@
 query HomeHeroPlaylists {
-  playlists {
+  featuredPlaylists {
     id
     name
     itemsKind
@@ -11,7 +11,7 @@ query HomeHeroPlaylists {
       initials
       profilePictureUrl
     }
-    firstItem(shuffleSeed: null) {
+    firstItem {
       id
     }
   }
