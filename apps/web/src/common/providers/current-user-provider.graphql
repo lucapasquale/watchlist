@@ -2,6 +2,7 @@ query UserProvider {
   me {
     id
     name
+    email
     initials
     profilePictureUrl
   }

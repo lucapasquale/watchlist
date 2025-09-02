@@ -26,19 +26,33 @@ export function CurrentUserProvider({ children }: UserProviderProps) {
     skip: !localStorage.getItem(AUTH_TOKEN_KEY),
   });
 
-  const value = {
-    loading: networkStatus === NetworkStatus.loading,
-    error,
-    user: data?.me ?? null,
-  };
+  const value = React.useMemo(() => {
+    return {
+      loading: networkStatus === NetworkStatus.loading,
+      error,
+      user: data?.me ?? null,
+    };
+  }, [data, error, networkStatus]);
+
+  React.useEffect(() => {
+    if (!data?.me) {
+      return;
+    }
+
+    umami.identify(data.me.id, {
+      name: data.me.name,
+      email: data.me.email,
+    });
+  }, [data]);
 
   return <UserProviderContext.Provider value={value}>{children}</UserProviderContext.Provider>;
 }
 
 export function useCurrentUser() {
   const context = React.useContext(UserProviderContext);
-
-  if (context === undefined) throw new Error("useCurrentUser must be used within a UserProvider");
+  if (context === undefined) {
+    throw new Error("useCurrentUser must be used within a UserProvider");
+  }
 
   return context;
 }

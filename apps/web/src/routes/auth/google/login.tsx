@@ -4,7 +4,7 @@ import { z } from "zod";
 import { Page } from "~modules/auth/google/login-page.js";
 
 const searchSchema = z.object({
-  redirectUrl: z.string().url().optional(),
+  redirectUrl: z.url().optional(),
 });
 
 export const Route = createFileRoute("/auth/google/login")({
