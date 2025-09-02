@@ -1,20 +1,30 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎥</text></svg>"
+    />
+    <meta
+      name="description"
+      content="Create and share playlists of your favorite videos from YouTube, Reddit and more"
+    />
 
-  <link rel="icon"
-    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎥</text></svg>" />
-  <meta name="description" content="Create and share playlists of your favorite videos from YouTube, Reddit and more" />
+    <link rel="canonical" href="https://watchlist.luca.codes/" />
 
-  <link rel="canonical" href="https://watchlist.luca.codes/" />
-</head>
+    <!--Analytics-->
+    <script
+      defer
+      src="https://umami.luca.codes/script.js"
+      data-website-id="52f81864-4fe7-4638-9b6c-49931c652260"
+    ></script>
+  </head>
 
-<body>
-  <div id="app" class="bg-background text-foreground transition-colors min-h-screen h-full"></div>
-  <script type="module" src="/src/index.tsx"></script>
-</body>
-
+  <body>
+    <div id="app" class="bg-background text-foreground h-full min-h-screen transition-colors"></div>
+    <script type="module" src="/src/index.tsx"></script>
+  </body>
 </html>

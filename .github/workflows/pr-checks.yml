@@ -3,7 +3,7 @@ on: pull_request
 
 env:
   NODE_VER: 22.14.0
-  PNPM_VERSION: 10.15.0
+  PNPM_VERSION: 10.15.1
 
 jobs:
   lint:
@@ -11,17 +11,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - uses: pnpm/action-setup@v2
-      with:
-        version: ${{ env.PNPM_VERSION }}
+      - uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
 
-    - uses: actions/setup-node@v3
-      with:
-        node-version: ${{ env.NODE_VER }}
-        cache: 'pnpm'
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VER }}
+          cache: "pnpm"
 
-    - run: pnpm install --frozen-lockfile
-    - run: pnpm lint
-    - run: pnpm test
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm test
