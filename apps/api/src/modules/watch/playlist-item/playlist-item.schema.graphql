@@ -13,6 +13,7 @@ enum PlaylistItemKind {
   KICK_CLIP
   X
   TIKTOK
+  INSTAGRAM_REEL
 }
 
 type PlaylistItem {

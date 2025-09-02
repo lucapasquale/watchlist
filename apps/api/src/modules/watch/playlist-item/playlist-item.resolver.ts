@@ -13,6 +13,22 @@ import { PlaylistService } from "../playlist/playlist.service.js";
 import type { PlaylistItem } from "./playlist-item.model.js";
 import { PlaylistItemService } from "./playlist-item.service.js";
 
+export const ExtraResolvers = {
+  PlaylistNewItemsPosition: {
+    BOTTOM: "bottom",
+    TOP: "top",
+  },
+  PlaylistItemKind: {
+    YOUTUBE: "youtube",
+    REDDIT: "reddit",
+    TWITCH_CLIP: "twitch_clip",
+    KICK_CLIP: "kick_clip",
+    X: "x",
+    TIKTOK: "tiktok",
+    INSTAGRAM_REEL: "instagram_reel",
+  },
+};
+
 @Resolver("PlaylistItem")
 export class PlaylistItemResolver {
   constructor(

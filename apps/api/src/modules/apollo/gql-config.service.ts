@@ -6,6 +6,7 @@ import { Request } from "express";
 import { randomUUID } from "node:crypto";
 
 import { JwtPayload } from "../auth/authentication/jwt.strategy.js";
+import { ExtraResolvers as PlaylistItemExtraResolvers } from "../watch/playlist-item/playlist-item.resolver.js";
 import { DataLoaderService, Loaders } from "./data-loader.service.js";
 
 export type GraphQLContext = {
@@ -26,18 +27,7 @@ export class GqlConfigService implements GqlOptionsFactory {
       typePaths: ["./**/*.graphql"],
       context: this.buildContext.bind(this),
       resolvers: {
-        PlaylistNewItemsPosition: {
-          BOTTOM: "bottom",
-          TOP: "top",
-        },
-        PlaylistItemKind: {
-          YOUTUBE: "youtube",
-          REDDIT: "reddit",
-          TWITCH_CLIP: "twitch_clip",
-          KICK_CLIP: "kick_clip",
-          X: "x",
-          TIKTOK: "tiktok",
-        },
+        ...PlaylistItemExtraResolvers,
       },
     };
   }

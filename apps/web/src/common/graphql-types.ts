@@ -137,6 +137,7 @@ export type PlaylistItemNextItemArgs = {
 };
 
 export enum PlaylistItemKind {
+  InstagramReel = 'INSTAGRAM_REEL',
   KickClip = 'KICK_CLIP',
   Reddit = 'REDDIT',
   Tiktok = 'TIKTOK',

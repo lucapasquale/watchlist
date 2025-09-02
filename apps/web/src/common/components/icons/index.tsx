@@ -1,5 +1,6 @@
 export { default as Github } from "./github.svg?react";
 export { default as Google } from "./google.svg?react";
+export { default as Instagram } from "./instagram.svg?react";
 export { default as Kick } from "./kick.svg?react";
 export { default as Reddit } from "./reddit.svg?react";
 export { default as Tiktok } from "./tiktok.svg?react";

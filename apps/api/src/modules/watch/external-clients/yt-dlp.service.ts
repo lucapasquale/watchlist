@@ -10,6 +10,7 @@ const EXTRACTOR_MAPS: Record<string, PlaylistItemData["kind"]> = {
   twitter: "x",
   "kick:clips": "kick_clip",
   "twitch:clips": "twitch_clip",
+  Instagram: "instagram_reel",
 };
 
 @Injectable()
@@ -20,7 +21,8 @@ export class YtDlpService {
     return (
       url.host.match(/.*x\.com.*/gi) ||
       url.href.match(/.*kick\.com\/.*\/clips\/.*/gi) ||
-      url.href.match(/.*twitch\.tv\/.*\/clip\/.*/gi)
+      url.href.match(/.*twitch\.tv\/.*\/clip\/.*/gi) ||
+      url.href.match(/.*instagram\.com\/.*/gi)
     );
   }
 
@@ -29,6 +31,8 @@ export class YtDlpService {
     if (!videoInfo) {
       return null;
     }
+
+    console.log(videoInfo);
 
     const kind = EXTRACTOR_MAPS[videoInfo.extractor];
     if (!kind) {

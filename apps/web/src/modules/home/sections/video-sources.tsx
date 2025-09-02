@@ -7,6 +7,7 @@ const sources: PlaylistItemKind[] = [
   PlaylistItemKind.Tiktok,
   PlaylistItemKind.X,
   PlaylistItemKind.Reddit,
+  PlaylistItemKind.InstagramReel,
   PlaylistItemKind.TwitchClip,
   PlaylistItemKind.KickClip,
 ];
@@ -26,7 +27,7 @@ export function VideoSourcesSection() {
           </div>
         </div>
 
-        <div className="mx-auto grid max-w-5xl grid-cols-2 items-center gap-6 py-12 md:grid-cols-3">
+        <div className="mx-auto grid max-w-5xl grid-cols-2 items-center gap-6 py-12 md:grid-cols-4">
           {sources.map((kind) => (
             <VideoSource
               key={kind}
