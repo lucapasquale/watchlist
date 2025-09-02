@@ -9,6 +9,7 @@ const execPromise = promisify(exec);
 const EXTRACTOR_MAPS: Record<string, PlaylistItemData["kind"]> = {
   twitter: "x",
   "kick:clips": "kick_clip",
+  "twitch:clips": "twitch_clip",
 };
 
 @Injectable()
@@ -16,7 +17,11 @@ export class YtDlpService {
   private logger = new Logger(YtDlpService.name);
 
   urlMatches(url: URL) {
-    return url.host.match(/.*x\.com.*/gi) || url.href.match(/.*kick\.com\/.*\/clips\/.*/gi);
+    return (
+      url.host.match(/.*x\.com.*/gi) ||
+      url.href.match(/.*kick\.com\/.*\/clips\/.*/gi) ||
+      url.href.match(/.*twitch\.tv\/.*\/clip\/.*/gi)
+    );
   }
 
   async playlistItemDataFromUrl(url: URL): Promise<PlaylistItemData | null> {
@@ -41,7 +46,7 @@ export class YtDlpService {
     };
   }
 
-  private async extractVideoInfo(url: URL): Promise<VideoInfo | null> {
+  async extractVideoInfo(url: URL): Promise<VideoInfo | null> {
     try {
       const { stderr, stdout } = await execPromise(
         `yt-dlp -f "best[ext=mp4]" -j "${url.toString()}"`,
@@ -66,7 +71,7 @@ export class YtDlpService {
 type VideoInfo = {
   extractor: string;
   title: string;
-  description: string;
+  description?: string;
   uploader: string;
   duration: number;
   original_url: string;

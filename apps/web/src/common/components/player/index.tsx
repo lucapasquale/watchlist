@@ -1,9 +1,7 @@
 import React from "react";
 import ReactPlayer from "react-player";
 
-import { PlaylistItem, PlaylistItemKind } from "~common/graphql-types.js";
-
-import { TwitchClipPlayer } from "./twitch-clip-player";
+import { PlaylistItem } from "~common/graphql-types.js";
 
 type Video = Pick<PlaylistItem, "kind" | "title" | "thumbnailUrl" | "embedUrl" | "durationSeconds">;
 
@@ -16,12 +14,6 @@ export type Props = {
 
 export function Player({ video, onVideoEnded, onVideoError, playing = false }: Props) {
   const playerRef = React.useRef<HTMLVideoElement>(null);
-
-  if (video.kind === PlaylistItemKind.TwitchClip) {
-    return (
-      <TwitchClipPlayer video={video} onVideoEnded={onVideoEnded} onVideoError={onVideoError} />
-    );
-  }
 
   return (
     <ReactPlayer

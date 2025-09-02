@@ -4,6 +4,7 @@ import dayjs, { Dayjs } from "dayjs";
 
 import { config } from "../../../config.js";
 import { PlaylistData, PlaylistItemData } from "./external-clients.service.js";
+import { YtDlpService } from "./yt-dlp.service.js";
 
 @Injectable()
 export class TwitchService {
@@ -12,7 +13,7 @@ export class TwitchService {
   private authToken: string | null = null;
   private expiresAt = Number.MIN_SAFE_INTEGER;
 
-  constructor() {
+  constructor(private ytDlpService: YtDlpService) {
     this.client = axios.create({ baseURL: "https://api.twitch.tv/helix" });
 
     this.client.interceptors.request.use(async (req) => {
@@ -47,25 +48,29 @@ export class TwitchService {
     const dateRange = this.getDateOffsets(url.searchParams.get("range") as ClipRangeKey | null);
     const clips = await this.getClips(user.id, dateRange);
 
-    const items = clips
-      .map((clip) => this.clipToPlaylistItemData(clip))
-      .filter((item): item is PlaylistItemData => item !== null);
+    const items = await Promise.all(clips.map((clip) => this.clipToPlaylistItemData(clip)));
 
-    return { name: user.display_name, items };
+    return {
+      name: user.display_name,
+      items: items.filter((i) => !!i),
+    };
   }
 
   async playlistItemDataFromUrl(url: URL): Promise<PlaylistItemData | null> {
-    const clipID = url.pathname.split("/").pop();
-    if (!clipID) {
+    const videoInfo = await this.ytDlpService.extractVideoInfo(url);
+    if (!videoInfo) {
       return null;
     }
 
-    const clip = await this.getClip(clipID);
-    if (!clip) {
-      return null;
-    }
-
-    return this.clipToPlaylistItemData(clip);
+    return {
+      kind: "twitch_clip",
+      title: videoInfo.description ?? videoInfo.title,
+      href: videoInfo.original_url,
+      originalPosterName: videoInfo.uploader,
+      embedUrl: videoInfo.url,
+      thumbnailUrl: videoInfo.thumbnail,
+      durationSeconds: Math.floor(videoInfo.duration),
+    };
   }
 
   private async authenticateApplication() {
@@ -88,14 +93,6 @@ export class TwitchService {
     return data.data[0];
   }
 
-  private async getClip(clipID: string) {
-    const { data } = await this.client.get<{ data: Clip[] }>("/clips", {
-      params: { id: clipID },
-    });
-
-    return data.data[0];
-  }
-
   private async getClips(broadcasterId: string, dateRange: [Dayjs, Dayjs]) {
     const { data } = await this.client.get<{ data: Clip[] }>("/clips", {
       params: {
@@ -109,15 +106,20 @@ export class TwitchService {
     return data.data;
   }
 
-  private clipToPlaylistItemData(clip: Clip): PlaylistItemData | null {
+  private async clipToPlaylistItemData(clip: Clip): Promise<PlaylistItemData | null> {
+    const videoInfo = await this.ytDlpService.extractVideoInfo(new URL(clip.url));
+    if (!videoInfo) {
+      return null;
+    }
+
     return {
       kind: "twitch_clip",
-      title: clip.title,
-      href: clip.url,
-      originalPosterName: clip.broadcaster_name,
-      embedUrl: clip.embed_url,
-      thumbnailUrl: clip.thumbnail_url,
-      durationSeconds: Math.floor(clip.duration),
+      title: videoInfo.description ?? videoInfo.title,
+      href: videoInfo.original_url,
+      originalPosterName: videoInfo.uploader,
+      embedUrl: videoInfo.url,
+      thumbnailUrl: videoInfo.thumbnail,
+      durationSeconds: Math.floor(videoInfo.duration),
     };
   }
 

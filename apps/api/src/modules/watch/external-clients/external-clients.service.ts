@@ -76,9 +76,6 @@ export class ExternalClientsService {
     if (this.redditService.urlMatches(url)) {
       return this.redditService.playlistItemDataFromUrl(url);
     }
-    if (this.twitchService.urlMatches(url)) {
-      return this.twitchService.playlistItemDataFromUrl(url);
-    }
     if (this.tiktokService.urlMatches(url)) {
       return this.tiktokService.playlistItemDataFromUrl(url);
     }

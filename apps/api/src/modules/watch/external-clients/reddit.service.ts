@@ -3,7 +3,6 @@ import axios, { AxiosInstance } from "axios";
 
 import { config } from "../../../config.js";
 import { PlaylistData, PlaylistItemData } from "./external-clients.service.js";
-import { TwitchService } from "./twitch.service.js";
 import { YoutubeService } from "./youtube.service.js";
 import { YtDlpService } from "./yt-dlp.service.js";
 
@@ -16,7 +15,6 @@ export class RedditService {
 
   constructor(
     private youtubeService: YoutubeService,
-    private twitchService: TwitchService,
     private ytDlpService: YtDlpService,
   ) {
     this.client = axios.create({ baseURL: "https://oauth.reddit.com" });
@@ -135,9 +133,6 @@ export class RedditService {
     const url = new URL(post.url);
     if (this.youtubeService.urlMatches(url)) {
       return this.youtubeService.playlistItemDataFromUrl(url);
-    }
-    if (this.twitchService.urlMatches(url)) {
-      return this.twitchService.playlistItemDataFromUrl(url);
     }
     if (this.ytDlpService.urlMatches(url)) {
       return this.ytDlpService.playlistItemDataFromUrl(url);
