@@ -1,5 +1,6 @@
 import { Module, forwardRef } from "@nestjs/common";
 
+import { CommonModule } from "../common/common.module.js";
 import { UserModule } from "../user/user.module.js";
 import { ExternalClientsResolver } from "./external-clients/external-clients.resolver.js";
 import { ExternalClientsService } from "./external-clients/external-clients.service.js";
@@ -15,7 +16,7 @@ import { PlaylistResolver } from "./playlist/playlist.resolver.js";
 import { PlaylistService } from "./playlist/playlist.service.js";
 
 @Module({
-  imports: [forwardRef(() => UserModule)],
+  imports: [CommonModule, forwardRef(() => UserModule)],
   controllers: [PlaylistController],
   providers: [
     ExternalClientsResolver,
