@@ -5,7 +5,7 @@ import { Skeleton } from "@ui/components/ui/skeleton.js";
 import { UserProviderQuery } from "~common/graphql-types.js";
 
 type Props = {
-  user: Omit<UserProviderQuery["me"], "__typename">;
+  user: Omit<UserProviderQuery["me"], "__typename" | "email">;
 };
 
 export function UserInfo({ user }: Props) {
