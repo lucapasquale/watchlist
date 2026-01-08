@@ -4,7 +4,6 @@
   "exclude": ["node_modules", "dist", "src/**/*.test.ts"],
   "compilerOptions": {
     /* Base Options: */
-    "rootDir": ".",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "target": "es2022",

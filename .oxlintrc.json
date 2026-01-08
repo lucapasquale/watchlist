@@ -1,9 +1,9 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "categories": {},
   "env": {
     "builtin": true
   },
   "rules": {
+    "no-console": "error"
   }
 }

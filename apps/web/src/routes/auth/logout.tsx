@@ -9,6 +9,7 @@ const logoutSearch = z.object({
 });
 
 export const Route = createFileRoute("/auth/logout")({
+  // oxlint-disable-next-line unbound-method
   validateSearch: logoutSearch.parse,
   component: Page,
 });

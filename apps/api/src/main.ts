@@ -19,4 +19,5 @@ async function bootstrap() {
   const logger = new Logger("NestApplication");
   logger.log(`Application is running on: ${await app.getUrl()}`);
 }
-bootstrap();
+
+await bootstrap();

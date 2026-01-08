@@ -18,6 +18,7 @@
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@workspace/typescript-config": "workspace:*",
     "oxlint": "^1.38.0",
+    "oxlint-tsgolint": "^0.10.1",
     "prettier": "^3.7.4",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "turbo": "^2.7.3",

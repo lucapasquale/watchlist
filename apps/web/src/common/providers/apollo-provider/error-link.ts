@@ -19,19 +19,21 @@ export const errorLink = new ErrorLink(({ operation, forward, error }) => {
     }
 
     return new Observable((observer) => {
-      refreshTokens(refreshToken).then((data) => {
-        operation.setContext({
-          headers: {
-            ...operation.getContext().headers,
-            authorization: `Bearer ${data.accessToken}`,
-          },
-        });
+      refreshTokens(refreshToken)
+        .then((data) => {
+          operation.setContext({
+            headers: {
+              ...operation.getContext().headers,
+              authorization: `Bearer ${data.accessToken}`,
+            },
+          });
 
-        localStorage.setItem(AUTH_TOKEN_KEY, data.accessToken);
-        localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken);
+          localStorage.setItem(AUTH_TOKEN_KEY, data.accessToken);
+          localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken);
 
-        return forward(operation).subscribe(observer);
-      });
+          return forward(operation).subscribe(observer);
+        })
+        .catch(() => ({}));
     });
   }
 });

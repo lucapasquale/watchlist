@@ -1,3 +1,4 @@
+// oxlint-disable no-console
 import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentations-node";
 import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http";
 import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
@@ -35,7 +36,7 @@ const tracer = new NodeSDK({
   ],
 });
 
-if (config.environment === 'production') {
+if (config.environment === "production") {
   tracer.start();
 }
 

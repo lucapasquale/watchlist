@@ -9,5 +9,8 @@
     "react-perf",
     "promise",
     "vitest"
-  ]
+  ],
+  "rules": {
+    "no-floating-promises": "allow"
+  }
 }

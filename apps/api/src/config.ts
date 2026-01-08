@@ -88,7 +88,7 @@ function parseEnvVars() {
   });
 
   if (error || !data) {
-    throw new Error("Invalid environment config " + error.toString());
+    throw new Error("Invalid environment config " + error.message);
   }
 
   return data;
