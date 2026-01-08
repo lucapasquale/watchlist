@@ -32,8 +32,6 @@ export class YtDlpService {
       return null;
     }
 
-    console.log(videoInfo);
-
     const kind = EXTRACTOR_MAPS[videoInfo.extractor];
     if (!kind) {
       return null;
