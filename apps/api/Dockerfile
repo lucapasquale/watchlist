@@ -53,7 +53,6 @@ WORKDIR /app/apps/api
 ARG PORT=3000
 ENV PORT=${PORT}
 ENV NODE_ENV=production
-ENV NODE_OPTIONS="--import ./dist/src/tracing.js"
 EXPOSE ${PORT}
 
 CMD ["npm", "run", "start"]
