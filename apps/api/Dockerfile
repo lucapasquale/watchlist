@@ -5,37 +5,33 @@ FROM node:${NODE_VERSION}-alpine AS alpine
 RUN apk update
 RUN apk add --no-cache libc6-compat
 
-# Setup pnpm and turbo on the alpine base
+# Setup pnpm on the alpine base
 FROM alpine AS base
-RUN npm install pnpm@10.15.1 turbo --global
+RUN npm install pnpm@10.15.1 --global
 RUN pnpm config set store-dir ~/.pnpm-store
-
-# Prune projects
-FROM base AS pruner
-
-WORKDIR /app
-COPY ../../ .
-
-RUN turbo prune --scope=api --docker
 
 # Build the project
 FROM base AS builder
 
+ENV CI=true
 WORKDIR /app
 
-# Copy lockfile and package.json's of isolated subworkspace
-COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
-COPY --from=pruner /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
-COPY --from=pruner /app/out/json/ .
+# Copy lockfile and package.json's
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
+COPY apps/api/package.json ./apps/api/
+COPY libs/helpers/package.json ./libs/helpers/
+COPY libs/typescript-config/package.json ./libs/typescript-config/
 
 # First install the dependencies (as they change less often)
-RUN --mount=type=cache,id=pnpm,target=~/.pnpm-store pnpm install --frozen-lockfile
+RUN --mount=type=cache,id=pnpm,target=~/.pnpm-store pnpm install --frozen-lockfile --ignore-scripts
 
-# Copy source code of isolated subworkspace
-COPY --from=pruner /app/out/full/ .
+# Copy source code
+COPY apps/api ./apps/api
+COPY libs/helpers ./libs/helpers
+COPY libs/typescript-config ./libs/typescript-config
 
-RUN turbo build --filter=api
-RUN --mount=type=cache,id=pnpm,target=~/.pnpm-store pnpm prune --prod --no-optional
+RUN pnpm --filter api build
+RUN --mount=type=cache,id=pnpm,target=~/.pnpm-store pnpm prune --prod --no-optional --ignore-scripts
 RUN rm -rf ./**/*/src
 
 # Final image
@@ -57,6 +53,7 @@ WORKDIR /app/apps/api
 ARG PORT=3000
 ENV PORT=${PORT}
 ENV NODE_ENV=production
+ENV NODE_OPTIONS="--import ./dist/src/tracing.js"
 EXPOSE ${PORT}
 
-CMD NODE_OPTIONS="--import ./dist/src/tracing.js" npm run start
+CMD ["npm", "run", "start"]

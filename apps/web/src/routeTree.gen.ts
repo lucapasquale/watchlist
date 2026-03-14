@@ -1,4 +1,5 @@
-/* eslint-disable */
+/* oxfmt-disable */
+/* oxlint-disable */
 
 // @ts-nocheck
 
