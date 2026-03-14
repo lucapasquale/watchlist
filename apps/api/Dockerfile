@@ -30,8 +30,9 @@ COPY apps/api ./apps/api
 COPY libs/helpers ./libs/helpers
 COPY libs/typescript-config ./libs/typescript-config
 
+RUN pnpm --filter @workspace/helpers build
 RUN pnpm --filter api build
-RUN --mount=type=cache,id=pnpm,target=~/.pnpm-store pnpm prune --prod --no-optional --ignore-scripts
+RUN --mount=type=cache,id=pnpm,target=~/.pnpm-store pnpm install --prod --frozen-lockfile --ignore-scripts
 RUN rm -rf ./**/*/src
 
 # Final image
