@@ -35,7 +35,7 @@ export function VideoPlayer({ playlistItem }: Props) {
       return;
     }
 
-    navigate({
+    void navigate({
       to: "/playlist/$playlistID/$videoID",
       params: { playlistID: playlistItem.playlist.id, videoID: nextItemID },
       search: true,

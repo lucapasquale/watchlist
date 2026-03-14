@@ -5,11 +5,7 @@ export default mergeConfig(
   baseConfig,
   defineConfig({
     lint: {
-      plugins: ["typescript", "unicorn", "oxc", "node", "promise", "vitest"],
-    },
-    test: {
-      watch: false,
-      passWithNoTests: true,
+      plugins: ["typescript", "unicorn", "oxc", "react", "react-perf", "promise", "vitest"],
     },
   }),
 );

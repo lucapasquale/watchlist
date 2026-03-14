@@ -7,10 +7,10 @@ export function Page() {
   const client = useApolloClient();
 
   React.useEffect(() => {
-    client.clearStore();
+    void client.clearStore();
     localStorage.clear();
 
-    navigate({ to: "/", search: {}, reloadDocument: true });
+    void navigate({ to: "/", search: {}, reloadDocument: true });
   }, [client, navigate]);
 
   return <main className="h-240" />;

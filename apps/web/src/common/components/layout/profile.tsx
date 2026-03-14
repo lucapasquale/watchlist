@@ -41,7 +41,7 @@ export function Profile() {
   }, [location]);
 
   const onOpenChange = (open: boolean) => {
-    navigate({ to: ".", search: (prev) => ({ ...prev, signIn: open ? "true" : undefined }) });
+    void navigate({ to: ".", search: (prev) => ({ ...prev, signIn: open ? "true" : undefined }) });
   };
 
   if (!user) {

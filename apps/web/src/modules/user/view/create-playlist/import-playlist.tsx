@@ -49,7 +49,7 @@ export function ImportPlaylist() {
     }
 
     form.reset();
-    navigate({ to: "/playlist/$playlistID", params: { playlistID: data.importPlaylist.id } });
+    void navigate({ to: "/playlist/$playlistID", params: { playlistID: data.importPlaylist.id } });
   };
 
   return (

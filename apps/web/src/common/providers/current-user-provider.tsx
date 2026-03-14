@@ -39,7 +39,7 @@ export function CurrentUserProvider({ children }: UserProviderProps) {
       return;
     }
 
-    window.umami?.identify(data.me.id, {
+    void window.umami?.identify(data.me.id, {
       name: data.me.name,
       email: data.me.email,
     });

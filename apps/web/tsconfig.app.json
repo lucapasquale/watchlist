@@ -13,7 +13,7 @@
       "~common/*": ["./src/common/*"],
       "~graphql/*": ["./src/graphql/*"],
       "~modules/*": ["./src/modules/*"],
-      "~routes/*": ["./src/routes/*"],
+      "~routes/*": ["./src/routes/*"]
     }
-  },
+  }
 }

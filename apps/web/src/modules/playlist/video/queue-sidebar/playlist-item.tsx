@@ -45,7 +45,7 @@ export function PlaylistItem({
           <img src={item.thumbnailUrl} alt={item.title} className="w-full object-center" />
 
           {item.durationSeconds && (
-            <div className="absolute bottom-1 right-1 z-10 rounded-md bg-black/50 px-1 py-[1px] text-xs">
+            <div className="absolute right-1 bottom-1 z-10 rounded-md bg-black/50 px-1 py-[1px] text-xs">
               {timeToDuration(item.durationSeconds)}
             </div>
           )}

@@ -63,7 +63,7 @@ export function HeroSection() {
           {data?.featuredPlaylists.map((playlist) => (
             <Card
               key={playlist.id}
-              className="hover:scale-101 transition-transform hover:transform"
+              className="transition-transform hover:scale-101 hover:transform"
             >
               <Link
                 to="/playlist/$playlistID/$videoID"

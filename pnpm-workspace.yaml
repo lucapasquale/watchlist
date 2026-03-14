@@ -2,9 +2,26 @@ packages:
   - apps/*
   - libs/*
 
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@latest
+  vite-plus: ^0.1.11
+  vitest: npm:@voidzero-dev/vite-plus-test@latest
+
 onlyBuiltDependencies:
-  - '@nestjs/core'
-  - '@swc/core'
-  - '@tailwindcss/oxide'
+  - "@nestjs/core"
+  - "@swc/core"
+  - "@tailwindcss/oxide"
   - esbuild
   - protobufjs
+
+overrides:
+  vite: "catalog:"
+  vitest: "catalog:"
+
+peerDependencyRules:
+  allowAny:
+    - vite
+    - vitest
+  allowedVersions:
+    vite: "*"
+    vitest: "*"

@@ -1,15 +1,15 @@
 {
   "name": "api",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "nest start --watch",
-    "test": "vitest",
-    "test:watch": "vitest --watch",
+    "test": "vp test",
+    "test:watch": "vp test --watch",
     "build": "nest build",
     "start": "node dist/src/main",
-    "lint": "oxlint --config ./.oxlintrc.json --type-aware",
+    "lint": "vp lint",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -66,6 +66,7 @@
     "@types/pg": "^8.16.0",
     "@workspace/typescript-config": "workspace:*",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.16"
+    "vite-plus": "catalog:",
+    "vitest": "catalog:"
   }
 }

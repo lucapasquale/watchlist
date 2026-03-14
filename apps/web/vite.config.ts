@@ -1,10 +1,25 @@
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackRouter } from "@tanstack/router-vite-plugin";
-import react from "@vitejs/plugin-react-swc";
-import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import { defineConfig, mergeConfig } from "vite-plus";
 import svgr from "vite-plugin-svgr";
-import tsconfigPaths from "vite-tsconfig-paths";
+import baseConfig from "../../vite.config.js";
 
-export default defineConfig({
-  plugins: [react(), svgr(), tailwindcss(), tsconfigPaths(), tanstackRouter()],
-});
+export default mergeConfig(
+  baseConfig,
+  defineConfig({
+    plugins: [react(), svgr(), tailwindcss(), tanstackRouter()],
+    resolve: {
+      tsconfigPaths: true,
+    },
+    lint: {
+      plugins: ["typescript", "unicorn", "oxc", "react", "react-perf", "promise", "vitest"],
+      rules: {
+        "no-floating-promises": "allow",
+      },
+    },
+    fmt: {
+      ignorePatterns: ["src/routeTree.gen.ts"],
+    },
+  }),
+);

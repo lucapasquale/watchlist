@@ -1,5 +1,11 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
   "remote.autoForwardPortsFallback": 0,
-  "vitest.shellType": "terminal"
+  "vitest.shellType": "terminal",
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.oxc": "explicit"
+  }
 }

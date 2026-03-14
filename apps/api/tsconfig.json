@@ -28,6 +28,6 @@
     "allowImportingTsExtensions": false,
 
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
+    "experimentalDecorators": true
   }
 }

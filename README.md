@@ -20,5 +20,5 @@ Then, start the backend and frontend with
 npx turbo run dev
 ```
 
- - The backend will be available at http://localhost:3000
- - The frontend will be available at http://localhost:5173
+- The backend will be available at http://localhost:3000
+- The frontend will be available at http://localhost:5173

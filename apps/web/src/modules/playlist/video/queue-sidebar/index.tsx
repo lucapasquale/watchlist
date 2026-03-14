@@ -67,7 +67,7 @@ export function QueueSidebar({ playlist }: Props) {
             title={playlist.name}
             to="/playlist/$playlistID"
             params={{ playlistID: playlistID.toString() }}
-            className="line-clamp-1 text-2xl font-bold leading-relaxed"
+            className="line-clamp-1 text-2xl leading-relaxed font-bold"
           >
             {playlist.name}
           </Link>

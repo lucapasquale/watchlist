@@ -1,28 +1,22 @@
 {
   "name": "video-list",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.27.0",
+  "scripts": {
+    "prepare": "vp config",
+    "lint": "vp run -r lint",
+    "test": "vp run -r test",
+    "format": "vp fmt \"**/*.{ts,tsx}\""
+  },
+  "devDependencies": {
+    "@workspace/typescript-config": "workspace:*",
+    "typescript": "^5.9.3",
+    "vite-plus": "catalog:",
+    "vitest": "catalog:"
+  },
   "engines": {
     "node": "^22.14.0"
   },
-  "scripts": {
-    "dev": "turbo dev",
-    "build": "turbo build",
-    "lint": "turbo lint",
-    "test": "turbo test",
-    "format": "prettier --write \"**/*.{ts,tsx}\""
-  },
-  "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
-    "@workspace/typescript-config": "workspace:*",
-    "oxlint": "^1.55.0",
-    "oxlint-tsgolint": "^0.10.1",
-    "prettier": "^3.8.1",
-    "prettier-plugin-tailwindcss": "^0.7.2",
-    "turbo": "^2.8.17",
-    "typescript": "^5.9.3",
-    "vitest": "^4.1.0"
-  }
+  "packageManager": "pnpm@10.27.0"
 }

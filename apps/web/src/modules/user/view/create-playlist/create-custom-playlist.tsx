@@ -49,7 +49,7 @@ export function CreateCustomPlaylist() {
     }
 
     form.reset();
-    navigate({ to: "/playlist/$playlistID", params: { playlistID: data.createPlaylist.id } });
+    void navigate({ to: "/playlist/$playlistID", params: { playlistID: data.createPlaylist.id } });
   };
 
   return (

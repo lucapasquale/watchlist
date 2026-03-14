@@ -13,7 +13,7 @@ export function Page() {
   const { user, error } = useCurrentUser();
 
   if (error) {
-    navigate({
+    void navigate({
       to: "/",
       reloadDocument: true,
       search: { signIn: "true", redirect: window.location.href },
